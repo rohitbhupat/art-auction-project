@@ -14,7 +14,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 import razorpay
 from django.http import JsonResponse
 import re
-from dashboard.models import Payment, Product, OrderModel, Bid, Catalogue
+from dashboard.models import Payment, Artwork, OrderModel, Bid, Catalogue
 from django.views.decorators.csrf import csrf_exempt
 import json
 from dashboard.constants import PaymentStatus
@@ -31,8 +31,9 @@ class index(View):
             request,
             "art/index.html",
             {
-                "product_object_list": Product.objects.filter(
-                    end_date__gte=datetime.date.today()
+                "product_object_list": Artwork.objects.filter(
+                    end_date__gte=datetime.date.today(),
+                    product_qty__gt = 0
                 ),
                 "catalogue_list": Catalogue.objects.all(),
             },
@@ -43,7 +44,7 @@ class index(View):
 class CatListView(View):
     def catalog_products(request, id):
         catalog = get_object_or_404(Catalogue, id=id)
-        products = Product.objects.filter(product_cat=catalog)
+        products = Artwork.objects.filter(product_cat=catalog ,  product_qty__gt = 0)
         return render(
             request, 
             "art/catalog_products.html", 
@@ -146,7 +147,7 @@ def user_login(request):
                     if user.groups.filter(name='SellerGroup').exists():
                         # return redirect(request.GET.get("next") or "dashboard:dashboard")
                         toatal_order = OrderModel.objects.filter(product__user = user).count()
-                        toatal_product = Product.objects.filter(user = user).count()
+                        toatal_product = Artwork.objects.filter(user = user).count()
                         return render(request=request, template_name="dashboard/dashboard.html", context={'is_Seller':True,"total_order":toatal_order,"toatal_product":toatal_product})
 
                     # return redirect(request.GET.get("next") or "art:index")
@@ -188,8 +189,8 @@ class Get404View(TemplateView):
     template_name = "404.html"
 
 
-class ProductDetailView(DetailView):
-    model = Product
+class ArtworkDetailView(DetailView):
+    model = Artwork
     template_name = "art/product_detail.html"
 
     def get_context_data(self, **kwargs):
@@ -201,7 +202,9 @@ class ProductDetailView(DetailView):
 
 class OrderCreateView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        product_object = Product.objects.get(pk=self.kwargs.get("pk"))
+        product_object = Artwork.objects.get(pk=self.kwargs.get("pk"))
+        product_object.product_qty = 0
+        product_object.save()
         last_bid = Bid.objects.filter(product=self.kwargs.get("pk")).last()
         return render(
             request=request,
@@ -210,7 +213,7 @@ class OrderCreateView(LoginRequiredMixin, View):
         )
 
     def post(self, request, *args, **kwargs):
-        product = Product.objects.get(pk=request.POST["product"])
+        product = Artwork.objects.get(pk=request.POST["product"])
         product_price = request.POST["product_price"]
         product_qty = request.POST["product_qty"]
         delivery_at = request.POST["delivery_at"]
@@ -297,7 +300,7 @@ def callback(request):
 
 class ArView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        product_object = Product.objects.get(pk=self.kwargs.get("id"))
+        product_object = Artwork.objects.get(pk=self.kwargs.get("id"))
         return render(
             request, "art/ArView.html", context={"image": product_object.product_image}
         )
@@ -315,11 +318,11 @@ class FAQs(TemplateView):
 
 
 class UnsoldListView(LoginRequiredMixin, ListView):
-    model = Product
+    model = Artwork
     template_name = "art/unsold.html"
 
     def get_queryset(self):
-        return Product.objects.filter(end_date__lt=datetime.date.today())
+        return Artwork.objects.filter(end_date__lt=datetime.date.today())
 
 
 # class CatListView(LoginRequiredMixin, ListView):

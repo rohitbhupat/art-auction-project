@@ -9,7 +9,9 @@
     justify-content: start;
     --bs-gutter-y: 1.5rem !important;
 }
-
+.open-sans-empty {
+    color: #fff !important;
+}
 /* Back to Top Button */
 #back-to-top-btn {
     display: none;

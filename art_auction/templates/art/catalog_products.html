@@ -2,8 +2,9 @@
 {% extends "./layout.html" %}
 {% load static %}
 {% load i18n %}
-
+{% block title%}{{catalog.cat_name}} - 1.2.3 Sold{% endblock %}
 {% block head %}
+
 <link rel="stylesheet" href="{% static 'dashboard/css/style.css' %}" type="text/css">
 
 {% endblock %}
@@ -38,7 +39,7 @@
                         </h4><br>
                         <div class="app-doc-meta">
                             <ul class="list-unstyled mb-0">
-                                <li><span class="text-muted">Category:</span> <span class="text-details">{{ product.product_cat }}</span></li>
+                                <li><span class="text-muted">Catalogue:</span> <span class="text-details">{{ product.product_cat }}</span></li>
                                 <li><span class="text-muted">ID:</span> <span class="text-details">{{ product.product_id }}</span></li>
                                 <li><span class="text-muted">End on:</span> <span class="text-details">{{ product.end_date }}</span></li>
                             </ul>
@@ -46,14 +47,14 @@
                                 <a href="{% url 'art:product_details' pk=product.pk %}" type="button" class="btn btn-warning btn-sm">Details</a>
                             </div>
                             <div class="d-grid gap-2">
-                                <a class="btn btn-primary" type="button" href="{% url 'art:view_3d' id=product.id %}">Experience in 3D</a>
+                                <a class="btn btn-primary" type="button" href="{% url 'art:view_3d' id=product.id %}">View in 3D</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             {% empty %}
-            <h3 class="open-sans-empty">No product to show, please add product</h3>
+            <h3 class="open-sans-empty dark-mode-heading">No artworks to show</h3>
             {% endfor %}
         </div>
         <button onclick="topFunction()" id="back-to-top-btn" title="Go to top"><i class="fa-solid fa-angles-up"></i></button>

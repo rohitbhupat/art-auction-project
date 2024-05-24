@@ -1,6 +1,6 @@
 {% extends './layout.html' %}
 {% load static %}
-{% block title %}1.2.3 Sold - FAQs{% endblock %}
+{% block title %}FAQs - 1.2.3 Sold{% endblock %}
 {% block css_file %}
 <link rel="stylesheet" href="{% static 'home/css/faq.css' %}" type="text/css">
 {% endblock %}
@@ -26,23 +26,25 @@
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
                     <div class="accordion-body">
-                        1.2.3 Sold is an online marketplace where users can buy and sell products through a bidding process.
+                        1,2,3...SOLD is a platform that will give some emerging Artists who would otherwise not be able to share their work online the chance to do so. Auctions are popular because both buyers and sellers believe they will get a pretty good deal buying or selling assets.
                     </div>
                 </div>
             </div>
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingTwo">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        How do I place a bid?
+                        How do I place a Bid?
                     </button>
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
                     <div class="accordion-body">
-                        To place a bid, navigate to the product page, enter your bid amount, and click on the "Place Bid" button. You must be logged in to place a bid.
+                        To place a bid, click on the Details button of the product you like, enter the bid amount, and then click on "Bid Now" button.
+                        <br>
+                        <b>Note:</b> You must be logged in to the website to place a bid.
                     </div>
                 </div>
             </div>
-            <div class="accordion-item">
+            {% comment %} <div class="accordion-item">
                 <h2 class="accordion-header" id="headingThree">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                         What payment methods are accepted?
@@ -53,7 +55,7 @@
                         We accept various payment methods including credit/debit cards, UPI, and other online payment systems.
                     </div>
                 </div>
-            </div>
+            </div> {% endcomment %}
         </div>
     </div>
 </div>

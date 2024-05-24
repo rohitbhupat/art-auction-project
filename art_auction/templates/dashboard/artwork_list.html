@@ -1,4 +1,4 @@
-{% extends './base.html' %} {% block title %}1.2.3 Sold Dashboard{% endblock %} {% load static %} {% block links %}
+{% extends './base.html' %} {% block title %}Artworks List - 1.2.3 Sold{% endblock %} {% load static %} {% block links %}
 {% endblock %} {% block content %}
 {% include './includes/header.html' %}
 {% include "art/arrow_button.html" %}
@@ -10,7 +10,7 @@
         <button onclick="goForward()" class="btn btn-dark"><i class="fa-solid fa-arrow-right"></i></button>
         <div class="container-xl">
 
-            <h1 class="app-page-title"> Product List</h1>
+            <h1 class="app-page-title">Artwork List</h1>
 
 
             <div class="row g-4 mb-4">
@@ -26,11 +26,11 @@
 
                             <h4 class="app-doc-title truncate mb-0"><a href="#file-link">{{product.product_name}}</a>
                             </h4><br>
-                            <h4 class="app-doc-title truncate mb-0">Opening Bid : {{product.product_price}}</h4><br>
+                            <h4 class="app-doc-title truncate mb-0">Opening Bid : ₹{{product.product_price}}</h4><br>
                             <!-- <h4 class="app-doc-title truncate mb-0">Quantity : {{product.product_qty}}</h4><br> -->
                             <div class="app-doc-meta">
                                 <ul class="list-unstyled mb-0">
-                                    <li><span class="text-muted">Category:</span> {{product.product_cat}}</li>
+                                    <li><span class="text-muted">Catalogue:</span> {{product.product_cat}}</li>
                                     <li><span class="text-muted">ID:</span>  {{product.product_id}}</li>
                                     <li><span class="text-muted">End on:</span> {{product.end_date}}</li>
                                 </ul>

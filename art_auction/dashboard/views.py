@@ -3,7 +3,7 @@ from django import forms
 from django.views import View
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from dashboard.models import Product , OrderModel , Catalogue , Bid , Notification
+from dashboard.models import Artwork , OrderModel , Catalogue , Bid , Notification
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView ,DeleteView
 from django.urls import reverse_lazy
@@ -30,8 +30,8 @@ class Index(View):
         notifications = Notification.objects.filter(user=user)
         return render(request, 'art/notifications.html', {'notifications': notifications})
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
-    model = Product
+class ArtworkCreateView(LoginRequiredMixin, CreateView):
+    model = Artwork
     fields = ["product_name", "product_price", "product_image", "product_qty", "opening_bid", "product_cat", "end_date"]
     success_url = '/dashboard/product/'
 
@@ -46,7 +46,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         print("Form data:", form.cleaned_data)
 
         last_id = 1
-        last_product = Product.objects.all().values('pk').last()
+        last_product = Artwork.objects.all().values('pk').last()
         if last_product:
             last_id = last_product['pk'] + 1
         print("Last ID:", last_id)
@@ -76,7 +76,7 @@ class BidCreateView(LoginRequiredMixin, View):
     def post(self, request):
         bid_amt = float(request.POST["bid_amt"])
         product = request.POST["product"]
-        product_object = Product.objects.get(pk=product)
+        product_object = Artwork.objects.get(pk=product)
 
         highest_bid = Bid.objects.filter(product=product_object).order_by("-bid_amt").first()
 
@@ -97,17 +97,17 @@ class BidCreateView(LoginRequiredMixin, View):
         return redirect(f"/viewdetails/{product}/")
         
 
-class ProductListView(LoginRequiredMixin, ListView):
-    model = Product
+class ArtworkListView(LoginRequiredMixin, ListView):
+    model = Artwork
     def get_queryset(self):
-        return Product.objects.filter(user = self.request.user)
+        return Artwork.objects.filter(user = self.request.user)
 
 class BidListView(LoginRequiredMixin, ListView):
     model = Bid
     template_name = 'dashboard/bids_list.html'
-  
-class ProductUpdateView(UpdateView):
-    model = Product
+
+class ArtworkUpdateView(UpdateView):
+    model = Artwork
     fields = ["product_name","product_price","product_image","product_cat","end_date"]
     template_name_suffix = '_update_form'
     success_url = '/dashboard/product/'
@@ -117,12 +117,20 @@ class ProductUpdateView(UpdateView):
         form.fields['end_date'].widget = forms.DateInput(attrs={'type': 'date'})
         return form
 
-class ProductDeleteView(DeleteView):
-    model = Product
+class ArtworkDeleteView(DeleteView):
+    model = Artwork
     success_url = reverse_lazy('dashboard:product_list')
 
 
 class OrderListView(LoginRequiredMixin, ListView):
     model = OrderModel
+    template_name = 'dashboard/ordermodel_list.html'  # Update this to your correct template path
+
     def get_queryset(self):
-        return OrderModel.objects.filter(product__user = self.request.user)
+        if self.request.user.groups.filter(name='SellerGroup').exists():
+            # If the user is a seller, fetch orders for their products
+            return OrderModel.objects.filter(product__user=self.request.user)
+        else:
+            # Otherwise, fetch orders placed by the user
+            return OrderModel.objects.filter(user=self.request.user)
+

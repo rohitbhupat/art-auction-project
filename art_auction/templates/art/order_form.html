@@ -1,6 +1,6 @@
 {% extends './layout.html' %}
 {% load static %}
-{% block title %}1.2.3 Sold{% endblock %}
+{% block title %}Checkout - 1.2.3 Sold{% endblock %}
 {% block robot %}index, follow{% endblock %}
 {% block css_file %}
 <link rel="stylesheet" href="{% static 'dashboard/css/form.css' %}" type="text/css">
@@ -30,14 +30,10 @@
                                 <th>Catalogue</th>
                                 <td>{{ product.product_cat }}</td>
                             </tr>
-                            <tr>
-                                <th>Quantity</th>
-                                <td>{{ product.product_qty }}</td>
-                            </tr>
                         </tbody>
                     </table>
                     <div class="d-grid gap-2">
-                        <button class="btn btn-primary" type="button">Experience in 3D</button>
+                        <button class="btn btn-primary" type="button">View in 3D</button>
                     </div>
                 </div>
                 <div class="col-8">
@@ -47,11 +43,11 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="product" value="{{ product.pk }}">  {# Add this line to include the product ID #}
                                 <div class="fieldWrapper">
-                                    <label for="id_product_price">Latest Product price:</label>
+                                    <label for="id_product_price">Latest Artwork price:</label>
                                     <input type="number" name="product_price" value="{{ last_bid.bid_amt }}" required="" id="id_product_price" readonly>
                                 </div>
                                 <div class="fieldWrapper">
-                                    <label for="id_product_qty">Product qty:</label>
+                                    <label for="id_product_qty">Artwork Quantity:</label>
                                     <input type="number" name="product_qty" value="1" min="1" max="{{ product.product_qty }}" required="" id="id_product_qty" onchange="getTotal()" readonly>
                                 </div>
                                 <div class="fieldWrapper">
@@ -63,7 +59,7 @@
                                     <h5 id="id_product_total"></h5>
                                 </div>
                                 <div class="d-grid mx-auto">
-                                    <input class="btn btn-success" type="submit" value="Place Order">
+                                    <input class="btn btn-success" type="submit" value="Proceed to pay">
                                 </div>
                             </form>
                         </div>

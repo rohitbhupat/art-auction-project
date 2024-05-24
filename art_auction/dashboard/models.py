@@ -17,10 +17,10 @@ class Notification(models.Model):
     is_read = models.BooleanField(default=False)
     
     
-class Product(models.Model):
+class Artwork(models.Model):
     product_name = models.CharField(max_length=255, default="", blank=False, null=False)
     product_price = models.IntegerField(default=0, null=False)
-    product_qty = models.IntegerField(default=1)
+    product_qty = models.IntegerField(default=0)
     product_image = models.ImageField(upload_to='arts/')
     product_cat = models.ForeignKey('Catalogue', on_delete=models.CASCADE)
     product_id = models.CharField(max_length=255, default="")
@@ -29,11 +29,10 @@ class Product(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
-        self.product_qty = 1  # Ensure quantity is always set to 1
+# Ensure quantity is always set to 1
         super().save(*args, **kwargs)
 
     def clean(self):
-        self.product_qty = 1  # Ensure quantity is always set to 1 before validation
         super().clean()
 
     def __str__(self):
@@ -42,11 +41,11 @@ class Product(models.Model):
 
 class OrderModel(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Artwork, on_delete=models.CASCADE)
     order_date = models.DateField(auto_now_add=True)
     order_qty = models.IntegerField(default=0, null=False)
-    order_price = models.FloatField(default=0.0, null=False)
     delivery_at = models.TextField(default=" ", null=False)
+    order_price = models.FloatField(default=0, null=False)
 
     def __str__(self):
         return f'order of {self.product} by {self.user}'
@@ -54,7 +53,7 @@ class OrderModel(models.Model):
 
 class Bid(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Artwork, on_delete=models.CASCADE)
     bid_date = models.DateField(auto_now_add=True)
     bid_amt = models.IntegerField(default=1)
 

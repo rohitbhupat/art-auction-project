@@ -1,4 +1,4 @@
-{% extends './base.html' %} {% block title %}1.2.3 Sold Dashboard{% endblock %} {% load static %} {% block links %}
+{% extends './base.html' %} {% block title %}Bids - 1.2.3 Sold{% endblock %} {% load static %} {% block links %}
 {% endblock %} {% block content %}
 {% include './includes/header.html' %}
 {% include "art/arrow_button.html" %}
@@ -18,13 +18,13 @@
                 <table class="table">
                     <thead>
                       <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Product</th>
+                        <th scope="col">Sr No</th>
+                        <th scope="col">Artworks</th>
                         <th scope="col">Date</th>
                         {% if user|has_group:"SellerGroup" %}
                         <th scope="col">Order By</th>
                         {% endif %}
-                        <th scope="col">Bid Amount</th>
+                        <th scope="col">Bid Amount ₹</th>
              
                       </tr>
                     </thead>
@@ -44,7 +44,7 @@
                
                   </tr>
                 {% empty %}
-                <h3> No product to show , please add product </h3>
+                <h3> No artworks to show </h3>
                 {% endfor %}
             </tbody>
         </table>
