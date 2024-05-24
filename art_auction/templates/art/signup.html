@@ -1,0 +1,70 @@
+{% extends './auth_template.html' %} 
+{%load static%}
+{% block title %}1,2,3...SOLD!!! Register{% endblock %} 
+
+{% block form %}
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/signup.css' %}">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+</style>
+<div class="justify-content-center poppins-regular-signup">
+    <h5 class="card-title">Register yourself</h5>
+    {% if messages %}
+    <div class="error-messages">
+        {% for message in messages %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="this.parentElement.style.display='none';"></button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+<hr class="line">
+    <form class="row g-3" method="post">
+        {% csrf_token %}
+    {% for field in register_form %}
+        <div class="col-md-6">
+            <div class="fieldWrapper">
+                {{ field.errors }}
+                {{ field.label_tag }}
+                <!-- Add class and additional attributes manually -->
+                <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control" autocomplete="off" placeholder="Enter your {{ field.label|lower }}" {% if field.value %}value="{{ field.value }}"{% endif %} />
+                {% if field.field.help_text %}
+                    <p class="help">{{ field.help_text|safe }}</p>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+        <div class="registrationFormAlert text-danger text-end" id="divCheckPasswordMatch"></div>
+
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-register btn-primary">Register</button>
+        </div>
+    </form>
+    <div class="line"></div>
+    {% comment %} <br> {% endcomment %}
+    <h6 class="text-center text-mute">OR</h6>
+    <div class="container bg-white border-0 text-center mt-3">
+        <a href="{% url 'art:login' %}?next={{request.path|urlencode}}" class="btn btn-link btn-warning">Already registered? Click here to login<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+            <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+          </svg></a>
+    </div>
+</div>
+<style>
+    .line {
+        width: 100%;
+        margin: auto;
+        border-top: 1px solid rgba(0,0,0,.200); /* Change color as needed */
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+</style>
+{% endblock %} 
+{% block block_js %}
+
+<script>
+    $(function(){$("#id_password2").keyup(function(){var a=$("#id_password1").val();$("#divCheckPasswordMatch").html(a==$(this).val()?"":"Password and confirm password do not match!")})});
+</script>
+{% endblock %}

@@ -1,0 +1,172 @@
+.open-sans-navbar {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 650;
+  font-style: normal;
+  font-variation-settings: 100;
+}
+.open-sans-catalog{
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-variation-settings: 100;
+}
+/* Navbar */
+.navbar {
+  transition: background-color 0.3s, color 0.3s;
+  color: #898383;
+}
+
+.navbar .navbar-brand {
+  color: #ffffff;
+  /* Navbar brand color */
+}
+
+.navbar .nav-link {
+  color: #898383;
+  /* Navbar link color */
+}
+
+.navbar .nav-link:hover {
+  color: #ffffff;
+  /* Navbar link color on hover */
+}
+
+/* Show dropdown menu on hover */
+.navbar-nav .nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+  visibility: visible;
+  /* Ensure the menu is visible */
+  opacity: 1;
+  /* Ensure the menu is fully opaque */
+}
+
+.dropdown-menu {
+  display: none;
+  /* Hide the dropdown menu by default */
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-menu a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-menu a:hover {
+  color: white !important;
+  background-color: #212529 !important;
+  transition: background-color 0.1s, color 0.1s;
+
+}
+/* body.light-mode .dropdown-menu {
+  --dropdown-bg: #f9f9f9;
+}
+body.light-mode .dropdown-menu {
+  --dropdown-bg: #212521;
+  color: #fff;
+} */
+/* Dark Mode */
+.dark-mode {
+  background-color: #333;
+  /*Dark mode background color*/
+  color: #fff;
+  /* Dark mode text color */
+}
+
+.dark-mode .navbar .navbar-brand {
+  color: #fff;
+  /* Navbar brand color in dark mode */
+}
+
+.dark-mode .navbar .nav-link {
+  color: #898383;
+  /* Navbar link color in dark mode */
+}
+
+.dark-mode .navbar .nav-link:hover {
+  color: #ffffff;
+  /* Navbar link color on hover in dark mode */
+}
+
+:root {
+  --border-color: black;
+}
+
+.dark-mode {
+  --border-color: white;
+}
+
+.bold-line {
+  border-bottom: 2px solid var(--border-color);
+}
+
+/* body {
+  transition: background-color 0.3s, color 0.3s;
+} */
+
+body.light-mode {
+  background-color: #f8f9fa;
+  color: #000;
+}
+
+body.dark-mode {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+/* Ensure navbar and dropdown adhere to theme */
+.nav-item-mode .dropdown-mode {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle-mode {
+  cursor: pointer;
+}
+
+.dropdown-menu-mode {
+  display: none;
+  position: absolute;
+  background-color: var(--dropdown-bg);
+  min-width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  top: 30px;
+  right: 0;
+}
+
+.dropdown-menu-mode.show {
+  display: block;
+}
+
+.dropdown-item {
+  color: #f1f1f1;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  color: #f1f1f1 !important;
+  background: #212529;
+}
+
+.dropdown-item:active {
+  background: #212529 !important;
+}
+
+body.light-mode .dropdown-menu-mode {
+  --dropdown-bg: #f9f9f9;
+}
+
+body.dark-mode .dropdown-menu-mode {
+  --dropdown-bg: #fff !important;
+}

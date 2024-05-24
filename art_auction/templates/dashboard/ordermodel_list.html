@@ -1,0 +1,73 @@
+{% extends './base.html' %} {% block title %}1.2.3 Sold Dashboard{% endblock %} {% load static %} {% block links %}
+{% endblock %} {% block content %}
+{% include './includes/header.html' %}
+{% include "art/arrow_button.html" %}
+
+{% load auth_extras %}
+<div class="app-wrapper">
+
+    <div class="app-content pt-3 p-md-3 p-lg-4">
+        <button onclick="goBack()" class="btn btn-dark"><i class="fa-solid fa-arrow-left"></i></button>
+        <button onclick="goForward()" class="btn btn-dark"><i class="fa-solid fa-arrow-right"></i></button>
+        <div class="container-xl">
+
+            <h1 class="app-page-title"> Order List</h1>
+
+
+            <div class="row g-4 mb-4">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Date</th>
+                        {% if user|has_group:"SellerGroup" %}
+                        <th scope="col">Order By</th>
+                        {% endif %}
+                        <th scope="col">Delivery Add</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    
+             
+               
+                {% for order in object_list %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td><a href="{% url 'art:product_details' pk=order.product.pk %}">{{order.product}}</a></td>
+                    <td>{{order.order_date}}</td>
+                    {% if user|has_group:"SellerGroup" %}
+                    <td>{{order.user}}</td>
+                    {% endif %}
+                    <td>{{order.delivery_at}}</td>
+                    <td>{{order.order_qty}}</td>
+                    <td>{{order.order_price}}</td>
+                    <td>{% widthratio order.order_qty 1 order.order_price %}</td>
+                  </tr>
+                {% empty %}
+                <h3> No product to show , please add product </h3>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+            </div>
+
+
+        </div>
+        <!--//container-fluid-->
+    </div>
+    <!--//app-content-->
+
+
+    {% include './includes/footer.html' %}
+</div>
+
+{% endblock %} {% block js %}
+{% endblock %}
+{% block jscript %}
+(function(){scroller();}());
+{% endblock %}

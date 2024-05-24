@@ -1,0 +1,87 @@
+{% extends './base.html' %} {% block title %}1.2.3 Sold Dashboard{% endblock %} {% load static %} {% block links %}
+{% endblock %} {% block content %}
+
+{% include './includes/header.html' %}
+{% include "art/arrow_button.html" %}
+
+<div class="app-wrapper">
+
+    <div class="app-content pt-3 p-md-3 p-lg-4">
+        <button onclick="goBack()" class="btn btn-dark"><i class="fa-solid fa-arrow-left"></i></button>
+        <button onclick="goForward()" class="btn btn-dark"><i class="fa-solid fa-arrow-right"></i></button>
+        <div class="container-xl">
+
+            <h1 class="app-page-title">Add product</h1>
+
+
+            <div class="row g-4 mb-4">
+                <div class="col-12">
+                    <div class="app-card shadow-sm h-100">
+                        <div class="app-card-body p-2">
+              
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <!-- {{ form.as_p }} -->
+                                {{ form.non_field_errors }}
+                                <div class="fieldWrapper">
+                                    {{ form.product_name.errors }}
+                                    <label
+                                        for="{{ form.product_name.id_for_label }}">{{form.product_name.label}}:</label>
+                                    {{ form.product_name }}
+                                </div>
+                                <div class="fieldWrapper">
+                                    {{ form.product_price.errors }}
+                                    <label
+                                        for="{{ form.product_price.id_for_label }}">{{form.product_price.label}}:</label>
+                                    {{ form.product_price }}
+                                </div>
+                                <div class="fieldWrapper">
+                                    {{ form.product_qty.errors }}
+                                    <label for="{{ form.product_qty.id_for_label }}">{{form.product_qty.label}}:</label>
+                                    {{ form.product_qty }}
+                                </div>
+                                <div class="fieldWrapper">
+                                    {{ form.product_cat.errors }}
+                                    <label for="{{ form.product_cat.id_for_label }}">{{form.product_cat.label}}:</label>
+                                    {{ form.product_cat }}
+                                </div>
+                                <div class="fieldWrapper">
+                                    {{ form.end_date.errors }}
+                                    <label for="{{ form.end_date.id_for_label }}">{{form.end_date.label}}:</label>
+                                    {{ form.end_date }}
+                                </div>
+                                <div class="fieldWrapper">
+                                    {{ form.product_image.errors }}
+                                    <label
+                                        for="{{ form.product_image.id_for_label }}">{{form.product_image.label}}:</label>
+                                    {{ form.product_image }}
+                                </div>
+                                <div class="d-grid  mx-auto">
+                                    <input class="btn btn-success" type="submit" value="Update" />
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </div>
+                    <!--//app-card-->
+                </div>
+
+            </div>
+
+
+        </div>
+        <!--//container-fluid-->
+    </div>
+    <!--//app-content-->
+
+
+    {% include './includes/footer.html' %}
+</div>
+
+{% endblock %} {% block js %}
+{% endblock %}
+{% block jscript %}
+(function(){scroller();}());
+{% endblock %}

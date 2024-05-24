@@ -1,0 +1,88 @@
+{% extends './layout.html' %}
+{% load static %}
+{% block title %}1.2.3 Sold{% endblock %}
+{% block robot %}index, follow{% endblock %}
+{% block css_file %}
+<link rel="stylesheet" href="{% static 'dashboard/css/form.css' %}" type="text/css">
+{% endblock %}
+{% block body %}
+{% load i18n %}
+{% load static %}
+
+{% include "./includes/navbar.html" %}
+<br>
+{% include "./arrow_button.html" %}
+<button onclick="goBack()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i></button>
+<button onclick="goForward()" class="btn btn-light"><i class="fa-solid fa-arrow-right"></i></button>
+
+<div class="container p-4 poppins-regular-order">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <h5>{{ product.product_name }}</h5>
+                    <img src="{{ MEDIA_URL }}{{ product.product_image }}" alt="img" width="100%" />
+                    <br>
+                    <br>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>Catalogue</th>
+                                <td>{{ product.product_cat }}</td>
+                            </tr>
+                            <tr>
+                                <th>Quantity</th>
+                                <td>{{ product.product_qty }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" type="button">Experience in 3D</button>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="app-card shadow-sm h-100">
+                        <div class="app-card-body p-2">
+                            <form method="POST" enctype="multipart/form-data" action="{% url 'art:confirm_order' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="product" value="{{ product.pk }}">  {# Add this line to include the product ID #}
+                                <div class="fieldWrapper">
+                                    <label for="id_product_price">Latest Product price:</label>
+                                    <input type="number" name="product_price" value="{{ last_bid.bid_amt }}" required="" id="id_product_price" readonly>
+                                </div>
+                                <div class="fieldWrapper">
+                                    <label for="id_product_qty">Product qty:</label>
+                                    <input type="number" name="product_qty" value="1" min="1" max="{{ product.product_qty }}" required="" id="id_product_qty" onchange="getTotal()" readonly>
+                                </div>
+                                <div class="fieldWrapper">
+                                    <label for="id_product_qty">Delivery Address:</label>
+                                    <textarea name="delivery_at" required></textarea>
+                                </div>
+                                <div class="fieldWrapper">
+                                    <label for="id_product_qty">Total:</label>
+                                    <h5 id="id_product_total"></h5>
+                                </div>
+                                <div class="d-grid mx-auto">
+                                    <input class="btn btn-success" type="submit" value="Place Order">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!--//app-card-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function getTotal() {
+        const price = document.getElementById('id_product_price').value;
+        const qty = document.getElementById('id_product_qty').value;
+        document.getElementById('id_product_total').innerText = price * qty;
+    }
+
+    getTotal();
+</script>
+
+{% endblock %}

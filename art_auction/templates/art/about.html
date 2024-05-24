@@ -1,0 +1,174 @@
+{% extends './layout.html' %} {% load static %} {% block title%}1.2.3 Sold About us{% endblock %}{% block css_file %}
+<link rel="stylesheet" href="{% static 'home/css/about.css'%}" type="text/css">
+
+{% endblock %} {% block body %} {% load i18n %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    </style>
+{% include "./includes/navbar.html" %}
+<br>
+{% include "./arrow_button.html" %}
+<button onclick="goBack()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i></button>
+<button onclick="goForward()" class="btn btn-light"><i class="fa-solid fa-arrow-right"></i></button>
+<div class="container-fluid">
+    <h1 class="text-center open-sans-about">ABOUT US</h1>
+    <div class="container-fluid"
+        style="background-image: url({% static 'images/intro.jpg' %});height:24.5rem;background-repeat:no-repeat;background-size:cover;">
+        <h1 class="open-sans-heading" style="color: brown;position: relative;top: 75%;text-align: center;">THE EPITOME OF CREATIVITY</h1>
+    </div>
+    <div class="container">
+        <p class="poppins-regular-text">
+            1,2,3...SOLD!! is for Art Collecting and Bidding.
+            As the leading marketplace for Art by the world’s emerging and established Artists, we have made it easy for
+            new and experienced collectors to discover, buy, and sell art. Everything you will need to collect art,
+            you’ll find on here.
+        </p>
+        <hr class="bold-line">
+        <h1 class="text-center open-sans-heading">About Our Arts</h1>
+        <div class="row art_desc">
+            <div class="col-md-4">
+                <img src="{% static 'images/about1.jpg' %}" alt="about1" width="100%" height="200px">
+            </div>
+            <div class="col-md-8">
+                <p class="poppins-regular-text">
+                    Fantasy art is a genre of art that depicts magical or other supernatural themes, ideas, creatures or
+                    settings. Fantasy art often transports viewers into realms of imagination, where mythical beasts roam and enchanted landscapes unfold. 
+                    It serves as a portal to fantastical worlds, evoking a sense of wonder and enchantment in those who behold it.
+                </p>
+            </div>
+        </div>
+        <hr class="bold-line">
+        <div class="row art_desc">
+
+            <div class="col-md-8">
+                <p class="poppins-regular-text">
+                    Mandala is a piece of art comprised of geometric patterns and symbols. In Sanskrit, it means circle
+                    or center. The word mandala has particular meanings in spiritual practices. Mandalas are seen
+                    throughout multiple organized religions such as Hinduism, Buddhism, and Christianity.
+                    “It's all about finding peace in the symmetry of the design and of the universe,” says artist
+                    Saudamini Madra.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <img src="{% static 'images/about2.jpg' %}" alt="about2" width="100%" height="200px">
+            </div>
+        </div>
+        <hr class="bold-line">
+        <div class="row art_desc">
+            <div class="col-md-4">
+                <img src="{% static 'images/about3.jpg' %}" alt="about3" width="100%" height="200px">
+            </div>
+            <div class="col-md-8">
+                <p class="poppins-regular-text">
+                    Landscape painting, also known as landscape art, is the depiction of natural scenery such as
+                    mountains, valleys, trees, rivers, and forests, especially where the main subject is a wide
+                    view—with its elements arranged into a coherent composition.
+                </p>
+            </div>
+        </div>
+        <hr class="bold-line">
+        <div class="row art_desc">
+
+            <div class="col-md-8">
+                <p class="poppins-regular-text">
+                    Contemporary art is important due to its historical value being a product and witness of a specific
+                    time and Era. It enables us to state, gain insight, and question certain socio-cultural or
+                    ideological/political developments, raising awareness, calling the world to a halt, and encouraging
+                    debates.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <img src="{% static 'images/about4.jpg' %}" alt="about4" width="100%" height="200px">
+            </div>
+        </div>
+        <hr class="bold-line">
+        <div class="row art_desc">
+            <div class="col-md-4">
+                <img src="{% static 'images/about5.jpg' %}" alt="about5" width="100%" height="200px">
+            </div>
+            <div class="col-md-8">
+                <p class="poppins-regular-text">
+                    Portrait artworks can be anything from a sculpture to a painting or photography that specifically
+                    contains a Face. Portraiture is a very old art form going back at least to ancient Egypt, where it
+                    flourished from about 5,000 years. Before the invention of photography, a painted, sculpted, or
+                    drawn portrait was the only way to record the appearance of someone.
+                </p>
+            </div>
+        </div>
+        <hr class="bold-line">
+        <div class="row art_desc">
+
+            <div class="col-md-8">
+                <p class="poppins-regular-text">
+                    Doodles are simple drawings that can have concrete representational meaning or may just be composed
+                    of random and abstract lines or shapes, generally without ever lifting the drawing device from the
+                    paper, in which case it is usually called a scribble.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <img src="{% static 'images/about6.jpg' %}" alt="about6" width="100%" height="200px">
+            </div>
+        </div>
+        <hr class="bold-line">
+        <div class="row art_desc">
+            <div class="col-md-4">
+                <img src="{% static 'images/about7.jpg' %}" alt="about7" width="100%" height="200px">
+            </div>
+            <div class="col-md-8">
+                <p class="poppins-regular-text">
+                    Abstract art is the art that does not represent an accurate depiction of visual reality,
+                    communicating instead through lines, shapes, colours, forms and gestural marks.
+                </p>
+            </div>
+        </div>
+        <hr class="bold-line">
+        <br>
+        <div class="container-fluid"
+            style="background-image: url({% static 'images/exp.jpg' %});height:300px;background-repeat:no-repeat;background-size:cover;">
+            <h1 class="open-sans-about" style="color: brown;position: relative;top: 75%;text-align: center;">GET TO EXPERIENCE IN 3D WITH AR
+                TECHNOLOGY</h1>
+        </div>
+        <div class="pt3">
+            <h4 class="heading-4 open-sans-heading">What is AR technology?</h4>
+            <p class="poppins-regular-text">
+                Augmented reality (AR) is the real-time use of information in the form of text, graphics, audio and
+                other virtual enhancements integrated with real-world objects. It is the integration of digital
+                information with the user's environment in real time.
+            </p>    
+        </div>
+        <hr class="bold-line">
+        <div class="pt3">
+            <h4 class="heading-4 open-sans-heading">Experience in AR:</h4>
+            <p class="poppins-regular-text">
+                1,2,3...SOLD!! give viewers the chance to interact with a 3D view via augmented reality. You can examine
+                a 3D model of the artwork's appearance in that location by uploading a photo of the space where you plan
+                to display it. Users can see the artwork in the actual world due to this. It is a modern technology that
+                is widely used.
+            </p>
+        </div>
+        <button onclick="topFunction()" id="back-to-top-btn" title="Go to top"><i class="fa-solid fa-angles-up"></i>
+    </button>
+    </div>
+</div>
+<script>
+    // Get the button
+    var mybutton = document.getElementById("back-to-top-btn");
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+</script>
+{% endblock %}

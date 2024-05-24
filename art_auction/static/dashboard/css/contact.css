@@ -1,0 +1,99 @@
+:root {
+    --background-color: #e7e7e7;
+    --text-color: #000;
+    --link-color: #343434;
+    --link-hover-color: #000000;
+    --title-color: #000;
+    --contact-text-color: #000; /* Added variable for contact text color */
+}
+
+.dark-mode {
+    --background-color: #343a40;
+    --text-color: #fff;
+    --link-color: #d8d8d8;
+    --link-hover-color: #ffffff;
+    --title-color: #fff;
+    --contact-text-color: #fff; /* Added variable for contact text color in dark mode */
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.contact-title {
+    color: var(--title-color);
+}
+
+.container .col {
+    margin-bottom: 20px;
+}
+
+.container .col p {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.vh-100_contact {
+    height: 72.5vh !important;
+}
+
+.contact_icon {
+    color: var(--contact-text-color); /* Use the contact text color variable */
+    text-decoration: none;
+}
+.contact_icon:hover {
+    color: var(--contact-text-color); /* Use the contact text color variable */
+}
+.container-fluid-contact{
+    margin-top: 10px;
+    color: (--contact-text-color);
+}
+.footer-container {
+    background-color: var(--background-color);
+    padding: 20px;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    display: inline;
+    margin: 0 10px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: var(--link-color);
+}
+
+.footer-links a:hover {
+    text-decoration: none;
+    color: var(--link-hover-color);
+}
+.open-sans-contact {
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 650;
+    font-style: normal;
+    font-variation-settings: 100;
+}
+.poppins-regular-contact {
+    font-family: "Poppins", sans-serif;
+    font-weight: 625;
+    font-style: normal;
+}
+.poppins-regular-footer{
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}

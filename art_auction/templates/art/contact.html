@@ -1,0 +1,53 @@
+{% extends './layout.html' %}
+{% load static %}
+{% block title %}1.2.3 Sold Contact Us{% endblock %}
+{% block css_file %}
+<link rel="stylesheet" href="{% static 'home/css/contact.css' %}" type="text/css">
+{% endblock %}
+{% block body %}
+{% load i18n %}
+
+{% include "./includes/navbar.html" %}
+<br>
+{% include "./arrow_button.html" %}
+<button onclick="goBack()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i></button>
+<button onclick="goForward()" class="btn btn-light"><i class="fa-solid fa-arrow-right"></i></button>
+<div class="container-fluid-contact d-flex flex-column align-items-center justify-content-center vh-100_contact">
+    <h1 class="text-center contact-title open-sans-contact">Contact us</h1>
+
+    <div class="container text-center mt-4 poppins-regular-contact">
+        <div class="row">
+            <div class="col">
+                <a href="https://www.facebook.com/" class="contact_icon">
+                    <i class="fab fa-facebook fa-3x"></i>
+                    <p>Facebook</p>
+                </a>
+            </div>
+            <div class="col">
+                <a href="https://www.instagram.com/" class="contact_icon">
+                    <i class="fab fa-instagram fa-3x"></i>
+                    <p>Instagram</p>
+                </a>
+            </div>
+            <div class="col">
+                <a href="https://www.linkedin.com/login" class="contact_icon">
+                    <i class="fab fa-linkedin fa-3x"></i>
+                    <p>LinkedIn</p>
+                </a>
+            </div>
+            <div class="col">
+                <a href="https://github.com/" class="contact_icon">
+                    <i class="fab fa-github fa-3x"></i>
+                    <p>GitHub</p>
+                </a>
+            </div>
+            <div class="col">
+                <a href="https://x.com/?lang=en" class="contact_icon">
+                    <i class="fab fa-twitter fa-3x"></i>
+                    <p>Twitter</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

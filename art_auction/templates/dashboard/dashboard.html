@@ -1,0 +1,79 @@
+{% extends './base.html' %} {% block title %}1.2.3 Sold Dashboard{% endblock %} {% load static %} {% block links %}
+{% endblock %} {% block content %}
+
+{% include './includes/header.html' %}
+{% include "art/arrow_button.html" %}
+
+<div class="app-wrapper">
+
+    <div class="app-content pt-3 p-md-3 p-lg-4">
+        <button onclick="goBack()" class="btn btn-dark"><i class="fa-solid fa-arrow-left"></i></button>
+        <button onclick="goForward()" class="btn btn-dark"><i class="fa-solid fa-arrow-right"></i></button>
+        <div class="container-xl">
+
+            <h1 class="app-page-title">Overview</h1>
+
+            <div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
+                <div class="inner">
+                    <div class="app-card-body p-3 p-lg-4">
+                        <h3 class="mb-3">Welcome, {{user}}!</h3>
+                        <div class="row gx-5 gy-3">
+                            <div class="col-12 col-lg-9">
+
+                                <div>Manage your poster , paining here sale your cretives</div>
+                            </div>
+                         
+                        </div>
+                        <!--//row-->
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <!--//app-card-body-->
+
+                </div>
+                <!--//inner-->
+            </div>
+            <!--//app-card-->
+
+            <div class="row g-4 mb-4">
+                <div class="col-6 col-lg-6">
+                    <div class="app-card app-card-stat shadow-sm h-100">
+                        <div class="app-card-body p-3 p-lg-4">
+                            <h4 class="stats-type mb-1">Total Orders</h4>
+                            <div class="stats-figure">{{total_order}}</div>
+                           
+                        </div>
+                        <!--//app-card-body-->
+                        <a class="app-card-link-mask" href="{% url 'dashboard:order_list' %}"></a>
+                    </div>
+                    <!--//app-card-->
+                </div>
+                <!--//col-->
+
+                <div class="col-6 col-lg-6">
+                    <div class="app-card app-card-stat shadow-sm h-100">
+                        <div class="app-card-body p-3 p-lg-4">
+                            <h4 class="stats-type mb-1">Total Uploads</h4>
+                            <div class="stats-figure">{{toatal_product  }}</div>
+                          
+                        </div>
+                        <!--//app-card-body-->
+                        <a class="app-card-link-mask" href="{% url 'dashboard:product_list' %}"></a>
+                    </div>
+                    <!--//app-card-->
+                </div>
+     
+
+        </div>
+        <!--//container-fluid-->
+    </div>
+    <!--//app-content-->
+
+
+    {% include './includes/footer.html' %}
+</div>
+
+{% endblock %} {% block js %}
+{% endblock %}
+{% block jscript %}
+(function(){scroller();}());
+{% endblock %}

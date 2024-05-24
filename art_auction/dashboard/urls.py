@@ -1,0 +1,20 @@
+from django.urls import path
+from dashboard import views
+from django.conf import settings
+from django.conf.urls.static import static
+
+app_name = "dashboard"
+urlpatterns = [
+    path('', views.Index.as_view(), name="dashboard"),
+    path('addproduct/', views.ProductCreateView.as_view(), name="add_product"),
+    path('product/', views.ProductListView.as_view(), name="product_list"),
+    path('bidlist/', views.BidListView.as_view(), name="bid_list"),
+    path('productupdate/<int:pk>', views.ProductUpdateView.as_view(), name="product_update"),
+    path('product/<int:pk>/delete/', views.ProductDeleteView.as_view(), name="product_delete"),
+    path('order/', views.OrderListView.as_view(), name="order_list"),
+    path('placebid/', views.BidCreateView.as_view(), name="place_bid"),
+    
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
