@@ -1,0 +1,10 @@
+{% extends "./layout.html" %}
+
+{% block content %}
+<h1>Profile Settings</h1>
+<form method="post">
+    {% csrf_token %}
+    <!-- Form fields for updating profile -->
+    <button type="submit">Save changes</button>
+</form>
+{% endblock %}

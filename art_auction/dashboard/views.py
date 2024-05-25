@@ -3,7 +3,7 @@ from django import forms
 from django.views import View
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from dashboard.models import Artwork , OrderModel , Catalogue , Bid , Notification
+from dashboard.models import Artwork , OrderModel , Catalogue , Bid
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView ,DeleteView
 from django.urls import reverse_lazy
@@ -23,12 +23,9 @@ class Index(View):
     def get(self,request):
 
         # return render(request,'art/index.html',{'news':self.get_news,'public_post':self.post_obj.get_all_posts().order_by('-created_on')[:5]})
-          return render(request,'dashboard/dashboard.html')
+        return render(request,'dashboard/dashboard.html')
     
-    def notifications(request):
-        user = request.user
-        notifications = Notification.objects.filter(user=user)
-        return render(request, 'art/notifications.html', {'notifications': notifications})
+
 
 class ArtworkCreateView(LoginRequiredMixin, CreateView):
     model = Artwork
@@ -108,7 +105,7 @@ class BidListView(LoginRequiredMixin, ListView):
 
 class ArtworkUpdateView(UpdateView):
     model = Artwork
-    fields = ["product_name","product_price","product_image","product_cat","end_date"]
+    fields = ["Name","product_price","product_image","product_cat","end_date"]
     template_name_suffix = '_update_form'
     success_url = '/dashboard/product/'
 

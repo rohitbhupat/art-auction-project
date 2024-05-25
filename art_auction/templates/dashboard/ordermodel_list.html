@@ -32,7 +32,7 @@
                         {% for order in object_list %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
-                            <td><a href="{% url 'art:product_details' pk=order.product.pk %}">{{ order.product }}</a></td>
+                            <td><a>{{ order.product }}</a></td>
                             <td>{{ order.order_date }}</td>
                             {% if user|has_group:"SellerGroup" %}
                             <td>{{ order.user }}</td>

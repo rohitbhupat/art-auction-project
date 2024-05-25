@@ -21,6 +21,7 @@ from dashboard.constants import PaymentStatus
 import datetime
 from django.views.generic import ListView
 from dashboard.models import Catalogue
+from django.contrib.auth.decorators import login_required
 
 
 class index(View):
@@ -40,7 +41,13 @@ class index(View):
         )
 # class IndexView(TemplateView):
 #     template_name = 'dashboard/index.html'
-    
+
+class Profile_Settings(View):
+    @login_required
+    def profile_settings(request):
+    # Your logic to handle profile settings
+     return render(request, 'art/profile_settings.html')
+
 class CatListView(View):
     def catalog_products(request, id):
         catalog = get_object_or_404(Catalogue, id=id)
@@ -191,7 +198,7 @@ class Get404View(TemplateView):
 
 class ArtworkDetailView(DetailView):
     model = Artwork
-    template_name = "art/product_detail.html"
+    template_name = "art/artwork_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

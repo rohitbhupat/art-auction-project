@@ -36,11 +36,11 @@
                                         for="{{ form.product_price.id_for_label }}">{{form.product_price.label}}:</label>
                                     {{ form.product_price }}
                                 </div>
-                                <div class="fieldWrapper">
+                                {% comment %} <div class="fieldWrapper">
                                     {{ form.product_qty.errors }}
                                     <label for="{{ form.product_qty.id_for_label }}">{{form.product_qty.label}}:</label>
                                     {{ form.product_qty }}
-                                </div>
+                                </div> {% endcomment %}
                                 <div class="fieldWrapper">
                                     {{ form.product_cat.errors }}
                                     <label for="{{ form.product_cat.id_for_label }}">{{form.product_cat.label}}:</label>
