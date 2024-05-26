@@ -47,3 +47,14 @@ class SellerInfoForm(forms.ModelForm):
         fields = ("phone_number","business_name","user",)
         widgets = {'user':forms.HiddenInput()}    
 
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'email', 'phone_number']
+
+class SellerUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Seller
+        fields = ['business_name']
