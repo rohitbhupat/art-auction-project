@@ -1,20 +1,55 @@
 {% extends './layout.html' %}
 {% load static %}
-{% block title%}1.2.3 Sold About us{% endblock %}
+{% block title %}Callback - 1.2.3 Sold{% endblock %}
 {% block css_file %}
-<link rel="stylesheet" href="{% static 'home/css/about.css'%}" type="text/css">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/style.css' %}">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    body {
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    .form-container {
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .button-container {
+        color: black;
+        text-decoration: none;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        border:1px solid black !important;
+        border-radius:5px;
+    }
+    .btn-home:hover {
+        background-color:#c8c8c8 !important;
+    }
+</style>
 {% endblock %}
 {% block body %}
 {% load i18n %}
+<div class="button-container">
+    <a href="http://127.0.0.1:8000" type="button" class="btn btn-light btn-home">HOME</a>
+</div>
 <div class="text-center" style="margin-top:20%">
-    <!-- {% if status == "Success" %}
-    <h2>THANKS YOUR PAYMENT HAS BEEN RECEIVED</h2>
+    {% if status == "FAILED" %}
+    <style>
+        body {
+            background-image: url('{% static 'images/SORRYIMG_final.png' %}');
+        }
+    </style>
+    {% comment %} <h2 class="text-light">THANKS YOUR PAYMENT HAS BEEN RECEIVED</h2> {% endcomment %}
     {% else %}
-    <h2>SORRY, YOUR PAYMENT HAS BEEN FAILED {{order}} {{providor}}</h2>
-    {% endif %} -->
-    <h2 class="text-success">THANKS YOUR PAYMENT HAS BEEN RECEIVED</h2>
-    <a href="http://127.0.0.1:8000">Go to home </a>
+    <style>
+        body {
+            background-image: url('{% static 'images/THANKYOU_final.png' %}');
+        }
+    </style>
+    {% comment %} <h2 class="text-light">SORRY, YOUR PAYMENT HAS FAILED</h2> {% endcomment %}
+    {% endif %}
 </div>
 {% endblock %}
-
 {% block footer %}{% endblock %}

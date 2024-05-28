@@ -55,7 +55,7 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Catalogues
+            Catalogues (cat)
           </a>
     
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -100,6 +100,7 @@
       
     
       <div class="d-flex align-items-center">
+        
         {% if user.is_authenticated %}
         <div class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -112,7 +113,6 @@
             <li><a class="dropdown-item" href="{% url 'art:logout' %}">Logout</a></li>
           </ul>
         </div>
-        
         <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
           {% comment %} <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
             <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
@@ -141,6 +141,7 @@
           </li>
           
         </ul>
+        
         {% else %}
         <a
           href="{% url 'art:login' %}"
@@ -154,6 +155,34 @@
           class="btn btn-primary"
           >Register</a
         >
+        <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+          {% comment %} <li class="nav-item py-2 py-lg-1 col-12 col-lg-auto">
+            <div class="vr d-none d-lg-flex h-100 mx-lg-2 text-white"></div>
+            <hr class="d-lg-none my-2 text-white-50">
+          </li>   {% endcomment %}
+
+          <li class="nav-item-mode dropdown-mode">
+            <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle dropdown-toggle-mode d-flex align-items-center"
+                    id="bd-theme"
+                    type="button"
+                    aria-expanded="false"
+                    data-bs-toggle="dropdown"
+                    data-bs-display="static"
+                    aria-label="Toggle theme">
+              <i class="fas fa-adjust"></i>
+              <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-mode dropdown-menu-end" aria-labelledby="bd-theme-text">
+              <li>
+                <a type="button" class="dropdown-item" data-theme="light">Light</a>
+              </li>
+              <li>
+                <a type="button" class="dropdown-item" data-theme="dark">Dark</a>
+              </li>
+            </ul>
+          </li>
+          
+        </ul>
         {% endif %}
       </div>
     </div>

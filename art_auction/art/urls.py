@@ -22,7 +22,7 @@ urlpatterns = [
    path("faq/", views.FAQs.as_view(), name="faq"),
    path('unsold/',views.UnsoldListView.as_view(),name="unsold_items"),
    path('cat/<int:id>/',views.CatListView.catalog_products,name="catalog_products"),
-   path('profile-settings/', views.Profile_Settings.profile_settings, name='profile_settings'),
+   path('profile-settings/', views.profile_settings, name='profile_settings'),
    
 
    path('pagenotfound/',views.Get404View.as_view(),name="page_error"),

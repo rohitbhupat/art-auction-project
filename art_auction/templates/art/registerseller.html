@@ -5,9 +5,22 @@
 
 {% block robot %}allowed{% endblock %} 
 {% block form %}
-<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/signup.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/register_seller.css' %}">
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+    body {
+        background-image: url('{% static 'images/AUCTION_2.png' %}'); /* Change the path to your background image */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    .form-container {
+        background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+        padding: 20px;
+        border-radius: 10px;
+    }
 </style>
 <div class="justify-content-center poppins-regular-signup">
     {% if messages %}
@@ -25,34 +38,47 @@
       </svg>Create your seller account and auction your creativity</h5><hr>
     <form class="row g-3" method="post">
         {% csrf_token %} 
-        {% for field in userform %} {{field.errors }}
+        {% for field in userform %}
+    {% if field.name != 'phone_number' %}
         <div class="col-md-6">
             <div class="fieldWrapper">
                 {{ field.errors }} {{ field.label_tag }} 
                 <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control" autocomplete="off" placeholder="Enter your {{ field.label|lower }}" {% if field.value %}value="{{ field.value }}"{% endif %} />
- 
+                
                 {% if field.field.help_text %}
-                  <p class="help">{{ field.help_text|safe }}</p>
+                    <p class="help">{{ field.help_text|safe }}</p>
                 {% endif %}
             </div>
         </div>
-        {% endfor %}
-        {% for field in sellerForm %} {{field.errors }}
+    {% endif %}
+{% endfor %}
+
+<!-- Display the phone_number field separately -->
+<div class="col-md-6">
+    <div class="fieldWrapper">
+        {{ userform.phone_number.errors }} {{ userform.phone_number.label_tag }} 
+        <input type="{{ userform.phone_number.field.widget.input_type }}" name="{{ userform.phone_number.name }}" id="{{ userform.phone_number.id_for_label }}" class="form-control" autocomplete="off" placeholder="Enter your {{ userform.phone_number.label|lower }}" {% if userform.phone_number.value %}value="{{ userform.phone_number.value }}"{% endif %} />
+        
+        {% if userform.phone_number.field.help_text %}
+            <p class="help">{{ userform.phone_number.field.help_text|safe }}</p>
+        {% endif %}
+    </div>
+</div>
+
+{% for field in sellerForm %}
+    {% if field.name != 'phone_number' %}
         <div class="col-md-6">
             <div class="fieldWrapper">
-                {% if field.label == 'User' %}
-                   {{ field.errors }} {{ field }} 
-                {% else %}
                 {{ field.errors }} {{ field.label_tag }} 
                 <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control" autocomplete="off" placeholder="Enter your {{ field.label|lower }}" {% if field.value %}value="{{ field.value }}"{% endif %} />
-                {% endif %}
-               
+                
                 {% if field.field.help_text %}
-                  <p class="help">{{ field.help_text|safe }}</p>
+                    <p class="help">{{ field.field.help_text|safe }}</p>
                 {% endif %}
             </div>
         </div>
-        {% endfor %}
+    {% endif %}
+{% endfor %}
         <div class="registrationFormAlert text-danger text-end" id="divCheckPasswordMatch"></div>
 
 

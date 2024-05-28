@@ -41,11 +41,11 @@
                             <td>{{ order.order_price }}</td>
                         </tr>
                         {% empty %}
-                        <tr>
+                        {% comment %} <tr>
                             <td colspan="5" class="text-center">
                                 <h3 class="open-sans-empty">No artworks to show</h3>
                             </td>
-                        </tr>
+                        </tr> {% endcomment %}
                         {% endfor %}
                     </tbody>
                 </table>
@@ -54,8 +54,8 @@
         <!--//container-fluid-->
     </div>
     <!--//app-content-->
-    {% include './includes/footer.html' %}
 </div>
+{% comment %} {% include './includes/footer.html' %} {% endcomment %}
 
 {% endblock %}
 {% block js %}{% endblock %}

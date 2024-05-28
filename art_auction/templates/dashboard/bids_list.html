@@ -1,19 +1,19 @@
-{% extends './base.html' %} {% block title %}Bids - 1.2.3 Sold{% endblock %} {% load static %} {% block links %}
-{% endblock %} {% block content %}
+{% extends './base.html' %} 
+{% block title %}Bids - 1.2.3 Sold{% endblock %} 
+{% load static %} 
+{% block links %}
+{% endblock %} 
+{% block content %}
 {% include './includes/header.html' %}
 {% include "art/arrow_button.html" %}
 {% load auth_extras %}
 <div class="app-wrapper">
-
     <div class="app-content pt-3 p-md-3 p-lg-4">
         <button onclick="goBack()" class="btn btn-dark"><i class="fa-solid fa-arrow-left"></i></button>
         <button onclick="goForward()" class="btn btn-dark"><i class="fa-solid fa-arrow-right"></i></button>
         
         <div class="container-xl">
-
             <h1 class="app-page-title"> Bids List</h1>
-
-
             <div class="row g-4 mb-4">
                 <table class="table">
                     <thead>
@@ -25,44 +25,34 @@
                         <th scope="col">Order By</th>
                         {% endif %}
                         <th scope="col">Bid Amount ₹</th>
-             
                       </tr>
                     </thead>
                     <tbody>
-                    
-             
-               
-                {% for bid in object_list %}
-                <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{bid.product}}</td>
-                    <td>{{bid.bid_date}}</td>
-                    {% if user|has_group:"SellerGroup" %}
-                    <td>{{bid.user}}</td>
-                    {% endif %}
-                    <td>{{bid.bid_amt}}</td>
-               
-                  </tr>
-                {% empty %}
-                <h3> No artworks to show </h3>
-                {% endfor %}
-            </tbody>
-        </table>
-
-
+                    {% for bid in object_list %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{bid.product}}</td>
+                            <td>{{bid.bid_date}}</td>
+                            {% if user|has_group:"SellerGroup" %}
+                            <td>{{bid.user}}</td>
+                            {% endif %}
+                            <td>{{bid.bid_amt}}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5">
+                                <h3> No artworks to show </h3>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
-
-
         </div>
-        <!--//container-fluid-->
     </div>
-    <!--//app-content-->
-
-
-    {% include './includes/footer.html' %}
 </div>
-
-{% endblock %} {% block js %}
+{% endblock %} 
+{% block js %}
 {% endblock %}
 {% block jscript %}
 (function(){scroller();}());

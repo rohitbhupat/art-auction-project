@@ -80,7 +80,7 @@ class BidCreateView(LoginRequiredMixin, View):
         if highest_bid is None:
             min_bid = product_object.opening_bid
             if bid_amt < min_bid:
-                messages.error(request, "Your bid must be greater than the opening bid amount.")
+                messages.error(request, "Your bid must be equal or greater than the opening bid amount.")
                 return redirect(f"/viewdetails/{product}/")
         else:
             min_bid = highest_bid.bid_amt
@@ -105,7 +105,7 @@ class BidListView(LoginRequiredMixin, ListView):
 
 class ArtworkUpdateView(UpdateView):
     model = Artwork
-    fields = ["Name","product_price","product_image","product_cat","end_date"]
+    fields = ["product_name","product_price","product_image","product_cat","end_date"]
     template_name_suffix = '_update_form'
     success_url = '/dashboard/product/'
 

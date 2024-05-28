@@ -1,4 +1,20 @@
+:root {
+    --background-color: #e7e7e7;
+    --text-color: #000;
+    --link-color: #343434;
+    --link-hover-color: #000000;
+    --title-color: #000;
+    --contact-text-color: #000; /* Added variable for contact text color */
+}
 
+.dark-mode {
+    --background-color: #343a40;
+    --text-color: #fff;
+    --link-color: #d8d8d8;
+    --link-hover-color: #ffffff;
+    --title-color: #fff;
+    --contact-text-color: #fff; /* Added variable for contact text color in dark mode */
+}
 .poppins-regular-products {
     font-family: "Poppins", sans-serif;
     font-weight: 425;
@@ -9,8 +25,11 @@
     justify-content: start;
     --bs-gutter-y: 1.5rem !important;
 }
-.open-sans-empty {
-    color: #fff !important;
+.open-sans-empty{
+    color: var(--text-color) !important;
+}
+.dark-mode-heading {
+    color: var(--text-color); /* Use the variable for text color */
 }
 /* Back to Top Button */
 #back-to-top-btn {

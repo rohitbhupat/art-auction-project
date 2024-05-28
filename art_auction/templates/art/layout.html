@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    
-    <head>
+<head>
     {% load static %}
     <!-- Required meta tags -->
     <meta charset="utf-8" />
@@ -13,8 +12,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'icon/favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'icon/site.webmanifest' %}">
     <link rel="stylesheet" href="{% static 'dashboard/css/style.css'%}" type="text/css">
-    <link rel="stylesheet" href="{% static 'dashboard/css/contact.css'%}" type="text/css"> {% block css_file %}{% endblock %}
-    
+    <link rel="stylesheet" href="{% static 'dashboard/css/contact.css'%}" type="text/css">
+    {% block css_file %}{% endblock %}
+
     <!-- Bootstrap CSS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     
@@ -32,19 +32,15 @@
 </head>
 
 <body>
-    
-    {% comment %} <div class="loader"></div> {% endcomment %}
-    <!--header-->
-    
-    
-    <!--end header-->
-    
+    <div class="loader"></div>
+    {% block header %}
+    <!-- Add your header content here -->
+    {% endblock %}
 
     {% block body %}
-    
+    <!-- Main content will be injected here by child templates -->
     {% endblock %}
-    </div>
-    <br>
+    
     <footer>
         {% block footer %}
         <div class="footer-container poppins-regular-footer">
@@ -60,20 +56,16 @@
         {% endblock %}
     </footer>
     
-    
     {% block js %}{% endblock %}
 
-    {% comment %} <script>
+    <script>
         $(document).ready(function() {
             $('.loader').fadeOut();
         });
-    </script> {% endcomment %}
+    </script>
 
     <script src="https://kit.fontawesome.com/d400ed2add.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js" integrity="sha512-rpLlll167T5LJHwp0waJCh3ZRf7pO6IT1+LZOhAyP6phAirwchClbTZV3iqL3BMrVxIYRbzGTpli4rfxsCK6Vw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
 </body>
-
 </html>

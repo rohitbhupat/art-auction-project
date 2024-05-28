@@ -1,10 +1,113 @@
 {% extends "./layout.html" %}
+{% load static %}
 
-{% block content %}
-<h1>Profile Settings</h1>
-<form method="post">
-    {% csrf_token %}
-    <!-- Form fields for updating profile -->
-    <button type="submit">Save changes</button>
-</form>
+{% block title %}Profile Settings{% endblock %}
+{% block css_file %}
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/profile_settings.css' %}">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+
+    body {
+        background-image: url('{% static 'images/AUCTION_2.png' %}'); 
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    .profile-card {
+        background: rgba(255, 255, 255, 0.8) !important;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 500px;
+    }
+    .profile-field{
+        display: flex;
+        flex-direction: column;
+        padding: 0px 20px !important;
+    }
+    
+    /* Additional styles can be added here */
+    
+</style>
+{% endblock %}
+
+{% block body %}
+<br>
+<button onclick="goBack()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i></button>
+<button onclick="goForward()" class="btn btn-light"><i class="fa-solid fa-arrow-right"></i></button>
+<div class="card profile-card">
+<div class="justify-content-center poppins-regular-profile">
+    {% if messages %}
+    <div class="error-messages">
+        {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="this.parentElement.style.display='none';"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <h1>Profile Settings</h1>
+    <form class="row g-3 profile-form" method="post">
+        {% csrf_token %} 
+        {% for field in userForm %}
+        <div class="col-md-12">
+            <div class="fieldWrapper profile-field">
+                {{ field.errors }} {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                  <p class="help">{{ field.help_text|safe }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="col-md-12">
+            <div class="fieldWrapper profile-field">
+                <label for="id_phone_number">Phone number:</label>
+                <input type="text" name="phone_number" id="id_phone_number" class="form-control" value="{{ phone_number }}" />
+            </div>
+        </div>
+        
+        {% if is_seller %}
+        {% for field in sellerForm %}
+        <div class="col-md-12">
+            <div class="fieldWrapper profile-field">
+                {{ field.errors }} {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                  <p class="help">{{ field.help_text|safe }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-save-changes btn-primary">Save changes</button>
+        </div>
+    </form>
+</div>
+</div>
+<style>
+    .line {
+        width: 100%;
+        margin: auto;
+        border-top: 1px solid rgba(0,0,0,.200);
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+</style>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+    
+    function goForward() {
+        window.history.forward();
+    }
+</script>
 {% endblock %}

@@ -10,7 +10,9 @@
 @import url(form.css);
 @import url(index.css);
 @import url(../../home/css/about.css);
-
+@import url(profile_settings.css);
+@import url(register_seller.css);
+@import url(artwork_detail.css);
 
 
 :root {
