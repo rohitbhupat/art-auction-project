@@ -26,6 +26,10 @@ from django.db import IntegrityError
 
 # Import the SellerInfo model
 from art.models import SellerInfo, UserInfo
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class index(View):
     def get(self, request):
@@ -323,13 +327,19 @@ def callback(request):
         return client.utility.verify_payment_signature(response_data)
 
     if "razorpay_signature" in request.POST:
+        logger.debug(f"Received POST data: {request.POST}")  # Log the POST data
+
         payment_id = request.POST.get("razorpay_payment_id", "")
         provider_order_id = request.POST.get("razorpay_order_id", "")
         signature_id = request.POST.get("razorpay_signature", "")
         order = Payment.objects.get(provider_order_id=provider_order_id)
         order.payment_id = payment_id
         order.signature_id = signature_id
+        order.payment_method = request.POST.get("method")  # Capture payment method
         order.save()
+
+        logger.debug(f"Payment Method: {order.payment_method}")  # Log the payment method
+
         if not verify_signature(request.POST):
             order.status = PaymentStatus.SUCCESS
             order.save()
@@ -343,13 +353,15 @@ def callback(request):
                 request,
                 "art/callback.html",
                 context={
-                    "status": "Payment done",
+                    "status": "Payment failed",
                     "order": order,
-                    "providor": provider_order_id,
+                    "provider_order_id": provider_order_id,
                 },
             )
     else:
-        return render(request, "art/callback.html", context={"status": "order.status"})
+        return render(request, "art/callback.html", context={"status": "Payment failed"})
+
+
 
 class ArView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):

@@ -1,5 +1,8 @@
 from django.contrib import admin
-from dashboard.models import Catalogue,Artwork,OrderModel,Payment,Bid
+from .models import Catalogue, OrderModel, Payment, Bid
 
 # Register your models here.
-admin.site.register([Catalogue,Artwork,OrderModel,Payment,Bid])
+admin.site.register(Catalogue)
+admin.site.register(OrderModel)
+admin.site.register(Payment)
+admin.site.register(Bid)

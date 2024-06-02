@@ -1,35 +1,28 @@
 import datetime
 from django import forms
 from django.views import View
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
-from dashboard.models import Artwork , OrderModel , Catalogue , Bid
+from dashboard.models import Artwork, OrderModel, Catalogue, Bid
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView, UpdateView ,DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib import messages
-
-
-
-# Create your views here.
+from django.views.generic.detail import DetailView
 
 class Index(View):
-    # news_obj = News()
-    # post_obj = PostObject()
-    # get_news = news_obj.get_top_news_headlines(language='en',country='in',page_size=5)
-    
-    def get(self,request):
-
-        # return render(request,'art/index.html',{'news':self.get_news,'public_post':self.post_obj.get_all_posts().order_by('-created_on')[:5]})
-        return render(request,'dashboard/dashboard.html')
-    
-
+    def get(self, request):
+        return render(request, 'dashboard/dashboard.html')
 
 class ArtworkCreateView(LoginRequiredMixin, CreateView):
     model = Artwork
-    fields = ["product_name", "product_price", "product_image", "product_qty", "opening_bid", "product_cat", "end_date"]
+    fields = [
+        "product_name", "product_price", "opening_bid", "product_cat", 
+        "product_qty", "dimension_unit", "length_in_centimeters", "width_in_centimeters", 
+        "foot", "inches", "product_image", "end_date"
+    ]
     success_url = '/dashboard/product/'
 
     def get_form(self):
@@ -38,35 +31,23 @@ class ArtworkCreateView(LoginRequiredMixin, CreateView):
         return form
 
     def form_valid(self, form):
-        # Debugging statements
-        print("Form is valid")
-        print("Form data:", form.cleaned_data)
-
         last_id = 1
         last_product = Artwork.objects.all().values('pk').last()
         if last_product:
             last_id = last_product['pk'] + 1
-        print("Last ID:", last_id)
 
         try:
             cat = Catalogue.objects.get(pk=self.request.POST['product_cat']).cat_name[:3]
-            print("Category:", cat)
         except Catalogue.DoesNotExist:
             form.add_error('product_cat', 'Invalid category')
-            print("Invalid category")
             return self.form_invalid(form)
 
         form.instance.user = self.request.user
         form.instance.product_id = f'{cat}{last_id}'
-        print("Product ID:", form.instance.product_id)
 
-        response = super().form_valid(form)
-        print("Product created successfully")
-        return response
+        return super().form_valid(form)
 
     def form_invalid(self, form):
-        print("Form is invalid")
-        print("Errors:", form.errors)
         return super().form_invalid(form)
 
 class BidCreateView(LoginRequiredMixin, View):
@@ -92,12 +73,12 @@ class BidCreateView(LoginRequiredMixin, View):
         messages.success(request, "Your bid has been placed")
 
         return redirect(f"/viewdetails/{product}/")
-        
 
 class ArtworkListView(LoginRequiredMixin, ListView):
     model = Artwork
+
     def get_queryset(self):
-        return Artwork.objects.filter(user = self.request.user)
+        return Artwork.objects.filter(user=self.request.user)
 
 class BidListView(LoginRequiredMixin, ListView):
     model = Bid
@@ -105,7 +86,11 @@ class BidListView(LoginRequiredMixin, ListView):
 
 class ArtworkUpdateView(UpdateView):
     model = Artwork
-    fields = ["product_name","product_price","product_image","product_cat","end_date"]
+    fields = [
+        "product_name", "product_price", "product_image", 
+        "product_cat", "end_date", "length_in_centimeters", 
+        "width_in_centimeters", "foot", "inches"
+    ]
     template_name_suffix = '_update_form'
     success_url = '/dashboard/product/'
 
@@ -118,16 +103,29 @@ class ArtworkDeleteView(DeleteView):
     model = Artwork
     success_url = reverse_lazy('dashboard:product_list')
 
-
 class OrderListView(LoginRequiredMixin, ListView):
     model = OrderModel
-    template_name = 'dashboard/ordermodel_list.html'  # Update this to your correct template path
+    template_name = 'dashboard/ordermodel_list.html'
 
     def get_queryset(self):
         if self.request.user.groups.filter(name='SellerGroup').exists():
-            # If the user is a seller, fetch orders for their products
             return OrderModel.objects.filter(product__user=self.request.user)
         else:
-            # Otherwise, fetch orders placed by the user
             return OrderModel.objects.filter(user=self.request.user)
+
+class ArtworkDetailView(DetailView):
+    model = Artwork
+    template_name = 'art/artwork_detail.html'  # Correct template name
+    context_object_name = 'object'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        artwork = self.get_object()
+        last_bid = Bid.objects.filter(product=artwork).order_by('-bid_amt').first()
+        total_bids = Bid.objects.filter(product=artwork).count()
+        context['last_bid'] = last_bid
+        context['total_bid'] = total_bids
+        context['foot'] = artwork.foot  # Add this line
+        context['inches'] = artwork.inches  # Add this line
+        return context
 

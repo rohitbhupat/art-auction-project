@@ -15,47 +15,58 @@
             <h1 class="app-page-title">Order List</h1>
 
             <div class="row g-4 mb-4">
+                <!-- ordermodel_list.html -->
                 <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">Sr No</th>
-                            <th scope="col">Artwork</th>
+                            <th scope="col">Artworks</th>
                             <th scope="col">Date</th>
                             {% if user|has_group:"SellerGroup" %}
                             <th scope="col">Order By</th>
                             {% endif %}
                             <th scope="col">Delivery Address</th>
                             <th scope="col">Price</th>
+                            <th scope="col">Payment Method</th> <!-- Add this column -->
                         </tr>
                     </thead>
                     <tbody>
                         {% for order in object_list %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
-                            <td><a>{{ order.product }}</a></td>
+                            <td>
+                                <a href="{% url 'dashboard:artwork_list' order.product.id %}">{{ order.product }}</a>
+                            </td>
                             <td>{{ order.order_date }}</td>
                             {% if user|has_group:"SellerGroup" %}
                             <td>{{ order.user }}</td>
                             {% endif %}
                             <td>{{ order.delivery_at }}</td>
                             <td>{{ order.order_price }}</td>
+                            <td>
+                                {{ order.payment.payment_method }} <!-- Display payment method -->
+                                <!-- Add debug info -->
+                                {% if order.payment %}
+                                    <div>Order ID: {{ order.payment.provider_order_id }}</div>
+                                    <div>Payment Method: {{ order.payment.payment_method }}</div>
+                                {% else %}
+                                    <div>No payment info</div>
+                                {% endif %}
+                            </td>
                         </tr>
                         {% empty %}
-                        {% comment %} <tr>
-                            <td colspan="5" class="text-center">
+                        <tr>
+                            <td colspan="7" class="text-center">
                                 <h3 class="open-sans-empty">No artworks to show</h3>
                             </td>
-                        </tr> {% endcomment %}
+                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-        <!--//container-fluid-->
     </div>
-    <!--//app-content-->
 </div>
-{% comment %} {% include './includes/footer.html' %} {% endcomment %}
 
 {% endblock %}
 {% block js %}{% endblock %}

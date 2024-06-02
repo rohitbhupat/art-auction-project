@@ -1,9 +1,15 @@
-{% extends './layout.html' %} {% load static %} {% block title%}{{object.product_name}} Details - 1.2.3 Sold{% endblock %} {% block robot %}index, follow{% endblock %} {% block css_file %}
-<link rel="stylesheet" href="{% static 'home/css/artwork_detail.css'%}" type="text/css">
+{% extends './layout.html' %} 
+{% load static %} 
+{% block title %}{{ object.product_name }} Details - 1.2.3 Sold{% endblock %} 
+{% block robot %}index, follow{% endblock %} 
+{% block css_file %}
+<link rel="stylesheet" href="{% static 'home/css/artwork_detail.css' %}" type="text/css">
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
 </style>
-{% endblock %} {% block body %} {% load i18n %}
+{% endblock %} 
+{% block body %} 
+{% load i18n %}
 {% load static %}
 
 {% include "./includes/navbar.html" %}
@@ -16,79 +22,76 @@
         <div class="card-body poppins-regular-pro_details">
             <div class="row">
                 <div class="col-8">
-                    <img src="{{MEDIA_URL}}{{object.product_image}}" alt="img" width="100%"/>
+                    <img src="{{ MEDIA_URL }}{{ object.product_image }}" alt="img" width="100%" />
                 </div>
                 <div class="col-4">
-                    <h5>{{object.product_name}}</h5>
+                    <h5>{{ object.product_name }}</h5>
                     <table class="table table-bordered">
-
                         <tbody>
                             <tr>
+                                <th>Dimensions</th>
+                                <td>
+                                    {% if object.length_in_centimeters and object.width_in_centimeters %}
+                                        {{ object.length_in_centimeters }} x {{ object.width_in_centimeters }} cm
+                                    {% elif object.foot and object.inches %}
+                                        {{ object.foot|floatformat }}' {{ object.inches|floatformat }}"  <!-- Adjust this line -->
+                                    {% else %}
+                                        Not specified
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>Catalogue</th>
-                                <td>{{object.product_cat}}</td>
+                                <td>{{ object.product_cat }}</td>
                             </tr>
                             <tr>
                                 <th>Opening Bid</th>
-                                <td>₹ {{object.product_price}}</td>
+                                <td>₹ {{ object.product_price }}</td>
                             </tr>
                             <tr>
                                 <th>Last Bid</th>
-                                <td>₹ {{last_bid.bid_amt}}</td>
+                                <td>₹ {{ last_bid.bid_amt }}</td>
                             </tr>
                             <tr>
                                 <th>Total Bids</th>
-                                <td>{{total_bid}}</td>
+                                <td>{{ total_bid }}</td>
                             </tr>
                             <tr>
                                 <th>Ends on</th>
-                                <td>{{object.end_date}}</td>
+                                <td>{{ object.end_date }}</td>
                             </tr>
                             <!-- <tr>
                                 <th>Quantity</th>
-                                <td>{{object.product_qty}}</td>
+                                <td>{{ object.product_qty }}</td>
                             </tr> -->
-
                         </tbody>
                     </table>
                     {% if messages %}
-                    {% for message in messages %}
+                        {% for message in messages %}
                             <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% else %}{{ message.tags }}{% endif %}{% endif %}" role="alert">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
-                    <div class="btn-group  d-flex mx-auto mb-2 mt-2" role="group" aria-label="Basic outlined example">
+                        {% endfor %}
+                    {% endif %}
+                    <div class="btn-group d-flex mx-auto mb-2 mt-2" role="group" aria-label="Basic outlined example">
                         <form action="{% url 'dashboard:place_bid' %}" method="post">
                             {% csrf_token %}
-                            <input type="hidden" name="product" value="{{object.pk}}">
-                            <input type="number" name="bid_amt" value="{{last_bid.bid_amt}}" min="{{last_bid.bid_amt}}" class="form-control">
-                        <button type="submit" class="btn btn-success bid_now mt-2">Bid Now</button>
-                        <a href="{% url 'art:place_order' pk=object.id %}" type="button" class="btn btn-warning buy_now mt-2">Buy Now</a>
-                        
-                    </form>
-                    {% if messages %}
-                    <form action="{% url 'art:place_order' object.pk %}" method="post">
-                        <!-- <input type="hidden" name="product" value="{{object.pk}}"> -->
-                        
-                            {% csrf_token %}
-                    </form>
+                            <input type="hidden" name="product" value="{{ object.pk }}">
+                            <input type="number" name="bid_amt" value="{{ last_bid.bid_amt }}" min="{{ last_bid.bid_amt }}" class="form-control">
+                            <button type="submit" class="btn btn-success bid_now mt-2">Bid Now</button>
+                            <a href="{% url 'art:place_order' pk=object.id %}" type="button" class="btn btn-warning buy_now mt-2">Buy Now</a>
+                        </form>
+                        {% if messages %}
+                            <form action="{% url 'art:place_order' object.pk %}" method="post">
+                                {% csrf_token %}
+                            </form>
                         {% endif %}
-                       
                         {% comment %} <a href="{% url 'art:place_order' pk=object.id %}" type="button" class="btn btn-success ">Bid Now</a> --> {% endcomment %}
-                      </div>
-
-             
-                      <div class="d-grid gap-2">
+                    </div>
+                    <div class="d-grid gap-2">
                         <a class="btn btn-primary" type="button" href="{% url 'art:view_3d' id=object.id %}">View in 3D</a>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
-
 </div>
-
-
- 
-
 {% endblock %}

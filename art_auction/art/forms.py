@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from art.models import SellerInfo, UserInfo
+from dashboard.models import Artwork
 
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -55,7 +56,7 @@ class SellerInfoForm(forms.ModelForm):
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password']
 
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)
@@ -63,7 +64,23 @@ class UserForm(forms.ModelForm):
             visible.field.widget.attrs['class'] = 'form-control'
 
 
+
 class SellerForm(forms.ModelForm):
     class Meta:
         model = SellerInfo
         fields = ['business_name']
+
+class ArtworkForm(forms.ModelForm):
+    class Meta:
+        model = Artwork
+        fields = [
+            'product_name', 'product_price', 'product_qty', 'product_image', 
+            'product_cat', 'product_id', 'end_date', 'opening_bid',
+            'dimension_unit', 'length_in_centimeters', 'width_in_centimeters', 
+            'foot', 'inches'
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(ArtworkForm, self).__init__(*args, **kwargs)
+        for field_name in ['length_in_centimeters', 'width_in_centimeters', 'foot', 'inches']:
+            self.fields[field_name].required = False

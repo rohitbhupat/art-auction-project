@@ -9,20 +9,24 @@ class Catalogue(models.Model):
 
     def __str__(self):
         return self.cat_name
-    
+
 class Artwork(models.Model):
+    product_id = models.CharField(max_length=255, default="")
     product_name = models.CharField(max_length=255, default="", blank=False, null=False)
     product_price = models.IntegerField(default=0, null=False)
+    opening_bid = models.IntegerField(default=0)
+    product_cat = models.ForeignKey('Catalogue', on_delete=models.CASCADE)
     product_qty = models.IntegerField(default=0)
     product_image = models.ImageField(upload_to='arts/')
-    product_cat = models.ForeignKey('Catalogue', on_delete=models.CASCADE)
-    product_id = models.CharField(max_length=255, default="")
+    dimension_unit = models.CharField(max_length=2, choices=[('cm', 'Centimeters'), ('ft', 'Feet')])
+    length_in_centimeters = models.FloatField(default=0.0, blank=True, null=True)
+    width_in_centimeters = models.FloatField(default=0.0, blank=True, null=True)
+    foot = models.FloatField(default=0, blank=True, null=True)
+    inches = models.FloatField(default=0, blank=True, null=True)
     end_date = models.DateField()
-    opening_bid = models.IntegerField(default=0)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
-# Ensure quantity is always set to 1
         super().save(*args, **kwargs)
 
     def clean(self):
@@ -30,7 +34,6 @@ class Artwork(models.Model):
 
     def __str__(self):
         return self.product_name
-
 
 class OrderModel(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -43,7 +46,6 @@ class OrderModel(models.Model):
     def __str__(self):
         return f'order of {self.product} by {self.user}'
 
-
 class Bid(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey(Artwork, on_delete=models.CASCADE)
@@ -53,7 +55,6 @@ class Bid(models.Model):
     def __str__(self):
         return f'order of {self.product} on {self.bid_date}'
 
-
 class Payment(models.Model):
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
@@ -61,6 +62,8 @@ class Payment(models.Model):
     provider_order_id = models.CharField(_("Order ID"), max_length=40, null=False, blank=False)
     payment_id = models.CharField(_("Payment ID"), max_length=36, null=False, blank=False)
     signature_id = models.CharField(_("Signature ID"), max_length=128, null=False, blank=False)
+    payment_method = models.CharField(max_length=50, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Payment of {self.order}'
+        return f"Payment {self.provider_order_id}"

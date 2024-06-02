@@ -20,7 +20,10 @@
     font-weight: 425;
     font-style: normal;
 }
-
+.artwork-card_home {
+    flex: 0 0 auto !important;
+    width: 24.66666667% !important;
+}
 .row {
     justify-content: start;
     --bs-gutter-y: 1.5rem !important;

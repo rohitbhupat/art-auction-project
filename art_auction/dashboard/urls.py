@@ -13,7 +13,7 @@ urlpatterns = [
     path('product/<int:pk>/delete/', views.ArtworkDeleteView.as_view(), name="product_delete"),
     path('order/', views.OrderListView.as_view(), name="order_list"),
     path('placebid/', views.BidCreateView.as_view(), name="place_bid"),
-    
+    path('artwork/<int:pk>/', views.ArtworkDetailView.as_view(), name='artwork_list'),
 ]
 
 if settings.DEBUG:

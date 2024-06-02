@@ -1,10 +1,10 @@
-{% extends './base.html' %} {% block title %}Add Artworks - 1.2.3 Sold{% endblock %} {% load static %} {% block links %}
-{% endblock %} {% block content %}
-
+{% extends './base.html' %} 
+{% block title %}Add Artworks - 1.2.3 Sold{% endblock %} 
+{% load static %} 
+{% block links %}{% endblock %} 
+{% block content %}
 {% include './includes/header.html' %}
 {% include "art/arrow_button.html" %}
-
-
 <div class="app-wrapper">
     <div class="app-content pt-3 p-md-3 p-lg-4">
         <button onclick="goBack()" class="btn btn-dark"><i class="fa-solid fa-arrow-left"></i></button>
@@ -47,6 +47,37 @@
                                         <input type="number" name="product_qty" value="1" min="1" max="{{ product.product_qty }}" required id="id_product_qty" readonly>
                                     </div>
                                     <div class="fieldWrapper">
+                                        <label for="dimension_unit" required=False>Dimensions:</label>
+                                        <select id="dimension_unit" name="dimension_unit" onchange="toggleDimensionFields()">
+                                            <option value="cm">Centimeters</option>
+                                            <option value="ft">Feet</option>
+                                        </select>
+                                    </div>
+                                    <div id="dimension_cm_fields">
+                                        <div class="fieldWrapper">
+                                            {{ form.length_in_centimeters.errors }}
+                                            <label for="{{ form.length_in_centimeters.id_for_label }}">{{ form.length_in_centimeters.label }} (cm):</label>
+                                            {{ form.length_in_centimeters }}
+                                        </div>
+                                        <div class="fieldWrapper">
+                                            {{ form.width_in_centimeters.errors }}
+                                            <label for="{{ form.width_in_centimeters.id_for_label }}">{{ form.width_in_centimeters.label }} (cm):</label>
+                                            {{ form.width_in_centimeters }}
+                                        </div>
+                                    </div>
+                                    <div id="dimension_ft_fields" style="display:none;">
+                                        <div class="fieldWrapper">
+                                            {{ form.foot.errors }}
+                                            <label for="{{ form.foot.id_for_label }}">{{ form.foot.label }} (ft):</label>
+                                            {{ form.foot }}
+                                        </div>
+                                        <div class="fieldWrapper">
+                                            {{ form.inches.errors }}
+                                            <label for="{{ form.inches.id_for_label }}">{{ form.inches.label }} (inch):</label>
+                                            {{ form.inches }}
+                                        </div>
+                                    </div>
+                                    <div class="fieldWrapper">
                                         {{ form.end_date.errors }}
                                         <label for="{{ form.end_date.id_for_label }}">{{ form.end_date.label }}:</label>
                                         {{ form.end_date }}
@@ -56,6 +87,7 @@
                                         <label for="{{ form.product_image.id_for_label }}">{{ form.product_image.label }}:</label>
                                         {{ form.product_image }}
                                     </div>
+                                    
                                     <div class="d-grid mx-auto">
                                         <input class="btn btn-success" type="submit" value="Upload" />
                                     </div>
@@ -71,7 +103,25 @@
 </div>
 {% endblock %}
 {% block js %}
-{% endblock %}
-{% block jscript %}
+<script>
 (function(){scroller();}());
+
+function toggleDimensionFields() {
+    var dimensionUnit = document.getElementById('dimension_unit').value;
+    var cmFields = document.getElementById('dimension_cm_fields');
+    var ftFields = document.getElementById('dimension_ft_fields');
+
+    if (dimensionUnit === 'cm') {
+        cmFields.style.display = 'block';
+        ftFields.style.display = 'none';
+    } else {
+        cmFields.style.display = 'none';
+        ftFields.style.display = 'block';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    toggleDimensionFields(); // Initialize the display based on the default selection
+});
+</script>
 {% endblock %}
