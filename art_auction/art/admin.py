@@ -1,7 +1,7 @@
 from django.contrib import admin
 from art.models import SellerInfo
 from dashboard.models import Artwork
-from .forms import ArtworkForm
+from .forms import ArtworkForm  # Import the ArtworkForm
 
 class ArtworkAdmin(admin.ModelAdmin):
     form = ArtworkForm

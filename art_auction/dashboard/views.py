@@ -16,6 +16,9 @@ class Index(View):
     def get(self, request):
         return render(request, 'dashboard/dashboard.html')
 
+# def artwork_detail_modal(request, pk):
+#     artwork = Artwork.objects.get(pk=pk)
+#     return render(request, 'art/artwork_detail_modal.html', {'object': artwork})
 class ArtworkCreateView(LoginRequiredMixin, CreateView):
     model = Artwork
     fields = [

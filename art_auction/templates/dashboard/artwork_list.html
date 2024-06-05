@@ -1,9 +1,14 @@
-{% extends './base.html' %} {% block title %}Artworks List - 1.2.3 Sold{% endblock %} {% load static %} {% block links %}
-{% endblock %}{% block content %}
+{% extends './base.html' %}
+{% block title %}Artworks List - 1.2.3 Sold{% endblock %}
+{% load static %}
+{% block links %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% endblock %}
+{% block content %}
 {% include './includes/header.html' %}
 {% include "art/arrow_button.html" %}
 <style>
-    .artwork-card{
+    .artwork-card {
         width: 24.66666667%;
     }
 </style>
@@ -24,11 +29,8 @@
                         </div>
                         <div class="app-card-body p-3 has-card-actions">
                             <h4 class="app-doc-title truncate mb-0">
-                                <a href="#file-link">{{ product.product_name }}</a>
+                                <a href="#" data-toggle="modal" data-target="#productModal{{ product.id }}">{{ product.product_name }}</a>
                             </h4><br>
-                            {% comment %} <h4 class="app-doc-title truncate mb-0">
-                                Opening Bid : ₹{{ product.product_price }}
-                            </h4><br> {% endcomment %}
                             <div class="app-doc-meta">
                                 <ul class="list-unstyled mb-0">
                                     <li><span class="text-muted">Catalogue:</span> {{ product.product_cat }}</li>
@@ -68,8 +70,81 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="productModal{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="productModalLabel{{ product.id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="productModalLabel{{ product.id }}">{{ product.product_name }}</h5>
+                                {% if product.ordermodel_set.exists %} <!-- Check if there are any orders for the product -->
+                                    <img src="{% static 'images/sold.png' %}" class="small-image" alt="Sold Image">
+                                {% endif %}
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <style>
+                                    .modal-table th,
+                                    .modal-table td {
+                                        border-right: 1px solid #dee2e6; /* Apply vertical border between th and td */
+                                    }
+                                    .modal-table th:last-child,
+                                    .modal-table td:last-child {
+                                        border-right: none; /* Remove border for the last column */
+                                    }
+                                    .small-image {
+                                        max-width: 80px; /* Define the maximum width for the image */
+                                        height: auto; /* Maintain aspect ratio */
+                                    }
+                                </style>
+                                <table class="table modal-table">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">Product Image</th>
+                                            <td><img src="{{ product.product_image.url }}" class="img-fluid" alt="{{ product.product_name }}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Dimensions</th>
+                                            <td>{{ product.length_in_centimeters }} x {{ product.width_in_centimeters }} cm</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Catalogue</th>
+                                            <td>{{ product.product_cat }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Order By</th>
+                                            <td>{{ product.user }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Opening Bid</th>
+                                            <td>₹ {{ product.opening_bid }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Last Bid</th>
+                                            {% if product.get_total_bids > 0 %}
+                                                <td>₹ {{ product.get_last_bid }}</td>
+                                            {% else %}
+                                                <td>No bids yet</td>
+                                            {% endif %}
+                                        </tr>
+                                        
+                                        <tr>
+                                            <th scope="row">Total Bids</th>
+                                            <td>{{ product.get_total_bids }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>                            
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% empty %}
-                <h3> No artwork to show , please add artwork </h3>
+                <h3> No artwork to show, please add artwork </h3>
                 {% endfor %}
             </div>
         </div>
@@ -78,28 +153,33 @@
 </div>
 <button onclick="topFunction()" id="back-to-top-btn" title="Go to top"><i class="fa-solid fa-angles-up"></i></button>
 <script>
-     // Get the button
-     var mybutton = document.getElementById("back-to-top-btn");
+    // Get the button
+    var mybutton = document.getElementById("back-to-top-btn");
 
-     // When the user scrolls down 20px from the top of the document, show the button
-     window.onscroll = function() {scrollFunction()};
- 
-     function scrollFunction() {
-         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-             mybutton.style.display = "block";
-         } else {
-             mybutton.style.display = "none";
-         }
-     }
- 
-     // When the user clicks on the button, scroll to the top of the document
-     function topFunction() {
-         document.body.scrollTop = 0; // For Safari
-         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-     }
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
 </script>
-{% endblock %} {% block js %}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}
+{% block js %}
 {% endblock %}
 {% block jscript %}
 (function(){scroller();}());
 {% endblock %}
+

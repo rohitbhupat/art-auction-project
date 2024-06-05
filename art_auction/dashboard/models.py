@@ -25,6 +25,7 @@ class Artwork(models.Model):
     inches = models.FloatField(default=0, blank=True, null=True)
     end_date = models.DateField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    is_sold = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -34,6 +35,13 @@ class Artwork(models.Model):
 
     def __str__(self):
         return self.product_name
+
+    def get_last_bid(self):
+        last_bid = self.bid_set.order_by('-bid_amt').first()
+        return last_bid.bid_amt if last_bid else self.opening_bid
+
+    def get_total_bids(self):
+        return self.bid_set.count()
 
 class OrderModel(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

@@ -14,6 +14,8 @@ urlpatterns = [
     path('order/', views.OrderListView.as_view(), name="order_list"),
     path('placebid/', views.BidCreateView.as_view(), name="place_bid"),
     path('artwork/<int:pk>/', views.ArtworkDetailView.as_view(), name='artwork_list'),
+    # path('artwork-detail-modal/<int:artwork_id>/', views.artwork_detail_modal, name='artwork_detail_modal'),
+
 ]
 
 if settings.DEBUG:

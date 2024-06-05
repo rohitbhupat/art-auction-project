@@ -249,8 +249,6 @@ def logout_view(request):
     logout(request)
     return redirect("art:index")
 
-class Get404View(TemplateView):
-    template_name = "404.html"
 
 class ArtworkDetailView(DetailView):
     model = Artwork
