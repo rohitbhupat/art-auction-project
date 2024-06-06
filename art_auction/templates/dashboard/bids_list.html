@@ -74,12 +74,12 @@
                                                             <th scope="row">Catalogue</th>
                                                             <td>{{ bid.product.product_cat }}</td>
                                                         </tr>
-                                                        {% if user|has_group:"SellerGroup" %}
+                                                        {% comment %} {% if user|has_group:"SellerGroup" %}
                                                         <tr>
                                                             <th scope="row">Order By</th>
                                                             <td>{{ bid.user }}</td>
                                                         </tr>
-                                                        {% endif %}
+                                                        {% endif %} {% endcomment %}
                                                         <tr>
                                                             <th scope="row">Opening Bid</th>
                                                             <td>₹ {{ bid.product.opening_bid }}</td>
@@ -88,10 +88,10 @@
                                                             <th scope="row">Last Bid</th>
                                                             <td>{{ bid.bid_amt }}</td>
                                                         </tr>
-                                                        <tr>
+                                                        {% comment %} <tr>
                                                             <th scope="row">Date</th>
                                                             <td>{{ bid.bid_date }}</td>
-                                                        </tr>
+                                                        </tr> {% endcomment %}
                                                     </tbody>
                                                 </table>
                                             </div>

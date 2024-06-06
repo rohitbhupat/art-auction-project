@@ -113,10 +113,10 @@
                                             <th scope="row">Catalogue</th>
                                             <td>{{ product.product_cat }}</td>
                                         </tr>
-                                        <tr>
+                                        {% comment %} <tr>
                                             <th scope="row">Order By</th>
                                             <td>{{ product.user }}</td>
-                                        </tr>
+                                        </tr> {% endcomment %}
                                         <tr>
                                             <th scope="row">Opening Bid</th>
                                             <td>₹ {{ product.opening_bid }}</td>
