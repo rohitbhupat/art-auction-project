@@ -107,7 +107,15 @@
                                         </tr>
                                         <tr>
                                             <th scope="row">Dimensions</th>
-                                            <td>{{ product.length_in_centimeters }} x {{ product.width_in_centimeters }} cm</td>
+                                            <td>
+                                                {% if product.length_in_centimeters and product.width_in_centimeters %}
+                                                    {{ product.length_in_centimeters }} x {{ product.width_in_centimeters }} cm
+                                                {% elif product.foot and product.inches %}
+                                                    {{ product.foot }} x {{ product.inches }} ft
+                                                {% else %}
+                                                    Not specified
+                                                {% endif %}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Catalogue</th>
@@ -124,7 +132,7 @@
                                         <tr>
                                             <th scope="row">Last Bid</th>
                                             {% if product.get_total_bids > 0 %}
-                                                <td>₹ {{ product.get_last_bid }}</td>
+                                            <td id="last-bid-{{ product.id }}">₹ {{ product.get_last_bid }}</td>
                                             {% else %}
                                                 <td>No bids yet</td>
                                             {% endif %}
@@ -132,7 +140,7 @@
                                         
                                         <tr>
                                             <th scope="row">Total Bids</th>
-                                            <td>{{ product.get_total_bids }}</td>
+                                            <td id="total-bids-{{ product.id }}">{{ product.get_total_bids }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -172,6 +180,22 @@
         document.body.scrollTop = 0; // For Safari
         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const productId = {{ product.id }};
+        const socket = new WebSocket(`ws://${window.location.host}/ws/bid/${productId}/`);
+
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            document.getElementById(`last-bid-${productId}`).innerText = `₹ ${data.bid}`;
+            document.getElementById(`total-bids-${productId}`).innerText = parseInt(document.getElementById(`total-bids-${productId}`).innerText) + 1;
+        };
+
+        document.getElementById('bid-button').addEventListener('click', () => {
+            const bid = document.getElementById('bid-input').value;
+            socket.send(JSON.stringify({'bid': bid}));
+        });
+    });
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -182,4 +206,3 @@
 {% block jscript %}
 (function(){scroller();}());
 {% endblock %}
-

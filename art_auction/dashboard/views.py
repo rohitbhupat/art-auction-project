@@ -1,24 +1,21 @@
-import datetime
 from django import forms
 from django.views import View
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect  # Add redirect import
 from django.contrib.auth.mixins import LoginRequiredMixin
 from dashboard.models import Artwork, OrderModel, Catalogue, Bid
-from django.views.generic import ListView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
-from django.urls import reverse
-from django.shortcuts import redirect
+from django.http import JsonResponse
 from django.contrib import messages
-from django.views.generic.detail import DetailView
+import logging
+
+# Set up logging
+logger = logging.getLogger(__name__)
 
 class Index(View):
     def get(self, request):
         return render(request, 'dashboard/dashboard.html')
 
-# def artwork_detail_modal(request, pk):
-#     artwork = Artwork.objects.get(pk=pk)
-#     return render(request, 'art/artwork_detail_modal.html', {'object': artwork})
 class ArtworkCreateView(LoginRequiredMixin, CreateView):
     model = Artwork
     fields = [
@@ -53,30 +50,55 @@ class ArtworkCreateView(LoginRequiredMixin, CreateView):
     def form_invalid(self, form):
         return super().form_invalid(form)
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
 class BidCreateView(LoginRequiredMixin, View):
     def post(self, request):
-        bid_amt = float(request.POST["bid_amt"])
-        product = request.POST["product"]
-        product_object = Artwork.objects.get(pk=product)
+        try:
+            bid_amt = float(request.POST["bid_amt"])
+            product_id = request.POST["product"]
+            product_object = get_object_or_404(Artwork, pk=product_id)
 
-        highest_bid = Bid.objects.filter(product=product_object).order_by("-bid_amt").first()
+            highest_bid = Bid.objects.filter(product=product_object).order_by("-bid_amt").first()
 
-        if highest_bid is None:
-            min_bid = product_object.opening_bid
-            if bid_amt < min_bid:
-                messages.error(request, "Your bid must be equal or greater than the opening bid amount.")
-                return redirect(f"/viewdetails/{product}/")
-        else:
-            min_bid = highest_bid.bid_amt
-            if bid_amt <= min_bid:
-                messages.error(request, "Your bid must be higher than the current highest bid.")
-                return redirect(f"/viewdetails/{product}/")
+            if highest_bid is None:
+                min_bid = product_object.opening_bid
+                if bid_amt < min_bid:
+                    response = {"success": False, "message": "Your bid must be equal or greater than the opening bid amount."}
+                    return JsonResponse(response)
+            else:
+                min_bid = highest_bid.bid_amt
+                if bid_amt <= min_bid:
+                    response = {"success": False, "message": "Your bid must be higher than the current highest bid."}
+                    return JsonResponse(response)
 
-        new_bid = Bid.objects.create(user=request.user, bid_amt=bid_amt, product=product_object)
-        messages.success(request, "Your bid has been placed")
+            new_bid = Bid.objects.create(user=request.user, bid_amt=bid_amt, product=product_object)
+            response = {"success": True, "message": "Your bid has been placed successfully."}
+            return JsonResponse(response)
 
-        return redirect(f"/viewdetails/{product}/")
+        except Exception as e:
+            logger.error(f'Error placing bid: {e}')
+            response = {"success": False, "message": f"An error occurred while placing your bid. Please try again later. Error: {e}"}
+            return JsonResponse(response)
 
+
+        
+def latest_bid(request, pk):
+    try:
+        artwork = get_object_or_404(Artwork, pk=pk)
+        last_bid = Bid.objects.filter(product=artwork).order_by('-bid_amt').first()
+        total_bids = Bid.objects.filter(product=artwork).count()
+        data = {
+            'last_bid': last_bid.bid_amt if last_bid else artwork.opening_bid,
+            'total_bids': total_bids
+        }
+        return JsonResponse(data)
+    except Exception as e:
+        logger.error(f'Error fetching latest bid: {e}')
+        return JsonResponse({'success': False, 'message': f"Error fetching latest bid. Error: {e}"})
 class ArtworkListView(LoginRequiredMixin, ListView):
     model = Artwork
 
@@ -87,7 +109,7 @@ class BidListView(LoginRequiredMixin, ListView):
     model = Bid
     template_name = 'dashboard/bids_list.html'
 
-class ArtworkUpdateView(UpdateView):
+class ArtworkUpdateView(LoginRequiredMixin, UpdateView):
     model = Artwork
     fields = [
         "product_name", "product_price", "product_image", 
@@ -102,7 +124,7 @@ class ArtworkUpdateView(UpdateView):
         form.fields['end_date'].widget = forms.DateInput(attrs={'type': 'date'})
         return form
 
-class ArtworkDeleteView(DeleteView):
+class ArtworkDeleteView(LoginRequiredMixin, DeleteView):
     model = Artwork
     success_url = reverse_lazy('dashboard:product_list')
 
@@ -116,9 +138,9 @@ class OrderListView(LoginRequiredMixin, ListView):
         else:
             return OrderModel.objects.filter(user=self.request.user)
 
-class ArtworkDetailView(DetailView):
+class ArtworkDetailView(LoginRequiredMixin, DetailView):
     model = Artwork
-    template_name = 'art/artwork_detail.html'  # Correct template name
+    template_name = 'art/artwork_detail.html'
     context_object_name = 'object'
 
     def get_context_data(self, **kwargs):
@@ -126,9 +148,8 @@ class ArtworkDetailView(DetailView):
         artwork = self.get_object()
         last_bid = Bid.objects.filter(product=artwork).order_by('-bid_amt').first()
         total_bids = Bid.objects.filter(product=artwork).count()
-        context['last_bid'] = last_bid
-        context['total_bid'] = total_bids
-        context['foot'] = artwork.foot  # Add this line
-        context['inches'] = artwork.inches  # Add this line
+        context['last_bid'] = last_bid.bid_amt if last_bid else artwork.opening_bid
+        context['total_bids'] = total_bids
+        context['foot'] = artwork.foot
+        context['inches'] = artwork.inches
         return context
-

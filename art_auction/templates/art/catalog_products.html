@@ -12,6 +12,12 @@
 {% block body %}
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    body {
+        background-image: url('static/images/background/8.jpg');
+        background-size: cover; /* Adjusts the background image size */
+        background-repeat: no-repeat; /* Prevents the background image from repeating */
+        background-attachment: fixed; /* Ensures the background image stays fixed as you scroll */
+    }
 </style>
 {% include "./includes/navbar.html" with cat_list=catalogue_list %}
 <br>

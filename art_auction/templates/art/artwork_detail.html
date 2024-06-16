@@ -1,14 +1,20 @@
-{% extends './layout.html' %} 
-{% load static %} 
-{% block title %}{{ object.product_name }} Details - 1.2.3 Sold{% endblock %} 
-{% block robot %}index, follow{% endblock %} 
+{% extends './layout.html' %}
+{% load static %}
+{% block title %}{{ object.product_name }} Details - 1.2.3 Sold{% endblock %}
+{% block robot %}index, follow{% endblock %}
 {% block css_file %}
 <link rel="stylesheet" href="{% static 'home/css/artwork_detail.css' %}" type="text/css">
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+    body {
+        background-image: url('static/images/background/8.jpg');
+        background-size: cover; /* Adjusts the background image size */
+        background-repeat: no-repeat; /* Prevents the background image from repeating */
+        background-attachment: fixed; /* Ensures the background image stays fixed as you scroll */
+    }
 </style>
-{% endblock %} 
-{% block body %} 
+{% endblock %}
+{% block body %}
 {% load i18n %}
 {% load static %}
 
@@ -22,7 +28,7 @@
         <div class="card-body poppins-regular-pro_details">
             <div class="row">
                 <div class="col-8">
-                    <img src="{{ MEDIA_URL }}{{ object.product_image }}" alt="img" width="100%" />
+                    <img src="{{ object.product_image.url }}" alt="img" width="100%" />
                 </div>
                 <div class="col-4">
                     <h5>{{ object.product_name }}</h5>
@@ -34,7 +40,7 @@
                                     {% if object.length_in_centimeters and object.width_in_centimeters %}
                                         {{ object.length_in_centimeters }} x {{ object.width_in_centimeters }} cm
                                     {% elif object.foot and object.inches %}
-                                        {{ object.foot|floatformat }}' {{ object.inches|floatformat }}"  <!-- Adjust this line -->
+                                        {{ object.foot|floatformat }}' {{ object.inches|floatformat }}"
                                     {% else %}
                                         Not specified
                                     {% endif %}
@@ -46,52 +52,110 @@
                             </tr>
                             <tr>
                                 <th>Opening Bid</th>
-                                <td>₹ {{ object.product_price }}</td>
+                                <td>₹ {{ object.opening_bid }}</td>
                             </tr>
                             <tr>
                                 <th>Last Bid</th>
-                                <td>₹ {{ last_bid.bid_amt }}</td>
+                                <td id="last-bid">₹ {{ last_bid.bid_amt }}</td>
                             </tr>
                             <tr>
                                 <th>Total Bids</th>
-                                <td>{{ total_bid }}</td>
+                                <td id="total-bids">{{ total_bids }}</td>
                             </tr>
                             <tr>
                                 <th>Ends on</th>
                                 <td>{{ object.end_date }}</td>
                             </tr>
-                            <!-- <tr>
-                                <th>Quantity</th>
-                                <td>{{ object.product_qty }}</td>
-                            </tr> -->
                         </tbody>
                     </table>
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% else %}{{ message.tags }}{% endif %}{% endif %}" role="alert">{{ message }}</div>
-                        {% endfor %}
-                    {% endif %}
+                    <div id="message-container">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div id="bid-message" class="mt-2"></div>
                     <div class="btn-group d-flex mx-auto mb-2 mt-2" role="group" aria-label="Basic outlined example">
-                        <form action="{% url 'dashboard:place_bid' %}" method="post">
+                        <form id="bid-form" action="{% url 'dashboard:place_bid' %}" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="product" value="{{ object.pk }}">
-                            <input type="number" name="bid_amt" value="{{ last_bid.bid_amt }}" min="{{ last_bid.bid_amt }}" class="form-control">
-                            <button type="submit" class="btn btn-success bid_now mt-2">Bid Now</button>
+                            <input type="number" id="bid-amount" name="bid_amt" value="{{ last_bid.bid_amt }}" min="{{ last_bid.bid_amt }}" class="form-control">
+                            <button onclick="sendBid(event)" class="btn btn-success bid_now mt-2">Bid Now</button>
                             <a href="{% url 'art:place_order' pk=object.id %}" type="button" class="btn btn-warning buy_now mt-2">Buy Now</a>
                         </form>
-                        {% if messages %}
-                            <form action="{% url 'art:place_order' object.pk %}" method="post">
-                                {% csrf_token %}
-                            </form>
-                        {% endif %}
-                        {% comment %} <a href="{% url 'art:place_order' pk=object.id %}" type="button" class="btn btn-success ">Bid Now</a> --> {% endcomment %}
                     </div>
                     <div class="d-grid gap-2">
-                        <a class="btn btn-primary" type="button" href="{% url 'art:view_3d' id=object.id %}">View in 3D</a>
+                        <a class="btn btn-primary" type="button" href="{% url 'art:view_3d' id=object.id %}">View in AR</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function fetchLatestBid() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '{% url 'dashboard:latest_bid' pk=object.pk %}', true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                document.getElementById('last-bid').innerHTML = `₹ ${data.last_bid}`;
+                document.getElementById('total-bids').innerHTML = data.total_bids;
+            }
+        };
+        xhr.send();
+    }
+
+    function sendBid(event) {
+        event.preventDefault(); // Prevent form submission
+        var bidAmount = document.getElementById('bid-amount').value;
+        var bidMessage = document.getElementById('bid-message');
+        if (bidAmount && !isNaN(bidAmount) && bidAmount >= {{ last_bid.bid_amt }}) {
+            var formData = new FormData(document.getElementById('bid-form'));
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '{% url 'dashboard:place_bid' %}', true);
+            xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    try {
+                        var data = JSON.parse(xhr.responseText);
+                        console.log(data); // Debug line to check the response data
+                        if (data.success) {
+                            fetchLatestBid();
+                            // Display success message
+                            bidMessage.innerHTML = '<div class="alert alert-success">' + data.message + '</div>';
+                        } else {
+                            // Display error message
+                            bidMessage.innerHTML = '<div class="alert alert-danger">' + data.message + '</div>';
+                        }
+                    } catch (e) {
+                        console.error('Error parsing response:', e);
+                        bidMessage.innerHTML = '<div class="alert alert-danger">Unexpected error occurred. Please try again.</div>';
+                    }
+                }
+            };
+            xhr.onerror = function() {
+                console.error('Request failed'); // Debug line to check for request error
+                bidMessage.innerHTML = '<div class="alert alert-danger">Request failed. Please check your network and try again.</div>';
+            };
+            xhr.send(formData);
+        } else {
+            bidMessage.innerHTML = '<div class="alert alert-danger">Please enter a valid bid amount equal to or greater than the current bid.</div>';
+        }
+    }
+
+    // Fetch latest bid on page load
+    fetchLatestBid();
+
+    // Fetch latest bid every 5 seconds (adjust interval as needed)
+    setInterval(fetchLatestBid, 5000);
+</script>
+
+
+
 {% endblock %}
