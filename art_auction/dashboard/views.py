@@ -76,6 +76,28 @@ class BidCreateView(LoginRequiredMixin, View):
                     return JsonResponse(response)
 
             new_bid = Bid.objects.create(user=request.user, bid_amt=bid_amt, product=product_object)
+            
+            # Notify via WebSocket
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                f"artwork_{product_object.id}",
+                {
+                    "type": "new_bid",
+                    "bid": {
+                        "bid_amt": bid_amt,
+                        "user": request.user.username,
+                    }
+                }
+            )
+
+            async_to_sync(channel_layer.group_send)(
+                "notifications",
+                {
+                    "type": "send_notification",
+                    "notification": f"New bid placed on {product_object.product_name} by {request.user.username}"
+                }
+            )
+
             response = {"success": True, "message": "Your bid has been placed successfully."}
             return JsonResponse(response)
 
@@ -84,8 +106,6 @@ class BidCreateView(LoginRequiredMixin, View):
             response = {"success": False, "message": f"An error occurred while placing your bid. Please try again later. Error: {e}"}
             return JsonResponse(response)
 
-
-        
 def latest_bid(request, pk):
     try:
         artwork = get_object_or_404(Artwork, pk=pk)

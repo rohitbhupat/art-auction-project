@@ -24,13 +24,13 @@
   /* Dark mode styles */
 .dark-mode h1,
 .dark-mode h4 {
-    color: white !important;
+    color: white ;
 }
 
 /* Light mode styles */
 .light-mode h1,
 .light-mode h4 {
-    color: black !important;
+    color: black ;
 }
 /* Reset margins and paddings for consistent spacing */
 body,
@@ -51,7 +51,7 @@ h4 {
 .container-fluid h1 {
     margin-top: 10px;
     /* Adjust spacing from the top */
-    color: brown;
+    /* color: brown; */
     /* Change the color if needed */
 }
 
@@ -69,9 +69,9 @@ h4 {
     /* Adjust line height for better readability */
 }
 
-.heading-4 {
+/* .heading-4 {
     color: brown;
-}
+} */
 
 /* Ensure images fill their container */
 .art_desc img {

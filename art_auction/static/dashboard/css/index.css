@@ -24,6 +24,14 @@
     flex: 0 0 auto !important;
     width: 24.66666667% !important;
 }
+  /* Dark mode styles */
+  .dark-mode .artwork-name {
+      color: white !important;
+  }
+  /* Light mode styles */
+  .light-mode .artwork-name {
+      color: black !important;
+  }
 .row {
     justify-content: start;
     --bs-gutter-y: 1.5rem !important;
