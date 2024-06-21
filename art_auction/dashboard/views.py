@@ -67,13 +67,11 @@ class BidCreateView(LoginRequiredMixin, View):
             if highest_bid is None:
                 min_bid = product_object.opening_bid
                 if bid_amt < min_bid:
-                    response = {"success": False, "message": "Your bid must be equal or greater than the opening bid amount."}
-                    return JsonResponse(response)
+                    return JsonResponse({"success": False, "message": "Your bid must be equal or greater than the opening bid amount."})
             else:
                 min_bid = highest_bid.bid_amt
                 if bid_amt <= min_bid:
-                    response = {"success": False, "message": "Your bid must be higher than the current highest bid."}
-                    return JsonResponse(response)
+                    return JsonResponse({"success": False, "message": "Your bid must be higher than the current highest bid."})
 
             new_bid = Bid.objects.create(user=request.user, bid_amt=bid_amt, product=product_object)
             
@@ -98,13 +96,11 @@ class BidCreateView(LoginRequiredMixin, View):
                 }
             )
 
-            response = {"success": True, "message": "Your bid has been placed successfully."}
-            return JsonResponse(response)
+            return JsonResponse({"success": True, "message": "Your bid has been placed successfully."})
 
         except Exception as e:
             logger.error(f'Error placing bid: {e}')
-            response = {"success": False, "message": f"An error occurred while placing your bid. Please try again later. Error: {e}"}
-            return JsonResponse(response)
+            return JsonResponse({"success": False, "message": f"An error occurred while placing your bid. Please try again later. Error: {e}"})
 
 def latest_bid(request, pk):
     try:

@@ -2,7 +2,6 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
-from .constants import PaymentStatus
 
 class Catalogue(models.Model):
     cat_name = models.CharField(max_length=255)
@@ -61,12 +60,12 @@ class Bid(models.Model):
     bid_amt = models.IntegerField(default=1)
 
     def __str__(self):
-        return f'order of {self.product} on {self.bid_date}'
+        return f'bid of {self.product} on {self.bid_date}'
 
 class Payment(models.Model):
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
-    status = models.CharField(_("Payment Status"), default=PaymentStatus.PENDING, max_length=254, blank=False, null=False)
+    status = models.CharField(_("Payment Status"), max_length=254, default='Pending', blank=False, null=False)
     provider_order_id = models.CharField(_("Order ID"), max_length=40, null=False, blank=False)
     payment_id = models.CharField(_("Payment ID"), max_length=36, null=False, blank=False)
     signature_id = models.CharField(_("Signature ID"), max_length=128, null=False, blank=False)

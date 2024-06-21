@@ -327,37 +327,34 @@ def callback(request):
     if "razorpay_signature" in request.POST:
         logger.debug(f"Received POST data: {request.POST}")  # Log the POST data
 
-        payment_id = request.POST.get("razorpay_payment_id", "")
-        provider_order_id = request.POST.get("razorpay_order_id", "")
-        signature_id = request.POST.get("razorpay_signature", "")
-        order = Payment.objects.get(provider_order_id=provider_order_id)
-        order.payment_id = payment_id
-        order.signature_id = signature_id
-        order.payment_method = request.POST.get("method")  # Capture payment method
-        order.save()
-
-        logger.debug(f"Payment Method: {order.payment_method}")  # Log the payment method
-
-        if not verify_signature(request.POST):
-            order.status = PaymentStatus.SUCCESS
+        try:
+            payment_id = request.POST.get("razorpay_payment_id", "")
+            provider_order_id = request.POST.get("razorpay_order_id", "")
+            signature_id = request.POST.get("razorpay_signature", "")
+            order = Payment.objects.get(provider_order_id=provider_order_id)
+            order.payment_id = payment_id
+            order.signature_id = signature_id
+            order.payment_method = request.POST.get("method")  # Capture payment method
             order.save()
-            return render(
-                request, "art/callback.html", context={"status": "Payment done"}
-            )
-        else:
-            order.status = PaymentStatus.FAILURE
+
+            logger.debug(f"Payment Method: {order.payment_method}")  # Log the payment method
+
+            if verify_signature(request.POST):
+                order.status = PaymentStatus.SUCCESS
+            else:
+                order.status = PaymentStatus.FAILURE
             order.save()
-            return render(
-                request,
-                "art/callback.html",
-                context={
-                    "status": "Payment failed",
-                    "order": order,
-                    "provider_order_id": provider_order_id,
-                },
-            )
+
+            return render(request, "art/callback.html", context={"status": "Payment done"})
+        except Payment.DoesNotExist:
+            logger.error(f"Payment with provider_order_id {provider_order_id} does not exist.")
+            return render(request, "art/callback.html", context={"status": "Payment failed", "error": "Invalid order ID"})
+        except Exception as e:
+            logger.error(f"An error occurred: {str(e)}")
+            return render(request, "art/callback.html", context={"status": "Payment failed", "error": str(e)})
     else:
         return render(request, "art/callback.html", context={"status": "Payment failed"})
+
 
 
 

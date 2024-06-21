@@ -43,7 +43,7 @@
     <div class="container-fluid">
       <a class="navbar-brand" href="#" data-toggle="modal" data-target="#logoModal">
         <img src="{% static 'logo.jpeg' %}" alt="" width="30" height="24" class="d-inline-block align-text-top" />
-        1.2.3 Sold
+        1,2,3...SOLD!!!
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -80,15 +80,15 @@
           {% if user.is_authenticated %}
           <div id="notification-icon" class="notification-icon ms-3">
             <button class="btn btn-transparent">
-                <i class="fas fa-bell"></i>
-                <span class="badge">0</span>
+              <i class="fas fa-bell"></i>
+              <span class="badge">0</span>
             </button>
-        </div>
-        <div id="notification-dropdown" class="dropdown-menu dropdown-menu-end p-0 mt-3" style="width: 300px; max-height: 400px; overflow-y: auto;">
+          </div>
+          <div id="notification-dropdown" class="dropdown-menu dropdown-menu-end p-0 mt-3" style="width: 300px; max-height: 400px; overflow-y: auto;">
             <div id="notification-list" class="list-group">
                 <!-- Notifications will be dynamically added here -->
             </div>
-        </div>        
+          </div>        
           <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
               Welcome, {{ user.username }}
@@ -100,12 +100,10 @@
               <li><a class="dropdown-item" href="{% url 'art:logout' %}">Logout</a></li>
             </ul>
           </div>
-          
           {% else %}
           <a href="{% url 'art:login' %}" type="button" class="btn btn-success me-2">Login</a>
           <a href="{% url 'art:register_user' %}" type="button" class="btn btn-primary">Register</a>
           {% endif %}
-          
           <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
             <li class="nav-item-mode dropdown-mode">
               <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle dropdown-toggle-mode d-flex align-items-center"
@@ -137,7 +135,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="logoModalLabel">1.2.3...SOLD</h5>
+          <h5 class="modal-title" id="logoModalLabel">1,2,3...SOLD!!!</h5>
           <button type="button" class="btn-close" data-dismiss="modal">
           </button>
         </div>
@@ -155,5 +153,77 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="{% static 'js/theme.js' %}"></script>
-  <script src="{% static 'js/notification.js' %}"></script>
+  <!-- navbar.html -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      initializeNotificationSocket();
+  });
+  
+  function initializeNotificationSocket() {
+      var notificationSocket = new WebSocket(`ws://${window.location.host}/ws/notifications/`);
+  
+      notificationSocket.onopen = function(e) {
+          console.log('Notification socket opened:', e);
+      };
+  
+      notificationSocket.onmessage = function(e) {
+          try {
+              var data = JSON.parse(e.data);
+              var notification = data.notification;
+              console.log('New notification:', notification);
+  
+              // Example: Add new notification to list
+              var notificationList = document.querySelector('#notification-list');
+              if (notificationList) {
+                  var newItem = document.createElement('div');
+                  newItem.classList.add('list-group-item');
+                  newItem.textContent = notification;
+                  notificationList.appendChild(newItem);
+              } else {
+                  console.error('Notification list element not found');
+              }
+  
+              showRealTimeNotification(notification);
+          } catch (error) {
+              console.error('Error parsing notification message:', error);
+          }
+      };
+  
+      notificationSocket.onclose = function(e) {
+          console.error('Notification socket closed unexpectedly', e);
+          setTimeout(initializeNotificationSocket, 5000); // Retry after 5 seconds
+      };
+  
+      notificationSocket.onerror = function(e) {
+          console.error('Notification socket encountered error', e);
+      };
+  }
+  
+  function showRealTimeNotification(notification) {
+      // Example: Show notification popup
+      var notificationContainer = document.createElement('div');
+      notificationContainer.classList.add('fixed', 'right-4', 'bottom-4', 'bg-white', 'shadow-lg', 'rounded-lg', 'p-4', 'max-w-xs', 'z-50');
+      notificationContainer.innerHTML = `<div class="flex justify-between items-start">
+          <div class="flex items-center">
+              <span class="bg-blue-500 text-white rounded-full h-8 w-8 flex items-center justify-center">
+                  <i class="fas fa-bell"></i>
+              </span>
+              <div class="ml-3">
+                  <p class="text-sm font-medium text-gray-900">New Notification</p>
+                  <p class="text-sm text-gray-500">${notification}</p>
+              </div>
+          </div>
+          <button class="ml-4 text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500" onclick="this.parentElement.parentElement.remove()">
+              <i class="fas fa-times"></i>
+          </button>
+      </div>`;
+  
+      document.body.appendChild(notificationContainer);
+  
+      setTimeout(() => {
+          notificationContainer.remove();
+      }, 5000);
+  }
+  </script>
+  
 </body>
