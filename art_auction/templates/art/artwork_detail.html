@@ -1,23 +1,20 @@
 {% extends './layout.html' %}
 {% load static %}
 {% block title %}{{ object.product_name }} Details - 1.2.3 Sold{% endblock %}
-{% block robot %}index, follow{% endblock %}
 {% block css_file %}
 <link rel="stylesheet" href="{% static 'home/css/artwork_detail.css' %}" type="text/css">
+<!-- Adjust paths as per your actual file structure -->
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
     body {
         background-image: url('static/images/background/8.jpg');
-        background-size: cover; /* Adjusts the background image size */
-        background-repeat: no-repeat; /* Prevents the background image from repeating */
-        background-attachment: fixed; /* Ensures the background image stays fixed as you scroll */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
     }
 </style>
 {% endblock %}
 {% block body %}
-{% load i18n %}
-{% load static %}
-
 {% include "./includes/navbar.html" %}
 <br>
 {% include "./arrow_button.html" %}
@@ -155,7 +152,5 @@
     // Fetch latest bid every 5 seconds (adjust interval as needed)
     setInterval(fetchLatestBid, 5000);
 </script>
-
-
 
 {% endblock %}

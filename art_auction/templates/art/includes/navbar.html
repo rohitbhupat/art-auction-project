@@ -1,9 +1,14 @@
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Page Title</title>
   <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/navbar.css' %}" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
   <style>
     body {
       background-image: url('{% static 'images/background/light_final.png' %}');
@@ -32,6 +37,7 @@
       background-color: red;
       color: white;
       font-size: 12px;
+      display: none; /* Initially hide the badge */
     }
   </style>
 </head>
@@ -78,17 +84,17 @@
         </ul>
         <div class="d-flex align-items-center">
           {% if user.is_authenticated %}
-          <div id="notification-icon" class="notification-icon ms-3">
-            <button class="btn btn-transparent">
+          <div class="nav-item dropdown notification-icon">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownNotification" role="button" data-toggle="dropdown" aria-expanded="false">
               <i class="fas fa-bell"></i>
-              <span class="badge">0</span>
-            </button>
-          </div>
-          <div id="notification-dropdown" class="dropdown-menu dropdown-menu-end p-0 mt-3" style="width: 300px; max-height: 400px; overflow-y: auto;">
-            <div id="notification-list" class="list-group">
+              <span class="badge">0</span> <!-- Initial value, will be updated dynamically -->
+            </a>
+            <div id="notification-dropdown" class="dropdown-menu dropdown-menu-end p-0 mt-3" style="width: 300px; max-height: 400px; overflow-y: auto; display: none;">
+              <div id="notification-list" class="list-group">
                 <!-- Notifications will be dynamically added here -->
+              </div>
             </div>
-          </div>        
+          </div>
           <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
               Welcome, {{ user.username }}
@@ -106,13 +112,7 @@
           {% endif %}
           <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
             <li class="nav-item-mode dropdown-mode">
-              <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle dropdown-toggle-mode d-flex align-items-center"
-                      id="bd-theme"
-                      type="button"
-                      aria-expanded="false"
-                      data-bs-toggle="dropdown"
-                      data-bs-display="static"
-                      aria-label="Toggle theme">
+              <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle dropdown-toggle-mode d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme">
                 <i class="fas fa-adjust"></i>
                 <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
               </button>
@@ -125,7 +125,7 @@
                 </li>
               </ul>
             </li>
-          </ul>  
+          </ul>
         </div>
       </div>
     </div>
@@ -136,8 +136,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="logoModalLabel">1,2,3...SOLD!!!</h5>
-          <button type="button" class="btn-close" data-dismiss="modal">
-          </button>
+          <button type="button" class="btn-close" data-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <img src="{% static 'logo.jpeg' %}" class="img-fluid" alt="logo">
@@ -149,81 +148,57 @@
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="{% static 'js/theme.js' %}"></script>
-  <!-- navbar.html -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-      initializeNotificationSocket();
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeNotificationPolling();
   });
   
-  function initializeNotificationSocket() {
-      var notificationSocket = new WebSocket(`ws://${window.location.host}/ws/notifications/`);
+  function initializeNotificationPolling() {
+      var pollingInterval = 5000; // Polling interval in milliseconds (e.g., every 5 seconds)
   
-      notificationSocket.onopen = function(e) {
-          console.log('Notification socket opened:', e);
-      };
+      function fetchNotifications() {
+          $.ajax({
+              url: "{% url 'dashboard:fetch_notifications' %}", // Replace with your Django view URL to fetch notifications
+              method: "GET",
+              success: function(data) {
+                  var notifications = data.notifications;
   
-      notificationSocket.onmessage = function(e) {
-          try {
-              var data = JSON.parse(e.data);
-              var notification = data.notification;
-              console.log('New notification:', notification);
+                  // Update notification badge count
+                  var notificationBadge = document.querySelector('.notification-icon .badge');
+                  if (notificationBadge) {
+                      notificationBadge.textContent = notifications.length.toString();
+                      notificationBadge.style.display = notifications.length > 0 ? 'inline-block' : 'none';
+                  }
   
-              // Example: Add new notification to list
-              var notificationList = document.querySelector('#notification-list');
-              if (notificationList) {
-                  var newItem = document.createElement('div');
-                  newItem.classList.add('list-group-item');
-                  newItem.textContent = notification;
-                  notificationList.appendChild(newItem);
-              } else {
-                  console.error('Notification list element not found');
+                  // Update notification list
+                  var notificationList = document.querySelector('#notification-list');
+                  if (notificationList) {
+                      notificationList.innerHTML = ''; // Clear previous notifications
+                      notifications.forEach(function(notification) {
+                          var newItem = document.createElement('div');
+                          newItem.classList.add('list-group-item');
+                          newItem.textContent = notification.message;
+                          notificationList.appendChild(newItem);
+                      });
+                  } else {
+                      console.error('Notification list element not found');
+                  }
+              },
+              error: function(xhr, status, error) {
+                  console.error('Error fetching notifications:', error);
               }
+          });
+      }
   
-              showRealTimeNotification(notification);
-          } catch (error) {
-              console.error('Error parsing notification message:', error);
-          }
-      };
-  
-      notificationSocket.onclose = function(e) {
-          console.error('Notification socket closed unexpectedly', e);
-          setTimeout(initializeNotificationSocket, 5000); // Retry after 5 seconds
-      };
-  
-      notificationSocket.onerror = function(e) {
-          console.error('Notification socket encountered error', e);
-      };
+      // Initial fetch and then start polling
+      fetchNotifications();
+      setInterval(fetchNotifications, pollingInterval);
   }
   
-  function showRealTimeNotification(notification) {
-      // Example: Show notification popup
-      var notificationContainer = document.createElement('div');
-      notificationContainer.classList.add('fixed', 'right-4', 'bottom-4', 'bg-white', 'shadow-lg', 'rounded-lg', 'p-4', 'max-w-xs', 'z-50');
-      notificationContainer.innerHTML = `<div class="flex justify-between items-start">
-          <div class="flex items-center">
-              <span class="bg-blue-500 text-white rounded-full h-8 w-8 flex items-center justify-center">
-                  <i class="fas fa-bell"></i>
-              </span>
-              <div class="ml-3">
-                  <p class="text-sm font-medium text-gray-900">New Notification</p>
-                  <p class="text-sm text-gray-500">${notification}</p>
-              </div>
-          </div>
-          <button class="ml-4 text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500" onclick="this.parentElement.parentElement.remove()">
-              <i class="fas fa-times"></i>
-          </button>
-      </div>`;
-  
-      document.body.appendChild(notificationContainer);
-  
-      setTimeout(() => {
-          notificationContainer.remove();
-      }, 5000);
-  }
   </script>
-  
 </body>
+</html>

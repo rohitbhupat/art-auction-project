@@ -15,6 +15,7 @@ urlpatterns = [
     path('placebid/', views.BidCreateView.as_view(), name="place_bid"),
     path('artwork/<int:pk>/', views.ArtworkDetailView.as_view(), name='artwork_list'),
     path('latest_bid/<int:pk>/', views.latest_bid, name='latest_bid'),  # Updated to use views.latest_bid
+    path('fetch_notifications/', views.fetch_notifications, name='fetch_notifications'),  # New URL for fetching notifications
 ]
 
 if settings.DEBUG:

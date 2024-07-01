@@ -141,10 +141,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    '/var/www/static/',
+    os.path.join(BASE_DIR, 'static'),
 ]
+
 
 RAZORPAY_KEY_ID = 'rzp_test_h1EJ17bmxefVrN'
 RAZORPAY_KEY_SECRET = 'LJCnV2hsBL3kc1fUYDz6MhSB'

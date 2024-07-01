@@ -1,13 +1,18 @@
 from django import forms
 from django.views import View
-from django.shortcuts import render, get_object_or_404, redirect  # Add redirect import
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from dashboard.models import Artwork, OrderModel, Catalogue, Bid
+from dashboard.models import Artwork, OrderModel, Catalogue, Bid, Notification  # Include Notification model
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 from django.contrib import messages
 import logging
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -50,12 +55,8 @@ class ArtworkCreateView(LoginRequiredMixin, CreateView):
     def form_invalid(self, form):
         return super().form_invalid(form)
 
-from asgiref.sync import async_to_sync
-from channels.layers import get_channel_layer
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-
 class BidCreateView(LoginRequiredMixin, View):
+    @method_decorator(csrf_exempt)
     def post(self, request):
         try:
             bid_amt = float(request.POST["bid_amt"])
@@ -115,6 +116,7 @@ def latest_bid(request, pk):
     except Exception as e:
         logger.error(f'Error fetching latest bid: {e}')
         return JsonResponse({'success': False, 'message': f"Error fetching latest bid. Error: {e}"})
+
 class ArtworkListView(LoginRequiredMixin, ListView):
     model = Artwork
 
@@ -169,3 +171,9 @@ class ArtworkDetailView(LoginRequiredMixin, DetailView):
         context['foot'] = artwork.foot
         context['inches'] = artwork.inches
         return context
+
+@login_required
+def fetch_notifications(request):
+    notifications = Notification.objects.filter(user=request.user, is_read=False)
+    notifications_data = [{'message': notification.message} for notification in notifications]
+    return JsonResponse({'notifications': notifications_data})
