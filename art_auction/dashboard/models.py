@@ -77,11 +77,11 @@ class Payment(models.Model):
         return f"Payment {self.provider_order_id}"
 
 class Notification(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    is_read = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    read = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.user} - {self.message[:20]}..."
+        return self.message
 

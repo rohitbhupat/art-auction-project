@@ -86,15 +86,15 @@
           {% if user.is_authenticated %}
           <div class="nav-item dropdown notification-icon">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownNotification" role="button" data-toggle="dropdown" aria-expanded="false">
-              <i class="fas fa-bell"></i>
-              <span class="badge">0</span> <!-- Initial value, will be updated dynamically -->
+                <i class="fas fa-bell"></i>
+                <span id="notification-count" class="badge">0</span> <!-- Initial value, will be updated dynamically -->
             </a>
-            <div id="notification-dropdown" class="dropdown-menu dropdown-menu-end p-0 mt-3" style="width: 300px; max-height: 400px; overflow-y: auto; display: none;">
-              <div id="notification-list" class="list-group">
-                <!-- Notifications will be dynamically added here -->
-              </div>
+            <div id="notification-dropdown" class="dropdown-menu dropdown-menu-end p-0 mt-3" style="width: 300px; max-height: 400px; overflow-y: auto;">
+                <div id="notification-container" class="list-group">
+                    <!-- Notifications will be dynamically added here -->
+                </div>
             </div>
-          </div>
+        </div>        
           <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
               Welcome, {{ user.username }}
@@ -153,52 +153,46 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="{% static 'js/theme.js' %}"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      initializeNotificationPolling();
-  });
-  
-  function initializeNotificationPolling() {
-      var pollingInterval = 5000; // Polling interval in milliseconds (e.g., every 5 seconds)
-  
-      function fetchNotifications() {
-          $.ajax({
-              url: "{% url 'dashboard:fetch_notifications' %}", // Replace with your Django view URL to fetch notifications
-              method: "GET",
-              success: function(data) {
-                  var notifications = data.notifications;
-  
-                  // Update notification badge count
-                  var notificationBadge = document.querySelector('.notification-icon .badge');
-                  if (notificationBadge) {
-                      notificationBadge.textContent = notifications.length.toString();
-                      notificationBadge.style.display = notifications.length > 0 ? 'inline-block' : 'none';
-                  }
-  
-                  // Update notification list
-                  var notificationList = document.querySelector('#notification-list');
-                  if (notificationList) {
-                      notificationList.innerHTML = ''; // Clear previous notifications
-                      notifications.forEach(function(notification) {
-                          var newItem = document.createElement('div');
-                          newItem.classList.add('list-group-item');
-                          newItem.textContent = notification.message;
-                          notificationList.appendChild(newItem);
-                      });
-                  } else {
-                      console.error('Notification list element not found');
-                  }
-              },
-              error: function(xhr, status, error) {
-                  console.error('Error fetching notifications:', error);
-              }
-          });
-      }
-  
-      // Initial fetch and then start polling
-      fetchNotifications();
-      setInterval(fetchNotifications, pollingInterval);
-  }
-  
-  </script>
+    function fetchNotifications() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '{% url 'dashboard:fetch_notifications' %}', true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                var notificationContainer = document.getElementById('notification-container');
+                var notificationCount = document.getElementById('notification-count');
+                if (notificationContainer && notificationCount) {
+                    notificationContainer.innerHTML = '';
+                    data.notifications.forEach(function (notification) {
+                        var notificationItem = document.createElement('div');
+                        notificationItem.className = 'dropdown-item';
+                        notificationItem.innerHTML = notification.message;
+                        notificationItem.onclick = function() {
+                            window.location.href = '/viewdetails/<int:pk>/' ; // Adjust URL path as needed
+                        };
+                        notificationContainer.appendChild(notificationItem);
+                    });
+                    notificationCount.textContent = data.notifications.length;
+                    notificationCount.style.display = data.notifications.length > 0 ? 'inline-block' : 'none';
+                } else {
+                    console.error('Notification container or count element not found');
+                }
+            } else {
+                console.error('Error fetching notifications:', xhr.status, xhr.statusText);
+                console.log(xhr.responseText);  // Log the response text for more details
+            }
+        };
+        xhr.onerror = function () {
+            console.error('Request failed');
+        };
+        xhr.send();
+    }
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        fetchNotifications();
+        // Fetch notifications every 10 seconds
+        setInterval(fetchNotifications, 10000);
+    });
+    </script>  
 </body>
 </html>

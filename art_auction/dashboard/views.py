@@ -75,26 +75,11 @@ class BidCreateView(LoginRequiredMixin, View):
                     return JsonResponse({"success": False, "message": "Your bid must be higher than the current highest bid."})
 
             new_bid = Bid.objects.create(user=request.user, bid_amt=bid_amt, product=product_object)
-            
-            # Notify via WebSocket
-            channel_layer = get_channel_layer()
-            async_to_sync(channel_layer.group_send)(
-                f"artwork_{product_object.id}",
-                {
-                    "type": "new_bid",
-                    "bid": {
-                        "bid_amt": bid_amt,
-                        "user": request.user.username,
-                    }
-                }
-            )
 
-            async_to_sync(channel_layer.group_send)(
-                "notifications",
-                {
-                    "type": "send_notification",
-                    "notification": f"New bid placed on {product_object.product_name} by {request.user.username}"
-                }
+            # Create a new notification for the product owner
+            Notification.objects.create(
+                user=product_object.user,
+                message=f"New bid placed on your product: {product_object.product_name}"
             )
 
             return JsonResponse({"success": True, "message": "Your bid has been placed successfully."})
@@ -174,6 +159,18 @@ class ArtworkDetailView(LoginRequiredMixin, DetailView):
 
 @login_required
 def fetch_notifications(request):
-    notifications = Notification.objects.filter(user=request.user, is_read=False)
-    notifications_data = [{'message': notification.message} for notification in notifications]
-    return JsonResponse({'notifications': notifications_data})
+    try:
+        notifications = Notification.objects.filter(user=request.user, read=False)
+        notifications_data = [{
+            'id': n.id,
+            'message': n.message,
+            'timestamp': n.timestamp.strftime('%Y-%m-%d %H:%M:%S')
+        } for n in notifications]
+
+        # Mark notifications as read
+        notifications.update(read=True)
+
+        return JsonResponse({'notifications': notifications_data})
+    except Exception as e:
+        logger.error(f"Error fetching notifications: {e}")
+        return JsonResponse({'error': str(e)}, status=500)
