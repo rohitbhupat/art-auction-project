@@ -78,10 +78,9 @@ class Payment(models.Model):
 
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Artwork, on_delete=models.CASCADE, null=True, blank=True)  # Adjust as necessary
     message = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.message
+    read_at = models.DateTimeField(null=True, blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 

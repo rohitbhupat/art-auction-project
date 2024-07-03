@@ -13,6 +13,7 @@ from channels.layers import get_channel_layer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -76,17 +77,28 @@ class BidCreateView(LoginRequiredMixin, View):
 
             new_bid = Bid.objects.create(user=request.user, bid_amt=bid_amt, product=product_object)
 
-            # Create a new notification for the product owner
+            # Notify the product owner
             Notification.objects.create(
                 user=product_object.user,
+                product=product_object,
                 message=f"New bid placed on your product: {product_object.product_name}"
             )
+
+            # Notify all previous bidders except the current one
+            previous_bidders = Bid.objects.filter(product=product_object).exclude(user=request.user).values_list('user', flat=True).distinct()
+            for bidder in previous_bidders:
+                Notification.objects.create(
+                    user_id=bidder,
+                    product=product_object,
+                    message=f"A new bid has been placed on {product_object.product_name}"
+                )
 
             return JsonResponse({"success": True, "message": "Your bid has been placed successfully."})
 
         except Exception as e:
             logger.error(f'Error placing bid: {e}')
             return JsonResponse({"success": False, "message": f"An error occurred while placing your bid. Please try again later. Error: {e}"})
+
 
 def latest_bid(request, pk):
     try:
@@ -164,13 +176,27 @@ def fetch_notifications(request):
         notifications_data = [{
             'id': n.id,
             'message': n.message,
-            'timestamp': n.timestamp.strftime('%Y-%m-%d %H:%M:%S')
+            'timestamp': n.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
+            'product_id': n.product.id if n.product else None  # Include product ID
         } for n in notifications]
 
         # Mark notifications as read
-        notifications.update(read=True)
+        notifications.update(read=True, read_at=timezone.now())
 
         return JsonResponse({'notifications': notifications_data})
     except Exception as e:
         logger.error(f"Error fetching notifications: {e}")
         return JsonResponse({'error': str(e)}, status=500)
+    
+@csrf_exempt
+def mark_notification_as_read(request, notification_id):
+    if request.method == 'POST':
+        try:
+            notification = get_object_or_404(Notification, id=notification_id, user=request.user)
+            notification.read = True
+            notification.read_at = timezone.now()
+            notification.save()
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    return JsonResponse({'success': False, 'error': 'Invalid request method'}, status=400)

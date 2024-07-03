@@ -154,45 +154,66 @@
   <script src="{% static 'js/theme.js' %}"></script>
   <script>
     function fetchNotifications() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '{% url 'dashboard:fetch_notifications' %}', true);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                var data = JSON.parse(xhr.responseText);
-                var notificationContainer = document.getElementById('notification-container');
-                var notificationCount = document.getElementById('notification-count');
-                if (notificationContainer && notificationCount) {
-                    notificationContainer.innerHTML = '';
-                    data.notifications.forEach(function (notification) {
-                        var notificationItem = document.createElement('div');
-                        notificationItem.className = 'dropdown-item';
-                        notificationItem.innerHTML = notification.message;
-                        notificationItem.onclick = function() {
-                            window.location.href = '/viewdetails/<int:pk>/' ; // Adjust URL path as needed
-                        };
-                        notificationContainer.appendChild(notificationItem);
-                    });
-                    notificationCount.textContent = data.notifications.length;
-                    notificationCount.style.display = data.notifications.length > 0 ? 'inline-block' : 'none';
-                } else {
-                    console.error('Notification container or count element not found');
-                }
-            } else {
-                console.error('Error fetching notifications:', xhr.status, xhr.statusText);
-                console.log(xhr.responseText);  // Log the response text for more details
-            }
-        };
-        xhr.onerror = function () {
-            console.error('Request failed');
-        };
-        xhr.send();
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '{% url 'dashboard:fetch_notifications' %}', true);
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          var data = JSON.parse(xhr.responseText);
+          var notificationContainer = document.getElementById('notification-container');
+          var notificationCount = document.getElementById('notification-count');
+          if (notificationContainer && notificationCount) {
+            notificationContainer.innerHTML = '';
+            data.notifications.forEach(function (notification) {
+              var notificationItem = document.createElement('div');
+              notificationItem.className = 'dropdown-item';
+              notificationItem.innerHTML = notification.message;
+              notificationItem.onclick = function() {
+                markNotificationAsRead(notification.id);
+                window.location.href = '/viewdetails/' + notification.product_id; // Adjust URL path as needed
+              };
+              notificationContainer.appendChild(notificationItem);
+            });
+            notificationCount.textContent = data.notifications.length;
+            notificationCount.style.display = data.notifications.length > 0 ? 'inline-block' : 'none';
+          } else {
+            console.error('Notification container or count element not found');
+          }
+        } else {
+          console.error('Error fetching notifications:', xhr.status, xhr.statusText);
+          console.log(xhr.responseText);  // Log the response text for more details
+        }
+      };
+      xhr.onerror = function () {
+        console.error('Request failed');
+      };
+      xhr.send();
     }
-    
+  
+    function markNotificationAsRead(notificationId) {
+      var xhr = new XMLHttpRequest();
+      var markAsReadUrl = '{% url "dashboard:mark_notification_as_read" notification_id=0 %}'.replace('0', notificationId);
+      xhr.open('POST', markAsReadUrl, true);  // Open the request with POST method
+      xhr.setRequestHeader('Content-Type', 'application/json');  // Set content type to JSON
+      xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');  // Set CSRF token header
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          console.log('Notification marked as read successfully');
+          fetchNotifications();  // Refresh notifications after marking as read
+        } else {
+          console.error('Error marking notification as read:', xhr.status, xhr.statusText);
+        }
+      };
+      xhr.onerror = function () {
+        console.error('Request failed');
+      };
+      xhr.send();  // Send the request without body content (since we're using POST)
+    }
+  
     document.addEventListener('DOMContentLoaded', function () {
-        fetchNotifications();
-        // Fetch notifications every 10 seconds
-        setInterval(fetchNotifications, 10000);
+      fetchNotifications();
+      setInterval(fetchNotifications, 20000);  // Refresh notifications every 20 seconds
     });
-    </script>  
+</script>
+
 </body>
 </html>
