@@ -23,6 +23,7 @@ urlpatterns = [
    path('unsold/',views.UnsoldListView.as_view(),name="unsold_items"),
    path('cat/<int:id>/',views.CatListView.catalog_products,name="catalog_products"),
    path('profile-settings/', views.profile_settings, name='profile_settings'),
+   path('submit_query/', views.SubmitQueryView.as_view(), name='submit_query'),
    
 ]
 if settings.DEBUG:

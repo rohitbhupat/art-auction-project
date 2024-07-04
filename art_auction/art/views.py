@@ -25,7 +25,7 @@ from django.shortcuts import get_object_or_404
 from django.db import IntegrityError
 
 # Import the SellerInfo model
-from art.models import SellerInfo, UserInfo
+from art.models import Query, SellerInfo, UserInfo
 import logging
 
 logger = logging.getLogger(__name__)
@@ -370,7 +370,27 @@ class About(TemplateView):
 
 class Contact(TemplateView):
     template_name = "art/contact.html"
+class SubmitQueryView(View):
+    def post(self, request):
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        query_description = request.POST.get('query')
 
+        if first_name and last_name and email and query_description:
+            query = Query(
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                query=query_description
+            )
+            query.save()
+            messages.success(request, 'Your query has been submitted successfully.')
+            return redirect('contact')
+        else:
+            messages.error(request, 'Please fill out all fields.')
+            return redirect('contact')
+        
 class FAQs(TemplateView):
     template_name = "art/faq.html"
 

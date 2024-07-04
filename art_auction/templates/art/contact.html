@@ -3,6 +3,19 @@
 {% block title %}Contact Us - 1.2.3 Sold{% endblock %}
 {% block css_file %}
 <link rel="stylesheet" href="{% static 'home/css/contact.css' %}" type="text/css">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+   /* Default (light mode) */
+.form-label {
+    color: black;
+}
+
+/* Dark mode */
+.dark-mode .form-label {
+    color: black;
+}
+
+</style>
 {% endblock %}
 {% block body %}
 {% load i18n %}
@@ -12,10 +25,10 @@
 {% include "./arrow_button.html" %}
 <button onclick="goBack()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i></button>
 <button onclick="goForward()" class="btn btn-light"><i class="fa-solid fa-arrow-right"></i></button>
-<div class="container-fluid-contact d-flex flex-column align-items-center justify-content-center vh-100_contact">
+<div class="container-fluid-contact d-flex flex-column align-items-center poppins-regular-contact justify-content-center vh-100_contact">
     <h1 class="text-center contact-title open-sans-contact">Contact us</h1>
 
-    <div class="container text-center mt-4 poppins-regular-contact">
+    <div class="container text-center mt-4">
         <div class="row">
             <div class="col">
                 <a href="https://www.facebook.com/" class="contact_icon">
@@ -49,5 +62,53 @@
             </div>
         </div>
     </div>
+    <div class="text-center mt-4">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#queryModal">
+            Queries?? Fill the Form
+        </button>
+    </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade poppins-regular-contact" id="queryModal" tabindex="-1" aria-labelledby="queryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="queryModalLabel">Submit Your Query</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="queryForm" method="post" action="{% url 'art:submit_query' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="first_name" class="form-label">First Name</label>
+                        <input type="text" placeholder="Enter your first name" class="form-control" id="first_name" name="first_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="last_name" class="form-label">Last Name</label>
+                        <input type="text" placeholder="Enter your last name" class="form-control" id="last_name" name="last_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" placeholder="Enter your email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="query" class="form-label">Query</label>
+                        <textarea class="form-control" placeholder="Enter your query" id="query" name="query" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleMode() {
+        document.body.classList.toggle('dark-mode');
+    }
+    
+    // Example usage: Call this function when the theme mode is switched
+    document.getElementById('themeToggleButton').addEventListener('click', toggleMode);
+</script>
 {% endblock %}

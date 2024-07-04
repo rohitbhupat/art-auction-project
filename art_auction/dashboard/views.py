@@ -77,12 +77,16 @@ class BidCreateView(LoginRequiredMixin, View):
 
             new_bid = Bid.objects.create(user=request.user, bid_amt=bid_amt, product=product_object)
 
-            # Notify the product owner
-            Notification.objects.create(
-                user=product_object.user,
-                product=product_object,
-                message=f"New bid placed on your product: {product_object.product_name}"
-            )
+            # Check if the product owner has placed any bids before
+            owner_has_bid = Bid.objects.filter(product=product_object, user=product_object.user).exists()
+
+            # # Notify the product owner only if they have placed a bid before and the current user is not the owner
+            # if owner_has_bid and product_object.user != request.user:
+            #     Notification.objects.create(
+            #         user=product_object.user,
+            #         product=product_object,
+            #         message=f"New bid placed on your product: {product_object.product_name}"
+            #     )
 
             # Notify all previous bidders except the current one
             previous_bidders = Bid.objects.filter(product=product_object).exclude(user=request.user).values_list('user', flat=True).distinct()
@@ -98,6 +102,7 @@ class BidCreateView(LoginRequiredMixin, View):
         except Exception as e:
             logger.error(f'Error placing bid: {e}')
             return JsonResponse({"success": False, "message": f"An error occurred while placing your bid. Please try again later. Error: {e}"})
+
 
 
 def latest_bid(request, pk):
