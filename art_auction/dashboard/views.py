@@ -2,8 +2,8 @@ from django import forms
 from django.views import View
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from dashboard.models import Artwork, OrderModel, Catalogue, Bid, Notification  # Include Notification model
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from dashboard.models import Artwork, OrderModel, Catalogue, Bid, Notification, Query  # Include Notification model
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, FormView
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 from django.contrib import messages
@@ -121,13 +121,53 @@ def latest_bid(request, pk):
 
 class ArtworkListView(LoginRequiredMixin, ListView):
     model = Artwork
+    template_name = 'dashboard/artwork_list.html'
+    context_object_name = 'object_list'
 
     def get_queryset(self):
-        return Artwork.objects.filter(user=self.request.user)
+        filter_type = self.request.GET.get('filter', 'all')
 
+        if filter_type == 'new':
+            cutoff_date = timezone.now() - timezone.timedelta(days=3)
+            queryset = Artwork.objects.filter(user=self.request.user, created_at__gte=cutoff_date)
+        elif filter_type == 'old':
+            cutoff_date = timezone.now() - timezone.timedelta(days=3)
+            queryset = Artwork.objects.filter(user=self.request.user, created_at__lt=cutoff_date)
+        elif filter_type == 'sold':
+            queryset = Artwork.objects.filter(user=self.request.user, is_sold=True)
+        else:
+            queryset = Artwork.objects.filter(user=self.request.user)
+
+        print("Filter Type:", filter_type)
+        print("Queryset Count:", queryset.count())  # Debug: Check queryset count
+
+        return queryset
+    
+    # def sold_artworks(request):
+    #     sold_artworks = Artwork.objects.filter(is_sold=True)
+    #     context = {
+    #         'sold_artworks': sold_artworks
+    #     }
+    #     return render(request, 'artwork_list.html', context)
 class BidListView(LoginRequiredMixin, ListView):
     model = Bid
     template_name = 'dashboard/bids_list.html'
+    context_object_name = 'bids'
+    ordering = ['-bid_amt']  # Default ordering by highest bid
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        # Handle sorting based on URL parameter 'filter'
+        filter_param = self.request.GET.get('filter')
+        if filter_param == 'asc':
+            queryset = queryset.order_by('bid_amt')  # Ascending order by bid amount
+        elif filter_param == 'desc':
+            queryset = queryset.order_by('-bid_amt')  # Descending order by bid amount
+        else:
+            queryset = queryset.order_by('-bid_amt')  # Default to descending if no filter param
+
+        return queryset
 
 class ArtworkUpdateView(LoginRequiredMixin, UpdateView):
     model = Artwork
@@ -153,10 +193,22 @@ class OrderListView(LoginRequiredMixin, ListView):
     template_name = 'dashboard/ordermodel_list.html'
 
     def get_queryset(self):
+        queryset = OrderModel.objects.all()
+        
+        # Filter orders based on user group
         if self.request.user.groups.filter(name='SellerGroup').exists():
-            return OrderModel.objects.filter(product__user=self.request.user)
+            queryset = queryset.filter(product__user=self.request.user)
         else:
-            return OrderModel.objects.filter(user=self.request.user)
+            queryset = queryset.filter(user=self.request.user)
+        
+        # Handle sorting based on URL parameter 'filter'
+        filter_param = self.request.GET.get('filter')
+        if filter_param == 'asc':
+            queryset = queryset.order_by('order_date')
+        elif filter_param == 'desc':
+            queryset = queryset.order_by('-order_date')
+
+        return queryset
 
 class ArtworkDetailView(LoginRequiredMixin, DetailView):
     model = Artwork
@@ -205,3 +257,27 @@ def mark_notification_as_read(request, notification_id):
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)}, status=500)
     return JsonResponse({'success': False, 'error': 'Invalid request method'}, status=400)
+
+
+from django.urls import reverse_lazy
+class SubmitQueryView(FormView):
+    template_name = 'art/contact.html'
+    success_url = reverse_lazy('art:contact')
+
+    def post(self, request, *args, **kwargs):
+        full_name = request.POST.get('full_name')
+        email = request.POST.get('email')
+        query = request.POST.get('query')
+
+        if full_name and email and query:
+            query = Query(
+                full_name=full_name,
+                email=email,
+                query=query
+            )
+            query.save()
+            messages.success(request, 'Your query has been submitted successfully.')
+            return redirect('art:contact')
+        else:
+            messages.error(request, 'Please fill out all fields.')
+            return redirect('art:contact')

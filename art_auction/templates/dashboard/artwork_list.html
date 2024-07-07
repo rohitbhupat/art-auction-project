@@ -3,6 +3,22 @@
 {% load static %}
 {% block links %}
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+    .filter-dropdown {
+        position: absolute;
+        top: 70px;
+        right: 35px;
+    }
+
+    .filter-dropdown .dropdown-menu {
+        right: 0;
+        left: auto;
+    }
+</style>
 {% endblock %}
 {% block content %}
 {% include './includes/header.html' %}
@@ -18,6 +34,17 @@
         <button onclick="goForward()" class="btn btn-dark"><i class="fa-solid fa-arrow-right"></i></button>
         <div class="container-xl">
             <h1 class="app-page-title">Artwork List</h1>
+            <div class="filter-dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa-solid fa-filter"></i> Filter
+                </button>
+                <div class="dropdown-menu" aria-labelledby="filterDropdown">
+                    <a class="dropdown-item {% if active_filter == 'all' %}active{% endif %}" href="?filter=all">All Artworks</a>
+                    <a class="dropdown-item {% if active_filter == 'new' %}active{% endif %}" href="?filter=new">New Artworks</a>
+                    <a class="dropdown-item {% if active_filter == 'old' %}active{% endif %}" href="?filter=old">Old Artworks</a>
+                    <a class="dropdown-item {% if active_filter == 'sold' %}active{% endif %}" href="?filter=sold">Sold Artworks</a>
+                </div>
+            </div>
             <div class="row g-4 mb-4">
                 {% for product in object_list %}
                 <div class="artwork-card col-6 col-md-4 col-xxl-2">
@@ -161,26 +188,6 @@
 </div>
 <button onclick="topFunction()" id="back-to-top-btn" title="Go to top"><i class="fa-solid fa-angles-up"></i></button>
 <script>
-    // Get the button
-    var mybutton = document.getElementById("back-to-top-btn");
-
-    // When the user scrolls down 20px from the top of the document, show the button
-    window.onscroll = function() {scrollFunction()};
-
-    function scrollFunction() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            mybutton.style.display = "block";
-        } else {
-            mybutton.style.display = "none";
-        }
-    }
-
-    // When the user clicks on the button, scroll to the top of the document
-    function topFunction() {
-        document.body.scrollTop = 0; // For Safari
-        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
         const productId = {{ product.id }};
         const socket = new WebSocket(`ws://${window.location.host}/ws/bid/${productId}/`);
@@ -199,7 +206,7 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 {% endblock %}
 {% block js %}
 {% endblock %}

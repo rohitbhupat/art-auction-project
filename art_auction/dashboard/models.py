@@ -23,11 +23,16 @@ class Artwork(models.Model):
     width_in_centimeters = models.FloatField(default=0.0, blank=True, null=True)
     foot = models.FloatField(default=0, blank=True, null=True)
     inches = models.FloatField(default=0, blank=True, null=True)
+    created_at = models.DateField(default=timezone.now)  # Default to current time zone's now    
     end_date = models.DateField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     is_sold = models.BooleanField(default=False)
+    is_purchased = models.BooleanField(default=False)
+
 
     def save(self, *args, **kwargs):
+        if not self.id:  # Only set created_date on first save
+            self.created_at = timezone.now()
         super().save(*args, **kwargs)
 
     def clean(self):
@@ -42,6 +47,10 @@ class Artwork(models.Model):
 
     def get_total_bids(self):
         return self.bid_set.count()
+    
+    def mark_as_sold(self):
+        self.is_sold = True
+        self.save()
 
 class OrderModel(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -84,3 +93,11 @@ class Notification(models.Model):
     read_at = models.DateTimeField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+class Query(models.Model):
+    full_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    query = models.TextField()
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.full_name} - {self.email}"

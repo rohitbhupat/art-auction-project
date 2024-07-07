@@ -4,6 +4,22 @@
 {% block links %}
 <link rel="stylesheet" href="{% static 'dashboard/css/ordermodel_list.css' %}">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+    .filter-dropdown {
+        position: absolute;
+        top: 70px;
+        right: 35px;
+    }
+
+    .filter-dropdown .dropdown-menu {
+        right: 0;
+        left: auto;
+    }
+</style>
 {% endblock %}
 {% block content %}
 {% include './includes/header.html' %}
@@ -16,6 +32,15 @@
         
         <div class="container-xl">
             <h1 class="app-page-title">Bids List</h1>
+            <div class="filter-dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa-solid fa-filter"></i> Filter
+                </button>
+                <div class="dropdown-menu" aria-labelledby="filterDropdown">
+                    <a class="dropdown-item" href="?filter=asc">Lowest Bid</a>
+                    <a class="dropdown-item" href="?filter=desc">Highest Bid</a>
+                </div>
+            </div>
             <div class="row g-4 mb-4">
                 <table class="table">
                     <thead>
@@ -24,7 +49,7 @@
                             <th scope="col">Artworks</th>
                             <th scope="col">Date</th>
                             {% if user|has_group:"SellerGroup" %}
-                            <th scope="col">Order By</th>
+                            <th scope="col">Bid placed By</th>
                             {% endif %}
                             <th scope="col">Bid Amount ₹</th>
                         </tr>
@@ -117,7 +142,7 @@
 {% block js %}
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script>
 $(document).ready(function(){
     $('#productModal').on('show.bs.modal', function (event) {

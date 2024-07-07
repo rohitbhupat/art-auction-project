@@ -25,23 +25,55 @@ from django.shortcuts import get_object_or_404
 from django.db import IntegrityError
 
 # Import the SellerInfo model
-from art.models import Query, SellerInfo, UserInfo
+from art.models import SellerInfo, UserInfo
 import logging
 
 logger = logging.getLogger(__name__)
 
-
+from django.utils import timezone
+from datetime import date, timedelta
 class index(View):
     def get(self, request):
+        filter_param = request.GET.get('filter', '')
+        current_date = date.today()  # Use date.today() to get the current date without time
+
+        if filter_param == 'old':
+            # Define the threshold for old artworks (e.g., 1 days old)
+            old_threshold_date = current_date - timedelta(days=1)
+            product_object_list = Artwork.objects.filter(
+                created_at__lt=old_threshold_date,
+                end_date__gte=current_date,
+                product_qty__gt=0,
+                is_sold=False  # Ensure only unsold artworks are considered
+            )
+        elif filter_param == 'new':
+            # Define the threshold for new artworks (e.g., created in the last 1 days)
+            new_threshold_date = current_date - timedelta(days=1)
+            product_object_list = Artwork.objects.filter(
+                created_at__gte=new_threshold_date,
+                end_date__gte=current_date,
+                product_qty__gt=0,
+                is_sold=False  # Ensure only unsold artworks are considered
+            )
+        else:
+            # Default view shows artworks ending today or later
+            product_object_list = Artwork.objects.filter(
+                end_date__gte=current_date,
+                product_qty__gt=0,
+                is_sold=False  # Ensure only unsold artworks are considered
+            )
+
+        # Debugging: Print out the products to verify the filtering
+        for product in product_object_list:
+            print(f"Product ID: {product.product_id}, Created Date: {product.created_at}, End Date: {product.end_date}")
+
         return render(
             request,
             "art/index.html",
             {
-                "product_object_list": Artwork.objects.filter(
-                    end_date__gte=datetime.date.today(),
-                    product_qty__gt=0
-                ),
-                "catalogue_list": Catalogue.objects.all(),
+                "product_object_list": product_object_list,
+                "catalogue_list": Catalogue.objects.all(),  # Adjust as per your context
+                "current_date": current_date,
             },
         )
 
@@ -98,7 +130,15 @@ def profile_settings(request):
 class CatListView(View):
     def catalog_products(request, id):
         catalog = get_object_or_404(Catalogue, id=id)
-        products = Artwork.objects.filter(product_cat=catalog, product_qty__gt=0)
+        filter_option = request.GET.get('filter')
+        
+        if filter_option == 'asc':
+            products = Artwork.objects.filter(product_cat=catalog, product_qty__gt=0).order_by('end_date')
+        elif filter_option == 'desc':
+            products = Artwork.objects.filter(product_cat=catalog, product_qty__gt=0).order_by('-end_date')
+        else:
+            products = Artwork.objects.filter(product_cat=catalog, product_qty__gt=0)
+        
         return render(
             request,
             "art/catalog_products.html",
@@ -108,6 +148,7 @@ class CatListView(View):
                 "catalogue_list": Catalogue.objects.all()
             }
         )
+
 
 
 def register_user(request):
@@ -369,34 +410,23 @@ class About(TemplateView):
     template_name = "art/about.html"
 
 class Contact(TemplateView):
-    template_name = "art/contact.html"
-class SubmitQueryView(View):
-    def post(self, request):
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        email = request.POST.get('email')
-        query_description = request.POST.get('query')
-
-        if first_name and last_name and email and query_description:
-            query = Query(
-                first_name=first_name,
-                last_name=last_name,
-                email=email,
-                query=query_description
-            )
-            query.save()
-            messages.success(request, 'Your query has been submitted successfully.')
-            return redirect('contact')
-        else:
-            messages.error(request, 'Please fill out all fields.')
-            return redirect('contact')
-        
+    template_name = "art/contact.html"        
 class FAQs(TemplateView):
     template_name = "art/faq.html"
 
 class UnsoldListView(LoginRequiredMixin, ListView):
     model = Artwork
     template_name = "art/unsold.html"
+    context_object_name = 'object_list'
 
     def get_queryset(self):
-        return Artwork.objects.filter(end_date__lt=datetime.date.today(), product_qty__gt=0)
+        queryset = Artwork.objects.filter(end_date__lt=timezone.now(), product_qty__gt=0)
+
+        # Handle sorting based on URL parameter 'filter'
+        filter_param = self.request.GET.get('filter', None)
+        if filter_param == 'asc':
+            queryset = queryset.order_by('end_date')
+        elif filter_param == 'desc':
+            queryset = queryset.order_by('-end_date')
+
+        return queryset

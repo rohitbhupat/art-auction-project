@@ -17,6 +17,8 @@ urlpatterns = [
     path('latest_bid/<int:pk>/', views.latest_bid, name='latest_bid'),
     path('fetch_notifications/', views.fetch_notifications, name='fetch_notifications'),
     path('notifications/mark_as_read/<int:notification_id>/', views.mark_notification_as_read, name='mark_notification_as_read'),
+    path('submit_query/', views.SubmitQueryView.as_view(), name='submit_query'),
+    path('contact/', views.SubmitQueryView.as_view(), name='contact'),
 ]
 
 if settings.DEBUG:

@@ -22,6 +22,9 @@ class ArtworkAdmin(admin.ModelAdmin):
                 'inches',
                 'product_image',
                 'end_date',
+                'is_sold',
+                'is_purchased',
+                'created_at',
             )
         }),
     )

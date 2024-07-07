@@ -63,9 +63,10 @@
         </div>
     </div>
     <div class="text-center mt-4">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#queryModal">
-            Queries?? Fill the Form
-        </button>
+        Queries??
+        <a href="#" class="btn btn-link" style="color:red; text-underline:none;" data-bs-toggle="modal" data-bs-target="#queryModal">
+            Fill the Form
+        </a>
     </div>
 </div>
 
@@ -78,37 +79,31 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="queryForm" method="post" action="{% url 'art:submit_query' %}">
+                <form id="queryForm" method="post" action="{% url 'dashboard:submit_query' %}">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label for="first_name" class="form-label">First Name</label>
-                        <input type="text" placeholder="Enter your first name" class="form-control" id="first_name" name="first_name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="last_name" class="form-label">Last Name</label>
-                        <input type="text" placeholder="Enter your last name" class="form-control" id="last_name" name="last_name" required>
+                        <label for="full_name" class="form-label">Full Name</label>
+                        <input type="text" autocomplete=off placeholder="Enter your Full Name" class="form-control" id="full_name" name="full_name" required>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" placeholder="Enter your email" class="form-control" id="email" name="email" required>
+                        <input type="email" autocomplete=off placeholder="Enter your email" class="form-control" id="email" name="email" required>
                     </div>
                     <div class="mb-3">
                         <label for="query" class="form-label">Query</label>
-                        <textarea class="form-control" placeholder="Enter your query" id="query" name="query" rows="3" required></textarea>
+                        <textarea class="form-control" autocomplete=off placeholder="Enter your query" id="query" name="query" rows="3" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                </form>                
             </div>
         </div>
     </div>
 </div>
 
+
 <script>
     function toggleMode() {
         document.body.classList.toggle('dark-mode');
     }
-    
-    // Example usage: Call this function when the theme mode is switched
-    document.getElementById('themeToggleButton').addEventListener('click', toggleMode);
 </script>
 {% endblock %}
