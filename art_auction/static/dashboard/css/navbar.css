@@ -18,6 +18,7 @@
 /* Navbar */
 .navbar {
   color: #212529;
+  padding-top: 1rem !important;
 }
 
 .navbar .navbar-brand {

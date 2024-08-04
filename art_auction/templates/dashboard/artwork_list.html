@@ -105,7 +105,7 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="productModalLabel{{ product.id }}">{{ product.product_name }}</h5>
                                 {% if product.ordermodel_set.exists %} <!-- Check if there are any orders for the product -->
-                                    <img src="{% static 'images/sold.png' %}" class="small-image" alt="Sold Image">
+                                    <img src="{% static 'images/assets/sold.png' %}" class="small-image" alt="Sold Image">
                                 {% endif %}
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>

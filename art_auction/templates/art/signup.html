@@ -9,7 +9,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
 
     body {
-        background-image: url('{% static 'images/AUCTION_2.png' %}');
+        background-image: url('{% static 'images/assets/AUCTION_2.png' %}');
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -81,7 +81,7 @@
     <div class="line"></div>
     <h6 class="text-center text-mute">OR</h6>
     <div class="container border-0 text-center mt-3">
-        <a href="{% url 'art:login' %}?next={{request.path|urlencode}}" class="btn btn-link btn-warning">Already registered? Click here to login<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+        <a href="{% url 'art:login' %}?next={{request.path|urlencode}}" class="btn btn-link btn-warning_signup">Already registered? Click here to login<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
             <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
           </svg></a>

@@ -72,9 +72,9 @@
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="productModalLabel{{ order.product.id }}">{{ order.product }}</h5>
                                                 {% if user|has_group:"SellerGroup" %}
-                                                    <img src="{% static 'images/sold.png' %}" class="small-image" alt="Sold Image">
+                                                    <img src="{% static 'images/assets/sold.png' %}" class="small-image" alt="Sold Image">
                                                 {% else %}
-                                                    <img src="{% static 'images/purchased.jpg' %}" class="small-image" alt="Purchased Image">
+                                                    <img src="{% static 'images/assets/purchased.jpg' %}" class="small-image" alt="Purchased Image">
                                                 {% endif %}
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
