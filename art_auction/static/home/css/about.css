@@ -3,6 +3,7 @@
     font-family: "Poppins", sans-serif;
     font-weight: 425;
     font-style: normal;
+    font-size: larger;
 }
 
 /*for heading*/
@@ -15,8 +16,9 @@
 }
 .open-sans-heading {
     font-family: "Open Sans", sans-serif;
-    font-optical-sizing: auto;
+    /* font-optical-sizing: auto; */
     font-weight: 700;
+    font-size: xx-large;
     font-style: normal;
     font-variation-settings: 100;
   }
