@@ -22,6 +22,19 @@
     font-style: normal;
     font-variation-settings: 100;
   }
+/* Image hover effect */
+.art_desc img {
+    width: 100%;
+    height: auto;
+    opacity: 0.5;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.art_desc img:hover {
+    transform: scale(1.05); /* Slightly scale up the image */
+    opacity: 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a shadow effect */
+}
 
   /* Dark mode styles */
 .dark-mode h1,
