@@ -4,6 +4,19 @@
 {% block robot %}index, follow{% endblock %}
 {% block css_file %}
 <link rel="stylesheet" href="{% static 'dashboard/css/form.css' %}" type="text/css">
+<script>
+    (function() {
+    const theme = localStorage.getItem('theme') || 'auto';
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDarkMode = theme === 'dark' || (theme === 'auto' && prefersDarkScheme);
+    
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+    } else {
+        document.body.classList.add('light-mode');
+    }
+    })();
+</script>
 {% endblock %}
 {% block body %}
 {% load i18n %}
@@ -70,7 +83,7 @@
         </div>
     </div>
 </div>
-
+<script src="{% static 'js/theme.js' %}"></script>
 <script>
     function getTotal() {
         const price = document.getElementById('id_product_price').value;

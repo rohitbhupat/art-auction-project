@@ -6,7 +6,19 @@
 {% block css_file %}
 <link rel="stylesheet" href="{% static 'dashboard/css/unsold.css'%}" type="text/css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
+<script>
+    (function() {
+    const theme = localStorage.getItem('theme') || 'auto';
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDarkMode = theme === 'dark' || (theme === 'auto' && prefersDarkScheme);
+    
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+    } else {
+        document.body.classList.add('light-mode');
+    }
+    })();
+</script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
     
@@ -77,6 +89,7 @@
 <br>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/theme.js' %}"></script>
 <script>
     // Functions for back and forward navigation
     function goBack() {

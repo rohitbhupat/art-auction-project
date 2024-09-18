@@ -9,15 +9,28 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <script>
+    (function() {
+      const theme = localStorage.getItem('theme') || 'auto';
+      const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const isDarkMode = theme === 'dark' || (theme === 'auto' && prefersDarkScheme);
+      
+      if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.body.classList.add('light-mode');
+      }
+    })();
+  </script>
   <style>
     body {
-      background-image: url('{% static 'images/background/light_final.png' %}');
+      /*background-image: url('{% static 'images/background/light_final.png' %}');*/
       background-size: cover;
       background-repeat: no-repeat;
       background-attachment: fixed;
     }
     body.dark-mode {
-      background-image: url('{% static 'images/background/dark_final.jpg' %}');
+      /*background-image: url('{% static 'images/background/dark_final.jpg' %}');*/
       /* Additional styles for dark mode */
     }
     .dropdown:hover .dropdown-menu {
