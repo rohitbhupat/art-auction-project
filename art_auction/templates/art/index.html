@@ -34,6 +34,17 @@
         right: 0;
         left: auto;
     }
+    .button-container {
+        position: absolute;
+        top: 85px; /* Adjust the value to move vertically */
+        right: 10px; /* Adjust the value to move horizontally */
+    }
+    .carousel-control-prev-icon{
+        width:1rem !important;
+    }
+    .carousel-control-next-icon{
+        width:1rem !important;
+    }
 </style>
 {% endblock %}
 
@@ -44,22 +55,22 @@
 {% include "./includes/navbar.html" with cat_list=catalogue_list %}
 
 <br>
-<button onclick="goBack()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i></button>
-<button onclick="goForward()" class="btn btn-light"><i class="fa-solid fa-arrow-right"></i></button>
-
+<div class="button-container">
+<i class="fa-solid fa-arrow-left" style="cursor:pointer; font-size:1.4rem; margin-right:10px" onclick="goBack()"></i>
+<i class="fa-solid fa-arrow-right" style="cursor:pointer; font-size:1.4rem; margin-right:15px" onclick="goForward()"></i>
+</div>
 <br>
-
 <!-- Bootstrap Carousel -->
 <div id="carouselExampleAutoplaying" class="carousel slide" data-ride="carousel" data-interval="2000">
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="{% static 'dashboard/images/carousel1.jpg' %}" class="d-block w-100" alt="First slide">
+            <img src="{% static 'images/background/Untitled-1.png' %}" class="d-block w-100" alt="First slide">
         </div>
         <div class="carousel-item">
-            <img src="{% static 'dashboard/images/carousel2.jpg' %}" class="d-block w-100" alt="Second slide">
+            <img src="{% static 'images/carousel2.jpg' %}" class="d-block w-100" alt="Second slide">
         </div>
         <div class="carousel-item">
-            <img src="{% static 'dashboard/images/carousel3.jpg' %}" class="d-block w-100" alt="Third slide">
+            <img src="{% static 'images/carousel3.jpg' %}" class="d-block w-100" alt="Third slide">
         </div>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleAutoplaying" role="button" data-slide="prev">
@@ -72,12 +83,9 @@
     </a>
 </div>
 
-
-<br>
-
 <div class="container poppins-regular-products">
     <h1></h1>
-    <div class="filter-dropdown">
+    {% comment %} <div class="filter-dropdown">
         <button class="btn btn-light dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa-solid fa-filter"></i> Filter
         </button>
@@ -86,7 +94,7 @@
             <a class="dropdown-item" href="?filter=old">Old Artworks</a>
             <a class="dropdown-item" href="?filter=new">New Artworks</a>
         </div>
-    </div>
+    </div> {% endcomment %}
 
     <div class="row poppins-regular-products">
         <br>

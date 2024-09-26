@@ -27,7 +27,11 @@
         flex-direction: column;
         padding: 0px 20px !important;
     }
-    
+    .button-container {
+        position: absolute;
+        top: 85px; /* Adjust the value to move vertically */
+        right: 10px; /* Adjust the value to move horizontally */
+    }
     /* Additional styles can be added here */
     
 </style>
@@ -35,8 +39,10 @@
 
 {% block body %}
 <br>
-<button onclick="goBack()" class="btn btn-light"><i class="fa-solid fa-arrow-left"></i></button>
-<button onclick="goForward()" class="btn btn-light"><i class="fa-solid fa-arrow-right"></i></button>
+<div class="button-container">
+    <i class="fa-solid fa-arrow-left" style="cursor:pointer; font-size:1.4rem; margin-right:10px" onclick="goBack()"></i>
+    <i class="fa-solid fa-arrow-right" style="cursor:pointer; font-size:1.4rem; margin-right:15px" onclick="goForward()"></i>
+</div>
 <div class="card profile-card">
 <div class="justify-content-center poppins-regular-profile">
     {% if messages %}

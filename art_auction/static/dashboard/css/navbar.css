@@ -17,7 +17,7 @@
 
 /* Navbar */
 .navbar {
-  color: #212529;
+  background-color: #161617;
   padding-top: 1rem !important;
 }
 
@@ -63,8 +63,8 @@
 }
 
 /* Light Mode */
-body.light-mode {
-  background-color: #f8f9fa;
+body.light-mode .navbar{
+  background-color: #e7e7e7;
   color: #000;
 }
 

@@ -3,6 +3,9 @@ from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
+from PIL import Image
+import imagehash
+from django.core.exceptions import ValidationError
 
 class Catalogue(models.Model):
     cat_name = models.CharField(max_length=255)
@@ -29,10 +32,21 @@ class Artwork(models.Model):
     is_sold = models.BooleanField(default=False)
     is_purchased = models.BooleanField(default=False)
 
-
     def save(self, *args, **kwargs):
-        if not self.id:  # Only set created_date on first save
+        # Duplicate image detection logic
+        if self.product_image:
+            existing_images = Artwork.objects.exclude(id=self.id)  # Exclude self during update
+            uploaded_image_hash = imagehash.phash(Image.open(self.product_image))
+            
+            for artwork in existing_images:
+                stored_image_hash = imagehash.phash(Image.open(artwork.product_image.path))
+                if uploaded_image_hash == stored_image_hash:
+                    raise ValidationError("Duplicate image detected. This artwork is already an NFT and cannot be uploaded again.")
+        
+        # Set created_at on first save
+        if not self.id:
             self.created_at = timezone.now()
+        
         super().save(*args, **kwargs)
 
     def clean(self):

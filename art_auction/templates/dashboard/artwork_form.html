@@ -17,6 +17,10 @@
         right: 0;
         left: auto;
     }
+    .error-message {
+        color: red; /* Change to red color */
+        font-weight: bold; /* Optional: make it bold */
+    }
 </style>
 {% endblock %} 
 {% block content %}
@@ -28,92 +32,109 @@
         <button onclick="goForward()" class="btn btn-dark"><i class="fa-solid fa-arrow-right"></i></button>
         <div class="container-xl">
             <h1 class="app-page-title">Add Artwork</h1>
-            {% if error_message %}
-                <div class="alert alert-danger">{{ error_message }}</div>
-            {% else %}
-                <div class="row g-4 mb-4">
-                    <div class="col-12">
-                        <div class="app-card shadow-sm h-100">
-                            <div class="app-card-body p-2">
-                                <form method="POST" enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    {{ form.non_field_errors }}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            {% endif %}
+            <div class="row g-4 mb-4">
+                <div class="col-12">
+                    <div class="app-card shadow-sm h-100">
+                        <div class="app-card-body p-2">
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="fieldWrapper">
+                                    <label for="{{ form.product_name.id_for_label }}">{{ form.product_name.label }}:</label>
+                                    {{ form.product_name }}
+                                    {% if form.product_name.errors %}
+                                        <div class="error-message">{{ form.product_name.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="fieldWrapper">
+                                    <label for="{{ form.product_price.id_for_label }}">{{ form.product_price.label }}:</label>
+                                    {{ form.product_price }}
+                                    {% if form.product_price.errors %}
+                                        <div class="error-message">{{ form.product_price.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="fieldWrapper">
+                                    <label for="{{ form.opening_bid.id_for_label }}">{{ form.opening_bid.label }}:</label>
+                                    {{ form.opening_bid }}
+                                    {% if form.opening_bid.errors %}
+                                        <div class="error-message">{{ form.opening_bid.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="fieldWrapper">
+                                    <label for="{{ form.product_cat.id_for_label }}">{{ form.product_cat.label }}:</label>
+                                    {{ form.product_cat }}
+                                    {% if form.product_cat.errors %}
+                                        <div class="error-message">{{ form.product_cat.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="fieldWrapper">
+                                    <label for="id_product_qty">{{ form.product_qty.label }}:</label>
+                                    <input type="number" name="product_qty" value="1" min="1" max="{{ product.product_qty }}" required id="id_product_qty" readonly>
+                                </div>
+                                <div class="fieldWrapper">
+                                    <label for="dimension_unit" required=False>Dimensions:</label>
+                                    <select id="dimension_unit" name="dimension_unit" onchange="toggleDimensionFields()">
+                                        <option value="cm">Centimeters</option>
+                                        <option value="ft">Feet</option>
+                                    </select>
+                                </div>
+                                <div id="dimension_cm_fields">
                                     <div class="fieldWrapper">
-                                        {{ form.product_name.errors }}
-                                        <label for="{{ form.product_name.id_for_label }}">{{ form.product_name.label }}:</label>
-                                        {{ form.product_name }}
-                                    </div>
-                                    <div class="fieldWrapper">
-                                        {{ form.product_price.errors }}
-                                        <label for="{{ form.product_price.id_for_label }}">{{ form.product_price.label }}:</label>
-                                        {{ form.product_price }}
-                                    </div>
-                                    <div class="fieldWrapper">
-                                        {{ form.opening_bid.errors }}
-                                        <label for="{{ form.opening_bid.id_for_label }}">{{ form.opening_bid.label }}:</label>
-                                        {{ form.opening_bid }}
-                                    </div>
-                                    <div class="fieldWrapper">
-                                        {{ form.product_cat.errors }}
-                                        <label for="{{ form.product_cat.id_for_label }}">{{ form.product_cat.label }}:</label>
-                                        {{ form.product_cat }}
-                                    </div>
-                                    <div class="fieldWrapper">
-                                        {{ form.product_qty.errors }}
-                                        <label for="id_product_qty">{{ form.product_qty.label }}:</label>
-                                        <input type="number" name="product_qty" value="1" min="1" max="{{ product.product_qty }}" required id="id_product_qty" readonly>
-                                    </div>
-                                    <div class="fieldWrapper">
-                                        <label for="dimension_unit" required=False>Dimensions:</label>
-                                        <select id="dimension_unit" name="dimension_unit" onchange="toggleDimensionFields()">
-                                            <option value="cm">Centimeters</option>
-                                            <option value="ft">Feet</option>
-                                        </select>
-                                    </div>
-                                    <div id="dimension_cm_fields">
-                                        <div class="fieldWrapper">
-                                            {{ form.length_in_centimeters.errors }}
-                                            <label for="{{ form.length_in_centimeters.id_for_label }}">{{ form.length_in_centimeters.label }} (cm):</label>
-                                            {{ form.length_in_centimeters }}
-                                        </div>
-                                        <div class="fieldWrapper">
-                                            {{ form.width_in_centimeters.errors }}
-                                            <label for="{{ form.width_in_centimeters.id_for_label }}">{{ form.width_in_centimeters.label }} (cm):</label>
-                                            {{ form.width_in_centimeters }}
-                                        </div>
-                                    </div>
-                                    <div id="dimension_ft_fields" style="display:none;">
-                                        <div class="fieldWrapper">
-                                            {{ form.foot.errors }}
-                                            <label for="{{ form.foot.id_for_label }}">{{ form.foot.label }} (ft):</label>
-                                            {{ form.foot }}
-                                        </div>
-                                        <div class="fieldWrapper">
-                                            {{ form.inches.errors }}
-                                            <label for="{{ form.inches.id_for_label }}">{{ form.inches.label }} (inch):</label>
-                                            {{ form.inches }}
-                                        </div>
+                                        <label for="{{ form.length_in_centimeters.id_for_label }}">{{ form.length_in_centimeters.label }} (cm):</label>
+                                        {{ form.length_in_centimeters }}
+                                        {% if form.length_in_centimeters.errors %}
+                                            <div class="error-message">{{ form.length_in_centimeters.errors }}</div>
+                                        {% endif %}
                                     </div>
                                     <div class="fieldWrapper">
-                                        {{ form.end_date.errors }}
-                                        <label for="{{ form.end_date.id_for_label }}">{{ form.end_date.label }}:</label>
-                                        {{ form.end_date }}
+                                        <label for="{{ form.width_in_centimeters.id_for_label }}">{{ form.width_in_centimeters.label }} (cm):</label>
+                                        {{ form.width_in_centimeters }}
+                                        {% if form.width_in_centimeters.errors %}
+                                            <div class="error-message">{{ form.width_in_centimeters.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div id="dimension_ft_fields" style="display:none;">
+                                    <div class="fieldWrapper">
+                                        <label for="{{ form.foot.id_for_label }}">{{ form.foot.label }} (ft):</label>
+                                        {{ form.foot }}
+                                        {% if form.foot.errors %}
+                                            <div class="error-message">{{ form.foot.errors }}</div>
+                                        {% endif %}
                                     </div>
                                     <div class="fieldWrapper">
-                                        {{ form.product_image.errors }}
-                                        <label for="{{ form.product_image.id_for_label }}">{{ form.product_image.label }}:</label>
-                                        {{ form.product_image }}
+                                        <label for="{{ form.inches.id_for_label }}">{{ form.inches.label }} (inch):</label>
+                                        {{ form.inches }}
+                                        {% if form.inches.errors %}
+                                            <div class="error-message">{{ form.inches.errors }}</div>
+                                        {% endif %}
                                     </div>
-                                    
-                                    <div class="d-grid mx-auto">
-                                        <input class="btn btn-success" type="submit" value="Upload" />
-                                    </div>
-                                </form>
-                            </div>
+                                </div>
+                                <div class="fieldWrapper">
+                                    <label for="{{ form.end_date.id_for_label }}">{{ form.end_date.label }}:</label>
+                                    {{ form.end_date }}
+                                    {% if form.end_date.errors %}
+                                        <div class="error-message">{{ form.end_date.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="fieldWrapper">
+                                    <label for="{{ form.product_image.id_for_label }}">{{ form.product_image.label }}:</label>
+                                    {{ form.product_image }}
+                                    <br>
+                                    {% if form.product_image.errors %}
+                                        <div class="error-message">{{ form.product_image.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="d-grid mx-auto">
+                                    <input class="btn btn-success" type="submit" value="Upload" />
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            {% endif %}
+            </div>
         </div>
     </div>
     {% include './includes/footer.html' %}

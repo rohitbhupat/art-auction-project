@@ -2,7 +2,7 @@ from django import forms
 from django.views import View
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from dashboard.models import Artwork, OrderModel, Catalogue, Bid, Notification, Query  # Include Notification model
+from dashboard.models import Artwork, OrderModel, Catalogue, Bid, Notification, Query
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, FormView
 from django.urls import reverse_lazy
 from django.http import JsonResponse
@@ -14,6 +14,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from PIL import Image
+import imagehash
+from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
+from django.contrib import messages
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -51,10 +56,54 @@ class ArtworkCreateView(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         form.instance.product_id = f'{cat}{last_id}'
 
+        # Perform duplicate image detection before saving the object
+        if self.request.FILES.get('product_image'):
+            uploaded_image = self.request.FILES['product_image']
+            uploaded_image_hash = imagehash.phash(Image.open(uploaded_image))
+            existing_artworks = Artwork.objects.all()  # No need to exclude self.object since it's not created yet
+
+            for artwork in existing_artworks:
+                stored_image_hash = imagehash.phash(Image.open(artwork.product_image.path))
+                if uploaded_image_hash == stored_image_hash:
+                    form.add_error('product_image', "Duplicate image detected. This artwork has already been uploaded.")
+                    return self.form_invalid(form)
+
+        # Now we can safely save the object
         return super().form_valid(form)
 
     def form_invalid(self, form):
         return super().form_invalid(form)
+
+
+class ArtworkUpdateView(LoginRequiredMixin, UpdateView):
+    model = Artwork
+    fields = [
+        "product_name", "product_price", "product_image", 
+        "product_cat", "end_date", "length_in_centimeters", 
+        "width_in_centimeters", "foot", "inches"
+    ]
+    template_name_suffix = '_update_form'
+    success_url = '/dashboard/product/'
+
+    def get_form(self):
+        form = super().get_form()
+        form.fields['end_date'].widget = forms.DateInput(attrs={'type': 'date'})
+        return form
+
+    def form_valid(self, form):
+        # Duplicate image detection logic
+        if self.request.FILES.get('product_image'):
+            uploaded_image = self.request.FILES['product_image']
+            uploaded_image_hash = imagehash.phash(Image.open(uploaded_image))
+            existing_artworks = Artwork.objects.exclude(id=self.object.id)
+
+            for artwork in existing_artworks:
+                stored_image_hash = imagehash.phash(Image.open(artwork.product_image.path))
+                if uploaded_image_hash == stored_image_hash:
+                    form.add_error('product_image', "Duplicate image detected. This artwork has already been uploaded.")
+                    return self.form_invalid(form)
+
+        return super().form_valid(form)
 
 class BidCreateView(LoginRequiredMixin, View):
     @method_decorator(csrf_exempt)
@@ -77,18 +126,7 @@ class BidCreateView(LoginRequiredMixin, View):
 
             new_bid = Bid.objects.create(user=request.user, bid_amt=bid_amt, product=product_object)
 
-            # Check if the product owner has placed any bids before
-            owner_has_bid = Bid.objects.filter(product=product_object, user=product_object.user).exists()
-
-            # # Notify the product owner only if they have placed a bid before and the current user is not the owner
-            # if owner_has_bid and product_object.user != request.user:
-            #     Notification.objects.create(
-            #         user=product_object.user,
-            #         product=product_object,
-            #         message=f"New bid placed on your product: {product_object.product_name}"
-            #     )
-
-            # Notify all previous bidders except the current one
+            # Notify previous bidders
             previous_bidders = Bid.objects.filter(product=product_object).exclude(user=request.user).values_list('user', flat=True).distinct()
             for bidder in previous_bidders:
                 Notification.objects.create(
@@ -103,7 +141,29 @@ class BidCreateView(LoginRequiredMixin, View):
             logger.error(f'Error placing bid: {e}')
             return JsonResponse({"success": False, "message": f"An error occurred while placing your bid. Please try again later. Error: {e}"})
 
+# Function to check the auction status
+def check_auction_status():
+    now = timezone.now()
+    artworks = Artwork.objects.filter(end_date__lte=now, status='open')
 
+    for artwork in artworks:
+        highest_bid = Bid.objects.filter(artwork=artwork).order_by('-amount').first()
+
+        if highest_bid:
+            # Send notification to the highest bidder
+            send_mail(
+                'Auction Winning Notification',
+                'Do you really want to purchase this artwork?',
+                'noreply@yourdomain.com',
+                [highest_bid.user.email],
+                fail_silently=False,
+            )
+            artwork.status = 'closed'
+        else:
+            # No bids placed, mark as unsold
+            artwork.status = 'unsold'
+
+        artwork.save()
 
 def latest_bid(request, pk):
     try:
