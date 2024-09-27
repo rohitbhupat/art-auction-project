@@ -37,10 +37,10 @@
       display: block;
       margin-top: 0; /* Optional: Adjust for styling */
     }
-    /* Styling for notification icon */
     .notification-icon {
       position: relative;
     }
+
     .notification-icon .badge {
       position: absolute;
       top: -5px;
@@ -50,7 +50,55 @@
       background-color: red;
       color: white;
       font-size: 12px;
-      display: none; /* Initially hide the badge */
+      display: none;
+    }
+
+    /* Sidebar styles */
+    #notification-sidebar {
+      position: fixed;
+      right: -400px;
+      top: 0;
+      width: 300px;
+      height: 100%;
+      background-color: #fff;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+      transition: right 0.3s ease-in-out;
+      z-index: 1050;
+      overflow-y: auto;
+    }
+
+    #notification-sidebar.open {
+      right: 0;
+    }
+
+    #notification-sidebar .header {
+      padding: 10px;
+      background-color: #f8f9fa;
+      font-size: 16px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    #notification-sidebar .close-btn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #notification-container {
+      padding: 10px;
+    }
+
+    .notification-item {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      cursor: pointer;
+    }
+
+    .notification-item:hover {
+      background-color: #f1f1f1;
     }
   </style>
 </head>
@@ -61,8 +109,8 @@
   <nav class="navbar navbar-expand-lg border-body open-sans-navbar" id="navbar">
     <div class="container-fluid">
       <a class="navbar-brand" href="#" data-toggle="modal" data-target="#logoModal">
-        <img src="{% static 'images/assets/Art_Auction_Logo.jpeg' %}" alt="" width="30" height="24" class="d-inline-block align-text-top" />
-        1,2,3...SOLD!!!
+        <img src="{% static 'images/assets/ARTIV_LOGO.jpg' %}" alt="" width="30" height="24" class="d-inline-block align-text-top" />
+        ARTIV
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -112,17 +160,12 @@
             </div>
           </li>
         </ul>
-          <div class="nav-item dropdown notification-icon">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownNotification" role="button" data-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-bell"></i>
-                <span id="notification-count" class="badge">0</span> <!-- Initial value, will be updated dynamically -->
-            </a>
-            <div id="notification-dropdown" class="dropdown-menu dropdown-menu-end p-0 mt-3" style="width: 300px; max-height: 400px; overflow-y: auto;">
-                <div id="notification-container" class="list-group">
-                    <!-- Notifications will be dynamically added here -->
-                </div>
-            </div>
-        </div>        
+        <div class="nav-item notification-icon">
+          <a class="nav-link" href="#" id="notificationIcon">
+            <i class="fas fa-bell"></i>
+            <span id="notification-count" class="badge">0</span>
+          </a>
+        </div>    
           <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
               Welcome, {{ user.username }}
@@ -160,15 +203,25 @@
     </div>
   </nav>
 
+  <div id="notification-sidebar">
+    <div class="header">
+      Notifications
+      <span class="close-btn" id="close-sidebar">&times;</span>
+    </div>
+    <div id="notification-container">
+      <!-- Notifications will be dynamically added here -->
+    </div>
+  </div>
+
   <div class="modal fade" id="logoModal" tabindex="-1" aria-labelledby="logoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="logoModalLabel">1,2,3...SOLD!!!</h5>
+          <h5 class="modal-title" id="logoModalLabel">ARTIV</h5>
           <button type="button" class="btn-close" data-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <img src="{% static 'images/assets/Art_Auction_Logo.jpeg' %}" class="img-fluid" alt="logo">
+          <img src="{% static 'images/assets/ARTIV_LOGO.jpg' %}" class="img-fluid" alt="logo">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -182,66 +235,66 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="{% static 'js/theme.js' %}"></script>
   <script>
-    function fetchNotifications() {
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', '{% url 'dashboard:fetch_notifications' %}', true);
-      xhr.onload = function () {
-        if (xhr.status === 200) {
-          var data = JSON.parse(xhr.responseText);
-          var notificationContainer = document.getElementById('notification-container');
-          var notificationCount = document.getElementById('notification-count');
-          if (notificationContainer && notificationCount) {
-            notificationContainer.innerHTML = '';
-            data.notifications.forEach(function (notification) {
-              var notificationItem = document.createElement('div');
-              notificationItem.className = 'dropdown-item';
-              notificationItem.innerHTML = notification.message;
-              notificationItem.onclick = function() {
-                markNotificationAsRead(notification.id);
-                window.location.href = '/viewdetails/' + notification.product_id; // Adjust URL path as needed
-              };
-              notificationContainer.appendChild(notificationItem);
-            });
-            notificationCount.textContent = data.notifications.length;
-            notificationCount.style.display = data.notifications.length > 0 ? 'inline-block' : 'none';
-          } else {
-            console.error('Notification container or count element not found');
+    <script>
+      function fetchNotifications() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '{% url 'dashboard:fetch_notifications' %}', true);
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            var notificationContainer = document.getElementById('notification-container');
+            var notificationCount = document.getElementById('notification-count');
+            if (notificationContainer && notificationCount) {
+              notificationContainer.innerHTML = '';
+              data.notifications.forEach(function (notification) {
+                var notificationItem = document.createElement('div');
+                notificationItem.className = 'notification-item';
+                notificationItem.innerHTML = notification.message;
+                notificationItem.onclick = function () {
+                  markNotificationAsRead(notification.id);
+                  window.location.href = '/viewdetails/' + notification.product_id;
+                };
+                notificationContainer.appendChild(notificationItem);
+              });
+              notificationCount.textContent = data.notifications.length;
+              notificationCount.style.display = data.notifications.length > 0 ? 'inline-block' : 'none';
+            }
           }
-        } else {
-          console.error('Error fetching notifications:', xhr.status, xhr.statusText);
-          console.log(xhr.responseText);  // Log the response text for more details
-        }
-      };
-      xhr.onerror = function () {
-        console.error('Request failed');
-      };
-      xhr.send();
-    }
+        };
+        xhr.send();
+      }
   
-    function markNotificationAsRead(notificationId) {
-      var xhr = new XMLHttpRequest();
-      var markAsReadUrl = '{% url "dashboard:mark_notification_as_read" notification_id=0 %}'.replace('0', notificationId);
-      xhr.open('POST', markAsReadUrl, true);  // Open the request with POST method
-      xhr.setRequestHeader('Content-Type', 'application/json');  // Set content type to JSON
-      xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');  // Set CSRF token header
-      xhr.onload = function () {
-        if (xhr.status === 200) {
-          console.log('Notification marked as read successfully');
-          fetchNotifications();  // Refresh notifications after marking as read
-        } else {
-          console.error('Error marking notification as read:', xhr.status, xhr.statusText);
-        }
-      };
-      xhr.onerror = function () {
-        console.error('Request failed');
-      };
-      xhr.send();  // Send the request without body content (since we're using POST)
-    }
+      function markNotificationAsRead(notificationId) {
+        var xhr = new XMLHttpRequest();
+        var markAsReadUrl = '{% url "dashboard:mark_notification_as_read" notification_id=0 %}'.replace('0', notificationId);
+        xhr.open('POST', markAsReadUrl, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            fetchNotifications();
+          }
+        };
+        xhr.send();
+      }
   
-    document.addEventListener('DOMContentLoaded', function () {
-      fetchNotifications();
-      setInterval(fetchNotifications, 20000);  // Refresh notifications every 20 seconds
-    });
+      document.addEventListener('DOMContentLoaded', function () {
+        fetchNotifications();
+  
+        var notificationIcon = document.getElementById('notificationIcon');
+        var sidebar = document.getElementById('notification-sidebar');
+        var closeSidebar = document.getElementById('close-sidebar');
+  
+        notificationIcon.addEventListener('click', function () {
+          sidebar.classList.toggle('open');
+        });
+  
+        closeSidebar.addEventListener('click', function () {
+          sidebar.classList.remove('open');
+        });
+  
+        setInterval(fetchNotifications, 20000);
+      });
 </script>
 
 </body>
