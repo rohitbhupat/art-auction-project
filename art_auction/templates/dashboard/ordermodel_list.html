@@ -1,5 +1,5 @@
 {% extends './base.html' %}
-{% block title %}Orders - 1.2.3 Sold{% endblock %}
+{% block title %}Orders - ARTIV{% endblock %}
 {% load static %}
 {% block links %}
 <link rel="stylesheet" href="{% static 'dashboard/css/ordermodel_list.css' %}">
@@ -13,12 +13,17 @@
     .filter-dropdown {
         position: absolute;
         top: 70px;
-        right: 35px;
+        left: 17.5rem;
     }
 
     .filter-dropdown .dropdown-menu {
         right: 0;
         left: auto;
+    }
+    .button-container {
+        position: absolute;
+        top: 80px; /* Adjust the value to move vertically */
+        right: 10px; /* Adjust the value to move horizontally */
     }
 </style>
 {% endblock %}
@@ -29,15 +34,17 @@
 
 <div class="app-wrapper">
     <div class="app-content pt-3 p-md-3 p-lg-4">
-        <button onclick="goBack()" class="btn btn-dark"><i class="fa-solid fa-arrow-left"></i></button>
-        <button onclick="goForward()" class="btn btn-dark"><i class="fa-solid fa-arrow-right"></i></button>
+        <div class="button-container">
+            <i class="fa-solid fa-arrow-left" style="cursor:pointer; font-size:1.4rem; margin-right:10px" onclick="goBack()"></i>
+            <i class="fa-solid fa-arrow-right" style="cursor:pointer; font-size:1.4rem; margin-right:15px" onclick="goForward()"></i>
+        </div>
         <div class="container-xl">
             <h1 class="app-page-title">Order List</h1>
 
             <div class="filter-dropdown">
-                <button class="btn btn-light dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="dropdown-toggle" style="cursor:pointer;" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa-solid fa-filter"></i> Filter
-                </button>
+                </div>
                 <div class="dropdown-menu" aria-labelledby="filterDropdown">
                     <a class="dropdown-item" href="?filter=asc">Ascending +</a>
                     <a class="dropdown-item" href="?filter=desc">Descending -</a>

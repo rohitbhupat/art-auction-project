@@ -1,0 +1,60 @@
+/* Default light mode styles */
+form {
+    background-color: #ffffff; /* White background for light mode */
+    color: #000000; /* Black text for light mode */
+    /* border: 1px solid #ccc; */
+    padding: 20px;
+    border-radius: 8px;
+}
+.app-card{
+    border-radius: 8px;
+}
+body.dark-mode .app-card{
+    background: #2c2c2c;
+    border-radius: 8px;
+}
+form input, form select, form textarea {
+    background-color: #f9f9f9;
+    color: #000000;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+form label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Dark mode styles */
+body.dark-mode form {
+    background-color: rgba(0, 0, 0, 0); /* Transparent background with dark tint */
+    color: #c7c7c7; /* Light gray text for dark mode */
+}
+
+body.dark-mode form input, 
+body.dark-mode form select, 
+body.dark-mode form textarea {
+    background-color: #333333;
+    color: #c7c7c7; /* Light gray text */
+    border: 1px solid #555555; /* Darker border for inputs */
+}
+
+body.dark-mode form label {
+    color: #c7c7c7; /* Lighter text for labels in dark mode */
+}
+
+body.dark-mode .btn-success {
+    background-color: #28a745;
+    color: #ffffff;
+    border-color: #555555;
+}
+
+body.dark-mode .btn-success:hover {
+    background-color: #28a745;
+    color: #ffffff;
+    border-color: #666666;
+}

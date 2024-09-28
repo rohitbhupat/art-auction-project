@@ -1,7 +1,27 @@
 {% load static %}
+{% block links %}
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/header.css' %}" />
+<style>
+    body {
+        background-image: url('{% static 'images/background/white.jpeg' %}');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        color: #000;
+    }
+    body.dark-mode {
+        background-image: url('{% static 'images/background/dark.jpeg' %}');
+        background-attachment: fixed;
+        background-size: cover;
+        background-repeat: no-repeat;
+        color: #fff;
+    }
+</style>
+
+{% endblock %}
 {% load auth_extras %}
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-<header class="app-header fixed-top">
+<nav class="app-header fixed-top">
     <div class="app-header-inner">
         <div class="container-fluid py-2">
             <div class="app-header-content">
@@ -20,12 +40,25 @@
                     </div>
                     <!--//col-->
                     <div class="app-utilities col-auto">
+                            <!-- Theme Toggle Dropdown -->
+                        <div class="col-auto">
                         <div class="app-utility-item app-user-dropdown dropdown">
-                            <a class="dropdown-toggle" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{ user }}</a>
+                            <a class="dropdown-toggle theme" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{ user }}</a>
                             <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
                                 <li><a class="dropdown-item" href="{% url 'art:logout' %}">Log Out</a></li>
                             </ul>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" id="theme-dropdown" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                                    <i class="fas fa-adjust"></i> <!-- Theme icon -->
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-mode dropdown-menu-end" aria-labelledby="theme-dropdown">
+                                    <li><a class="dropdown-item theme-toggle" href="#" data-theme="light">Light</a></li>
+                                    <li><a class="dropdown-item theme-toggle" href="#" data-theme="dark">Dark</a></li>
+                                    <li><a class="dropdown-item theme-toggle" href="#" data-theme="auto">Auto</a></li>
+                                </ul>
+                            </div>
                         </div>
+                    </div>
                         <!--//app-user-dropdown-->
                     </div>
                     <!--//app-utilities-->
@@ -37,13 +70,14 @@
         <!--//container-fluid-->
     </div>
     <!--//app-header-inner-->
+    <!--sidepanel-->
     <div id="app-sidepanel" class="app-sidepanel">
         <div id="sidepanel-drop" class="sidepanel-drop"></div>
         <div class="sidepanel-inner d-flex flex-column">
             <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
             <div class="app-branding">
                 <a class="app-logo" href="#" data-bs-toggle="modal" data-bs-target="#logoModal">
-                    <img class="logo-icon me-2" src="{% static 'images/assets/Art_Auction_Logo.jpeg' %}" alt="logo">
+                    <img class="logo-icon me-2" src="{% static 'images/assets/ARTIV_LOGO.jpg' %}" alt="logo">
                     <span class="logo-text">DASHBOARD</span>
                 </a>
             </div>
@@ -51,7 +85,7 @@
             <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
                 <ul class="app-menu list-unstyled accordion" id="menu-accordion">
                     {% if user|has_group:"SellerGroup" %}
-                    <li class="nav-item has-submenu">
+                    <li class="nav-item-dashboard has-submenu">
                         <a class="nav-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-1" aria-expanded="false" aria-controls="submenu-1">
                             <span class="nav-icon">
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-files" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -73,7 +107,7 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item-dashboard">
                         <a class="nav-link" href="{% url 'dashboard:bid_list' %}">
                             <span class="nav-icon">
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -88,7 +122,7 @@
                         </a>
                     </li>
                     {% endif %}
-                    <li class="nav-item">
+                    <li class="nav-item-dashboard">
                         <a class="nav-link" href="{% url 'dashboard:order_list' %}">
                             <span class="nav-icon">
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-list" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -107,7 +141,7 @@
             <div class="app-sidepanel-footer">
                 <nav class="app-nav app-nav-footer">
                     <ul class="app-menu footer-menu list-unstyled">
-                        <li class="nav-item">
+                        <li class="nav-item-dashboard">
                             <a class="nav-link" href="{% url 'art:logout' %}">
                                 <span class="nav-icon">
                                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -123,7 +157,7 @@
             </div>
         </div>
     </div>
-</header>
+</nav>
 
 <!-- Modal -->
 <div class="modal fade" id="logoModal" tabindex="-1" aria-labelledby="logoModalLabel" aria-hidden="true">
@@ -131,10 +165,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="logoModalLabel">ARTIV</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-outline-success" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <img src="{% static 'images/assets/LOGO.jpg' %}" class="img-fluid" alt="logo">
+        <img src="{% static 'images/assets/ARTIV_LOGO.jpg' %}" class="img-fluid" alt="logo">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -143,22 +177,4 @@
   </div>
 </div>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const themeToggleItems = document.querySelectorAll('.theme-toggle');
-    themeToggleItems.forEach(item => {
-      item.addEventListener('click', (e) => {
-        const theme = e.target.getAttribute('data-theme');
-        setTheme(theme);
-      });
-    });
-
-    const savedTheme = localStorage.getItem('theme') || 'auto';
-    setTheme(savedTheme);
-  });
-
-  function setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }
-</script>
+<script src="{% static 'js/header.js' %}"></script>

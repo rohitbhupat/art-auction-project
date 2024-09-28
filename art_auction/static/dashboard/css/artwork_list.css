@@ -1,0 +1,44 @@
+.app-card {
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for theme change */
+}
+
+body.light-mode .artwork-card {
+    background-color: #ffffff; /* Light mode background for artworks */
+    color: #000000; /* Light mode text color for artworks */
+}
+
+body.dark-mode .artwork-card {
+    background-color: transparent; /* Dark mode background for artworks */
+    color: #ffffff; /* Dark mode text color for artworks */
+}
+
+/* Modal Styles */
+.modal-content {
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for theme change */
+}
+
+body.light-mode .modal-content {
+    background-color: #ffffff; /* Light mode modal background */
+    color: #000000; /* Light mode modal text color */
+}
+
+body.dark-mode .modal-content {
+    background-color: #161617; /* Dark mode modal background */
+    color: #ffffff; /* Dark mode modal text color */
+}
+
+.modal-header {
+    border-bottom: none; /* Remove bottom border */
+}
+
+.modal-title {
+    color: inherit; /* Use current text color */
+}
+
+.modal-footer .btn-danger {
+    background-color: #dc3545; /* Light mode danger button color */
+}
+
+body.dark-mode .modal-footer .btn-danger {
+    background-color: #c0392b; /* Dark mode danger button color */
+}
