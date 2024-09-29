@@ -1,14 +1,23 @@
-.card{
-    position: relative;
-    display: flex;
-    flex-direction: column; 
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #ffffff !important;
-    background-clip: border-box;
-    border-radius: .25rem;  
-  }
-  .form-control{
-    border: 1px solid #7c7c7c !important;
-    background-color: rgba(255, 255, 255, 0.84) !important;
-  }
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #ffffff !important;
+  background-clip: border-box;
+  border-radius: .25rem;
+}
+
+.form-control {
+  border: 1px solid #7c7c7c !important;
+  background-color: rgba(255, 255, 255, 0.84) !important;
+}
+
+.button-container {
+  position: absolute;
+  top: 85px;
+  /* Adjust the value to move vertically */
+  left: 2rem;
+  /* Adjust the value to move horizontally */
+}

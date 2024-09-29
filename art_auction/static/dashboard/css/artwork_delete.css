@@ -1,0 +1,10 @@
+.app-card {
+    position: relative;
+    background: #fff !important;
+    border-radius: .25rem;
+}
+body.dark-mode .app-card {
+    position: relative;
+    background: #212529 !important;
+    border-radius: .25rem;
+}

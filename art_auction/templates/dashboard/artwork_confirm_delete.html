@@ -1,9 +1,10 @@
 {% extends './base.html' %} {% block title %}Artwork Delete? - ARTIV{% endblock %} {% load static %} {% block links %}
+<link rel="stylesheet" href="{% static 'dashboard/css/artwork_delete.css' %}">
 <style>
     .button-container {
         position: absolute;
-        top: 80px; /* Adjust the value to move vertically */
-        right: 10px; /* Adjust the value to move horizontally */
+        top: 85px; /* Adjust the value to move vertically */
+        left: 17.5rem; /* Adjust the value to move horizontally */
     }
 </style>
 
@@ -28,11 +29,13 @@
             <div class="row g-4 mb-4">
                 <div class="col-12">
                     <div class="app-card shadow-sm h-100">
-                        <div class="app-card-body p-2">
+                        <div class="app-card-body app-card-delete p-2">
                             <form method="post">{% csrf_token %}
                                 <p>Are you sure you want to delete "{{ object }}"?</p>
                                 {{ form }}
-                                <input type="submit" value="Confirm">
+                                <button class="btn-danger" style="border-radius:5px;" type="submit">
+                                    Confirm
+                                </button>
                             </form>
                         </div>
 

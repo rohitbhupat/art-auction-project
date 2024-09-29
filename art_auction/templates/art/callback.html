@@ -3,36 +3,14 @@
 {% block title %}Callback - ARTIV{% endblock %}
 {% block css_file %}
 <link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/callback.css' %}">
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-    body {
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-    }
-    .form-container {
-        background: rgba(255, 255, 255, 0.8);
-        padding: 20px;
-        border-radius: 10px;
-    }
-    .button-container {
-        color: black;
-        text-decoration: none;
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        border:1px solid black !important;
-        border-radius:5px;
-    }
-    .btn-home:hover {
-        background-color:#c8c8c8 !important;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap');
 </style>
 {% endblock %}
 {% block body %}
-{% load i18n %}
 <div class="button-container">
-    <a href="http://127.0.0.1:8000" type="button" class="btn btn-light btn-home">HOME</a>
+    <a href="http://127.0.0.1:8000" class="btn btn-light btn-home">HOME</a>
 </div>
 <div class="text-center" style="margin-top:20%">
     {% if status == "FAILED" %}
@@ -41,15 +19,103 @@
             background-image: url('{% static 'images/assets/SORRYIMG_final.png' %}');
         }
     </style>
-    {% comment %} <h2 class="text-light">THANKS YOUR PAYMENT HAS BEEN RECEIVED</h2> {% endcomment %}
     {% else %}
     <style>
         body {
-            background-image: url('{% static 'images/assets/THANKYOU.png' %}');
+            background-image: url('{% static 'images/assets/THANKYOU.jpeg' %}');
         }
     </style>
-    {% comment %} <h2 class="text-light">SORRY, YOUR PAYMENT HAS FAILED</h2> {% endcomment %}
     {% endif %}
 </div>
+
+<!-- Feedback Modal -->
+<div id="feedbackModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Give Us Ratings!</h3>
+            <span class="close">&times;</span>
+        </div>
+        <div class="rating-container">
+            <div class="rating-icons">
+                <span id="1-star" data-rating="Poor">★</span>
+                <span id="2-star" data-rating="Fair">★</span>
+                <span id="3-star" data-rating="Good">★</span>
+                <span id="4-star" data-rating="Very Good">★</span>
+                <span id="5-star" data-rating="Excellent">★</span>
+            </div>
+            <button id="resetRating" class="btn btn-reset">Remove Rating</button>
+        </div>
+        
+        <p id="ratingText">Select a rating</p>
+        
+        <label class="feedback-label">We'd love to hear your experience</label>
+        <textarea class="feedback-text" placeholder="Share your feedback..."></textarea>
+        
+        <!-- Submit Button -->
+        <button id="submitFeedback" class="btn btn-submit">Submit Feedback</button>
+    </div>
+</div>
+
+
+
+<script>
+    // Show modal after 3 seconds
+    setTimeout(function() {
+        var modal = document.getElementById("feedbackModal");
+        modal.style.display = "block";
+    }, 3000);
+
+    // Close modal functionality
+    var closeModal = document.getElementsByClassName("close")[0];
+    closeModal.onclick = function() {
+        var modal = document.getElementById("feedbackModal");
+        modal.style.display = "none";
+    }
+
+    // Update rating text based on star clicked
+    var stars = document.querySelectorAll('.rating-icons span');
+    var ratingText = document.getElementById('ratingText');
+    stars.forEach(star => {
+        star.onclick = function() {
+            var rating = this.getAttribute('data-rating');
+            ratingText.innerHTML = rating;
+            stars.forEach(s => s.style.color = '#000');  // Reset color
+            for (let i = 0; i <= this.id.split('-')[0] - 1; i++) {
+                stars[i].style.color = 'gold';  // Color selected stars gold
+            }
+        }
+    });
+
+    // Reset rating functionality
+    var resetButton = document.getElementById('resetRating');
+    resetButton.onclick = function() {
+        // Reset all stars to default color
+        stars.forEach(star => star.style.color = '#000');
+        // Reset the rating text
+        ratingText.innerHTML = 'Select a rating';
+    }
+
+    // Submit feedback functionality
+    var submitButton = document.getElementById('submitFeedback');
+    submitButton.onclick = function() {
+    var rating = ratingText.innerHTML; // Get the selected rating
+    var feedback = document.querySelector('.feedback-text').value; // Get feedback text
+
+    // Process feedback submission (e.g., send to server)
+    console.log('Rating:', rating);
+    console.log('Feedback:', feedback);
+
+    // Close the modal after submission (optional)
+    var modal = document.getElementById("feedbackModal");
+    modal.style.display = "none";
+
+    // Optionally, reset the form
+    stars.forEach(star => star.style.color = '#000'); // Reset stars
+    ratingText.innerHTML = 'Select a rating';
+    document.querySelector('.feedback-text').value = ''; // Clear feedback text
+};
+
+</script>
 {% endblock %}
-{% block footer %}{% endblock %}
+
+{% block footer %} {% endblock %}

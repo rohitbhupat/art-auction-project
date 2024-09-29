@@ -11,11 +11,6 @@
             body {
                 font-family: 'Poppins', sans-serif;
             }
-            .button-container {
-                position: absolute;
-                top: 85px;
-                right: 10px;
-            }
         </style>
 
         {% include './includes/header.html' %}
@@ -28,7 +23,7 @@
             </div>
             <div class="app-content pt-3 p-md-3 p-lg-4">
                 
-                <a href="{% url 'art:index' %}" class="btn btn-dark"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="{% url 'art:index' %}" class="btn-home"><i class="fa-solid fa-house"></i> Home</a>
                 <div class="container-xl">
                     <h1 class="app-page-title">Overview</h1>
 

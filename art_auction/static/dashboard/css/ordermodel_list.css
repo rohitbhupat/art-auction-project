@@ -37,3 +37,9 @@ body.dark-mode .table td {
 .table td {
     border-color: #dee2e6; /* Light gray borders for light mode */
 }
+button.close{
+    color: black !important;
+}
+body.dark-mode button.close{
+    color: white !important;
+}

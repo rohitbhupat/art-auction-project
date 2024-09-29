@@ -20,6 +20,26 @@ body.dark-mode .dropdown-toggle {
     align-items: center;
     margin-top: 0; /* Remove negative margin for better alignment */
 }
+.button-container {
+    position: absolute;
+    top: 85px; /* Adjust the value to move vertically */
+    left: 17.5rem; /* Adjust the value to move horizontally */
+}
+.btn-home{
+    position: absolute;
+    top: 85px; /* Adjust the value to move vertically */
+    right: 1.5rem; /* Adjust the value to move horizontally */
+    color: #212529;
+}
+.btn-home:hover{
+    color: black;
+}
+body.dark-mode .btn-home{
+    position: absolute;
+    top: 85px; /* Adjust the value to move vertically */
+    right: 1.5rem; /* Adjust the value to move horizontally */
+    color: #fff;
+}
 .theme {
     margin-right: 15px;
 }
@@ -164,12 +184,15 @@ body.dark-mode .btn {
 }
 
 .btn-danger {
-    background-color: #dc3545; /* Default danger button color */
+    background-color: #ff0019; /* Default danger button color */
 }
 
 body.dark-mode .btn-danger {
-    background-color: #c0392b; /* Dark mode danger button color */
+    background-color: #ff1900; /* Dark mode danger button color */
 }
 .btn-close{
-    background-color: #dc3545 !important;
+    background-color: #ffffff !important;
+}
+body.dark-mode .btn-close{
+    color: #ffffff !important;
 }
