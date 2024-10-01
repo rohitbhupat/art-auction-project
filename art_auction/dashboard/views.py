@@ -1,4 +1,5 @@
 from django import forms
+from art.forms import FeedbackForm
 from django.views import View
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -341,3 +342,15 @@ class SubmitQueryView(FormView):
         else:
             messages.error(request, 'Please fill out all fields.')
             return redirect('art:contact')
+        
+def submit_feedback(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your feedback has been submitted.')
+            return redirect('art:callback')  # Redirect to a thank you page or callback page
+    else:
+        form = FeedbackForm()
+    
+    return render(request, 'art/index.html', {'form': form})

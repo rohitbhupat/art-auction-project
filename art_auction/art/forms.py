@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from art.models import SellerInfo, UserInfo
-from dashboard.models import Artwork
+from dashboard.models import Artwork, Feedback
 
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -84,3 +84,8 @@ class ArtworkForm(forms.ModelForm):
         super(ArtworkForm, self).__init__(*args, **kwargs)
         for field_name in ['length_in_centimeters', 'width_in_centimeters', 'foot', 'inches']:
             self.fields[field_name].required = False
+
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = ['rating', 'feedback_text']

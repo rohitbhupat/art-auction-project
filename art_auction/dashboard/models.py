@@ -115,3 +115,19 @@ class Query(models.Model):
 
     def __str__(self):
         return f"{self.full_name} - {self.email}"
+
+class Feedback(models.Model):
+    RATING_CHOICES = [
+        ('Poor', 'Poor'),
+        ('Fair', 'Fair'),
+        ('Good', 'Good'),
+        ('Very Good', 'Very Good'),
+        ('Excellent', 'Excellent'),
+    ]
+
+    rating = models.CharField(max_length=10, choices=RATING_CHOICES)
+    feedback_text = models.TextField(blank=True, null=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.rating} - {self.feedback_text[:50]}...'

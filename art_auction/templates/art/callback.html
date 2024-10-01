@@ -29,33 +29,37 @@
 </div>
 
 <!-- Feedback Modal -->
-<div id="feedbackModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Give Us Ratings!</h3>
-            <span class="close">&times;</span>
-        </div>
-        <div class="rating-container">
-            <div class="rating-icons">
-                <span id="1-star" data-rating="Poor">★</span>
-                <span id="2-star" data-rating="Fair">★</span>
-                <span id="3-star" data-rating="Good">★</span>
-                <span id="4-star" data-rating="Very Good">★</span>
-                <span id="5-star" data-rating="Excellent">★</span>
+<form method="POST" action="{% url 'dashboard:submit_feedback' %}">
+    {% csrf_token %}
+    <div id="feedbackModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Give Us Ratings!</h3>
+                <span class="close">&times;</span>
             </div>
-            <button id="resetRating" class="btn btn-reset">Remove Rating</button>
+            <div class="rating-container">
+                <div class="rating-icons">
+                    <span id="1-star" data-rating="Poor">★</span>
+                    <span id="2-star" data-rating="Fair">★</span>
+                    <span id="3-star" data-rating="Good">★</span>
+                    <span id="4-star" data-rating="Very Good">★</span>
+                    <span id="5-star" data-rating="Excellent">★</span>
+                </div>
+                <button id="resetRating" class="btn btn-reset">Remove Rating</button>
+            </div>
+            <p id="ratingText">Select a rating</p>
+            
+            <!-- Hidden input field to store the rating -->
+            <input type="hidden" name="rating" id="ratingInput">
+            
+            <label class="feedback-label">We'd love to hear your experience</label>
+            <textarea class="feedback-text" name="feedback_text" placeholder="Share your feedback..."></textarea>
+            
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-submit">Submit Feedback</button>
         </div>
-        
-        <p id="ratingText">Select a rating</p>
-        
-        <label class="feedback-label">We'd love to hear your experience</label>
-        <textarea class="feedback-text" placeholder="Share your feedback..."></textarea>
-        
-        <!-- Submit Button -->
-        <button id="submitFeedback" class="btn btn-submit">Submit Feedback</button>
     </div>
-</div>
-
+</form>
 
 
 <script>
@@ -75,10 +79,13 @@
     // Update rating text based on star clicked
     var stars = document.querySelectorAll('.rating-icons span');
     var ratingText = document.getElementById('ratingText');
+    var ratingInput = document.getElementById('ratingInput');
+    
     stars.forEach(star => {
         star.onclick = function() {
             var rating = this.getAttribute('data-rating');
             ratingText.innerHTML = rating;
+            ratingInput.value = rating;  // Update hidden input with selected rating
             stars.forEach(s => s.style.color = '#000');  // Reset color
             for (let i = 0; i <= this.id.split('-')[0] - 1; i++) {
                 stars[i].style.color = 'gold';  // Color selected stars gold
@@ -89,11 +96,10 @@
     // Reset rating functionality
     var resetButton = document.getElementById('resetRating');
     resetButton.onclick = function() {
-        // Reset all stars to default color
-        stars.forEach(star => star.style.color = '#000');
-        // Reset the rating text
-        ratingText.innerHTML = 'Select a rating';
-    }
+    stars.forEach(star => star.style.color = '#000'); // Reset stars color
+    ratingText.innerHTML = 'Select a rating';  // Reset rating text
+    ratingInput.value = '';  // Reset hidden input
+}
 
     // Submit feedback functionality
     var submitButton = document.getElementById('submitFeedback');
