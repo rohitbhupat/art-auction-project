@@ -179,3 +179,30 @@ body.light-mode .dropdown-menu-mode {
 body.dark-mode .dropdown-menu-mode {
   --dropdown-bg: #343a40;
 }
+
+/* notification sidebar */
+
+.notification-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.notification-item:hover {
+  background-color: #f1f1f1;
+}
+body.light-mode .notification-item {
+  border-bottom-color: #ddd;
+}
+
+body.light-mode .notification-item:hover {
+  background-color: #f1f1f1;
+}
+
+body.dark-mode .notification-item {
+  border-bottom-color: #444;
+}
+
+body.dark-mode .notification-item:hover {
+  background-color: #3e3e3e;
+}
