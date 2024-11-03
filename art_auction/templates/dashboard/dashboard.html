@@ -42,7 +42,7 @@
     {% else %}
         <!-- Redirect to ordermodel_list.html if user is not a seller -->
         <script>
-            window.location.href = "{% url 'dashboard:ordermodel_list' %}";
+            window.location.href = "{% url 'dashboard:order_list' %}";
         </script>
     {% endif %}
 {% endblock %}
