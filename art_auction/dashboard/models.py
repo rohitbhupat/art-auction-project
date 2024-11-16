@@ -31,6 +31,12 @@ class Artwork(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     is_sold = models.BooleanField(default=False)
     is_purchased = models.BooleanField(default=False)
+    status = models.CharField(max_length=50, choices=[
+        ('active', 'Active'),
+        ('closed', 'Closed'),
+        ('waiting_for_response', 'Waiting for Response'),
+        ('unsold', 'Unsold'),
+    ])
 
     def save(self, *args, **kwargs):
         # Duplicate image detection logic

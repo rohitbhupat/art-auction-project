@@ -3,7 +3,11 @@
         "ASGI",
         "asgiref",
         "ordermodel",
+        "REFERER",
         "signup",
         "viewdetails"
+    ],
+    "python.analysis.extraPaths": [
+        "./art_auction/art_auction"
     ]
 }

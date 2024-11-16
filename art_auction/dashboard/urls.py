@@ -1,6 +1,6 @@
 from django.urls import path
 from dashboard import views
-from django.conf import settings
+from django.conf import settings  # Correct import
 from django.conf.urls.static import static
 
 app_name = "dashboard"
@@ -20,6 +20,8 @@ urlpatterns = [
     path('submit_query/', views.SubmitQueryView.as_view(), name='submit_query'),
     path('submit-feedback/', views.submit_feedback, name='submit_feedback'),
     path('contact/', views.SubmitQueryView.as_view(), name='contact'),
+    path('check_auction_status/', views.check_auction_status, name='check_auction_status'),
+    path('confirm_purchase/<int:artwork_id>/', views.confirm_purchase, name='confirm_purchase'),
 ]
 
 if settings.DEBUG:

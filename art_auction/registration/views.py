@@ -38,7 +38,7 @@ class PasswordResetView(PasswordContextMixin, FormView):
     from_email = None
     html_email_template_name = None
     subject_template_name = "registration/password_reset_subject.txt"
-    success_url = reverse_lazy("password_reset_done")
+    success_url = reverse_lazy('registration:password_reset_done')
     template_name = "registration/password_reset.html"
     title = _("Password reset")
     token_generator = default_token_generator
@@ -72,7 +72,7 @@ class PasswordResetConfirmView(PasswordContextMixin, FormView):
     post_reset_login = False
     post_reset_login_backend = None
     reset_url_token = "set-password"
-    success_url = reverse_lazy("password_reset_confirm")
+    success_url = reverse_lazy("registration:password_reset_complete")  # Updated here
     template_name = "registration/password_reset_confirm.html"
     title = _("Enter new password")
     token_generator = default_token_generator

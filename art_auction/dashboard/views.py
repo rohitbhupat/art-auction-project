@@ -1,3 +1,4 @@
+import datetime
 from django import forms
 from art.forms import FeedbackForm
 from django.views import View
@@ -20,7 +21,7 @@ import imagehash
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.contrib import messages
-
+from django.conf import settings
 # Set up logging
 logger = logging.getLogger(__name__)
 
@@ -110,22 +111,28 @@ class BidCreateView(LoginRequiredMixin, View):
     @method_decorator(csrf_exempt)
     def post(self, request):
         try:
-            bid_amt = float(request.POST["bid_amt"])
-            product_id = request.POST["product"]
+            bid_amt = float(request.POST.get("bid_amt", 0))
+            product_id = request.POST.get("product")
             product_object = get_object_or_404(Artwork, pk=product_id)
 
             highest_bid = Bid.objects.filter(product=product_object).order_by("-bid_amt").first()
 
+            # Case when there is no bid yet
             if highest_bid is None:
                 min_bid = product_object.opening_bid
                 if bid_amt < min_bid:
-                    return JsonResponse({"success": False, "message": "Your bid must be equal or greater than the opening bid amount."})
+                    messages.error(request, "Your bid must be equal or greater than the opening bid amount.")
+                    return redirect(request.META.get('HTTP_REFERER', 'art:artwork_detail'))
+
+            # Case when there is already a highest bid
             else:
                 min_bid = highest_bid.bid_amt
                 if bid_amt <= min_bid:
-                    return JsonResponse({"success": False, "message": "Your bid must be higher than the current highest bid."})
+                    messages.error(request, "Your bid must be higher than the current highest bid.")
+                    return redirect(request.META.get('HTTP_REFERER', 'art:artwork_detail'))
 
-            new_bid = Bid.objects.create(user=request.user, bid_amt=bid_amt, product=product_object)
+            # If all checks pass, create the bid
+            Bid.objects.create(user=request.user, bid_amt=bid_amt, product=product_object)
 
             # Notify previous bidders
             previous_bidders = Bid.objects.filter(product=product_object).exclude(user=request.user).values_list('user', flat=True).distinct()
@@ -136,35 +143,57 @@ class BidCreateView(LoginRequiredMixin, View):
                     message=f"A new bid has been placed on {product_object.product_name}"
                 )
 
-            return JsonResponse({"success": True, "message": "Your bid has been placed successfully."})
+            messages.success(request, "Your bid has been placed successfully.")
+            return redirect(request.META.get('HTTP_REFERER', 'art:artwork_detail'))
 
         except Exception as e:
             logger.error(f'Error placing bid: {e}')
-            return JsonResponse({"success": False, "message": f"An error occurred while placing your bid. Please try again later. Error: {e}"})
-
+            messages.error(request, "An error occurred while placing your bid. Please try again later.")
+            return redirect(request.META.get('HTTP_REFERER', 'art:artwork_detail'))
+        
+from django.utils.timezone import now
 # Function to check the auction status
 def check_auction_status():
-    now = timezone.now()
-    artworks = Artwork.objects.filter(end_date__lte=now, status='open')
+    # Get artworks that have ended and are still active
+    products = Artwork.objects.filter(end_date__lte=now(), status='active')
 
-    for artwork in artworks:
-        highest_bid = Bid.objects.filter(artwork=artwork).order_by('-amount').first()
+    for product in products:
+        # Find the highest bid for each artwork
+        highest_bid = product.bids.order_by('-bid_amt').first()
 
         if highest_bid:
-            # Send notification to the highest bidder
+            # Send email to the highest bidder
             send_mail(
-                'Auction Winning Notification',
-                'Do you really want to purchase this artwork?',
-                'noreply@yourdomain.com',
-                [highest_bid.user.email],
-                fail_silently=False,
+                subject=f"You've won the auction for '{product.product_name}'!",
+                message=(
+                    f"Congratulations! You've won the auction for '{product.product_name}' at ₹{highest_bid.bid_amt}.\n\n"
+                    f"Click on the following link to confirm your purchase within 12 hours:\n"
+                    f"http://yourdomain.com/confirm_purchase/{product.id}/?response=yes\n\n"
+                    f"If you do not want to proceed, click here:\n"
+                    f"http://yourdomain.com/confirm_purchase/{product.id}/?response=no\n\n"
+                    f"You have 12 hours to respond."
+                ),
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[highest_bid.user.email],
             )
-            artwork.status = 'closed'
+            product.status = 'waiting_for_response'
         else:
-            # No bids placed, mark as unsold
-            artwork.status = 'unsold'
+            product.status = 'unsold'
+        
+        product.save()
 
-        artwork.save()
+def confirm_purchase(request, artwork_id):
+    response = request.GET.get('response')
+    product = Artwork.objects.get(pk=artwork_id)
+
+    if response == 'yes':
+        # Redirect to the checkout page
+        return redirect('checkout', artwork_id=product.id)
+    else:
+        # Mark as unsold
+        product.status = 'unsold'
+        product.save()
+        return render(request, 'art/unsold.html', {'message': 'The artwork has been moved to unsold items.'})
 
 def latest_bid(request, pk):
     try:

@@ -41,6 +41,27 @@
 .dark-mode h4 {
     color: white ;
 }
+.catalog-ref {
+    color: black; /* Default color for light mode */
+    text-decoration: none;
+}
+
+.catalog-ref:hover {
+    text-decoration: underline;
+    color: black;
+    transition: color 0.3s ease; /* Smooth transition for mode change */
+}
+
+body.dark-mode .catalog-ref {
+    color: white; /* Color for dark mode */
+    text-decoration: none;
+}
+
+body.dark-mode .catalog-ref:hover {
+    text-decoration: underline;
+    color: white;
+    transition: color 0.3s ease;
+}
 
 /* Light mode styles */
 .light-mode h1,

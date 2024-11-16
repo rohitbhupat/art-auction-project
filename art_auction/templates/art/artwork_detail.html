@@ -24,6 +24,28 @@
         background-repeat: no-repeat;
         background-attachment: fixed;
     }
+    #bid-message {
+        display: block;
+        margin-top: 10px;
+    }
+    /* Hide number input arrows in most browsers */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
+    .alert-danger {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+    }
+    
+
 </style>
 {% endblock %}
 {% block body %}
@@ -94,7 +116,7 @@
                         <form id="bid-form" action="{% url 'dashboard:place_bid' %}" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="product" value="{{ object.pk }}">
-                            <input type="number" id="bid-amount" name="bid_amt" value="{{ last_bid.bid_amt }}" min="{{ last_bid.bid_amt }}" class="form-control">
+                            <input type="number" id="bid-amount" name="bid_amt" value="{{ last_bid.bid_amt }}" min="{{ last_bid.bid_amt }}" class="form-control" inputmode="decimal" step="any">
                             <button onclick="sendBid(event)" class="btn btn-success bid_now mt-2">Bid Now</button>
                             <a href="{% url 'art:place_order' pk=object.id %}" type="button" class="btn btn-warning buy_now mt-2">Buy Now</a>
                         </form>
@@ -123,25 +145,32 @@
     }
 
     function sendBid(event) {
-        event.preventDefault(); // Prevent form submission
-        var bidAmount = document.getElementById('bid-amount').value;
+        event.preventDefault();
+        var bidAmount = parseFloat(document.getElementById('bid-amount').value);
         var bidMessage = document.getElementById('bid-message');
-        if (bidAmount && !isNaN(bidAmount) && bidAmount >= {{ last_bid.bid_amt }}) {
+        
+        // Ensure the bid is greater than the last bid amount
+        if (bidAmount && !isNaN(bidAmount) && bidAmount > {{ last_bid.bid_amt }}) {
             var formData = new FormData(document.getElementById('bid-form'));
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '{% url 'dashboard:place_bid' %}', true);
             xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+            
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     try {
-                        var data = JSON.parse(xhr.responseText);
-                        if (data.success) {
+                        // Check if the response contains a success message
+                        if (xhr.responseText.includes("Your bid has been placed successfully.")) {
                             fetchLatestBid();
-                            // Display success message
-                            bidMessage.innerHTML = '<div class="alert alert-success">' + data.message + '</div>';
-                        } else {
-                            // Display error message
-                            bidMessage.innerHTML = '<div class="alert alert-danger">' + data.message + '</div>';
+                            bidMessage.innerHTML = '<div class="alert alert-success">Your bid has been placed successfully.</div>';
+                        } 
+                        // Check for failure conditions
+                        else if (xhr.responseText.includes("Your bid must be higher than the current highest bid.") ||
+                                xhr.responseText.includes("Your bid must be equal or greater than the opening bid amount.")) {
+                            bidMessage.innerHTML = '<div class="alert alert-danger">' + xhr.responseText + '</div>';
+                        } 
+                        else {
+                            bidMessage.innerHTML = '<div class="alert alert-danger">Unexpected error occurred. Please try again.</div>';
                         }
                     } catch (e) {
                         console.error('Error parsing response:', e);
@@ -149,16 +178,19 @@
                     }
                 }
             };
+            
             xhr.onerror = function() {
-                console.error('Request failed'); // Debug line to check for request error
+                console.error('Request failed');
                 bidMessage.innerHTML = '<div class="alert alert-danger">Request failed. Please check your network and try again.</div>';
             };
+            
             xhr.send(formData);
         } else {
-            bidMessage.innerHTML = '<div class="alert alert-danger">Please enter a valid bid amount equal to or greater than the current bid.</div>';
+            // If the bid amount is not greater than the last bid, show an error message
+            bidMessage.innerHTML = '<div class="alert alert-danger">Your bid must be higher than the current highest bid.</div>';
         }
     }
-
+        
     // Fetch latest bid on page load
     fetchLatestBid();
 
