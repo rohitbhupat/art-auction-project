@@ -1,3 +1,4 @@
+from time import localtime
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
@@ -6,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from PIL import Image
 import imagehash
 from django.core.exceptions import ValidationError
+from django.utils.timezone import now
 
 class Catalogue(models.Model):
     cat_name = models.CharField(max_length=255)
@@ -36,7 +38,13 @@ class Artwork(models.Model):
         ('closed', 'Closed'),
         ('waiting_for_response', 'Waiting for Response'),
         ('unsold', 'Unsold'),
-    ])
+    ], default='active')
+    response_deadline = models.DateTimeField(blank=True, null=True)  # To store the deadline for buyer response
+    buyer_response = models.CharField(
+        max_length=11,
+        choices=[('yes', 'Yes'), ('no', 'No'), ('no_response', 'No Response')],
+        default='no_response'
+    )
 
     def save(self, *args, **kwargs):
         # Duplicate image detection logic
@@ -51,7 +59,7 @@ class Artwork(models.Model):
         
         # Set created_at on first save
         if not self.id:
-            self.created_at = timezone.now()
+            self.created_at = localtime(now())
         
         super().save(*args, **kwargs)
 
@@ -85,12 +93,13 @@ class OrderModel(models.Model):
 
 class Bid(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    product = models.ForeignKey(Artwork, on_delete=models.CASCADE)
+    product = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='bids')
     bid_date = models.DateField(auto_now_add=True)
     bid_amt = models.IntegerField(default=1)
 
     def __str__(self):
         return f'bid of {self.product} on {self.bid_date}'
+
 
 class Payment(models.Model):
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE)

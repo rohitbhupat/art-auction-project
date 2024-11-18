@@ -1,0 +1,328 @@
+Internal Server Error: /signup/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\views.py", line 172, in register_user
+    return render(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 295, in do_extends
+    nodelist = parser.parse()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 523, in parse
+    self.unclosed_block_tag(parse_until)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 586, in unclosed_block_tag
+    raise self.error(token, msg)
+django.template.exceptions.TemplateSyntaxError: Unclosed tag on line 5: 'block'. Looking for one of: endblock.
+"GET /signup/ HTTP/1.1" 500 171022
+Internal Server Error: /signup/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 510, in parse
+    compile_func = self.tags[command]
+KeyError: 'endfor'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\views.py", line 172, in register_user
+    return render(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 512, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 563, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 104: 'endfor', expected 'elif', 'else' or 'endif'. Did you forget to register or load this tag?
+"GET /signup/ HTTP/1.1" 500 205158
+Internal Server Error: /signup/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 510, in parse
+    compile_func = self.tags[command]
+KeyError: 'endblock'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\views.py", line 172, in register_user
+    return render(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 512, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 563, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 133: 'endblock', expected 'elif', 'else' or 'endif'. Did you forget to register or load this tag?
+"GET /signup/ HTTP/1.1" 500 203332
+Internal Server Error: /signup/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\views.py", line 172, in register_user
+    return render(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 523, in parse
+    self.unclosed_block_tag(parse_until)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 586, in unclosed_block_tag
+    raise self.error(token, msg)
+django.template.exceptions.TemplateSyntaxError: Unclosed tag on line 95: 'if'. Looking for one of: elif, else, endif.
+"GET /signup/ HTTP/1.1" 500 194290
+Internal Server Error: /signup/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 510, in parse
+    compile_func = self.tags[command]
+KeyError: 'endif'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\views.py", line 172, in register_user
+    return render(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 512, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 563, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 102: 'endif', expected 'empty' or 'endfor'. Did you forget to register or load this tag?
+"GET /signup/ HTTP/1.1" 500 190558
+Internal Server Error: /signup/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 510, in parse
+    compile_func = self.tags[command]
+KeyError: 'endfor'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\views.py", line 172, in register_user
+    return render(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 862, in do_for
+    nodelist_loop = parser.parse(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 962, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 512, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 563, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 114: 'endfor', expected 'elif', 'else' or 'endif'. Did you forget to register or load this tag?
+"GET /signup/ HTTP/1.1" 500 204224

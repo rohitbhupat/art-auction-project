@@ -10,18 +10,32 @@ class UserRegistrationForm(UserCreationForm):
     last_name = forms.CharField(required=True)
     username = forms.CharField(required=True)
     phone_number = forms.CharField(required=True, help_text="Please enter the phone number without +91")
-    password1 = forms.CharField(label="Password", required=True, widget=forms.PasswordInput)
-    password2 = forms.CharField(label="Confirm Password", required=True, widget=forms.PasswordInput)
-    
+    password1 = forms.CharField(
+        label="Password", 
+        required=True, 
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
+    password2 = forms.CharField(
+        label="Confirm Password", 
+        required=True, 
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
+
     def __init__(self, *args, **kwargs):
         super(UserRegistrationForm, self).__init__(*args, **kwargs)
+        
+        # Remove unnecessary fields
+        if 'is_password_auth_enabled' in self.fields:
+            del self.fields['is_password_auth_enabled']
+        
+        # Add consistent styling to other fields
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
 
     class Meta:
         model = User
         fields = ("first_name", "last_name", "username", "email", "phone_number", "password1", "password2")
-    
+
     def save(self, commit=True):
         user = super(UserRegistrationForm, self).save(commit=False)
         user.email = self.cleaned_data['email']
@@ -30,6 +44,7 @@ class UserRegistrationForm(UserCreationForm):
             # Check if UserInfo already exists before creating
             UserInfo.objects.get_or_create(user=user, defaults={'phone_number': self.cleaned_data['phone_number']})
         return user
+
 
 class LoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):

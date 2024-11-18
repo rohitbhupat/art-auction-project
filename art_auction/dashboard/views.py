@@ -152,48 +152,61 @@ class BidCreateView(LoginRequiredMixin, View):
             return redirect(request.META.get('HTTP_REFERER', 'art:artwork_detail'))
         
 from django.utils.timezone import now
-# Function to check the auction status
+# Check auction status and notify the highest bidder
 def check_auction_status():
-    # Get artworks that have ended and are still active
     products = Artwork.objects.filter(end_date__lte=now(), status='active')
-
     for product in products:
-        # Find the highest bid for each artwork
         highest_bid = product.bids.order_by('-bid_amt').first()
-
         if highest_bid:
-            # Send email to the highest bidder
+            # Notify the highest bidder via email
             send_mail(
                 subject=f"You've won the auction for '{product.product_name}'!",
                 message=(
                     f"Congratulations! You've won the auction for '{product.product_name}' at ₹{highest_bid.bid_amt}.\n\n"
-                    f"Click on the following link to confirm your purchase within 12 hours:\n"
-                    f"http://yourdomain.com/confirm_purchase/{product.id}/?response=yes\n\n"
-                    f"If you do not want to proceed, click here:\n"
-                    f"http://yourdomain.com/confirm_purchase/{product.id}/?response=no\n\n"
+                    f"Click here to confirm your purchase within 12 hours:\n"
+                    f"http://127.0.0.1:8000/confirm_purchase/{product.id}/?response=yes\n\n"
+                    f"Click here if you do not want to purchase:\n"
+                    f"http://127.0.0.1:8000/confirm_purchase/{product.id}/?response=no\n\n"
                     f"You have 12 hours to respond."
                 ),
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[highest_bid.user.email],
             )
             product.status = 'waiting_for_response'
+            product.response_deadline = now() + datetime.timedelta(hours=12)
         else:
             product.status = 'unsold'
-        
         product.save()
 
+# Handle buyer's response
 def confirm_purchase(request, artwork_id):
     response = request.GET.get('response')
-    product = Artwork.objects.get(pk=artwork_id)
+    product = get_object_or_404(Artwork, pk=artwork_id)
 
     if response == 'yes':
-        # Redirect to the checkout page
-        return redirect('checkout', artwork_id=product.id)
+        product.status = 'closed'
+        product.buyer_response = 'yes'
+        product.is_sold = True
+        product.save()
+        return redirect('art:order_form')  # Redirect to checkout
+    elif response == 'no':
+        product.status = 'unsold'
+        product.buyer_response = 'no'
+        product.save()
+        return render(request, 'art/unsold.html', {'message': 'The artwork has been marked as unsold.'})
     else:
-        # Mark as unsold
+        return render(request, 'dashboard/404.html', {'message': 'Invalid response.'})
+
+# Move expired artworks to unsold
+def check_expired_responses():
+    expired_artworks = Artwork.objects.filter(
+        response_deadline__lte=now(),
+        status='waiting_for_response',
+        buyer_response='no_response'
+    )
+    for product in expired_artworks:
         product.status = 'unsold'
         product.save()
-        return render(request, 'art/unsold.html', {'message': 'The artwork has been moved to unsold items.'})
 
 def latest_bid(request, pk):
     try:

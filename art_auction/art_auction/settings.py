@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'registration',
+    'django_cron',
     'channels',
+    'background_task',
 ]
 
 ASGI_APPLICATION = 'art_auction.asgi.application'
@@ -159,15 +161,16 @@ EMAIL_PORT = 587  # Port for TLS
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'bhupatrohit90@gmail.com'  # Replace with your email address
 EMAIL_HOST_PASSWORD = 'riuu kzfp fobd muvy'  # Replace with your email password
-DEFAULT_FROM_EMAIL = 'your_email@example.com'
+DEFAULT_FROM_EMAIL = 'bhupatrohit90@gmail.com'
 
 #languages and regions
 USE_I18N = True
 USE_L10N = True
-USE_TZ = True
+USE_TZ = True  # Ensure timezone support is enabled
+TIME_ZONE = 'Asia/Kolkata'  # Set your local timezone (IST)
+
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
 
 LANGUAGES = [
     ('en-us', 'English (US)'),
@@ -178,4 +181,27 @@ LANGUAGES = [
     ('it', 'Italian'),
     ('ja', 'Japanese'),
     ('ar', 'Arabic'),
+]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'email_errors.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
+
+CRONJOBS = [
+    ('*/5 * * * *', 'dashboard.cron.AuctionCronJob')
 ]
