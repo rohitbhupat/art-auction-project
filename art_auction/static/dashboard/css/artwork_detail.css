@@ -1,17 +1,49 @@
+/* Root variables for themes */
+:root {
+  --card-bg-light: #ffffff;
+  --card-bg-dark: #2c2c2c;
+  --text-light: #000000;
+  --text-dark: #ffffff;
+}
+
+body {
+  color: var(--text-color);
+}
+/* Light mode styles */
+body.light-mode {
+  --card-bg: var(--card-bg-light);
+  --text-color: var(--text-light);
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  --card-bg: var(--card-bg-dark);
+  --text-color: var(--text-dark);
+}
 .card {
   position: relative;
   display: flex;
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #ffffff !important;
+  background-color: var(--card-bg) !important;
+  color: var(--text-color) !important;
   background-clip: border-box;
   border-radius: .25rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.card * {
+  color: inherit !important; /* Ensures all child elements inherit the text color */
+}
+.form-control {
+  border: 1px solid var(--text-color) !important; /* Adjust border color dynamically */
+  background-color: var(--card-bg) !important; /* Matches the card background */
+  color: var(--text-color) !important; /* Matches the text color */
 }
 
-.form-control {
-  border: 1px solid #7c7c7c !important;
-  background-color: rgba(255, 255, 255, 0.84) !important;
+.form-control::placeholder {
+  color: var(--text-color);
+  opacity: 0.7; /* Placeholder slightly dimmer */
 }
 
 .button-container {
@@ -20,4 +52,55 @@
   /* Adjust the value to move vertically */
   left: 2rem;
   /* Adjust the value to move horizontally */
+}
+#bid-message {
+  display: block;
+  margin-top: 10px;
+}
+/* Hide number input arrows in most browsers */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+/* Dark mode alert styles */
+body.dark-mode .alert-success {
+  background-color: #48bb78 !important; /* Use a darker green for success messages */
+  color: black !important; /* Override the text color to black */
+}
+
+body.dark-mode .alert-danger {
+  background-color: #ff9090 !important; /* Darker red for error messages */
+  color: black !important; /* Override the text color to black */
+}
+
+body.dark-mode .alert-warning {
+  background-color: #fbbf24 !important; /* Darker yellow for warnings */
+  color: black !important; /* Override the text color to black */
+}
+
+/* Ensure the default alert color for light mode is not changed */
+body.light-mode .alert-success {
+  background-color: #baffcd;
+  color: #22543d;
+}
+
+body.light-mode .alert-danger {
+  background-color: #ffc3c8;
+  color: #721c24;
+}
+
+body.light-mode .alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
 }

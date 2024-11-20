@@ -2,7 +2,7 @@
 .open-sans-navbar {
   font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 650;
+  font-weight: 500;
   font-style: normal;
   font-variation-settings: 100;
 }
@@ -10,7 +10,7 @@
 .open-sans-catalog {
   font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 600;
+  font-weight: 500;
   font-style: normal;
   font-variation-settings: 100;
 }
@@ -63,7 +63,7 @@
 }
 
 /* Light Mode */
-body.light-mode .navbar{
+body.light-mode .navbar {
   background-color: #e7e7e7;
   color: #000;
 }
@@ -205,4 +205,84 @@ body.dark-mode .notification-item {
 
 body.dark-mode .notification-item:hover {
   background-color: #3e3e3e;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0; /* Optional: Adjust for styling */
+}
+.notification-icon {
+  position: relative;
+}
+
+.notification-icon .badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  padding: 5px 8px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  display: none;
+}
+
+/* Sidebar styles */
+#notification-sidebar {
+  position: fixed;
+  right: -400px;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: right 0.3s ease-in-out; /* Smooth slide-in effect */
+  z-index: 1050;
+  overflow-y: auto;
+}
+
+#notification-sidebar.open {
+  right: 0; /* Slide the sidebar into view */
+}
+
+#notification-sidebar .header {
+  padding: 10px;
+  background-color: #f8f9fa;
+  font-size: 16px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+#notification-sidebar .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#notification-container {
+  padding: 10px;
+}
+
+/* Light Mode Styles */
+body.light-mode #notification-sidebar {
+  background-color: #ffffff;
+  color: #000;
+}
+
+body.light-mode #notification-sidebar .header {
+  background-color: #f8f9fa;
+  border-bottom-color: #ddd;
+}
+
+/* Dark Mode Styles */
+body.dark-mode #notification-sidebar {
+  background-color: #2c2c2c;
+  color: #fff;
+}
+
+body.dark-mode #notification-sidebar .header {
+  background-color: #343a40;
+  border-bottom-color: #444;
 }

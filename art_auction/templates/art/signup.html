@@ -12,7 +12,7 @@
 
     body {
         font-family: 'Poppins', sans-serif;
-        background-image: url('{% static 'images/assets/AUCTION_2.png' %}');
+        background-image: url('{% static 'images/assets/ARTIV_GIF.gif' %}');
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -20,7 +20,7 @@
 
     .card-transparent {
         background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(1px);
         padding: 30px;
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -35,21 +35,22 @@
     }
 
     .password-wrapper {
-        position: relative;
+        position: relative; /* Ensures the relative positioning for absolute child elements */
     }
-
+    
     .password-wrapper input[type="password"],
     .password-wrapper input[type="text"] {
-        padding-right: 40px;
+        padding-right: 2.5rem; /* Ensures space for the toggle button */
     }
-
+    
     .password-wrapper .toggle-password {
         position: absolute;
-        right: 10px;
-        top: 42%;
+        right: 12px;
+        top: 68%; /* Centers vertically */
         transform: translateY(-50%);
         cursor: pointer;
     }
+    
 
     .text-muted {
         color: #6c757d;
@@ -81,51 +82,60 @@
         <p class="text-gray-600 text-center mt-2 mb-8">Please fill in the details to register.</p>
 
         {% if messages %}
-        <div class="error-messages">
-            {% for message in messages %}
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="this.parentElement.style.display='none';"></button>
-                </div>
-            {% endfor %}
-        </div>
+<div class="space-y-4">
+    {% for message in messages %}
+    <div 
+        class="px-4 py-3 rounded-md text-sm font-medium 
+        {% if message.tags == 'success' %}
+            text-green-800 bg-green-100 border border-green-300
+        {% elif message.tags == 'error' %}
+            text-red-800 bg-red-100 border border-red-300
+        {% elif message.tags == 'info' %}
+            text-blue-800 bg-blue-100 border border-blue-300
+        {% elif message.tags == 'warning' %}
+            text-yellow-800 bg-yellow-100 border border-yellow-300
+        {% else %}
+            text-gray-800 bg-gray-100 border border-gray-300
         {% endif %}
+        ">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
         
         <form method="post" class="space-y-4">
             {% csrf_token %}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {% for field in register_form %}
-                    {% if field.name != "password_auth" %} <!-- Exclude password-based authentication -->
-                    <div class="relative">
-                        {{ field.label_tag }}
-                        <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="{{ field.id_for_label }}"
-                            class="w-full border border-gray-300 rounded-lg py-2 px-3 mt-1 focus:ring-green-500 focus:border-green-500" 
-                            placeholder="Enter your {{ field.label|lower }}" 
-                            {% if field.value %}value="{{ field.value }}"{% endif %} />
-                        {% if field.field.widget.input_type == 'password' %}
-                        <span class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer toggle-password">
-                            <i class="fa-solid fa-eye"></i>
-                        </span>
-                        {% endif %}
-                        {% if field.errors %}
-                        <p class="text-red-500 text-sm">{{ field.errors }}</p>
-                        {% endif %}
-                        {% if field.help_text %}
-                        <p class="text-gray-500 text-sm">{{ field.help_text|safe }}</p>
-                        {% endif %}
-                    </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
+<div class="relative password-wrapper">
+    {{ field.label_tag }}
+    <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="{{ field.id_for_label }}"
+        class="w-full border border-gray-300 rounded-lg py-2 px-3 mt-1 focus:ring-green-500 focus:border-green-500"
+        placeholder="Enter your {{ field.label|lower }}" autocomplete="off"
+        {% if field.value %}value="{{ field.value }}"{% endif %} />
+    {% if field.field.widget.input_type == 'password' %}
+    <span class="toggle-password">
+        <i class="fa-solid fa-eye"></i>
+    </span>
+    {% endif %}
+    {% if field.errors %}
+    <p class="text-red-500 text-sm">{{ field.errors }}</p>
+    {% endif %}
+</div>
+{% endfor %}
 
+            </div>
+            
             <div id="divCheckPasswordMatch" class="text-red-500 text-sm text-right"></div>
             <div class="container border-0 text-center mt-3">
-
-            <button type="submit" 
-                class="w-96 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-medium">
-                Register
-            </button>
-        </div>
+                <button type="submit" 
+                    class="w-full md:w-60 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-medium">
+                    Register
+                </button>
+            </div>
+            
         </form>
 
         <div class="my-6">
@@ -136,14 +146,13 @@
             </div>
         </div>
 
-        <div class="container border-0 text-center mt-3">
-    <button class="w-96 bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-lg font-medium mt-6">
-            <a href="{% url 'art:login' %}?next={{request.path|urlencode}}">
+        <div class="container border-0 text-center mt-3 flex justify-center">
+            <a href="{% url 'art:login' %}?next={{request.path|urlencode}}" 
+                class="w-full md:w-96 bg-yellow-400 hover:bg-yellow-500 text-slate-800 py-2 rounded-lg font-medium mt-2 flex items-center justify-center">
                 Already registered? Click here to login
             </a>
-    </button>
-
         </div>
+        
     </div>
 </body>
 
@@ -153,18 +162,19 @@
 <script>
     document.querySelectorAll('.toggle-password').forEach(item => {
         item.addEventListener('click', event => {
-            const passwordField = item.previousElementSibling;
+            const passwordField = item.previousElementSibling; // Targets the input
             const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordField.setAttribute('type', type);
             item.innerHTML = type === 'password' ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
         });
     });
 
-    $(function(){
-        $("#id_password2").keyup(function(){
+    $(function () {
+        $("#id_password2").keyup(function () {
             var password = $("#id_password1").val();
             $("#divCheckPasswordMatch").html(password == $(this).val() ? "" : "Password and confirm password do not match!");
         });
     });
 </script>
+
 {% endblock %}

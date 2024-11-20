@@ -19,33 +19,10 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
     body {
-        /*background-image: url('{% static 'images/background/8.jpg' %}');*/
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
     }
-    #bid-message {
-        display: block;
-        margin-top: 10px;
-    }
-    /* Hide number input arrows in most browsers */
-    input[type="number"]::-webkit-outer-spin-button,
-    input[type="number"]::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    input[type="number"] {
-        -moz-appearance: textfield;
-        appearance: textfield;
-    }
-    .alert-danger {
-        background-color: #f8d7da;
-        border-color: #f5c6cb;
-        color: #721c24;
-    }
-    
-
 </style>
 {% endblock %}
 {% block body %}
@@ -105,12 +82,22 @@
                         {% if messages %}
                             {% for message in messages %}
                                 <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                                    {{ message }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    <div class="p-4 rounded-lg mb-2 
+                                        {% if message.tags == 'success' %}
+                                            bg-green-100 text-green-800 dark:bg-green-600 dark:text-black
+                                        {% elif message.tags == 'error' %}
+                                            bg-red-100 text-red-800 dark:bg-red-600 dark:text-black
+                                        {% else %}
+                                            bg-yellow-100 text-yellow-800 dark:bg-yellow-600 dark:text-black
+                                        {% endif %}
+                                    ">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
                                 </div>
                             {% endfor %}
                         {% endif %}
-                    </div>
+                    </div>                    
                     <div id="bid-message" class="mt-2"></div>
                     <div class="btn-group d-flex mx-auto mb-2 mt-2" role="group" aria-label="Basic outlined example">
                         <form id="bid-form" action="{% url 'dashboard:place_bid' %}" method="post">

@@ -13,7 +13,7 @@
 
     body {
         font-family: 'Poppins', sans-serif;
-        background-image: url('{% static "images/assets/AUCTION_2.png" %}');
+        background-image: url('{% static 'images/assets/ARTIV_GIF.gif' %}');
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -21,7 +21,7 @@
 
     .card-transparent {
         background: rgba(255, 255, 255, 0.85); /* Add transparency */
-        backdrop-filter: blur(10px); /* Add subtle blur effect */
+        backdrop-filter: blur(1px); /* Add subtle blur effect */
         padding: 30px;
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -63,12 +63,38 @@
         <h1 class="text-2xl font-semibold text-gray-800 text-center">Login to ARTIV</h1>
         <p class="text-gray-600 text-center mt-2 mb-8">Please sign in to access your account.</p>
 
+        {% if messages %}
+<div class="space-y-4">
+    {% for message in messages %}
+    <div 
+        class="px-4 py-3 rounded-md text-sm font-medium 
+        {% if message.tags == 'success' %}
+            text-green-800 bg-green-100 border border-green-300
+        {% elif message.tags == 'error' %}
+            text-red-800 bg-red-100 border border-red-300
+        {% elif message.tags == 'info' %}
+            text-blue-800 bg-blue-100 border border-blue-300
+        {% elif message.tags == 'warning' %}
+            text-yellow-800 bg-yellow-100 border border-yellow-300
+        {% else %}
+            text-gray-800 bg-gray-100 border border-gray-300
+        {% endif %}
+        ">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
         <!-- Form -->
         <form method="post" class="space-y-6">
             {% csrf_token %}
             {% for field in login_form %}
                 <div class="fieldWrapper {% if field.field.widget.input_type == 'password' %}password-wrapper{% endif %}">
-                    {{ field.errors }} 
+                    {% if field.errors %}
+                    <p class="text-sm text-red-500">{{ field.errors|striptags }}</p>
+                    {% endif %}                    
                     {{ field.label_tag }}
                     <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="{{ field.id_for_label }}" 
                         class="mt-1 block w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 placeholder-gray-400" 
@@ -88,7 +114,7 @@
 
             <button type="submit" 
                     class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-medium mt-6">
-                Sign in
+                Log in
             </button>
         </form>
 
@@ -101,11 +127,10 @@
         </div>
 
         <!-- Create Account Link -->
-    <button class="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-lg font-medium mt-6">
-        <a href="{% url 'art:register_user' %}">
-            Create Account
-        </a>
-    </button>
+    <a href="{% url 'art:register_user' %}" 
+        class="w-full bg-yellow-400 hover:bg-yellow-500 text-slate-800 py-2 rounded-lg font-medium mt-6 flex items-center justify-center">
+        Create Account
+    </a>
     </div>
 </body>
 

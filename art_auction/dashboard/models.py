@@ -70,11 +70,11 @@ class Artwork(models.Model):
         return self.product_name
 
     def get_last_bid(self):
-        last_bid = self.bid_set.order_by('-bid_amt').first()
+        last_bid = self.bids.order_by('-bid_amt').first()
         return last_bid.bid_amt if last_bid else self.opening_bid
 
     def get_total_bids(self):
-        return self.bid_set.count()
+        return self.bids.count()
     
     def mark_as_sold(self):
         self.is_sold = True

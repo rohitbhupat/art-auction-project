@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_cron',
     'channels',
     'background_task',
+    'django_apscheduler',
 ]
 
 ASGI_APPLICATION = 'art_auction.asgi.application'

@@ -1,4 +1,5 @@
 :root {
+    /* Light Mode Variables */
     --background-color: #f8f9fa;
     --text-color: #000;
     --link-color: #007bff;
@@ -11,69 +12,74 @@
 }
 
 .dark-mode {
+    /* Dark Mode Variables */
     --background-color: #343a40;
     --text-color: #fff;
     --link-color: #66b2ff;
     --link-hover-color: #3399ff;
     --title-color: #fff;
-    --accordion-bg-color: #454d55;
+    --accordion-bg-color: #3d4957;
     --accordion-border-color: #666;
-    --accordion-header-bg-color: #3a3f44;
+    --accordion-header-bg-color: #232528;
     --accordion-header-text-color: #fff;
 }
 
 body {
+    /* General Background and Text Color */
     background-color: var(--background-color);
     color: var(--text-color);
 }
 
+/* Title Styling */
 .faq-title {
     margin: 20px 0;
     color: var(--title-color);
 }
 
-.accordion-button {
+/* Accordion Styling */
+.accordion-item {
+    border-radius: 5px;
+    border: 1px solid rgb(67, 67, 67) !important;
+    margin-bottom: 10px;
+    background-color: var(--accordion-bg-color); /* Ensure entire accordion item background updates */
+}
+
+/* Accordion Button (Questions) */
+.dark-mode .accordion-button {
     background-color: var(--accordion-header-bg-color);
     color: var(--accordion-header-text-color);
 }
 
-.accordion-button:focus {
+.dark-mode .accordion-button:focus {
     box-shadow: none;
 }
 
-.accordion-button:not(.collapsed) {
+.dark-mode .accordion-button:not(.collapsed) {
     color: var(--accordion-header-text-color);
     background-color: var(--accordion-header-bg-color);
 }
 
-/* .accordion-body {
+/* Accordion Body (Answers) */
+.accordion-body {
     background-color: var(--accordion-bg-color);
-    border-top: 1px solid var(--accordion-border-color);
-} */
-
-.accordion-item {
-    border: 1px solid var(--accordion-border-color);
-    border-radius: 5px;
-    margin-bottom: 10px;
+    color: var(--text-color); /* Text color inside the accordion body */
 }
 
+/* Full Height FAQ Section */
 .vh-100_faq {
-    min-height: calc(100vh - 100px); /* Adjust this value to fit your footer height */
+    min-height: calc(100vh - 100px); /* Adjust for footer height */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+/* Font Styling */
 .open-sans-faq {
     font-family: "Open Sans", sans-serif;
-    font-optical-sizing: auto;
     font-weight: 650;
-    font-style: normal;
-    font-variation-settings: 100;
 }
 
 .poppins-regular-faq {
     font-family: "Poppins", sans-serif;
     font-weight: 500;
-    font-style: normal;
 }

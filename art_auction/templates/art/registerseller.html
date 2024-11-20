@@ -1,27 +1,29 @@
-{% extends './auth_template.html' %} 
 {% load static %}
-{% block title %}Register-Seller - ARTIV{% endblock %} 
-{% block meta_title %}Register{% endblock %}
-
-{% block robot %}allowed{% endblock %} 
 {% block form %}
-<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/register_seller.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/signup.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+    
     body {
-        background-image: url('{% static 'images/assets/AUCTION_2.png' %}');
+        font-family: 'Poppins', sans-serif;
+        background-image: url('{% static 'images/assets/ARTIV_GIF.gif' %}');
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
     }
 
-    .form-container {
-        background: rgba(255, 255, 255, 0.8);
-        padding: 20px;
+    .card-transparent {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(1px);
+        padding: 30px;
         border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 60rem;
+        width: 100%;
     }
 
     .password-wrapper {
@@ -30,131 +32,120 @@
 
     .password-wrapper input[type="password"],
     .password-wrapper input[type="text"] {
-        padding-right: 40px;
+        padding-right: 2.5rem;
     }
 
     .password-wrapper .toggle-password {
         position: absolute;
-        right: 10px;
+        right: 12px;
         top: 70%;
         transform: translateY(-50%);
         cursor: pointer;
     }
-</style>
-<div class="justify-content-center poppins-regular-signup">
-    {% if messages %}
-    <div class="error-messages">
-        {% for message in messages %}
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          {{message}}
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="this.parentElement.style.display='none';"></button>
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-    <h5 class="card-title" style="font-size:1rem;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#575757" class="bi bi-dash-lg" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"/>
-        </svg>
-        Create your seller account and auction your creativity
-    </h5><hr>
-    <form class="row g-3" method="post">
-        {% csrf_token %} 
-        {% for field in userform %}
-        {% if field.name != 'phone_number' %}
-        <div class="col-md-6">
-            <div class="fieldWrapper {% if field.field.widget.input_type == 'password' %}password-wrapper{% endif %}">
-                {{ field.errors }} {{ field.label_tag }} 
-                <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control" autocomplete="off" placeholder="Enter your {{ field.label|lower }}" {% if field.value %}value="{{ field.value }}"{% endif %} />
-                {% if field.field.widget.input_type == 'password' %}
-                <span class="toggle-password">
-                    <i class="fa-solid fa-eye"></i>
-                </span>
-                {% endif %}
-                {% if field.field.help_text %}
-                    <p class="help">{{ field.help_text|safe }}</p>
-                {% endif %}
-            </div>
-        </div>
-        {% endif %}
-        {% endfor %}
 
-        <!-- Display the phone_number field separately -->
-        <div class="col-md-6">
-            <div class="fieldWrapper">
-                {{ userform.phone_number.errors }} {{ userform.phone_number.label_tag }} 
-                <input type="{{ userform.phone_number.field.widget.input_type }}" name="{{ userform.phone_number.name }}" id="{{ userform.phone_number.id_for_label }}" class="form-control" autocomplete="off" placeholder="Enter your {{ userform.phone_number.label|lower }}" {% if userform.phone_number.value %}value="{{ userform.phone_number.value }}"{% endif %} />
-                
-                {% if userform.phone_number.field.help_text %}
-                    <p class="help">{{ userform.phone_number.field.help_text|safe }}</p>
-                {% endif %}
-            </div>
-        </div>
-
-        {% for field in sellerForm %}
-        {% if field.name != 'phone_number' %}
-        <div class="col-md-6">
-            <div class="fieldWrapper {% if field.field.widget.input_type == 'password' %}password-wrapper{% endif %}">
-                {{ field.errors }} {{ field.label_tag }} 
-                <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control" autocomplete="off" placeholder="Enter your {{ field.label|lower }}" {% if field.value %}value="{{ field.value }}"{% endif %} />
-                {% if field.field.widget.input_type == 'password' %}
-                <span class="toggle-password">
-                    <i class="fa-solid fa-eye"></i>
-                </span>
-                {% endif %}
-                {% if field.field.help_text %}
-                    <p class="help">{{ field.field.help_text|safe }}</p>
-                {% endif %}
-            </div>
-        </div>
-        {% endif %}
-        {% endfor %}
-        <div class="registrationFormAlert text-danger text-end" id="divCheckPasswordMatch"></div>
-
-        <div class="col-12">
-            <button type="submit" class="btn btn-register btn-primary">Sign up</button>
-        </div>
-    </form>
-    <div class="line"></div>
-    <h6 class="text-center text-mute">OR</h6>
-    <div class="container bg-white border-0 text-center mt-3">
-        <a href="{% url 'art:login' %}?next={{request.path|urlencode}}" class="btn btn-link btn-warning">Already registered? Click here to login
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2z"/>
-                <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-            </svg>
-        </a>
-    </div>
-</div>
-<style>
     .line {
         width: 100%;
         margin: auto;
-        border-top: 1px solid rgba(0,0,0,.200);
+        border-top: 1px solid rgba(0, 0, 0, 0.2);
         margin-top: 15px;
         margin-bottom: 15px;
     }
 </style>
-{% endblock %} 
+
+<body class="bg-gray-900 bg-opacity-80 min-h-screen flex items-center justify-center">
+    <div class="card-transparent">
+        <h1 class="text-2xl font-semibold text-gray-800 text-center">Create Seller Account</h1>
+        <p class="text-gray-600 text-center mt-2 mb-8">Fill in the details to start auctioning your creativity!</p>
+
+        {% if messages %}
+        <div class="error-messages">
+            {% for message in messages %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% for field in userform %}
+                <div class="relative password-wrapper">
+                    {{ field.label_tag }}
+                    <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="{{ field.id_for_label }}"
+                        class="w-full border border-gray-300 rounded-lg py-2 px-3 mt-1 focus:ring-green-500 focus:border-green-500"
+                        placeholder="Enter your {{ field.label|lower }}" autocomplete="off"
+                        {% if field.value %}value="{{ field.value }}"{% endif %} />
+                    {% if field.field.widget.input_type == 'password' %}
+                    <span class="toggle-password">
+                        <i class="fa-solid fa-eye"></i>
+                    </span>
+                    {% endif %}
+                    {% if field.errors %}
+                    <p class="text-red-500 text-sm">{{ field.errors }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                {% for field in sellerForm %}
+                <div class="relative password-wrapper">
+                    {{ field.label_tag }}
+                    <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="{{ field.id_for_label }}"
+                        class="w-full border border-gray-300 rounded-lg py-2 px-3 mt-1 focus:ring-green-500 focus:border-green-500"
+                        placeholder="Enter your {{ field.label|lower }}" autocomplete="off"
+                        {% if field.value %}value="{{ field.value }}"{% endif %} />
+                    {% if field.errors %}
+                    <p class="text-red-500 text-sm">{{ field.errors }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div id="divCheckPasswordMatch" class="text-red-500 text-sm text-right"></div>
+            <div class="container border-0 text-center mt-3">
+                <button type="submit"
+                    class="w-full md:w-60 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-medium">
+                    Register
+                </button>
+            </div>
+        </form>
+
+        <div class="my-6">
+            <div class="flex items-center">
+                <div class="flex-grow border-t border-gray-300"></div>
+                <span class="mx-4 text-gray-500">OR</span>
+                <div class="flex-grow border-t border-gray-300"></div>
+            </div>
+        </div>
+
+        <div class="container border-0 text-center mt-3 flex justify-center">
+            <a href="{% url 'art:login' %}?next={{request.path|urlencode}}"
+                class="w-full md:w-96 bg-yellow-400 hover:bg-yellow-500 text-slate-800 py-2 rounded-lg font-medium mt-2 flex items-center justify-center">
+                Already registered? Click here to login
+            </a>
+        </div>
+    </div>
+</body>
+
+{% endblock %}
+
 {% block block_js %}
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll('.toggle-password').forEach(item => {
-            item.addEventListener('click', event => {
-                const passwordField = item.previousElementSibling;
-                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordField.setAttribute('type', type);
-                item.innerHTML = type === 'password' ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
-            });
+    document.querySelectorAll('.toggle-password').forEach(item => {
+        item.addEventListener('click', () => {
+            const passwordField = item.previousElementSibling;
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            item.innerHTML = type === 'password' ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
         });
+    });
 
-        $("#id_password2").keyup(function(){
-            var password = $("#id_password1").val();
-            if (password === $(this).val()) {
-                $("#divCheckPasswordMatch").html("");
-            } else {
-                $("#divCheckPasswordMatch").html("Passwords do not match!");
-            }
+    $(function () {
+        $("#id_password2").keyup(function () {
+            const password = $("#id_password1").val();
+            $("#divCheckPasswordMatch").html(password == $(this).val() ? "" : "Passwords do not match!");
         });
     });
 </script>

@@ -1,7 +1,7 @@
 /*for paragraph*/
 .poppins-regular-text {
     font-family: "Poppins", sans-serif;
-    font-weight: 425;
+    font-weight: 400;
     font-style: normal;
     font-size: larger;
 }
@@ -21,7 +21,7 @@
     font-size: xx-large;
     font-style: normal;
     font-variation-settings: 100;
-  }
+}
 /* Image hover effect */
 .art_desc img {
     width: 100%;

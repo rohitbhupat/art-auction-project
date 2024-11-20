@@ -5,10 +5,10 @@ from django.views import View
 from django.views.generic.base import TemplateView
 from django.contrib.auth.models import Group
 from django.views.generic.detail import DetailView
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib import messages
 from art.forms import UserRegistrationForm, LoginForm, SellerInfoForm, UserForm, SellerForm
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 import razorpay
@@ -81,8 +81,6 @@ class index(View):
 @login_required
 def profile_settings(request):
     is_seller = request.user.groups.filter(name='SellerGroup').exists()
-
-    # Ensure UserInfo exists for the user
     user_info, created = UserInfo.objects.get_or_create(user=request.user)
 
     try:
@@ -90,42 +88,45 @@ def profile_settings(request):
     except SellerInfo.DoesNotExist:
         seller_info = None
 
+    # Forms
+    user_form = UserForm(instance=request.user)
+    password_form = PasswordChangeForm(user=request.user)  # Password change form
+    seller_form = SellerForm(instance=seller_info) if is_seller else None
+    initial_data = {'phone_number': user_info.phone_number}
+
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
-        seller_form = SellerForm(request.POST, instance=seller_info)
-        
-        if user_form.is_valid() and (not is_seller or seller_form.is_valid()):
-            # Save user form data
-            user = user_form.save()
+        password_form = PasswordChangeForm(user=request.user, data=request.POST)
+        seller_form = SellerForm(request.POST, instance=seller_info) if is_seller else None
 
-            # Update phone number in UserInfo model
+        # Validate forms
+        if user_form.is_valid() and (not is_seller or seller_form.is_valid()):
+            user = user_form.save()
             user_info.phone_number = request.POST.get('phone_number')
             user_info.save()
 
             if is_seller:
-                # Save seller form data
                 seller_info = seller_form.save(commit=False)
                 seller_info.user = user
                 seller_info.save()
+
+            # Handle password change
+            if password_form.is_valid():
+                password_form.save()
+                update_session_auth_hash(request, password_form.user)
 
             messages.success(request, 'Your profile has been updated successfully.')
             return redirect('art:profile_settings')
         else:
             messages.error(request, 'Please correct the errors below.')
-    else:
-        user_form = UserForm(instance=request.user)
-        initial_data = {
-            'phone_number': user_info.phone_number
-        }
-        seller_form = SellerForm(instance=seller_info) if is_seller else None
 
     return render(request, 'art/profile_settings.html', {
         'userForm': user_form,
         'sellerForm': seller_form,
+        'passwordForm': password_form,
         'is_seller': is_seller,
-        'phone_number': initial_data['phone_number']  # Pass phone number to the template
+        'phone_number': initial_data['phone_number'],
     })
-
 
 class CatListView(View):
     def catalog_products(request, id):
@@ -148,8 +149,6 @@ class CatListView(View):
                 "catalogue_list": Catalogue.objects.all()
             }
         )
-
-
 
 def register_user(request):
     if request.user.is_authenticated:
@@ -240,31 +239,42 @@ class RegisterSeller(View):
 def user_login(request):
     if request.user.is_authenticated:
         return redirect("dashboard:dashboard")
+
+    if request.method == "POST":
+        form = LoginForm(request, request.POST)
+        if form.is_valid():
+            uname = form.cleaned_data['username']
+            upass = form.cleaned_data['password']
+            user = authenticate(request, username=uname, password=upass)
+            if user is not None:
+                login(request, user)
+
+                # Check if the user is part of the SellerGroup
+                if user.groups.filter(name='SellerGroup').exists():
+                    # Ensure seller information exists
+                    SellerInfo.objects.get_or_create(user=user)
+
+                    # Fetch related data for the seller
+                    total_order = OrderModel.objects.filter(product__user=user).count()
+                    total_product = Artwork.objects.filter(user=user).count()
+                    return render(request, 'dashboard/dashboard.html', context={
+                        'is_Seller': True,
+                        'total_order': total_order,
+                        'total_product': total_product
+                    })
+
+                # Non-seller user
+                return render(request, 'dashboard/dashboard.html', context={'is_Seller': False})
+
+            # Authentication failed
+            messages.error(request, "Please correct the errors below.")
+        else:
+            messages.error(request, "Your username or password is incorrect.")
+
     else:
-        if request.method == "POST":
-            form = LoginForm(request, request.POST)
-            if form.is_valid():
-                uname = request.POST['username']
-                upass = request.POST['password']
-                user = authenticate(request, username=uname, password=upass)
-                if user is not None:
-                    login(request, user)
-                    if user.groups.filter(name='SellerGroup').exists():
-                        try:
-                            # Accessing the sellerinfo to ensure it exists
-                            user.sellerinfo
-                        except SellerInfo.DoesNotExist:
-                            SellerInfo.objects.create(user=user)
-
-                        total_order = OrderModel.objects.filter(product__user=user).count()
-                        total_product = Artwork.objects.filter(user=user).count()
-                        return render(request, 'dashboard/dashboard.html', context={'is_Seller': True, 'total_order': total_order, 'total_product': total_product})
-
-                    return render(request, 'dashboard/dashboard.html', context={'is_Seller': False})
-
-            messages.error(request, form.errors)
         form = LoginForm()
-        return render(request, 'art/signin.html', context={'login_form': form})
+
+    return render(request, 'art/signin.html', context={'login_form': form})
 
 class Profile(LoginRequiredMixin, TemplateView):
     template_name = "social-media/profile.html"

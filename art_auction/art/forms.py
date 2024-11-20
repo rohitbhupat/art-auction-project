@@ -1,8 +1,9 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from art.models import SellerInfo, UserInfo
 from dashboard.models import Artwork, Feedback
+from django.core.exceptions import ValidationError
 
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -23,19 +24,23 @@ class UserRegistrationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super(UserRegistrationForm, self).__init__(*args, **kwargs)
-        
-        # Remove unnecessary fields
-        if 'is_password_auth_enabled' in self.fields:
-            del self.fields['is_password_auth_enabled']
-        
-        # Add consistent styling to other fields
+    
+    # Print form fields for debugging
+        print("Form fields before modification:", self.fields.keys())
+    
+    # Remove unnecessary fields
+        if 'usable_password' in self.fields:
+            del self.fields['usable_password']
+    
+    # Add consistent styling to other fields
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
 
     class Meta:
         model = User
         fields = ("first_name", "last_name", "username", "email", "phone_number", "password1", "password2")
-
+        
     def save(self, commit=True):
         user = super(UserRegistrationForm, self).save(commit=False)
         user.email = self.cleaned_data['email']
@@ -56,7 +61,7 @@ class LoginForm(AuthenticationForm):
         fields = ("username", "password")
 
 class SellerInfoForm(forms.ModelForm):
-    phone_number = forms.CharField(required=True, help_text="Please enter the phone number without +91")
+    # phone_number = forms.CharField(required=True, help_text="Please enter the phone number without +91")
 
     def __init__(self, *args, **kwargs):
         super(SellerInfoForm, self).__init__(*args, **kwargs)
@@ -65,7 +70,7 @@ class SellerInfoForm(forms.ModelForm):
     
     class Meta:
         model = SellerInfo
-        fields = ("business_name", "phone_number")
+        fields = ("business_name",)
         widgets = {'user': forms.HiddenInput()}
 
 class UserForm(forms.ModelForm):
@@ -75,16 +80,19 @@ class UserForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)
+        self.fields['username'].help_text = ''
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
-
-
 
 class SellerForm(forms.ModelForm):
     class Meta:
         model = SellerInfo
         fields = ['business_name']
-
+class CustomPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super(CustomPasswordChangeForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 class ArtworkForm(forms.ModelForm):
     class Meta:
         model = Artwork

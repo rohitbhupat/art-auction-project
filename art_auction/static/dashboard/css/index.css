@@ -1,10 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+
 :root {
     --background-color: #e7e7e7;
     --text-color: #000;
     --link-color: #343434;
     --link-hover-color: #000000;
     --title-color: #000;
-    --contact-text-color: #000; /* Added variable for contact text color */
+    --contact-text-color: #000;
+    /* Added variable for contact text color */
 }
 
 .dark-mode {
@@ -13,35 +16,45 @@
     --link-color: #d8d8d8;
     --link-hover-color: #ffffff;
     --title-color: #fff;
-    --contact-text-color: #fff; /* Added variable for contact text color in dark mode */
+    --contact-text-color: #fff;
+    /* Added variable for contact text color in dark mode */
 }
+
 .poppins-regular-products {
     font-family: "Poppins", sans-serif;
-    font-weight: 425;
+    font-weight: 350;
     font-style: normal;
 }
+
 .artwork-card_home {
     flex: 0 0 auto !important;
     width: 24.66666667% !important;
 }
-  /* Dark mode styles */
-  .dark-mode .artwork-name {
-      color: white !important;
-  }
-  /* Light mode styles */
-  .light-mode .artwork-name {
-      color: black !important;
-  }
+
+/* Dark mode styles */
+.dark-mode .artwork-name {
+    color: white !important;
+}
+
+/* Light mode styles */
+.light-mode .artwork-name {
+    color: black !important;
+}
+
 .row {
     justify-content: start;
     --bs-gutter-y: 1.5rem !important;
 }
-.open-sans-empty{
+
+.open-sans-empty {
     color: var(--text-color) !important;
 }
+
 .dark-mode-heading {
-    color: var(--text-color); /* Use the variable for text color */
+    color: var(--text-color);
+    /* Use the variable for text color */
 }
+
 /* Back to Top Button */
 #back-to-top-btn {
     display: none;
@@ -56,4 +69,76 @@
     border-radius: 50%;
     font-size: 18px;
     width: 3.6%;
+}
+
+.filter-dropdown {
+    position: absolute;
+    top: 70px;
+    right: 35px;
+}
+
+.filter-dropdown .dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
+/* Back to Top Button */
+body.dark-mode #back-to-top-btn {
+    background-color: #333;
+    color: #fff;
+    border: none;
+}
+
+body.light-mode #back-to-top-btn {
+    background-color: #f8f9fa;
+    color: #333;
+    border: none;
+}
+
+/* Ensure headings are readable */
+body.dark-mode h3.open-sans-empty.dark-mode-heading {
+    color: var(--text-light) !important;
+}
+
+.button-container {
+    position: absolute;
+    top: 85px;
+    /* Adjust the value to move vertically */
+    left: 2rem;
+    /* Adjust the value to move horizontally */
+}
+
+.carousel-control-prev-icon {
+    width: 1rem !important;
+}
+
+.carousel-control-next-icon {
+    width: 1rem !important;
+}
+
+/* Light Mode Hover */
+body.light-mode .artwork-card_home:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+/* Dark Mode Hover */
+body.dark-mode .artwork-card_home:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.15);
+    /* Lighter shadow for dark mode */
+    transition: all 0.3s ease;
+}
+
+/* Light Mode Card Styles */
+body.light-mode .app-card {
+    background-color: var(--card-bg-light) !important;
+    color: var(--text-light) !important;
+}
+
+/* Dark Mode Card Styles */
+body.dark-mode .app-card {
+    background-color: var(--card-bg-dark) !important;
+    color: var(--text-dark) !important;
 }
