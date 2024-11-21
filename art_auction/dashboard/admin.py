@@ -11,7 +11,7 @@ admin.site.register(Notification)
 admin.site.register(Feedback)
 
 class QueryAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'email', 'query_description')
+    list_display = ('first_name', 'last_name', 'email', 'category', 'query_description')
     search_fields = ('first_name', 'last_name', 'email')
 
 class NotificationAdmin(admin.ModelAdmin):

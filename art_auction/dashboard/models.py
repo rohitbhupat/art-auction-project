@@ -126,10 +126,13 @@ class Query(models.Model):
     full_name = models.CharField(max_length=100)
     email = models.EmailField()
     query = models.TextField()
+    category = models.CharField(max_length=50)
     submitted_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.full_name} - {self.email}"
+        return f"{self.full_name} - {self.category}"
+
+from django.db import models
 
 class Feedback(models.Model):
     RATING_CHOICES = [
@@ -142,7 +145,15 @@ class Feedback(models.Model):
 
     rating = models.CharField(max_length=10, choices=RATING_CHOICES)
     feedback_text = models.TextField(blank=True, null=True)
+    sentiment = models.CharField(max_length=10, choices=[('positive', 'Positive'), ('negative', 'Negative'), ('neutral', 'Neutral')], blank=True, null=True)  # Added sentiment field
     submitted_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.rating} - {self.feedback_text[:50]}...'
+
+    
+class UserActivity(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)
+    interaction_type = models.CharField(max_length=50)  # e.g., 'view', 'like', 'bid'
+    timestamp = models.DateTimeField(auto_now_add=True)

@@ -164,6 +164,12 @@ EMAIL_HOST_USER = 'bhupatrohit90@gmail.com'  # Replace with your email address
 EMAIL_HOST_PASSWORD = 'riuu kzfp fobd muvy'  # Replace with your email password
 DEFAULT_FROM_EMAIL = 'bhupatrohit90@gmail.com'
 
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis URL
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_TIMEZONE = 'UTC'
+
 #languages and regions
 USE_I18N = True
 USE_L10N = True

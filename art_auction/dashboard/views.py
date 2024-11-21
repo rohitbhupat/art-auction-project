@@ -4,7 +4,7 @@ from art.forms import FeedbackForm
 from django.views import View
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from dashboard.models import Artwork, OrderModel, Catalogue, Bid, Notification, Query
+from dashboard.models import Artwork, OrderModel, Catalogue, Bid, Notification, Query, Feedback
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, FormView
 from django.urls import reverse_lazy
 from django.http import JsonResponse
@@ -20,7 +20,6 @@ from PIL import Image
 import imagehash
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
-from django.contrib import messages
 from django.conf import settings
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -363,6 +362,35 @@ def mark_notification_as_read(request, notification_id):
 
 
 from django.urls import reverse_lazy
+from django.views.generic.edit import FormView
+import spacy
+# Load the spaCy model
+nlp = spacy.load("en_core_web_sm")
+
+# Function to categorize the query
+def categorize_query(query):
+    categories = {
+        "billing": ["invoice", "payment", "charge", "transaction", "receipt"],
+        "artwork quality": ["quality", "damaged", "broken", "condition", "flaw", "issue"],
+        "bidding issues": ["bid", "auction", "price", "update", "bidding error", "reserve", "winning"],
+        "account management": ["account", "profile", "password", "reset", "login", "sign-up", "username"],
+        "technical support": ["website", "technical", "error", "issue", "bug", "notifications", "slow", "not working"],
+        "shipping and delivery": ["shipping", "delivery", "tracking", "timelines", "costs", "logistics", "package"],
+        "refund and returns": ["refund", "return", "canceled", "policy", "replacement", "compensation"],
+        "seller queries": ["seller", "dashboard", "upload", "artwork", "sales", "listings", "profit", "manage"],
+        "general information": ["guidelines", "platform", "how it works", "help", "support", "FAQ"],
+        "legal or policy concerns": ["copyright", "policy", "terms", "duplicate", "violation", "dispute", "legal"],
+        "AR and visualization help": ["AR", "visualization", "troubleshooting", "feature", "augmented reality", "3D", "view"],
+        "feedback and suggestions": ["feedback", "suggestion", "improvement", "ideas", "recommendation", "experience"]
+}
+
+    doc = nlp(query.lower())
+    for category, keywords in categories.items():
+        if any(keyword in doc.text for keyword in keywords):
+            return category
+    return "general"
+
+# SubmitQueryView class
 class SubmitQueryView(FormView):
     template_name = 'art/contact.html'
     success_url = reverse_lazy('art:contact')
@@ -370,29 +398,78 @@ class SubmitQueryView(FormView):
     def post(self, request, *args, **kwargs):
         full_name = request.POST.get('full_name')
         email = request.POST.get('email')
-        query = request.POST.get('query')
+        query_text = request.POST.get('query')
 
-        if full_name and email and query:
+        if full_name and email and query_text:
+        # Categorize the query
+            category = categorize_query(query_text)
+
+            # Save the query with the category
             query = Query(
                 full_name=full_name,
                 email=email,
-                query=query
+                query=query_text,
+                category=category  # Ensure 'category' is a field in your model
             )
             query.save()
-            messages.success(request, 'Your query has been submitted successfully.')
-            return redirect('art:contact')
+
+            return JsonResponse({'status': 'success', 'category': category})
         else:
-            messages.error(request, 'Please fill out all fields.')
-            return redirect('art:contact')
+            return JsonResponse({'status': 'error', 'message': 'Invalid data submitted.'}, status=400)
+
         
+from textblob import TextBlob
+# Analyze sentiment using TextBlob
+def analyze_sentiment(feedback):
+    if feedback:  # Ensure feedback is not empty
+        analysis = TextBlob(feedback)
+        return "positive" if analysis.sentiment.polarity > 0 else "negative" if analysis.sentiment.polarity < 0 else "neutral"
+    return "neutral"  # Return neutral if feedback is empty or None
+
+# Handle feedback submission
 def submit_feedback(request):
     if request.method == 'POST':
-        form = FeedbackForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Your feedback has been submitted.')
-            return redirect('art:callback')  # Redirect to a thank you page or callback page
-    else:
-        form = FeedbackForm()
-    
+        # Get feedback text from the form
+        feedback_text = request.POST.get('feedback_text')  # Ensure the field name matches
+
+        if not feedback_text:  # Check if feedback is empty
+            # Return an error message if feedback is missing
+            return JsonResponse({"status": "error", "message": "Feedback cannot be empty."})
+
+        # Perform sentiment analysis
+        sentiment = analyze_sentiment(feedback_text)
+
+        # Save the feedback and sentiment to the database
+        Feedback.objects.create(rating=request.POST.get('rating'), feedback_text=feedback_text, sentiment=sentiment)
+
+        # Return JSON response for AJAX requests
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({"status": "success", "sentiment": sentiment})
+
+        # If not AJAX, redirect to a thank-you page or display a message
+        messages.success(request, f'Thank you for your feedback! Sentiment: {sentiment}')
+        return redirect('art:callback')  # Replace 'art:callback' with the appropriate URL name
+
+    # For GET requests, display the feedback form
+    form = FeedbackForm()
     return render(request, 'art/index.html', {'form': form})
+
+from sklearn.metrics.pairwise import cosine_similarity
+import pandas as pd
+from dashboard.models import UserActivity
+
+def get_recommendations(user):
+    # Fetch user activity
+    activities = UserActivity.objects.all()
+    df = pd.DataFrame(list(activities.values()))
+    
+    # Generate user-item matrix
+    user_item_matrix = df.pivot_table(index='user_id', columns='artwork_id', values='interaction_type', fill_value=0)
+    
+    # Compute similarity
+    user_similarity = cosine_similarity(user_item_matrix)
+    similar_users = user_similarity[user.id - 1]
+    
+    # Recommend artworks based on similar users
+    recommended_artworks = Artwork.objects.filter(id__in=similar_users.argsort()[-5:])
+    return recommended_artworks
