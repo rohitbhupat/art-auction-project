@@ -45,7 +45,10 @@ class Artwork(models.Model):
         choices=[('yes', 'Yes'), ('no', 'No'), ('no_response', 'No Response')],
         default='no_response'
     )
-
+    def get_discounted_price(self):
+        """Calculate 30% discounted price."""
+        return self.product_price * 0.7
+    
     def save(self, *args, **kwargs):
         # Duplicate image detection logic
         if self.product_image:

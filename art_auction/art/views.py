@@ -152,7 +152,7 @@ class CatListView(View):
 
 def register_user(request):
     if request.user.is_authenticated:
-        return redirect("dashboard:dashboard")
+        return redirect("art:index")
     else:
         if request.method == "POST":
             form = UserRegistrationForm(request.POST)
@@ -238,7 +238,7 @@ class RegisterSeller(View):
 
 def user_login(request):
     if request.user.is_authenticated:
-        return redirect("dashboard:dashboard")
+        return redirect("art:index")
 
     if request.method == "POST":
         form = LoginForm(request, request.POST)
@@ -257,14 +257,14 @@ def user_login(request):
                     # Fetch related data for the seller
                     total_order = OrderModel.objects.filter(product__user=user).count()
                     total_product = Artwork.objects.filter(user=user).count()
-                    return render(request, 'dashboard/dashboard.html', context={
+                    return render(request, 'art/index.html', context={
                         'is_Seller': True,
                         'total_order': total_order,
                         'total_product': total_product
                     })
 
                 # Non-seller user
-                return render(request, 'dashboard/dashboard.html', context={'is_Seller': False})
+                return render(request, 'art/index.html', context={'is_Seller': False})
 
             # Authentication failed
             messages.error(request, "Please correct the errors below.")
@@ -309,6 +309,17 @@ class ArtworkDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context["last_bid"] = Bid.objects.filter(product=self.kwargs.get("pk")).last()
         context["total_bid"] = Bid.objects.filter(product=self.kwargs.get("pk")).count()
+        return context
+
+class ArtworkSaleDetailView(DetailView):
+    model = Artwork
+    template_name = "art/artwork-sale_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Assuming discounted_price is calculated dynamically
+        context["discounted_price"] = self.object.product_price * 0.9  # Example: 10% discount
+        context["recommended_artworks"] = Artwork.objects.exclude(pk=self.object.pk)[:4]
         return context
 
 class OrderCreateView(LoginRequiredMixin, View):
@@ -438,5 +449,29 @@ class UnsoldListView(LoginRequiredMixin, ListView):
             queryset = queryset.order_by('end_date')
         elif filter_param == 'desc':
             queryset = queryset.order_by('-end_date')
+
+        return queryset
+
+class ArtworkSaleListView(LoginRequiredMixin, ListView):
+    model = Artwork
+    template_name = "art/artwork_sale.html"
+    context_object_name = 'object_list'
+
+    def get_queryset(self):
+        # Query artworks available for sale
+        queryset = Artwork.objects.filter(product_qty__gt=0)
+
+        # Add sorting if needed
+        filter_param = self.request.GET.get('filter', None)
+        if filter_param == 'asc':
+            queryset = queryset.order_by('product_name')
+        elif filter_param == 'desc':
+            queryset = queryset.order_by('-product_name')
+
+        # Check if the user is purchasing for the first time
+        if self.request.user.is_authenticated:
+            # Add a 30% discount if the user is a first-time buyer
+            for artwork in queryset:
+                artwork.discounted_price = artwork.product_price * 0.7
 
         return queryset

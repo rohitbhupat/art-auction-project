@@ -209,17 +209,28 @@ def check_expired_responses():
 
 def latest_bid(request, pk):
     try:
+        # Fetch artwork and related bid data in a single query
         artwork = get_object_or_404(Artwork, pk=pk)
-        last_bid = Bid.objects.filter(product=artwork).order_by('-bid_amt').first()
-        total_bids = Bid.objects.filter(product=artwork).count()
+        bids = Bid.objects.filter(product=artwork)
+        
+        # Get the last bid amount and total bids efficiently
+        last_bid = bids.order_by('-bid_amt').first()
+        total_bids = bids.count()
+
+        # Prepare response data
         data = {
-            'last_bid': last_bid.bid_amt if last_bid else artwork.opening_bid,
-            'total_bids': total_bids
+            "success": True,
+            "last_bid": last_bid.bid_amt if last_bid else artwork.opening_bid,
+            "total_bids": total_bids,
         }
         return JsonResponse(data)
+    except Artwork.DoesNotExist:
+        # Artwork not found error (should rarely happen with get_object_or_404)
+        return JsonResponse({"success": False, "message": "Artwork not found."}, status=404)
     except Exception as e:
-        logger.error(f'Error fetching latest bid: {e}')
-        return JsonResponse({'success': False, 'message': f"Error fetching latest bid. Error: {e}"})
+        # Log any unexpected errors
+        logger.error(f"Error fetching latest bid for artwork {pk}: {e}")
+        return JsonResponse({"success": False, "message": "An unexpected error occurred. Please try again later."}, status=500)
 
 class ArtworkListView(LoginRequiredMixin, ListView):
     model = Artwork
@@ -312,6 +323,11 @@ class OrderListView(LoginRequiredMixin, ListView):
 
         return queryset
 
+from django.views.generic import DetailView
+from sklearn.metrics.pairwise import cosine_similarity
+import pandas as pd
+from dashboard.models import UserActivity, Artwork, Bid
+
 class ArtworkDetailView(LoginRequiredMixin, DetailView):
     model = Artwork
     template_name = 'art/artwork_detail.html'
@@ -320,13 +336,56 @@ class ArtworkDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         artwork = self.get_object()
+
+        # Last bid and total bids logic
         last_bid = Bid.objects.filter(product=artwork).order_by('-bid_amt').first()
         total_bids = Bid.objects.filter(product=artwork).count()
         context['last_bid'] = last_bid.bid_amt if last_bid else artwork.opening_bid
         context['total_bids'] = total_bids
         context['foot'] = artwork.foot
         context['inches'] = artwork.inches
+
+        # Recommendations logic
+        context['recommended_artworks'] = self.get_recommendations(artwork.id)
+
         return context
+
+def get_recommendations(self, artwork_id):
+    try:
+        # Fetch the current artwork
+        current_artwork = Artwork.objects.get(id=artwork_id)
+        # Get artworks from the same category and exclude the current artwork
+        recommended_artworks = Artwork.objects.filter(
+            product_cat=current_artwork.product_cat, 
+            is_sold=False, 
+            is_purchased=False
+        ).exclude(id=artwork_id)[:4]  # Limit recommendations to 4
+
+        # If no recommendations found, try by similar price range
+        if not recommended_artworks:
+            price_range = 0.2 * current_artwork.product_price  # Adjust range as needed
+            recommended_artworks = Artwork.objects.filter(
+                product_price__gte=current_artwork.product_price - price_range,
+                product_price__lte=current_artwork.product_price + price_range,
+                is_sold=False,
+                is_purchased=False
+            ).exclude(id=artwork_id)[:4]
+
+        return recommended_artworks
+    except Artwork.DoesNotExist:
+        return Artwork.objects.none()  # Return empty if the artwork is not found
+
+
+def get(self, request, *args, **kwargs):
+        # Record a view interaction
+        artwork = self.get_object()
+        UserActivity.objects.create(
+            user=request.user,
+            artwork=artwork,
+            interaction_type='view'
+        )
+        return super().get(request, *args, **kwargs)
+
 
 @login_required
 def fetch_notifications(request):
@@ -418,8 +477,9 @@ class SubmitQueryView(FormView):
             return JsonResponse({'status': 'error', 'message': 'Invalid data submitted.'}, status=400)
 
         
-from textblob import TextBlob
+
 # Analyze sentiment using TextBlob
+from textblob import TextBlob
 def analyze_sentiment(feedback):
     if feedback:  # Ensure feedback is not empty
         analysis = TextBlob(feedback)
@@ -453,23 +513,3 @@ def submit_feedback(request):
     # For GET requests, display the feedback form
     form = FeedbackForm()
     return render(request, 'art/index.html', {'form': form})
-
-from sklearn.metrics.pairwise import cosine_similarity
-import pandas as pd
-from dashboard.models import UserActivity
-
-def get_recommendations(user):
-    # Fetch user activity
-    activities = UserActivity.objects.all()
-    df = pd.DataFrame(list(activities.values()))
-    
-    # Generate user-item matrix
-    user_item_matrix = df.pivot_table(index='user_id', columns='artwork_id', values='interaction_type', fill_value=0)
-    
-    # Compute similarity
-    user_similarity = cosine_similarity(user_item_matrix)
-    similar_users = user_similarity[user.id - 1]
-    
-    # Recommend artworks based on similar users
-    recommended_artworks = Artwork.objects.filter(id__in=similar_users.argsort()[-5:])
-    return recommended_artworks

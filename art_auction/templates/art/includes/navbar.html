@@ -118,6 +118,11 @@
                 >Unsold items</a
               >
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'art:artwork_sale' %}"
+                >Artworks for sale</a
+              >
+            </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
               {% if user|has_group:"SellerGroup" %}

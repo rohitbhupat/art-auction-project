@@ -13,6 +13,7 @@ urlpatterns = [
    path('profile/',views.Profile.as_view(),name="profile"),
    path('logout/',views.logout_view,name="logout"),
    path('viewdetails/<int:pk>/',views.ArtworkDetailView.as_view(),name="product_details"),
+   path('artwork-sale/details/<int:pk>/',views.ArtworkSaleDetailView.as_view(),name="artwork_sale_detail"),
    path('addorder/<int:pk>',views.OrderCreateView.as_view(),name="place_order"),
    path('orderconfirm/',views.OrderCreateView.as_view(),name="confirm_order"),
    path("callback/", views.callback, name="callback"),
@@ -21,6 +22,7 @@ urlpatterns = [
    path("contact/", views.Contact.as_view(), name="contact"),
    path("faq/", views.FAQs.as_view(), name="faq"),
    path('unsold/',views.UnsoldListView.as_view(),name="unsold_items"),
+   path('artwork-sale/',views.ArtworkSaleListView.as_view(),name="artwork_sale"),
    path('cat/<int:id>/',views.CatListView.catalog_products,name="catalog_products"),
    path('profile-settings/', views.profile_settings, name='profile_settings'),
 ]

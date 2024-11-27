@@ -142,3 +142,13 @@ body.dark-mode .app-card {
     background-color: var(--card-bg-dark) !important;
     color: var(--text-dark) !important;
 }
+.carousel-inner {
+    height: 42rem; /* Set the height of the carousel container */
+    background-repeat: no-repeat; /* Prevent repeating the image */
+    background-size: cover; /* Ensures the image covers the entire container */
+    background-position: center; /* Centers the image */
+}
+
+.cropped-image {
+    display: none; /* Hides the <img> tag to only use the background */
+}
