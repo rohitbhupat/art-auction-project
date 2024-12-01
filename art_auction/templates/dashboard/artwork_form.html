@@ -1,44 +1,41 @@
-{% extends './base.html' %} 
-{% block title %}Add Artworks - ARTIV{% endblock %} 
-{% load static %} 
+{% extends './base.html' %}
+{% block title %}Add Artworks - ARTIV{% endblock %}
+{% load static %}
 {% block links %}
 <link rel="stylesheet" href="{% static 'dashboard/css/artwork_form.css' %}">
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
     body {
         font-family: 'Poppins', sans-serif;
     }
     .button-container {
         position: absolute;
-        top: 85px; /* Adjust the value to move vertically */
-        left: 17.5rem; /* Adjust the value to move horizontally */
+        top: 85px;
+        left: 17.5rem;
     }
     .home-button-container {
-        position:relative;
-        top: 5px; /* Adjust the value to move vertically */
-        left: 70.5rem; /* Adjust the value to move horizontally */
+        position: relative;
+        top: 5px;
+        left: 70.5rem;
     }
-    .btn-home-order{
-        top: -2px; /* Adjust the value to move vertically */
-        right: -9.5rem; /* Adjust the value to move horizontally */
+    .btn-home-order {
+        top: -2px;
+        right: -9.5rem;
         color: #212529;
     }
-    .btn-home-order:hover{
+    .btn-home-order:hover {
         color: black;
-        text-decoration:none;
-
+        text-decoration: none;
     }
-    body.dark-mode .btn-home-order{
-        top: -2px; /* Adjust the value to move vertically */
-        left: -9.5rem; /* Adjust the value to move horizontally */
+    body.dark-mode .btn-home-order {
         color: #fff;
     }
     .error-message {
-        color: red; /* Change to red color */
-        font-weight: bold; /* Optional: make it bold */
+        color: red;
+        font-weight: bold;
     }
 </style>
-{% endblock %} 
+{% endblock %}
 {% block content %}
 {% include './includes/header.html' %}
 {% include "art/arrow_button.html" %}
@@ -56,7 +53,7 @@
         <div class="container-xl">
             <h1 class="app-page-title">Add Artwork</h1>
             {% if form.non_field_errors %}
-                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
             {% endif %}
             <div class="row g-4 mb-4">
                 <div class="col-12">
@@ -64,40 +61,57 @@
                         <div class="app-card-body p-2">
                             <form method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
+                                <!-- Sale Type Selector -->
+                                <div class="fieldWrapper">
+                                    <label for="sale_type">Sale Type:</label>
+                                    <select id="sale_type" name="sale_type" onchange="toggleSaleTypeFields()">
+                                        <option value="discount">Discount</option>
+                                        <option value="bidding">Bidding</option>
+                                    </select>
+                                </div>
+
+                                <!-- Shared Fields -->
                                 <div class="fieldWrapper">
                                     <label for="{{ form.product_name.id_for_label }}">{{ form.product_name.label }}:</label>
                                     {{ form.product_name }}
                                     {% if form.product_name.errors %}
-                                        <div class="error-message">{{ form.product_name.errors }}</div>
+                                    <div class="error-message">{{ form.product_name.errors }}</div>
                                     {% endif %}
                                 </div>
-                                <div class="fieldWrapper">
-                                    <label for="{{ form.product_price.id_for_label }}">{{ form.product_price.label }}:</label>
-                                    {{ form.product_price }}
-                                    {% if form.product_price.errors %}
-                                        <div class="error-message">{{ form.product_price.errors }}</div>
-                                    {% endif %}
+
+                                <!-- Discount Fields -->
+                                <div id="discount_fields" style="display: none;">
+                                    <div class="fieldWrapper">
+                                        <label for="{{ form.product_price.id_for_label }}">Price:</label>
+                                        {{ form.product_price }}
+                                    </div>
+                                    <div class="fieldWrapper">
+                                        <label for="id_product_qty">Quantity:</label>
+                                        <input type="number" name="product_qty" value="1" readonly id="id_product_qty">
+                                    </div>
+                                </div>
+
+                                <!-- Bidding Fields -->
+                                <div id="bidding_fields" style="display: none;">
+                                    <div class="fieldWrapper">
+                                        <label for="{{ form.opening_bid.id_for_label }}">Opening Bid:</label>
+                                        {{ form.opening_bid }}
+                                    </div>
+                                    <div class="fieldWrapper">
+                                        <label for="{{ form.product_cat.id_for_label }}">Catalogue:</label>
+                                        {{ form.product_cat }}
+                                    </div>
+                                    <div class="fieldWrapper">
+                                        <label for="id_product_qty">Quantity:</label>
+                                        <input type="number" name="product_qty" value="1" readonly id="id_product_qty">
+                                    </div>
+                                    <div class="fieldWrapper">
+                                        <label for="{{ form.end_date.id_for_label }}">End Date:</label>
+                                        {{ form.end_date }}
+                                    </div>
                                 </div>
                                 <div class="fieldWrapper">
-                                    <label for="{{ form.opening_bid.id_for_label }}">{{ form.opening_bid.label }}:</label>
-                                    {{ form.opening_bid }}
-                                    {% if form.opening_bid.errors %}
-                                        <div class="error-message">{{ form.opening_bid.errors }}</div>
-                                    {% endif %}
-                                </div>
-                                <div class="fieldWrapper">
-                                    <label for="{{ form.product_cat.id_for_label }}">{{ form.product_cat.label }}:</label>
-                                    {{ form.product_cat }}
-                                    {% if form.product_cat.errors %}
-                                        <div class="error-message">{{ form.product_cat.errors }}</div>
-                                    {% endif %}
-                                </div>
-                                <div class="fieldWrapper">
-                                    <label for="id_product_qty">{{ form.product_qty.label }}:</label>
-                                    <input type="number" name="product_qty" value="1" min="1" max="{{ product.product_qty }}" required id="id_product_qty" readonly>
-                                </div>
-                                <div class="fieldWrapper">
-                                    <label for="dimension_unit" required=False>Dimensions:</label>
+                                    <label for="dimension_unit">Dimensions:</label>
                                     <select id="dimension_unit" name="dimension_unit" onchange="toggleDimensionFields()">
                                         <option value="cm">Centimeters</option>
                                         <option value="ft">Feet</option>
@@ -107,49 +121,27 @@
                                     <div class="fieldWrapper">
                                         <label for="{{ form.length_in_centimeters.id_for_label }}">{{ form.length_in_centimeters.label }} (cm):</label>
                                         {{ form.length_in_centimeters }}
-                                        {% if form.length_in_centimeters.errors %}
-                                            <div class="error-message">{{ form.length_in_centimeters.errors }}</div>
-                                        {% endif %}
                                     </div>
                                     <div class="fieldWrapper">
                                         <label for="{{ form.width_in_centimeters.id_for_label }}">{{ form.width_in_centimeters.label }} (cm):</label>
                                         {{ form.width_in_centimeters }}
-                                        {% if form.width_in_centimeters.errors %}
-                                            <div class="error-message">{{ form.width_in_centimeters.errors }}</div>
-                                        {% endif %}
                                     </div>
                                 </div>
-                                <div id="dimension_ft_fields" style="display:none;">
+                                <div id="dimension_ft_fields" style="display: none;">
                                     <div class="fieldWrapper">
                                         <label for="{{ form.foot.id_for_label }}">{{ form.foot.label }} (ft):</label>
                                         {{ form.foot }}
-                                        {% if form.foot.errors %}
-                                            <div class="error-message">{{ form.foot.errors }}</div>
-                                        {% endif %}
                                     </div>
                                     <div class="fieldWrapper">
                                         <label for="{{ form.inches.id_for_label }}">{{ form.inches.label }} (inch):</label>
                                         {{ form.inches }}
-                                        {% if form.inches.errors %}
-                                            <div class="error-message">{{ form.inches.errors }}</div>
-                                        {% endif %}
                                     </div>
-                                </div>
-                                <div class="fieldWrapper">
-                                    <label for="{{ form.end_date.id_for_label }}">{{ form.end_date.label }}:</label>
-                                    {{ form.end_date }}
-                                    {% if form.end_date.errors %}
-                                        <div class="error-message">{{ form.end_date.errors }}</div>
-                                    {% endif %}
                                 </div>
                                 <div class="fieldWrapper">
                                     <label for="{{ form.product_image.id_for_label }}">{{ form.product_image.label }}:</label>
                                     {{ form.product_image }}
-                                    <br>
-                                    {% if form.product_image.errors %}
-                                        <div class="error-message">{{ form.product_image.errors }}</div>
-                                    {% endif %}
                                 </div>
+                                <!-- Submit Button -->
                                 <div class="d-grid mx-auto">
                                     <input class="btn btn-success" type="submit" value="Upload" />
                                 </div>
@@ -165,7 +157,19 @@
 {% endblock %}
 {% block js %}
 <script>
-(function(){scroller();}());
+function toggleSaleTypeFields() {
+    var saleType = document.getElementById('sale_type').value;
+    var discountFields = document.getElementById('discount_fields');
+    var biddingFields = document.getElementById('bidding_fields');
+
+    if (saleType === 'discount') {
+        discountFields.style.display = 'block';
+        biddingFields.style.display = 'none';
+    } else if (saleType === 'bidding') {
+        discountFields.style.display = 'none';
+        biddingFields.style.display = 'block';
+    }
+}
 
 function toggleDimensionFields() {
     var dimensionUnit = document.getElementById('dimension_unit').value;
@@ -182,7 +186,8 @@ function toggleDimensionFields() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    toggleDimensionFields(); // Initialize the display based on the default selection
+    toggleSaleTypeFields();
+    toggleDimensionFields();
 });
 </script>
 {% endblock %}

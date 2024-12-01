@@ -15,6 +15,7 @@ urlpatterns = [
    path('viewdetails/<int:pk>/',views.ArtworkDetailView.as_view(),name="product_details"),
    path('artwork-sale/details/<int:pk>/',views.ArtworkSaleDetailView.as_view(),name="artwork_sale_detail"),
    path('addorder/<int:pk>',views.OrderCreateView.as_view(),name="place_order"),
+   path('sale-order/<int:pk>',views.SaleOrderCreateView.as_view(),name="sale_order"),
    path('orderconfirm/',views.OrderCreateView.as_view(),name="confirm_order"),
    path("callback/", views.callback, name="callback"),
    path("arview/<int:id>", views.ArView.as_view(), name="view_3d"),

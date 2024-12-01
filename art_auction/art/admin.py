@@ -9,22 +9,10 @@ class ArtworkAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'product_name',
-                'product_price',
-                'opening_bid',
-                'product_cat',
-                'product_id',
-                'product_qty',
-                'dimension_unit',
-                'length_in_centimeters',
-                'width_in_centimeters',
-                'foot',
-                'inches',
-                'product_image',
-                'end_date',
-                'is_sold',
-                'is_purchased',
-                'created_at',
+                'sale_type', 'product_name', 'product_price', 'opening_bid',
+                'product_cat', 'product_id', 'product_qty', 'dimension_unit',
+                'length_in_centimeters', 'width_in_centimeters', 'foot', 'inches',
+                'product_image', 'end_date', 'is_sold', 'is_purchased', 'created_at',
             )
         }),
     )
@@ -33,7 +21,10 @@ class ArtworkAdmin(admin.ModelAdmin):
         js = ('js/admin_dimension_toggle.js',)
         
     def save_model(self, request, obj, form, change):
-        if not obj.pk:  # If the object is being created, not edited
+        # Custom logic for discount calculations
+        if obj.sale_type == 'discount' and obj.product_price:
+            obj.discounted_price = obj.product_price * 0.7  # Apply 30% discount
+        if obj.user is None:  # Assign the user to the artwork if not specified
             obj.user = request.user
         super().save_model(request, obj, form, change)
 

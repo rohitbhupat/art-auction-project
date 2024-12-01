@@ -9,61 +9,86 @@ import imagehash
 from django.core.exceptions import ValidationError
 from django.utils.timezone import now
 
+
 class Catalogue(models.Model):
     cat_name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.cat_name
 
+
 class Artwork(models.Model):
+
+    SALE_TYPE_CHOICES = [
+        ("discount", "Discount"),
+        ("bidding", "Bidding"),
+    ]
+    sale_type = models.CharField(max_length=10, choices=SALE_TYPE_CHOICES, default='bidding')  # New field
     product_id = models.CharField(max_length=255, default="")
     product_name = models.CharField(max_length=255, default="", blank=False, null=False)
     product_price = models.IntegerField(default=0, null=False)
-    opening_bid = models.IntegerField(default=0)
-    product_cat = models.ForeignKey('Catalogue', on_delete=models.CASCADE)
+    opening_bid = models.IntegerField(default=0, null=True, blank=True)
+    product_cat = models.ForeignKey("Catalogue", on_delete=models.CASCADE, null=True, blank=True)
     product_qty = models.IntegerField(default=0)
-    product_image = models.ImageField(upload_to='arts/')
-    dimension_unit = models.CharField(max_length=2, choices=[('cm', 'Centimeters'), ('ft', 'Feet')])
+    product_image = models.ImageField(upload_to="arts/")
+    dimension_unit = models.CharField(
+        max_length=2, choices=[("cm", "Centimeters"), ("ft", "Feet")]
+    )
     length_in_centimeters = models.FloatField(default=0.0, blank=True, null=True)
     width_in_centimeters = models.FloatField(default=0.0, blank=True, null=True)
     foot = models.FloatField(default=0, blank=True, null=True)
     inches = models.FloatField(default=0, blank=True, null=True)
-    created_at = models.DateField(default=timezone.now)  # Default to current time zone's now    
-    end_date = models.DateField()
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateField(
+        default=timezone.now
+    )  # Default to current time zone's now
+    end_date = models.DateField(null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     is_sold = models.BooleanField(default=False)
     is_purchased = models.BooleanField(default=False)
-    status = models.CharField(max_length=50, choices=[
-        ('active', 'Active'),
-        ('closed', 'Closed'),
-        ('waiting_for_response', 'Waiting for Response'),
-        ('unsold', 'Unsold'),
-    ], default='active')
-    response_deadline = models.DateTimeField(blank=True, null=True)  # To store the deadline for buyer response
+    status = models.CharField(
+        max_length=50,
+        choices=[
+            ("active", "Active"),
+            ("closed", "Closed"),
+            ("waiting_for_response", "Waiting for Response"),
+            ("unsold", "Unsold"),
+        ],
+        default="active",
+    )
+    response_deadline = models.DateTimeField(
+        blank=True, null=True
+    )  # To store the deadline for buyer response
     buyer_response = models.CharField(
         max_length=11,
-        choices=[('yes', 'Yes'), ('no', 'No'), ('no_response', 'No Response')],
-        default='no_response'
+        choices=[("yes", "Yes"), ("no", "No"), ("no_response", "No Response")],
+        default="no_response",
     )
+    discounted_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # For discount
+    
     def get_discounted_price(self):
         """Calculate 30% discounted price."""
         return self.product_price * 0.7
-    
+
     def save(self, *args, **kwargs):
         # Duplicate image detection logic
         if self.product_image:
-            existing_images = Artwork.objects.exclude(id=self.id)  # Exclude self during update
+            existing_images = Artwork.objects.exclude(
+                id=self.id
+            )  # Exclude self during update
             uploaded_image_hash = imagehash.phash(Image.open(self.product_image))
-            
+
             for artwork in existing_images:
-                stored_image_hash = imagehash.phash(Image.open(artwork.product_image.path))
+                stored_image_hash = imagehash.phash(
+                    Image.open(artwork.product_image.path)
+                )
                 if uploaded_image_hash == stored_image_hash:
-                    raise ValidationError("Duplicate image detected. This artwork is already an NFT and cannot be uploaded again.")
-        
-        # Set created_at on first save
-        if not self.id:
-            self.created_at = localtime(now())
-        
+                    raise ValidationError(
+                        "Duplicate image detected. This artwork is already an NFT and cannot be uploaded again."
+                    )
+
+        # Fix for 'created_at' - Ensure it's a datetime object
+        if not self.id:  # Only set `created_at` when it's a new object
+            self.created_at = timezone.now()
         super().save(*args, **kwargs)
 
     def clean(self):
@@ -73,15 +98,16 @@ class Artwork(models.Model):
         return self.product_name
 
     def get_last_bid(self):
-        last_bid = self.bids.order_by('-bid_amt').first()
+        last_bid = self.bids.order_by("-bid_amt").first()
         return last_bid.bid_amt if last_bid else self.opening_bid
 
     def get_total_bids(self):
         return self.bids.count()
-    
+
     def mark_as_sold(self):
         self.is_sold = True
         self.save()
+
 
 class OrderModel(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -92,38 +118,51 @@ class OrderModel(models.Model):
     order_price = models.FloatField(default=0, null=False)
 
     def __str__(self):
-        return f'order of {self.product} by {self.user}'
+        return f"order of {self.product} by {self.user}"
+
 
 class Bid(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    product = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='bids')
+    product = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name="bids")
     bid_date = models.DateField(auto_now_add=True)
     bid_amt = models.IntegerField(default=1)
 
     def __str__(self):
-        return f'bid of {self.product} on {self.bid_date}'
+        return f"bid of {self.product} on {self.bid_date}"
 
 
 class Payment(models.Model):
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
-    status = models.CharField(_("Payment Status"), max_length=254, default='Pending', blank=False, null=False)
-    provider_order_id = models.CharField(_("Order ID"), max_length=40, null=False, blank=False)
-    payment_id = models.CharField(_("Payment ID"), max_length=36, null=False, blank=False)
-    signature_id = models.CharField(_("Signature ID"), max_length=128, null=False, blank=False)
+    status = models.CharField(
+        _("Payment Status"), max_length=254, default="Pending", blank=False, null=False
+    )
+    provider_order_id = models.CharField(
+        _("Order ID"), max_length=40, null=False, blank=False
+    )
+    payment_id = models.CharField(
+        _("Payment ID"), max_length=36, null=False, blank=False
+    )
+    signature_id = models.CharField(
+        _("Signature ID"), max_length=128, null=False, blank=False
+    )
     payment_method = models.CharField(max_length=50, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Payment {self.provider_order_id}"
 
+
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Artwork, on_delete=models.CASCADE, null=True, blank=True)  # Adjust as necessary
+    product = models.ForeignKey(
+        Artwork, on_delete=models.CASCADE, null=True, blank=True
+    )  # Adjust as necessary
     message = models.TextField()
     read = models.BooleanField(default=False)
     read_at = models.DateTimeField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+
 
 class Query(models.Model):
     full_name = models.CharField(max_length=100)
@@ -135,26 +174,37 @@ class Query(models.Model):
     def __str__(self):
         return f"{self.full_name} - {self.category}"
 
+
 from django.db import models
+
 
 class Feedback(models.Model):
     RATING_CHOICES = [
-        ('Poor', 'Poor'),
-        ('Fair', 'Fair'),
-        ('Good', 'Good'),
-        ('Very Good', 'Very Good'),
-        ('Excellent', 'Excellent'),
+        ("Poor", "Poor"),
+        ("Fair", "Fair"),
+        ("Good", "Good"),
+        ("Very Good", "Very Good"),
+        ("Excellent", "Excellent"),
     ]
 
     rating = models.CharField(max_length=10, choices=RATING_CHOICES)
     feedback_text = models.TextField(blank=True, null=True)
-    sentiment = models.CharField(max_length=10, choices=[('positive', 'Positive'), ('negative', 'Negative'), ('neutral', 'Neutral')], blank=True, null=True)  # Added sentiment field
+    sentiment = models.CharField(
+        max_length=10,
+        choices=[
+            ("positive", "Positive"),
+            ("negative", "Negative"),
+            ("neutral", "Neutral"),
+        ],
+        blank=True,
+        null=True,
+    )  # Added sentiment field
     submitted_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.rating} - {self.feedback_text[:50]}...'
+        return f"{self.rating} - {self.feedback_text[:50]}..."
 
-    
+
 class UserActivity(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)

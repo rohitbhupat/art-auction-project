@@ -2963,3 +2963,1698 @@ Traceback (most recent call last):
     artwork.discounted_price = artwork.price * 0.7
 AttributeError: 'Artwork' object has no attribute 'price'
 "GET /artwork-sale/ HTTP/1.1" 500 84442
+Internal Server Error: /artwork-sale/details/141/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such column: dashboard_artwork.sale_type
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\detail.py", line 108, in get
+    self.object = self.get_object()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\detail.py", line 53, in get_object
+    obj = queryset.get()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 645, in get
+    num = len(clone)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such column: dashboard_artwork.sale_type
+"GET /artwork-sale/details/141/ HTTP/1.1" 500 157291
+Internal Server Error: /artwork-sale/details/141/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such column: dashboard_artwork.sale_type
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\detail.py", line 108, in get
+    self.object = self.get_object()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\detail.py", line 53, in get_object
+    obj = queryset.get()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 645, in get
+    num = len(clone)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 382, in __len__
+    self._fetch_all()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such column: dashboard_artwork.sale_type
+"GET /artwork-sale/details/141/ HTTP/1.1" 500 157291
+Internal Server Error: /
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such column: dashboard_artwork.sale_type
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\views.py", line 77, in get
+    for product in product_object_list:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such column: dashboard_artwork.sale_type
+"GET / HTTP/1.1" 500 149701
+Internal Server Error: /
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such column: dashboard_artwork.sale_type
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\views.py", line 77, in get
+    for product in product_object_list:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such column: dashboard_artwork.sale_type
+"GET / HTTP/1.1" 500 149838
+Internal Server Error: /
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such column: dashboard_artwork.sale_type
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\views.py", line 77, in get
+    for product in product_object_list:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such column: dashboard_artwork.sale_type
+"GET / HTTP/1.1" 500 149838
+Internal Server Error: /
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such column: dashboard_artwork.sale_type
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\views.py", line 77, in get
+    for product in product_object_list:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such column: dashboard_artwork.sale_type
+"GET / HTTP/1.1" 500 149838
+Internal Server Error: /
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such column: dashboard_artwork.sale_type
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\views.py", line 77, in get
+    for product in product_object_list:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such column: dashboard_artwork.sale_type
+"GET / HTTP/1.1" 500 149799
+Internal Server Error: /
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such column: dashboard_artwork.sale_type
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\views.py", line 77, in get
+    for product in product_object_list:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such column: dashboard_artwork.sale_type
+"GET / HTTP/1.1" 500 149525
+Internal Server Error: /
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.OperationalError: no such column: dashboard_artwork.sale_type
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\views.py", line 77, in get
+    for product in product_object_list:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 400, in __iter__
+    self._fetch_all()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1928, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1574, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.OperationalError: no such column: dashboard_artwork.sale_type
+"GET / HTTP/1.1" 500 151106
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 37, in save_model
+    super().save_model(request, obj, form, change)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\dashboard\models.py", line 99, in save
+    self.created_at = localtime(now())
+TypeError: 'datetime.datetime' object cannot be interpreted as an integer
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 135912
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 37, in save_model
+    super().save_model(request, obj, form, change)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\dashboard\models.py", line 99, in save
+    self.created_at = localtime(now())
+TypeError: 'datetime.datetime' object cannot be interpreted as an integer
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 135912
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.IntegrityError: NOT NULL constraint failed: dashboard_artwork.product_cat_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 37, in save_model
+    super().save_model(request, obj, form, change)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.IntegrityError: NOT NULL constraint failed: dashboard_artwork.product_cat_id
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 225153
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 220540
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 220540
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 220805
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 32, in save_model
+    super().save_model(request, obj, form, change)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 225362
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 220724
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 220724
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 220989
+Internal Server Error: /dashboard/addproduct/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\models.py", line 498, in _post_clean
+    self.instance.full_clean(exclude=exclude, validate_unique=False)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1650, in full_clean
+    raise ValidationError(errors)
+django.core.exceptions.ValidationError: {'product_id': ['This field is required for bidding.']}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 182, in post
+    return super().post(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 150, in post
+    if form.is_valid():
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\forms.py", line 197, in is_valid
+    return self.is_bound and not self.errors
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\forms.py", line 192, in errors
+    self.full_clean()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\forms.py", line 327, in full_clean
+    self._post_clean()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\models.py", line 500, in _post_clean
+    self._update_errors(e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\models.py", line 472, in _update_errors
+    self.add_error(None, errors)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\forms.py", line 292, in add_error
+    raise ValueError(
+ValueError: 'ArtworkForm' has no field named 'product_id'.
+"POST /dashboard/addproduct/ HTTP/1.1" 500 123826
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 220724
+Internal Server Error: /dashboard/addproduct/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\models.py", line 498, in _post_clean
+    self.instance.full_clean(exclude=exclude, validate_unique=False)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1650, in full_clean
+    raise ValidationError(errors)
+django.core.exceptions.ValidationError: {'product_id': ['This field is required for bidding.']}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 182, in post
+    return super().post(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 150, in post
+    if form.is_valid():
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\forms.py", line 197, in is_valid
+    return self.is_bound and not self.errors
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\forms.py", line 192, in errors
+    self.full_clean()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\forms.py", line 327, in full_clean
+    self._post_clean()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\models.py", line 500, in _post_clean
+    self._update_errors(e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\models.py", line 472, in _update_errors
+    self.add_error(None, errors)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\forms.py", line 292, in add_error
+    raise ValueError(
+ValueError: 'ArtworkForm' has no field named 'product_id'.
+"POST /dashboard/addproduct/ HTTP/1.1" 500 123826
+Internal Server Error: /dashboard/addproduct/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\models.py", line 498, in _post_clean
+    self.instance.full_clean(exclude=exclude, validate_unique=False)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1650, in full_clean
+    raise ValidationError(errors)
+django.core.exceptions.ValidationError: {'product_id': ['This field is required for bidding.']}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 182, in post
+    return super().post(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 150, in post
+    if form.is_valid():
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\forms.py", line 197, in is_valid
+    return self.is_bound and not self.errors
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\forms.py", line 192, in errors
+    self.full_clean()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\forms.py", line 327, in full_clean
+    self._post_clean()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\models.py", line 500, in _post_clean
+    self._update_errors(e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\models.py", line 472, in _update_errors
+    self.add_error(None, errors)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\forms\forms.py", line 292, in add_error
+    raise ValueError(
+ValueError: 'ArtworkForm' has no field named 'product_id'.
+"POST /dashboard/addproduct/ HTTP/1.1" 500 123826
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 32, in save_model
+    super().save_model(request, obj, form, change)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\dashboard\models.py", line 91, in save
+    self.created_at = localtime(now())
+TypeError: 'datetime.datetime' object cannot be interpreted as an integer
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 135968
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 32, in save_model
+    super().save_model(request, obj, form, change)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\dashboard\models.py", line 91, in save
+    self.created_at = localtime(now())
+TypeError: 'datetime.datetime' object cannot be interpreted as an integer
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 136099
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 32, in save_model
+    super().save_model(request, obj, form, change)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\dashboard\models.py", line 91, in save
+    self.created_at = localtime(now())
+TypeError: 'datetime.datetime' object cannot be interpreted as an integer
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 135968
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 32, in save_model
+    super().save_model(request, obj, form, change)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\dashboard\models.py", line 91, in save
+    self.created_at = localtime(now())
+TypeError: 'datetime.datetime' object cannot be interpreted as an integer
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 136099
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 27, in save_model
+    super().save_model(request, obj, form, change)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\dashboard\models.py", line 91, in save
+    self.created_at = localtime(now())
+TypeError: 'datetime.datetime' object cannot be interpreted as an integer
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 136067
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 27, in save_model
+    super().save_model(request, obj, form, change)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\dashboard\models.py", line 91, in save
+    self.created_at = localtime(now())
+TypeError: 'datetime.datetime' object cannot be interpreted as an integer
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 136067
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 27, in save_model
+    super().save_model(request, obj, form, change)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\dashboard\models.py", line 91, in save
+    self.created_at = localtime(now())
+TypeError: 'datetime.datetime' object cannot be interpreted as an integer
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 136067
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 27, in save_model
+    super().save_model(request, obj, form, change)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\dashboard\models.py", line 91, in save
+    self.created_at = localtime(now())
+TypeError: 'datetime.datetime' object cannot be interpreted as an integer
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 136067
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 27, in save_model
+    super().save_model(request, obj, form, change)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\dashboard\models.py", line 92, in save
+    super().save(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.IntegrityError: NOT NULL constraint failed: dashboard_artwork.user_id
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 230297
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 25, in save_model
+    if not obj.user:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\fields\related_descriptors.py", line 267, in __get__
+    raise self.RelatedObjectDoesNotExist(
+dashboard.models.Artwork.user.RelatedObjectDoesNotExist: Artwork has no user.
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 131472
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+sqlite3.IntegrityError: NOT NULL constraint failed: dashboard_artwork.end_date
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1871, in _changeform_view
+    self.save_model(request, new_object, form, not add)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 29, in save_model
+    super().save_model(request, obj, form, change)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1294, in save_model
+    obj.save()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\dashboard\models.py", line 92, in save
+    super().save(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 891, in save
+    self.save_base(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 997, in save_base
+    updated = self._save_table(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1160, in _save_table
+    results = self._do_insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\base.py", line 1201, in _do_insert
+    return manager._insert(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1847, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\compiler.py", line 1836, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\backends\sqlite3\base.py", line 354, in execute
+    return super().execute(query, params)
+django.db.utils.IntegrityError: NOT NULL constraint failed: dashboard_artwork.end_date
+"POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 230329

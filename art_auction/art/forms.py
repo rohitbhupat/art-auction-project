@@ -94,20 +94,52 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
 class ArtworkForm(forms.ModelForm):
+    SALE_TYPE_CHOICES = [
+        ('discount', 'Discount'),
+        ('bidding', 'Bidding'),
+    ]
+
+    sale_type = forms.ChoiceField(
+        choices=SALE_TYPE_CHOICES,
+        required=True,
+        widget=forms.Select(attrs={'class': 'form-control', 'id': 'id_sale_type'}),
+    )
+
     class Meta:
         model = Artwork
         fields = [
-            'product_name', 'product_price', 'product_qty', 'product_image', 
-            'product_cat', 'product_id', 'end_date', 'opening_bid',
-            'dimension_unit', 'length_in_centimeters', 'width_in_centimeters', 
-            'foot', 'inches'
+            'sale_type', 'product_name', 'product_price', 'product_qty', 'product_image',
+            'product_cat', 'product_id', 'end_date', 'discounted_price', 'opening_bid',
+            'dimension_unit', 'length_in_centimeters', 'width_in_centimeters', 'foot', 'inches'
         ]
 
     def __init__(self, *args, **kwargs):
         super(ArtworkForm, self).__init__(*args, **kwargs)
-        for field_name in ['length_in_centimeters', 'width_in_centimeters', 'foot', 'inches']:
-            self.fields[field_name].required = False
+        for field_name in self.fields:
+            self.fields[field_name].widget.attrs['class'] = 'form-control'
+        self.fields['length_in_centimeters'].required = False
+        self.fields['width_in_centimeters'].required = False
+        self.fields['foot'].required = False
+        self.fields['inches'].required = False
+        self.fields['opening_bid'].required = False
+        self.fields['end_date'].required = False
 
+def clean(self):
+    cleaned_data = super().clean()
+    sale_type = cleaned_data.get('sale_type')
+
+    if sale_type == 'discount':
+        if not cleaned_data.get('product_price'):
+            self.add_error('product_price', 'Product price is required for discount.')
+        if not cleaned_data.get('product_qty'):
+            self.add_error('product_qty', 'Product quantity is required for discount.')
+    elif sale_type == 'bidding':
+        if not cleaned_data.get('opening_bid'):
+            self.add_error('opening_bid', 'Opening bid is required for bidding.')
+        if not cleaned_data.get('end_date'):
+            self.add_error('end_date', 'End date is required for bidding.')
+
+    return cleaned_data
 class FeedbackForm(forms.ModelForm):
     class Meta:
         model = Feedback

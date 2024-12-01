@@ -87,7 +87,7 @@
                         {% endif %}
                     </div>                    
                     <div class="d-grid gap-2">
-                        <a class="btn btn-warning" href="{% url 'art:place_order' pk=object.pk %}">Buy Now</a>
+                        <a class="btn btn-warning" href="{% url 'art:sale_order' pk=object.pk %}">Buy Now</a>
                         <a class="btn btn-primary" href="{% url 'art:view_3d' id=object.id %}">View in AR</a>
                     </div>
                 </div>

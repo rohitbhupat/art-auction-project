@@ -239,19 +239,27 @@ class ArtworkListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         filter_type = self.request.GET.get('filter', 'all')
+        sale_type = self.request.GET.get('sale_type', 'all')  # Added sale_type filter
 
+        # Initialize the base queryset filtered by the user
+        queryset = Artwork.objects.filter(user=self.request.user)
+
+        # Filter by date range
         if filter_type == 'new':
             cutoff_date = timezone.now() - timezone.timedelta(days=3)
-            queryset = Artwork.objects.filter(user=self.request.user, created_at__gte=cutoff_date)
+            queryset = queryset.filter(created_at__gte=cutoff_date)
         elif filter_type == 'old':
             cutoff_date = timezone.now() - timezone.timedelta(days=3)
-            queryset = Artwork.objects.filter(user=self.request.user, created_at__lt=cutoff_date)
+            queryset = queryset.filter(created_at__lt=cutoff_date)
         elif filter_type == 'sold':
-            queryset = Artwork.objects.filter(user=self.request.user, is_sold=True)
-        else:
-            queryset = Artwork.objects.filter(user=self.request.user)
+            queryset = queryset.filter(is_sold=True)
+
+        # Filter by sale_type (if any)
+        if sale_type != 'all':
+            queryset = queryset.filter(sale_type=sale_type)
 
         print("Filter Type:", filter_type)
+        print("Sale Type:", sale_type)  # Debug: Check sale type filter
         print("Queryset Count:", queryset.count())  # Debug: Check queryset count
 
         return queryset

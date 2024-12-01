@@ -7,7 +7,13 @@ from django.contrib.auth.models import Group
 from django.views.generic.detail import DetailView
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib import messages
-from art.forms import UserRegistrationForm, LoginForm, SellerInfoForm, UserForm, SellerForm
+from art.forms import (
+    UserRegistrationForm,
+    LoginForm,
+    SellerInfoForm,
+    UserForm,
+    SellerForm,
+)
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -32,40 +38,46 @@ logger = logging.getLogger(__name__)
 
 from django.utils import timezone
 from datetime import date, timedelta
+
+
 class index(View):
     def get(self, request):
-        filter_param = request.GET.get('filter', '')
-        current_date = date.today()  # Use date.today() to get the current date without time
+        filter_param = request.GET.get("filter", "")
+        current_date = (
+            date.today()
+        )  # Use date.today() to get the current date without time
 
-        if filter_param == 'old':
+        if filter_param == "old":
             # Define the threshold for old artworks (e.g., 1 days old)
             old_threshold_date = current_date - timedelta(days=1)
             product_object_list = Artwork.objects.filter(
                 created_at__lt=old_threshold_date,
                 end_date__gte=current_date,
                 product_qty__gt=0,
-                is_sold=False  # Ensure only unsold artworks are considered
+                is_sold=False,  # Ensure only unsold artworks are considered
             )
-        elif filter_param == 'new':
+        elif filter_param == "new":
             # Define the threshold for new artworks (e.g., created in the last 1 days)
             new_threshold_date = current_date - timedelta(days=1)
             product_object_list = Artwork.objects.filter(
                 created_at__gte=new_threshold_date,
                 end_date__gte=current_date,
                 product_qty__gt=0,
-                is_sold=False  # Ensure only unsold artworks are considered
+                is_sold=False,  # Ensure only unsold artworks are considered
             )
         else:
             # Default view shows artworks ending today or later
             product_object_list = Artwork.objects.filter(
                 end_date__gte=current_date,
                 product_qty__gt=0,
-                is_sold=False  # Ensure only unsold artworks are considered
+                is_sold=False,  # Ensure only unsold artworks are considered
             )
 
         # Debugging: Print out the products to verify the filtering
         for product in product_object_list:
-            print(f"Product ID: {product.product_id}, Created Date: {product.created_at}, End Date: {product.end_date}")
+            print(
+                f"Product ID: {product.product_id}, Created Date: {product.created_at}, End Date: {product.end_date}"
+            )
 
         return render(
             request,
@@ -80,7 +92,7 @@ class index(View):
 
 @login_required
 def profile_settings(request):
-    is_seller = request.user.groups.filter(name='SellerGroup').exists()
+    is_seller = request.user.groups.filter(name="SellerGroup").exists()
     user_info, created = UserInfo.objects.get_or_create(user=request.user)
 
     try:
@@ -92,17 +104,19 @@ def profile_settings(request):
     user_form = UserForm(instance=request.user)
     password_form = PasswordChangeForm(user=request.user)  # Password change form
     seller_form = SellerForm(instance=seller_info) if is_seller else None
-    initial_data = {'phone_number': user_info.phone_number}
+    initial_data = {"phone_number": user_info.phone_number}
 
-    if request.method == 'POST':
+    if request.method == "POST":
         user_form = UserForm(request.POST, instance=request.user)
         password_form = PasswordChangeForm(user=request.user, data=request.POST)
-        seller_form = SellerForm(request.POST, instance=seller_info) if is_seller else None
+        seller_form = (
+            SellerForm(request.POST, instance=seller_info) if is_seller else None
+        )
 
         # Validate forms
         if user_form.is_valid() and (not is_seller or seller_form.is_valid()):
             user = user_form.save()
-            user_info.phone_number = request.POST.get('phone_number')
+            user_info.phone_number = request.POST.get("phone_number")
             user_info.save()
 
             if is_seller:
@@ -115,40 +129,50 @@ def profile_settings(request):
                 password_form.save()
                 update_session_auth_hash(request, password_form.user)
 
-            messages.success(request, 'Your profile has been updated successfully.')
-            return redirect('art:profile_settings')
+            messages.success(request, "Your profile has been updated successfully.")
+            return redirect("art:profile_settings")
         else:
-            messages.error(request, 'Please correct the errors below.')
+            messages.error(request, "Please correct the errors below.")
 
-    return render(request, 'art/profile_settings.html', {
-        'userForm': user_form,
-        'sellerForm': seller_form,
-        'passwordForm': password_form,
-        'is_seller': is_seller,
-        'phone_number': initial_data['phone_number'],
-    })
+    return render(
+        request,
+        "art/profile_settings.html",
+        {
+            "userForm": user_form,
+            "sellerForm": seller_form,
+            "passwordForm": password_form,
+            "is_seller": is_seller,
+            "phone_number": initial_data["phone_number"],
+        },
+    )
+
 
 class CatListView(View):
     def catalog_products(request, id):
         catalog = get_object_or_404(Catalogue, id=id)
-        filter_option = request.GET.get('filter')
-        
-        if filter_option == 'asc':
-            products = Artwork.objects.filter(product_cat=catalog, product_qty__gt=0).order_by('end_date')
-        elif filter_option == 'desc':
-            products = Artwork.objects.filter(product_cat=catalog, product_qty__gt=0).order_by('-end_date')
+        filter_option = request.GET.get("filter")
+
+        if filter_option == "asc":
+            products = Artwork.objects.filter(
+                product_cat=catalog, product_qty__gt=0
+            ).order_by("end_date")
+        elif filter_option == "desc":
+            products = Artwork.objects.filter(
+                product_cat=catalog, product_qty__gt=0
+            ).order_by("-end_date")
         else:
             products = Artwork.objects.filter(product_cat=catalog, product_qty__gt=0)
-        
+
         return render(
             request,
             "art/catalog_products.html",
             {
                 "catalog": catalog,
                 "product_object_list": products,
-                "catalogue_list": Catalogue.objects.all()
-            }
+                "catalogue_list": Catalogue.objects.all(),
+            },
         )
+
 
 def register_user(request):
     if request.user.is_authenticated:
@@ -166,13 +190,14 @@ def register_user(request):
                     messages.error(request, f"An error occurred: {str(e)}")
             else:
                 messages.error(request, form.errors)
-                
+
     form = UserRegistrationForm()
     return render(
         request=request,
         template_name="art/signup.html",
         context={"register_form": form},
     )
+
 
 class RegisterSeller(View):
     def post(self, request):
@@ -185,20 +210,22 @@ class RegisterSeller(View):
         password2 = request.POST["password2"]
         phone_number = request.POST["phone_number"]
         business_name = request.POST["business_name"]
-        
-        userform = UserRegistrationForm({
-            "first_name": first_name,
-            "last_name": last_name,
-            "username": username,
-            "email": email,
-            "phone_number": phone_number,
-            "password1": password1,
-            "password2": password2
-        })
+
+        userform = UserRegistrationForm(
+            {
+                "first_name": first_name,
+                "last_name": last_name,
+                "username": username,
+                "email": email,
+                "phone_number": phone_number,
+                "password1": password1,
+                "password2": password2,
+            }
+        )
 
         if userform.is_valid():
             user = userform.save()
-            sellerGroup = Group.objects.get(name='SellerGroup')
+            sellerGroup = Group.objects.get(name="SellerGroup")
             user.groups.add(sellerGroup)
 
             # Check if SellerInfo already exists for the user
@@ -227,14 +254,23 @@ class RegisterSeller(View):
         messages.error(request, userform.errors)
         userform = UserRegistrationForm()
         sellerForm = SellerInfoForm()
-        return render(request=request, template_name="art/registerseller.html", context={"userform": userform, "sellerForm": sellerForm})
+        return render(
+            request=request,
+            template_name="art/registerseller.html",
+            context={"userform": userform, "sellerForm": sellerForm},
+        )
 
     def get(self, request):
         if request.user.is_authenticated:
             return redirect("dashboard:dashboard")
         userform = UserRegistrationForm()
         sellerForm = SellerInfoForm()
-        return render(request=request, template_name="art/registerseller.html", context={"userform": userform, "sellerForm": sellerForm})
+        return render(
+            request=request,
+            template_name="art/registerseller.html",
+            context={"userform": userform, "sellerForm": sellerForm},
+        )
+
 
 def user_login(request):
     if request.user.is_authenticated:
@@ -243,28 +279,32 @@ def user_login(request):
     if request.method == "POST":
         form = LoginForm(request, request.POST)
         if form.is_valid():
-            uname = form.cleaned_data['username']
-            upass = form.cleaned_data['password']
+            uname = form.cleaned_data["username"]
+            upass = form.cleaned_data["password"]
             user = authenticate(request, username=uname, password=upass)
             if user is not None:
                 login(request, user)
 
                 # Check if the user is part of the SellerGroup
-                if user.groups.filter(name='SellerGroup').exists():
+                if user.groups.filter(name="SellerGroup").exists():
                     # Ensure seller information exists
                     SellerInfo.objects.get_or_create(user=user)
 
                     # Fetch related data for the seller
                     total_order = OrderModel.objects.filter(product__user=user).count()
                     total_product = Artwork.objects.filter(user=user).count()
-                    return render(request, 'art/index.html', context={
-                        'is_Seller': True,
-                        'total_order': total_order,
-                        'total_product': total_product
-                    })
+                    return render(
+                        request,
+                        "art/index.html",
+                        context={
+                            "is_Seller": True,
+                            "total_order": total_order,
+                            "total_product": total_product,
+                        },
+                    )
 
                 # Non-seller user
-                return render(request, 'art/index.html', context={'is_Seller': False})
+                return render(request, "art/index.html", context={"is_Seller": False})
 
             # Authentication failed
             messages.error(request, "Please correct the errors below.")
@@ -274,7 +314,8 @@ def user_login(request):
     else:
         form = LoginForm()
 
-    return render(request, 'art/signin.html', context={'login_form': form})
+    return render(request, "art/signin.html", context={"login_form": form})
+
 
 class Profile(LoginRequiredMixin, TemplateView):
     template_name = "social-media/profile.html"
@@ -296,6 +337,7 @@ class Profile(LoginRequiredMixin, TemplateView):
 
         return context
 
+
 def logout_view(request):
     logout(request)
     return redirect("art:index")
@@ -311,16 +353,6 @@ class ArtworkDetailView(DetailView):
         context["total_bid"] = Bid.objects.filter(product=self.kwargs.get("pk")).count()
         return context
 
-class ArtworkSaleDetailView(DetailView):
-    model = Artwork
-    template_name = "art/artwork-sale_detail.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Assuming discounted_price is calculated dynamically
-        context["discounted_price"] = self.object.product_price * 0.9  # Example: 10% discount
-        context["recommended_artworks"] = Artwork.objects.exclude(pk=self.object.pk)[:4]
-        return context
 
 class OrderCreateView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
@@ -399,7 +431,9 @@ def callback(request):
             order.payment_method = request.POST.get("method")  # Capture payment method
             order.save()
 
-            logger.debug(f"Payment Method: {order.payment_method}")  # Log the payment method
+            logger.debug(
+                f"Payment Method: {order.payment_method}"
+            )  # Log the payment method
 
             if verify_signature(request.POST):
                 order.status = PaymentStatus.SUCCESS
@@ -407,17 +441,102 @@ def callback(request):
                 order.status = PaymentStatus.FAILURE
             order.save()
 
-            return render(request, "art/callback.html", context={"status": "Payment done"})
+            return render(
+                request, "art/callback.html", context={"status": "Payment done"}
+            )
         except Payment.DoesNotExist:
-            logger.error(f"Payment with provider_order_id {provider_order_id} does not exist.")
-            return render(request, "art/callback.html", context={"status": "Payment failed", "error": "Invalid order ID"})
+            logger.error(
+                f"Payment with provider_order_id {provider_order_id} does not exist."
+            )
+            return render(
+                request,
+                "art/callback.html",
+                context={"status": "Payment failed", "error": "Invalid order ID"},
+            )
         except Exception as e:
             logger.error(f"An error occurred: {str(e)}")
-            return render(request, "art/callback.html", context={"status": "Payment failed", "error": str(e)})
+            return render(
+                request,
+                "art/callback.html",
+                context={"status": "Payment failed", "error": str(e)},
+            )
     else:
-        return render(request, "art/callback.html", context={"status": "Payment failed"})
+        return render(
+            request, "art/callback.html", context={"status": "Payment failed"}
+        )
 
 
+class SaleOrderCreateView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        product_object = Artwork.objects.get(pk=self.kwargs.get("pk"))
+        # Check if the user has purchased this product before
+        previous_order = OrderModel.objects.filter(
+            user=request.user, product=product_object
+        ).exists()
+
+        # Apply 30% discount if this is the first purchase
+        if not previous_order:
+            price = product_object.product_price * 0.7  # 30% discount
+            is_first_purchase = True
+        else:
+            price = product_object.product_price  # Original price
+            is_first_purchase = False
+
+        return render(
+            request=request,
+            template_name="art/sale-order-form.html",
+            context={
+                "product": product_object,
+                "price": price,
+                "is_first_purchase": is_first_purchase,
+            },
+        )
+
+    def post(self, request, *args, **kwargs):
+        product = Artwork.objects.get(pk=request.POST["product"])
+        product_price = request.POST["product_price"]
+        product_qty = request.POST["product_qty"]
+        delivery_at = request.POST["delivery_at"]
+
+        # Create the order
+        order = OrderModel.objects.create(
+            product=product,
+            order_qty=product_qty,
+            order_price=product_price,
+            delivery_at=delivery_at,
+            user=self.request.user,
+        )
+
+        # Initialize Razorpay payment
+        client = razorpay.Client(
+            auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+        )
+        razorpay_order = client.order.create(
+            {
+                "amount": (int(product_price) * 100) * int(product_qty),
+                "currency": "INR",
+                "payment_capture": "1",
+            }
+        )
+        Payment.objects.create(
+            order=order,
+            status=PaymentStatus.SUCCESS,
+            provider_order_id=razorpay_order["id"],
+        )
+
+        # Update the product quantity
+        product.product_qty -= int(product_qty)
+        product.save()
+
+        return render(
+            request,
+            "art/payment.html",
+            {
+                "callback_url": "http://" + "127.0.0.1:8000" + "/callback/",
+                "razorpay_key": settings.RAZORPAY_KEY_ID,
+                "order": order,
+            },
+        )
 
 
 class ArView(LoginRequiredMixin, View):
@@ -427,51 +546,80 @@ class ArView(LoginRequiredMixin, View):
             request, "art/ArView.html", context={"image": product_object.product_image}
         )
 
+
 class About(TemplateView):
     template_name = "art/about.html"
 
+
 class Contact(TemplateView):
-    template_name = "art/contact.html"        
+    template_name = "art/contact.html"
+
+
 class FAQs(TemplateView):
     template_name = "art/faq.html"
+
 
 class UnsoldListView(LoginRequiredMixin, ListView):
     model = Artwork
     template_name = "art/unsold.html"
-    context_object_name = 'object_list'
+    context_object_name = "object_list"
 
     def get_queryset(self):
-        queryset = Artwork.objects.filter(end_date__lt=timezone.now(), product_qty__gt=0)
+        queryset = Artwork.objects.filter(
+            end_date__lt=timezone.now(), product_qty__gt=0
+        )
 
         # Handle sorting based on URL parameter 'filter'
-        filter_param = self.request.GET.get('filter', None)
-        if filter_param == 'asc':
-            queryset = queryset.order_by('end_date')
-        elif filter_param == 'desc':
-            queryset = queryset.order_by('-end_date')
+        filter_param = self.request.GET.get("filter", None)
+        if filter_param == "asc":
+            queryset = queryset.order_by("end_date")
+        elif filter_param == "desc":
+            queryset = queryset.order_by("-end_date")
 
         return queryset
+
+class ArtworkSaleDetailView(DetailView):
+    model = Artwork
+    template_name = "art/artwork-sale_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.object
+
+        # Check if the user has purchased this product before
+        if self.request.user.is_authenticated:
+            previous_order = OrderModel.objects.filter(user=self.request.user, product=product).exists()
+        else:
+            previous_order = False
+
+        if previous_order:
+            # Original price for subsequent purchases
+            context["price"] = product.product_price
+            context["is_first_purchase"] = False
+        else:
+            # Discounted price for the first purchase
+            context["price"] = product.product_price * 0.7
+            context["is_first_purchase"] = True
+
+        # Pass recommended artworks
+        context["recommended_artworks"] = Artwork.objects.exclude(pk=product.pk)[:4]
+        return context
 
 class ArtworkSaleListView(LoginRequiredMixin, ListView):
     model = Artwork
     template_name = "art/artwork_sale.html"
-    context_object_name = 'object_list'
+    context_object_name = "object_list"
 
     def get_queryset(self):
-        # Query artworks available for sale
         queryset = Artwork.objects.filter(product_qty__gt=0)
 
-        # Add sorting if needed
-        filter_param = self.request.GET.get('filter', None)
-        if filter_param == 'asc':
-            queryset = queryset.order_by('product_name')
-        elif filter_param == 'desc':
-            queryset = queryset.order_by('-product_name')
-
-        # Check if the user is purchasing for the first time
         if self.request.user.is_authenticated:
-            # Add a 30% discount if the user is a first-time buyer
+            # Add discounted price for first-time buyers
             for artwork in queryset:
-                artwork.discounted_price = artwork.product_price * 0.7
+                previous_order = OrderModel.objects.filter(user=self.request.user, product=artwork).exists()
+                if not previous_order:
+                    artwork.discounted_price = artwork.product_price * 0.7
+                else:
+                    artwork.discounted_price = artwork.product_price
 
         return queryset
