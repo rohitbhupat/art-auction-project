@@ -38,32 +38,30 @@ logger = logging.getLogger(__name__)
 
 from django.utils import timezone
 from datetime import date, timedelta
-
-
 class index(View):
     def get(self, request):
         filter_param = request.GET.get("filter", "")
-        current_date = (
-            date.today()
-        )  # Use date.today() to get the current date without time
+        current_date = date.today()  # Use date.today() to get the current date without time
 
         if filter_param == "old":
-            # Define the threshold for old artworks (e.g., 1 days old)
+            # Define the threshold for old artworks (e.g., 1 day old)
             old_threshold_date = current_date - timedelta(days=1)
             product_object_list = Artwork.objects.filter(
                 created_at__lt=old_threshold_date,
                 end_date__gte=current_date,
                 product_qty__gt=0,
                 is_sold=False,  # Ensure only unsold artworks are considered
+                sale_type="bidding"  # Ensure only bidding artworks are fetched
             )
         elif filter_param == "new":
-            # Define the threshold for new artworks (e.g., created in the last 1 days)
+            # Define the threshold for new artworks (e.g., created in the last 1 day)
             new_threshold_date = current_date - timedelta(days=1)
             product_object_list = Artwork.objects.filter(
                 created_at__gte=new_threshold_date,
                 end_date__gte=current_date,
                 product_qty__gt=0,
                 is_sold=False,  # Ensure only unsold artworks are considered
+                sale_type="bidding"  # Ensure only bidding artworks are fetched
             )
         else:
             # Default view shows artworks ending today or later
@@ -71,12 +69,13 @@ class index(View):
                 end_date__gte=current_date,
                 product_qty__gt=0,
                 is_sold=False,  # Ensure only unsold artworks are considered
+                sale_type="bidding"  # Ensure only bidding artworks are fetched
             )
 
-        # Debugging: Print out the products to verify the filtering
+        # Debugging: Print out the filtered products to verify the logic
         for product in product_object_list:
             print(
-                f"Product ID: {product.product_id}, Created Date: {product.created_at}, End Date: {product.end_date}"
+                f"Product ID: {product.product_id}, Created Date: {product.created_at}, End Date: {product.end_date}, Sale Type: {product.sale_type}"
             )
 
         return render(
@@ -469,23 +468,24 @@ def callback(request):
 class SaleOrderCreateView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         product_object = Artwork.objects.get(pk=self.kwargs.get("pk"))
+
         # Check if the user has purchased this product before
         previous_order = OrderModel.objects.filter(
             user=request.user, product=product_object
         ).exists()
 
-        # Apply 30% discount if this is the first purchase
+        # Determine the price based on purchase history
         if not previous_order:
             price = product_object.product_price * 0.7  # 30% discount
             is_first_purchase = True
         else:
-            price = product_object.product_price  # Original price
+            price = product_object.product_price
             is_first_purchase = False
 
         return render(
-            request=request,
-            template_name="art/sale-order-form.html",
-            context={
+            request,
+            "art/sale-order-form.html",
+            {
                 "product": product_object,
                 "price": price,
                 "is_first_purchase": is_first_purchase,
@@ -504,16 +504,20 @@ class SaleOrderCreateView(LoginRequiredMixin, View):
             order_qty=product_qty,
             order_price=product_price,
             delivery_at=delivery_at,
-            user=self.request.user,
+            user=request.user,
         )
 
-        # Initialize Razorpay payment
+        # Update product quantity
+        product.product_qty -= int(product_qty)
+        product.save()
+
+        # Process payment
         client = razorpay.Client(
             auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
         )
         razorpay_order = client.order.create(
             {
-                "amount": (int(product_price) * 100) * int(product_qty),
+                "amount": int(product_price) * int(product_qty) * 100,
                 "currency": "INR",
                 "payment_capture": "1",
             }
@@ -524,10 +528,6 @@ class SaleOrderCreateView(LoginRequiredMixin, View):
             provider_order_id=razorpay_order["id"],
         )
 
-        # Update the product quantity
-        product.product_qty -= int(product_qty)
-        product.save()
-
         return render(
             request,
             "art/payment.html",
@@ -537,7 +537,6 @@ class SaleOrderCreateView(LoginRequiredMixin, View):
                 "order": order,
             },
         )
-
 
 class ArView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
@@ -611,14 +610,19 @@ class ArtworkSaleListView(LoginRequiredMixin, ListView):
     context_object_name = "object_list"
 
     def get_queryset(self):
-        queryset = Artwork.objects.filter(product_qty__gt=0)
+        # Filter artworks for sale only (exclude bidding)
+        queryset = Artwork.objects.filter(
+            product_qty__gt=0,
+            is_sold=False,
+            sale_type="discount",  # Ensure only artworks with sale_type "sale" are displayed
+        )
 
         if self.request.user.is_authenticated:
             # Add discounted price for first-time buyers
             for artwork in queryset:
                 previous_order = OrderModel.objects.filter(user=self.request.user, product=artwork).exists()
                 if not previous_order:
-                    artwork.discounted_price = artwork.product_price * 0.7
+                    artwork.discounted_price = artwork.product_price * 0.7  # Apply 30% discount
                 else:
                     artwork.discounted_price = artwork.product_price
 

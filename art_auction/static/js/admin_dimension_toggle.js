@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
     // Sale Type Logic
     const saleTypeField = document.querySelector("#id_sale_type");
-    const discountFields = ["id_product_price", "id_product_qty"]; // Exclude product_id
+    const discountFields = ["id_product_price"]; // Exclude product_id
     const biddingFields = ["id_opening_bid", "id_end_date", "id_product_cat"];
   
     function toggleSaleTypeFields() {
@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
       // Ensure product_id is always visible
       toggleField("id_product_id", true);
+      toggleField("id_product_qty", true);
     }
   
     // Dimension Unit Logic

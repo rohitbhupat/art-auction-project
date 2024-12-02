@@ -4658,3 +4658,151 @@ Traceback (most recent call last):
     return super().execute(query, params)
 django.db.utils.IntegrityError: NOT NULL constraint failed: dashboard_artwork.end_date
 "POST /admin/dashboard/artwork/add/ HTTP/1.1" 500 230329
+Internal Server Error: /artwork-sale/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 510, in parse
+    compile_func = self.tags[command]
+KeyError: 'endblock'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 90, in rendered_content
+    template = self.resolve_template(self.template_name)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 72, in resolve_template
+    return select_template(template, using=self.using)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader.py", line 42, in select_template
+    return engine.get_template(template_name)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    nodelist = parser.parse()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 518, in parse
+    raise self.error(token, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 516, in parse
+    compiled_result = compile_func(self, token)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 295, in do_extends
+    nodelist = parser.parse()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 512, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 573, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 3: 'endblock'. Did you forget to register or load this tag?
+"GET /artwork-sale/ HTTP/1.1" 500 186347
+Internal Server Error: /dashboard/addproduct/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\fields\__init__.py", line 2123, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: ''
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 182, in post
+    return super().post(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 151, in post
+    return self.form_valid(form)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\dashboard\views.py", line 52, in form_valid
+    cat = Catalogue.objects.get(pk=self.request.POST['product_cat']).cat_name[:3]
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 635, in get
+    clone = self._chain() if self.query.combinator else self.filter(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1476, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1494, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\query.py", line 1501, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\query.py", line 1609, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\query.py", line 1641, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\query.py", line 1555, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\sql\query.py", line 1385, in build_lookup
+    lookup = lookup_class(lhs, rhs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\lookups.py", line 30, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\lookups.py", line 369, in get_prep_lookup
+    return super().get_prep_lookup()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\lookups.py", line 88, in get_prep_lookup
+    return self.lhs.output_field.get_prep_value(self.rhs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\db\models\fields\__init__.py", line 2125, in get_prep_value
+    raise e.__class__(
+ValueError: Field 'id' expected a number but got ''.
+"POST /dashboard/addproduct/ HTTP/1.1" 500 158782
+Internal Server Error: /dashboard/addproduct/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 182, in post
+    return super().post(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 149, in post
+    form = self.get_form()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\dashboard\views.py", line 42, in get_form
+    form = super().get_form()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 36, in get_form
+    form_class = self.get_form_class()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 84, in get_form_class
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Specifying both 'fields' and 'form_class' is not permitted.
+"POST /dashboard/addproduct/ HTTP/1.1" 500 99480
+Internal Server Error: /dashboard/addproduct/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 104, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\auth\mixins.py", line 73, in dispatch
+    return super().dispatch(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\base.py", line 143, in dispatch
+    return handler(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 182, in post
+    return super().post(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 149, in post
+    form = self.get_form()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\dashboard\views.py", line 42, in get_form
+    form = super().get_form()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 36, in get_form
+    form_class = self.get_form_class()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\generic\edit.py", line 84, in get_form_class
+    raise ImproperlyConfigured(
+django.core.exceptions.ImproperlyConfigured: Specifying both 'fields' and 'form_class' is not permitted.
+"POST /dashboard/addproduct/ HTTP/1.1" 500 99480

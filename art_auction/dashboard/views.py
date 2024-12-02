@@ -1,6 +1,6 @@
 import datetime
 from django import forms
-from art.forms import FeedbackForm
+from art.forms import ArtworkForm, FeedbackForm
 from django.views import View
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -48,33 +48,46 @@ class ArtworkCreateView(LoginRequiredMixin, CreateView):
         if last_product:
             last_id = last_product['pk'] + 1
 
-        try:
-            cat = Catalogue.objects.get(pk=self.request.POST['product_cat']).cat_name[:3]
-        except Catalogue.DoesNotExist:
-            form.add_error('product_cat', 'Invalid category')
+        # Get the category ID from the form
+        product_cat_id = self.request.POST.get('product_cat')
+
+        if not product_cat_id:
+            form.add_error('product_cat', 'Product category is required.')
             return self.form_invalid(form)
 
-        form.instance.user = self.request.user
-        form.instance.product_id = f'{cat}{last_id}'
+        try:
+            cat = Catalogue.objects.get(pk=product_cat_id)
+        except Catalogue.DoesNotExist:
+            form.add_error('product_cat', 'Invalid category.')
+            return self.form_invalid(form)
 
-        # Perform duplicate image detection before saving the object
+        # Set the category name prefix (first three characters)
+        cat_name_prefix = cat.cat_name[:3]
+
+        # Set the unique product ID
+        form.instance.product_id = f'{cat_name_prefix}{last_id}'
+
+        # Set the user (only if not already set)
+        form.instance.user = self.request.user
+
+        # Perform duplicate image detection before saving
         if self.request.FILES.get('product_image'):
             uploaded_image = self.request.FILES['product_image']
             uploaded_image_hash = imagehash.phash(Image.open(uploaded_image))
-            existing_artworks = Artwork.objects.all()  # No need to exclude self.object since it's not created yet
-
-            for artwork in existing_artworks:
+            for artwork in Artwork.objects.all():
                 stored_image_hash = imagehash.phash(Image.open(artwork.product_image.path))
                 if uploaded_image_hash == stored_image_hash:
-                    form.add_error('product_image', "Duplicate image detected. This artwork has already been uploaded.")
+                    form.add_error('product_image', 'Duplicate image detected.')
                     return self.form_invalid(form)
 
-        # Now we can safely save the object
+        # Save the object
         return super().form_valid(form)
 
     def form_invalid(self, form):
+        # Debugging: Log the POST data and form errors
+        print("Form data:", self.request.POST)
+        print("Form errors:", form.errors)
         return super().form_invalid(form)
-
 
 class ArtworkUpdateView(LoginRequiredMixin, UpdateView):
     model = Artwork

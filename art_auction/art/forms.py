@@ -115,31 +115,36 @@ class ArtworkForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ArtworkForm, self).__init__(*args, **kwargs)
+
+        # Set all fields to have the 'form-control' class for consistency
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
-        self.fields['length_in_centimeters'].required = False
-        self.fields['width_in_centimeters'].required = False
-        self.fields['foot'].required = False
-        self.fields['inches'].required = False
-        self.fields['opening_bid'].required = False
-        self.fields['end_date'].required = False
 
-def clean(self):
-    cleaned_data = super().clean()
-    sale_type = cleaned_data.get('sale_type')
+        # Adjust the `required` attribute for fields based on the sale type
+        if 'data' in kwargs and kwargs['data'].get('sale_type') == 'discount':
+            self.fields['product_cat'].required = False
+        else:
+            self.fields['product_cat'].required = True
 
-    if sale_type == 'discount':
-        if not cleaned_data.get('product_price'):
-            self.add_error('product_price', 'Product price is required for discount.')
-        if not cleaned_data.get('product_qty'):
-            self.add_error('product_qty', 'Product quantity is required for discount.')
-    elif sale_type == 'bidding':
-        if not cleaned_data.get('opening_bid'):
-            self.add_error('opening_bid', 'Opening bid is required for bidding.')
-        if not cleaned_data.get('end_date'):
-            self.add_error('end_date', 'End date is required for bidding.')
+    def clean(self):
+        cleaned_data = super().clean()
+        sale_type = cleaned_data.get('sale_type')
 
-    return cleaned_data
+        # Validate `product_cat` only if the sale type is 'bidding'
+        if sale_type == 'bidding' and not cleaned_data.get('product_cat'):
+            self.add_error('product_cat', "Product category is required for bidding.")
+            
+        if sale_type == 'discount' and not cleaned_data.get('discounted_price'):
+            cleaned_data['discounted_price'] = cleaned_data['product_price'] * 0.7
+
+        # Ensure `opening_bid` and `end_date` are not validated for 'discount'
+        if sale_type == 'discount':
+            cleaned_data['product_cat'] = None
+            cleaned_data['opening_bid'] = None
+            cleaned_data['end_date'] = None
+
+        return cleaned_data
+
 class FeedbackForm(forms.ModelForm):
     class Meta:
         model = Feedback
