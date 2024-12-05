@@ -4806,3 +4806,71 @@ Traceback (most recent call last):
     raise ImproperlyConfigured(
 django.core.exceptions.ImproperlyConfigured: Specifying both 'fields' and 'form_class' is not permitted.
 "POST /dashboard/addproduct/ HTTP/1.1" 500 99480
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1855, in _changeform_view
+    ModelForm = self.get_form(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 37, in get_form
+    return form(request=request, initial=initial)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\forms.py", line 117, in __init__
+    super(ArtworkForm, self).__init__(*args, **kwargs)
+TypeError: BaseModelForm.__init__() got an unexpected keyword argument 'request'
+"GET /admin/dashboard/artwork/add/ HTTP/1.1" 500 127165
+Internal Server Error: /admin/dashboard/artwork/add/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1961, in add_view
+    return self.changeform_view(request, None, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1855, in _changeform_view
+    ModelForm = self.get_form(
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\admin.py", line 37, in get_form
+    return form(request=request, initial=initial)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\forms.py", line 117, in __init__
+    super(ArtworkForm, self).__init__(*args, **kwargs)
+TypeError: BaseModelForm.__init__() got an unexpected keyword argument 'request'
+"GET /admin/dashboard/artwork/add/ HTTP/1.1" 500 127130

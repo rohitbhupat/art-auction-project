@@ -161,19 +161,18 @@
         const saleType = document.getElementById('sale_type').value;
         const discountFields = document.getElementById('discount_fields');
         const biddingFields = document.getElementById('bidding_fields');
-        const productCatField = document.getElementById('product_cat');
+        const productCatField = document.querySelector('[name="product_cat"]');
     
         if (saleType === 'discount') {
             discountFields.style.display = 'block';
             biddingFields.style.display = 'none';
-            productCatField.style.display = 'none'; // Hide product_cat for discount
+            if (productCatField) productCatField.setAttribute('disabled', 'disabled');
         } else if (saleType === 'bidding') {
             discountFields.style.display = 'none';
             biddingFields.style.display = 'block';
-            productCatField.style.display = 'block'; // Show product_cat for bidding
+            if (productCatField) productCatField.removeAttribute('disabled');
         }
     }
-    
 
     function toggleDimensionFields() {
         const dimensionUnit = document.getElementById('dimension_unit')?.value;

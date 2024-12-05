@@ -31,14 +31,15 @@ class Index(View):
 class ArtworkCreateView(LoginRequiredMixin, CreateView):
     model = Artwork
     fields = [
-        "product_name", "product_price", "opening_bid", "product_cat", 
-        "product_qty", "dimension_unit", "length_in_centimeters", "width_in_centimeters", 
-        "foot", "inches", "product_image", "end_date"
+        "product_name", "product_price", "opening_bid", "product_cat",
+        "product_qty", "dimension_unit", "length_in_centimeters", "width_in_centimeters",
+        "foot", "inches", "product_image", "end_date", "sale_type"  # Include sale_type in fields
     ]
     success_url = '/dashboard/product/'
 
     def get_form(self):
         form = super().get_form()
+        # Add a date input widget for 'end_date'
         form.fields['end_date'].widget = forms.DateInput(attrs={'type': 'date'})
         return form
 
@@ -48,29 +49,34 @@ class ArtworkCreateView(LoginRequiredMixin, CreateView):
         if last_product:
             last_id = last_product['pk'] + 1
 
-        # Get the category ID from the form
-        product_cat_id = self.request.POST.get('product_cat')
+        # Handle the sale_type logic
+        sale_type = form.cleaned_data.get('sale_type')
+        if sale_type == 'discount':
+            # For discount, clear unnecessary fields
+            form.instance.product_cat = None
+            form.instance.opening_bid = None
+            form.instance.end_date = None
+        else:  # Sale type is 'bidding'
+            # Get the category ID from the form
+            product_cat_id = self.request.POST.get('product_cat')
+            if not product_cat_id:
+                form.add_error('product_cat', 'Product category is required.')
+                return self.form_invalid(form)
 
-        if not product_cat_id:
-            form.add_error('product_cat', 'Product category is required.')
-            return self.form_invalid(form)
+            try:
+                cat = Catalogue.objects.get(pk=product_cat_id)
+            except Catalogue.DoesNotExist:
+                form.add_error('product_cat', 'Invalid category.')
+                return self.form_invalid(form)
 
-        try:
-            cat = Catalogue.objects.get(pk=product_cat_id)
-        except Catalogue.DoesNotExist:
-            form.add_error('product_cat', 'Invalid category.')
-            return self.form_invalid(form)
+            # Set the category name prefix (first three characters)
+            cat_name_prefix = cat.cat_name[:3]
+            form.instance.product_id = f'{cat_name_prefix}{last_id}'
 
-        # Set the category name prefix (first three characters)
-        cat_name_prefix = cat.cat_name[:3]
-
-        # Set the unique product ID
-        form.instance.product_id = f'{cat_name_prefix}{last_id}'
-
-        # Set the user (only if not already set)
+        # Set the user
         form.instance.user = self.request.user
 
-        # Perform duplicate image detection before saving
+        # Perform duplicate image detection
         if self.request.FILES.get('product_image'):
             uploaded_image = self.request.FILES['product_image']
             uploaded_image_hash = imagehash.phash(Image.open(uploaded_image))

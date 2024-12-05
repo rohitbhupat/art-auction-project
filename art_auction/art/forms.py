@@ -114,34 +114,39 @@ class ArtworkForm(forms.ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        super(ArtworkForm, self).__init__(*args, **kwargs)
-
-        # Set all fields to have the 'form-control' class for consistency
-        for field_name in self.fields:
-            self.fields[field_name].widget.attrs['class'] = 'form-control'
-
-        # Adjust the `required` attribute for fields based on the sale type
-        if 'data' in kwargs and kwargs['data'].get('sale_type') == 'discount':
+        super().__init__(*args, **kwargs)
+        sale_type = kwargs.get('data', {}).get('sale_type') or self.initial.get('sale_type')
+        
+        # Adjust required fields based on `sale_type`
+        if sale_type == 'discount':
             self.fields['product_cat'].required = False
+            self.fields['product_cat'].widget.attrs['style'] = 'display: none;'  # Hide this field
         else:
             self.fields['product_cat'].required = True
+            self.fields['product_cat'].widget.attrs['style'] = ''  # Make sure it's visible if 'bidding'
+
+        # Apply consistent form-control styling
+        for field_name in self.fields:
+            self.fields[field_name].widget.attrs['class'] = 'form-control'
 
     def clean(self):
         cleaned_data = super().clean()
         sale_type = cleaned_data.get('sale_type')
 
-        # Validate `product_cat` only if the sale type is 'bidding'
-        if sale_type == 'bidding' and not cleaned_data.get('product_cat'):
-            self.add_error('product_cat', "Product category is required for bidding.")
-            
-        if sale_type == 'discount' and not cleaned_data.get('discounted_price'):
-            cleaned_data['discounted_price'] = cleaned_data['product_price'] * 0.7
-
-        # Ensure `opening_bid` and `end_date` are not validated for 'discount'
         if sale_type == 'discount':
+            # Make these fields optional for 'discount' type
             cleaned_data['product_cat'] = None
             cleaned_data['opening_bid'] = None
             cleaned_data['end_date'] = None
+
+        elif sale_type == 'bidding':
+            # Validate that these fields are filled for 'bidding' type
+            if not cleaned_data.get('product_cat'):
+                self.add_error('product_cat', "Product category is required for bidding.")
+            if not cleaned_data.get('opening_bid'):
+                self.add_error('opening_bid', "Opening bid is required for bidding.")
+            if not cleaned_data.get('end_date'):
+                self.add_error('end_date', "End date is required for bidding.")
 
         return cleaned_data
 
