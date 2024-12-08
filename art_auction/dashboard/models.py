@@ -93,6 +93,21 @@ class Artwork(models.Model):
 
     def clean(self):
         super().clean()
+        if self.sale_type == 'discount':
+            if self.product_cat:
+                self.product_cat = None  # Ignore product_cat for discount type
+            if self.opening_bid:
+                self.opening_bid = None  # Ignore opening_bid for discount type
+            if self.end_date:
+                self.end_date = None  # Ignore end_date for discount type
+        elif self.sale_type == 'bidding':
+            if not self.product_cat:
+                raise ValidationError({"product_cat": "Product category is required for bidding."})
+            if not self.opening_bid:
+                raise ValidationError({"opening_bid": "Opening bid is required for bidding."})
+            if not self.end_date:
+                raise ValidationError({"end_date": "End date is required for bidding."})
+
 
     def __str__(self):
         return self.product_name

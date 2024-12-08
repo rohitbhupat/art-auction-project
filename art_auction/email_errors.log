@@ -4874,3 +4874,867 @@ Traceback (most recent call last):
     super(ArtworkForm, self).__init__(*args, **kwargs)
 TypeError: BaseModelForm.__init__() got an unexpected keyword argument 'request'
 "GET /admin/dashboard/artwork/add/ HTTP/1.1" 500 127130
+Internal Server Error: /admin/dashboard/artwork/10/change/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1964, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1892, in _changeform_view
+    form = ModelForm(instance=obj)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\forms.py", line 122, in __init__
+    self.fields['product_cat'].required = False
+KeyError: 'product_cat'
+"GET /admin/dashboard/artwork/10/change/ HTTP/1.1" 500 122457
+Internal Server Error: /admin/dashboard/artwork/10/change/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1964, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1892, in _changeform_view
+    form = ModelForm(instance=obj)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\forms.py", line 122, in __init__
+    self.fields['product_cat'].required = False
+KeyError: 'product_cat'
+"GET /admin/dashboard/artwork/10/change/ HTTP/1.1" 500 122457
+Internal Server Error: /admin/dashboard/artwork/12/change/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1964, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1892, in _changeform_view
+    form = ModelForm(instance=obj)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\forms.py", line 122, in __init__
+    self.fields['product_cat'].required = False
+KeyError: 'product_cat'
+"GET /admin/dashboard/artwork/12/change/ HTTP/1.1" 500 122457
+Internal Server Error: /admin/dashboard/artwork/12/change/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1964, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1892, in _changeform_view
+    form = ModelForm(instance=obj)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\forms.py", line 124, in __init__
+    self.fields['opening_bid'].required = False
+KeyError: 'opening_bid'
+"GET /admin/dashboard/artwork/12/change/ HTTP/1.1" 500 122719
+Internal Server Error: /admin/dashboard/artwork/12/change/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1964, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1892, in _changeform_view
+    form = ModelForm(instance=obj)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\forms.py", line 124, in __init__
+    self.fields['opening_bid'].required = False
+KeyError: 'opening_bid'
+"GET /admin/dashboard/artwork/12/change/ HTTP/1.1" 500 122719
+Internal Server Error: /admin/dashboard/artwork/12/change/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1964, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1892, in _changeform_view
+    form = ModelForm(instance=obj)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\forms.py", line 124, in __init__
+    self.fields['opening_bid'].required = False
+KeyError: 'opening_bid'
+"GET /admin/dashboard/artwork/12/change/ HTTP/1.1" 500 122719
+Internal Server Error: /admin/dashboard/artwork/12/change/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1964, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1892, in _changeform_view
+    form = ModelForm(instance=obj)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\forms.py", line 124, in __init__
+    self.fields['opening_bid'].required = False
+KeyError: 'opening_bid'
+"GET /admin/dashboard/artwork/12/change/ HTTP/1.1" 500 122984
+Internal Server Error: /admin/dashboard/artwork/12/change/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1964, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1892, in _changeform_view
+    form = ModelForm(instance=obj)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\forms.py", line 124, in __init__
+    self.fields['opening_bid'].required = False
+KeyError: 'opening_bid'
+"GET /admin/dashboard/artwork/12/change/ HTTP/1.1" 500 122719
+Internal Server Error: /admin/dashboard/artwork/12/change/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1964, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1892, in _changeform_view
+    form = ModelForm(instance=obj)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\forms.py", line 124, in __init__
+    self.fields['opening_bid'].required = False
+KeyError: 'opening_bid'
+"GET /admin/dashboard/artwork/12/change/ HTTP/1.1" 500 122719
+Internal Server Error: /admin/dashboard/artwork/12/change/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 718, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\sites.py", line 241, in inner
+    return view(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1964, in change_view
+    return self.changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 188, in _view_wrapper
+    result = _process_exception(request, e)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\utils\decorators.py", line 186, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1820, in changeform_view
+    return self._changeform_view(request, object_id, form_url, extra_context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\contrib\admin\options.py", line 1892, in _changeform_view
+    form = ModelForm(instance=obj)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\art_auction\art\forms.py", line 124, in __init__
+    self.fields['opening_bid'].required = False
+KeyError: 'opening_bid'
+"GET /admin/dashboard/artwork/12/change/ HTTP/1.1" 500 122719
+Internal Server Error: /dashboard/order/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 327, in render
+    return nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'artwork_list' not found. 'artwork_list' is not a valid view function or pattern name.
+"GET /dashboard/order/ HTTP/1.1" 500 210117
+Internal Server Error: /dashboard/order/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 327, in render
+    return nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'artwork_list' with no arguments not found. 1 pattern(s) tried: ['dashboard/artwork/(?P<pk>[0-9]+)/\\Z']
+"GET /dashboard/order/ HTTP/1.1" 500 212589
+Internal Server Error: /dashboard/order/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 327, in render
+    return nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'artwork_list' with no arguments not found. 1 pattern(s) tried: ['dashboard/artwork/(?P<pk>[0-9]+)/\\Z']
+"GET /dashboard/order/ HTTP/1.1" 500 212726
+Internal Server Error: /dashboard/order/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 327, in render
+    return nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'artwork_list' with no arguments not found. 1 pattern(s) tried: ['dashboard/artwork/(?P<pk>[0-9]+)/\\Z']
+"GET /dashboard/order/ HTTP/1.1" 500 212726
+Internal Server Error: /dashboard/order/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 327, in render
+    return nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'artwork_list' not found. 'artwork_list' is not a valid view function or pattern name.
+"GET /dashboard/order/ HTTP/1.1" 500 211012
+Internal Server Error: /dashboard/order/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 327, in render
+    return nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'artwork_list' not found. 'artwork_list' is not a valid view function or pattern name.
+"GET /dashboard/order/ HTTP/1.1" 500 211012
+Internal Server Error: /dashboard/order/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 327, in render
+    return nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'artwork_list' not found. 'artwork_list' is not a valid view function or pattern name.
+"GET /dashboard/order/ HTTP/1.1" 500 211012
+Internal Server Error: /dashboard/order/
+Traceback (most recent call last):
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 327, in render
+    return nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 1008, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\base.py", line 969, in render_annotated
+    return self.render(context)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "E:\ART-AUCTION PROJECTS\art-auction-project\virtualenv_art\lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'artwork_list' not found. 'artwork_list' is not a valid view function or pattern name.
+"GET /dashboard/order/ HTTP/1.1" 500 210101

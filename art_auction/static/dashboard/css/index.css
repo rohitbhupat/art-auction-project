@@ -152,3 +152,9 @@ body.dark-mode .app-card {
 .cropped-image {
     display: none; /* Hides the <img> tag to only use the background */
 }
+
+.carousel-item img {
+    object-fit: cover; /* Ensures the image scales correctly */
+    height: 100%; /* Matches the height of the carousel */
+    width: 100%;
+}

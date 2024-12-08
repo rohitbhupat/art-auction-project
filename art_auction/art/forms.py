@@ -113,21 +113,24 @@ class ArtworkForm(forms.ModelForm):
             'dimension_unit', 'length_in_centimeters', 'width_in_centimeters', 'foot', 'inches'
         ]
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        sale_type = kwargs.get('data', {}).get('sale_type') or self.initial.get('sale_type')
-        
-        # Adjust required fields based on `sale_type`
-        if sale_type == 'discount':
-            self.fields['product_cat'].required = False
-            self.fields['product_cat'].widget.attrs['style'] = 'display: none;'  # Hide this field
-        else:
-            self.fields['product_cat'].required = True
-            self.fields['product_cat'].widget.attrs['style'] = ''  # Make sure it's visible if 'bidding'
+def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    sale_type = kwargs.get('data', {}).get('sale_type') or self.initial.get('sale_type')
+    
+    # Dynamically adjust fields based on sale_type
+    if sale_type == 'discount':
+        self.fields['product_cat'].required = False
+        self.fields['opening_bid'].required = False
+        self.fields['end_date'].required = False
+    elif sale_type == 'bidding':
+        self.fields['product_cat'].required = True
+        self.fields['opening_bid'].required = True
+        self.fields['end_date'].required = True
 
-        # Apply consistent form-control styling
-        for field_name in self.fields:
-            self.fields[field_name].widget.attrs['class'] = 'form-control'
+    # Apply consistent form-control styling
+    for field_name in self.fields:
+        self.fields[field_name].widget.attrs['class'] = 'form-control'
+
 
     def clean(self):
         cleaned_data = super().clean()

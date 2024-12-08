@@ -2,211 +2,227 @@
   margin-top: -5px !important;
   margin-right: 20px;
 }
+
 .dropdown-mode {
   margin-left: -50px !important;
 }
+
 .dropdown-toggle {
   text-decoration: none !important;
   color: #000000 !important;
   cursor: pointer;
 }
+
 body.dark-mode .dropdown-toggle {
-  text-decoration: none !important;
   color: #ffffff !important;
 }
-.app-utility-item .dropdown-menu.show {
-  margin: -14px !important;
-}
+
 .app-utility-item .dropdown-menu {
   top: 35px !important;
+  margin: -14px !important;
 }
+
 .app-utility-item {
   display: flex;
   align-items: center;
-  margin-top: 0; /* Remove negative margin for better alignment */
+  gap: 20px;
 }
+
 .button-container {
   position: absolute;
-  top: 85px; /* Adjust the value to move vertically */
-  left: 17.5rem; /* Adjust the value to move horizontally */
+  top: 85px;
+  left: 17.5rem;
 }
+
 .btn-home {
   position: absolute;
-  top: 85px; /* Adjust the value to move vertically */
-  right: 1.5rem; /* Adjust the value to move horizontally */
+  top: 85px;
+  right: 1.5rem;
   color: #212529;
 }
+
 .btn-home:hover {
   color: black;
 }
+
 body.dark-mode .btn-home {
-  position: absolute;
-  top: 85px; /* Adjust the value to move vertically */
-  right: 1.5rem; /* Adjust the value to move horizontally */
   color: #fff;
 }
+
 .theme {
   margin-right: 20px;
 }
+
 .dropdown-menu-mode {
-  position: relative;
+  position: absolute;
   min-width: 70px !important;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1;
   top: 30px;
   left: 18px !important;
 }
-/* Toggle dropdown visibility */
+
 body.dark-mode .dropdown-menu-mode {
   display: none;
 }
+
 .dropdown-menu-mode.show {
   display: block;
 }
+
 .app-header {
   background: #ffffff !important;
-  border-bottom: none !important;
   padding-top: 1rem !important;
 }
+
 body.dark-mode .app-header {
-  background: #161617 !important; /* Dark mode background */
+  background: #161617 !important;
 }
+
 .app-sidepanel {
   border-right: none !important;
-  transition: background-color 0.3s ease; /* Smooth transition */
+  transition: background-color 0.3s ease;
 }
+
 .app-sidepanel .sidepanel-inner {
-  background: #ffffff !important; /* Default light mode background */
-  transition: background-color 0.3s ease; /* Smooth transition */
+  background: #ffffff !important;
 }
+
 body.dark-mode .app-sidepanel .sidepanel-inner {
-  background: #161617 !important; /* Dark mode background */
+  background: #161617 !important;
 }
-.app-nav .nav-item-dashboard {
-  display: block;
-  color: #b9b9b9;
-  background: none !important;
-}
+
 .app-sidepanel-footer {
   background: #ffffff !important;
-  border-top: none;
 }
+
 body.dark-mode .app-sidepanel-footer {
   background: #161617 !important;
-  border-top: none;
 }
+
 .app-nav .nav-link {
   color: #000000 !important;
 }
+
 body.dark-mode .app-nav .nav-link {
-  color: #ffffff !important; /* White text in dark mode */
+  color: #ffffff !important;
 }
-.app-branding .logo-text {
-  text-decoration: none !important;
-  color: #000000 !important;
-}
-body.dark-mode .app-branding .logo-text {
-  color: #ffffff !important; /* White text in dark mode */
-}
+
 .dropdown-menu {
-  display: none; /* Hide the dropdown menu by default */
+  display: none;
   position: absolute;
-  background-color: var(--dropdown-bg);
-  min-width: 90px;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  top: 30px; /* Adjust vertical position */
-  left: -15px !important;
+  background-color: var(--dropdown-bg, #f8f9fa);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  min-width: 150px;
+  z-index: 1050;
+  padding: 8px 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  opacity: 0;
+  transform: translateY(-10px);
 }
+
+body.dark-mode .dropdown-menu {
+  background-color: #343a40;
+  color: #ffffff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
 .dropdown-menu.show {
   display: block;
+  opacity: 1;
+  transform: translateY(0);
 }
-.dropdown-menu a {
-  color: black;
-  padding: 12px 16px;
+
+/* Theme Dropdown Specific */
+.theme-dropdown {
+  position: relative;
+}
+
+.theme-icon {
+  font-size: 20px;
+  color: #000;
+  cursor: pointer;
+}
+
+body.dark-mode .theme-icon {
+  color: #fff;
+}
+
+/* Hover Effects */
+.theme-dropdown:hover .theme-icon {
+  color: #007bff;
+  /* Light mode hover effect */
+}
+
+body.dark-mode .theme-dropdown:hover .theme-icon {
+  color: #0dcaf0;
+  /* Dark mode hover effect */
+}
+
+.dropdown-menu .dropdown-item {
+  padding: 10px 20px;
+  font-size: 14px;
+  color: #000000;
   text-decoration: none;
-  display: block;
-}
-/* Hover effects for dropdown items */
-body.dark-mode .dropdown-menu a {
-  color: #fff !important;
-}
-.dropdown-menu a:hover {
-  color: white !important;
-  background-color: #212529 !important;
-  transition: background-color 0.1s, color 0.1s;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.submenu-link {
-  display: block; /* Make links block elements for full width */
-  padding: 10px 15px; /* Add padding for clickable area */
-  color: #000000; /* Default light mode text color */
-  text-decoration: none !important; /* Remove underline */
+body.dark-mode .dropdown-menu .dropdown-item {
+  color: #ffffff;
 }
 
-body.dark-mode .submenu-link {
-  color: #ffffff; /* Dark mode text color */
-  text-decoration: none !important; /* Remove underline */
+.dropdown-menu .dropdown-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
-body.dark-mode .submenu-link:hover {
-  text-decoration: none !important; /* Remove underline */
-  color: #cccccc; /* Lighter color on hover in dark mode */
+body.dark-mode .dropdown-menu .dropdown-item:hover {
+  background-color: #495057;
 }
 
-.submenu-link:hover {
-  text-decoration: none !important; /* Remove underline */
-  color: #0056b3; /* Change color on hover in light mode */
-}
 .modal-content {
-  background-color: #ffffff; /* Default light mode background */
-  border: none; /* Remove default border */
+  background-color: #ffffff;
 }
 
 body.dark-mode .modal-content {
-  background-color: #161617; /* Dark mode background */
-  color: #ffffff; /* Dark mode text color */
+  background-color: #161617;
+  color: #ffffff;
 }
 
 .modal-header {
-  border-bottom: none; /* Remove bottom border */
-}
-
-body.dark-mode .modal-header {
-  border-bottom: none; /* Ensure border remains removed in dark mode */
+  border-bottom: none;
 }
 
 .modal-title {
-  color: #000000; /* Default title color for light mode */
+  color: #000000;
 }
 
 body.dark-mode .modal-title {
-  color: #ffffff; /* Title color for dark mode */
-}
-
-.modal-body {
-  text-align: center; /* Center align the content */
-}
-
-.modal-footer {
-  border-top: none; /* Remove top border */
+  color: #ffffff;
 }
 
 body.dark-mode .btn {
-  background-color: #444; /* Dark mode button background */
-  color: #ffffff; /* Dark mode button text color */
-}
-
-.btn-danger {
-  background-color: #ff0019; /* Default danger button color */
+  background-color: #444;
+  color: #ffffff;
 }
 
 body.dark-mode .btn-danger {
-  background-color: #ff1900; /* Dark mode danger button color */
+  background-color: #ff1900;
 }
+
 .btn-close {
   background-color: #ffffff !important;
 }
+
 body.dark-mode .btn-close {
   color: #ffffff !important;
+}
+
+/* Adjust for Small Devices */
+@media (max-width: 768px) {
+  .dropdown-menu {
+    position: static;
+    width: 100%;
+    border-radius: 0;
+  }
 }
