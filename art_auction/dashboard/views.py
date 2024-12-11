@@ -341,12 +341,12 @@ class OrderListView(LoginRequiredMixin, ListView):
         else:
             queryset = queryset.filter(user=self.request.user)
         
-        # Handle sorting based on URL parameter 'filter'
-        filter_param = self.request.GET.get('filter')
-        if filter_param == 'asc':
-            queryset = queryset.order_by('order_date')
-        elif filter_param == 'desc':
-            queryset = queryset.order_by('-order_date')
+        # Handle filtering based on the 'filter' parameter
+        filter_param = self.request.GET.get('filter', 'all')
+        if filter_param == 'sale':
+            queryset = queryset.filter(product__sale_type='sale')
+        elif filter_param == 'bidding':
+            queryset = queryset.filter(product__sale_type='bidding')
 
         return queryset
 

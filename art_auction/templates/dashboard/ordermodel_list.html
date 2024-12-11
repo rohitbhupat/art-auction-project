@@ -20,24 +20,18 @@
         right: 0;
         left: auto;
     }
-    .home-button-container {
-        position:relative;
-        top: 5px; /* Adjust the value to move vertically */
-        left: 4.5rem; /* Adjust the value to move horizontally */
+    .modal-table th,
+    .modal-table td {
+        border-right: 1px solid #dee2e6; /* Apply vertical border between th and td */
     }
-    .btn-home-order{
-        top: -2px; /* Adjust the value to move vertically */
-        left: 9.5rem; /* Adjust the value to move horizontally */
-        color: #212529;
+                                        
+    .modal-table th:last-child,
+    .modal-table td:last-child {
+        border-right: none; /* Remove border for the last column */
     }
-    .btn-home-order:hover{
-        color: black;
-        text-decoration:none;
-    }
-    body.dark-mode .btn-home-order{
-        top: -2px; /* Adjust the value to move vertically */
-        left: -9.5rem; /* Adjust the value to move horizontally */
-        color: #fff;
+    .small-image {
+        max-width: 80px; /* Define the maximum width for the image */
+        height: auto; /* Maintain aspect ratio */
     }
 </style>
 {% endblock %}
@@ -46,38 +40,40 @@
 {% include "art/arrow_button.html" %}
 {% load auth_extras %}
 
-<div class="app-wrapper">
+{% comment %} <div class="app-wrapper"> {% endcomment %}
     <div class="app-content pt-3 p-md-3 p-lg-4">
         <div class="button-container">
             <i class="fa-solid fa-arrow-left" style="cursor:pointer; font-size:1.4rem; margin-right:10px" onclick="goBack()"></i>
             <i class="fa-solid fa-arrow-right" style="cursor:pointer; font-size:1.4rem; margin-right:15px" onclick="goForward()"></i>
         </div>
-        {% if user.is_authenticated %}
+        <br>
+        {% comment %} {% if user.is_authenticated %}
         <div class="home-button-container">
             <a href="{% url 'art:index' %}" class="btn-home-order"><i class="fa-solid fa-house"></i> Home</a>
         </div>
-        {% endif %}
+        {% endif %} {% endcomment %}
 
-        <div class="container-xl">
+        <div class="container-fluid"> <!-- Changed from container-xl to container-fluid -->
             <h1 class="app-page-title">Order List</h1>
-
+        
             <div class="filter-dropdown">
                 <div class="dropdown-toggle" style="cursor:pointer;" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa-solid fa-filter"></i> Filter
                 </div>
                 <div class="dropdown-menu" aria-labelledby="filterDropdown">
-                    <a class="dropdown-item" href="?filter=asc">Ascending +</a>
-                    <a class="dropdown-item" href="?filter=desc">Descending -</a>
+                    <a class="dropdown-item" href="?filter=all">All Artworks</a>
+                    <a class="dropdown-item" href="?filter=sale">Sale</a>
+                    <a class="dropdown-item" href="?filter=bidding">Bidding</a>
                 </div>
             </div>
-
-            <div class="row g-4 mb-4">
-                <table class="table">
+        
+        <div class="row g-4 mb-4">
+            <div class="table-container">
+                <table class="table table-bordered"> <!-- Added table-bordered for better line visibility -->
                     <thead>
                         <tr>
                             <th scope="col">Sr No</th>
                             <th scope="col">Artworks</th>
-                            <style></style>
                             <th scope="col">Date</th>
                             {% if user|has_group:"SellerGroup" %}
                             <th scope="col">Order By</th>
@@ -103,25 +99,12 @@
                                                 {% else %}
                                                     <img src="{% static 'images/assets/purchased.jpg' %}" class="small-image" alt="Purchased Image">
                                                 {% endif %}
-                                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                                                </button>
+                                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                                             </div>
+                                            <style>
+                                                
+                                            </style>
                                             <div class="modal-body">
-                                                <style>
-                                                    .modal-table th,
-                                                    .modal-table td {
-                                                        border-right: 1px solid #dee2e6; /* Apply vertical border between th and td */
-                                                    }
-                                            
-                                                    .modal-table th:last-child,
-                                                    .modal-table td:last-child {
-                                                        border-right: none; /* Remove border for the last column */
-                                                    }
-                                                    .small-image {
-                                                        max-width: 80px; /* Define the maximum width for the image */
-                                                        height: auto; /* Maintain aspect ratio */
-                                                    }
-                                                </style>
                                                 <table class="table modal-table">
                                                     <tbody>
                                                         <tr>
@@ -161,7 +144,6 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                             </div>
@@ -187,8 +169,9 @@
                 </table>
             </div>
         </div>
+        </div>        
     </div>
-</div>
+{% comment %} </div> {% endcomment %}
 
 {% endblock %}
 {% block js %}

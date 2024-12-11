@@ -1,45 +1,72 @@
 .artworks-order {
-    color: black !important;
-    text-decoration: none !important;
+  color: black !important;
+  text-decoration: none !important;
 }
 /* Dark Mode Styles */
 body.dark-mode .artworks-order {
-    color: #c7c7c7 !important; /* Light gray for better contrast in dark mode */
+  color: #c7c7c7 !important; /* Light gray for better contrast in dark mode */
 }
 /* Dark Mode Styles */
-.table{
-    color: #000000; /* Black text color */
+.table {
+  color: #000000; /* Black text color */
+  background-color: rgba(
+    231,
+    231,
+    231,
+    0.9
+  ); /* Slightly transparent light background */
+  border-collapse: separate; /* For better border visibility */
+  margin: 0 auto; /* Center inside the container */
+  border-radius: 5px; /* Optional: add rounded corners for a more modern look */
 }
-body.dark-mode .table, 
+
+body.dark-mode .table {
+  color: #c7c7c7 !important; /* Light gray text color */
+  background-color: rgba(
+    30,
+    30,
+    30,
+    0.9
+  ); /* Slightly transparent dark background */
+  border-collapse: separate;
+  margin: 0 auto;
+  border-radius: 5px;
+}
+body.dark-mode .table,
 body.dark-mode .table td {
-    color: #c7c7c7 !important; /* Light gray for better contrast */
+  color: #c7c7c7 !important; /* Light gray for better contrast */
 }
 
 body.dark-mode .btn-light {
-    background-color: #2c2c2c;
+  background-color: #2c2c2c;
 }
 body.dark-mode .btn-light:hover {
-    background-color: #2c2c2c;
+  background-color: #2c2c2c;
 }
 body.dark-mode .dropdown-menu {
-    background-color: #333;
-    color: white;
+  background-color: #333;
+  color: white;
 }
 body.dark-mode .modal-content {
-    background-color: #2c2c2c;
-    color: white;
+  background-color: #2c2c2c;
+  color: white;
 }
-body.dark-mode .table th, 
+body.dark-mode .table th,
 body.dark-mode .table td {
-    border-color: #444;
+  border-color: rgba(
+    68,
+    68,
+    68,
+    0.7
+  ); /* Lighter, semi-transparent border for dark mode */
 }
-.table th, 
+.table th,
 .table td {
-    border-color: #dee2e6; /* Light gray borders for light mode */
+  border-color: rgba(222, 226, 230, 0.7); /* Lighter, semi-transparent border */
 }
-button.close{
-    color: black !important;
+button.close {
+  color: black !important;
 }
-body.dark-mode button.close{
-    color: white !important;
+body.dark-mode button.close {
+  color: white !important;
 }

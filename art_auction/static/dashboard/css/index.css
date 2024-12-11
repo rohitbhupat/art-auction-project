@@ -158,3 +158,19 @@ body.dark-mode .app-card {
     height: 100%; /* Matches the height of the carousel */
     width: 100%;
 }
+.carousel-indicators button {
+    width: 15px !important; /* Width of the circle */
+    height: 15px !important; /* Height of the circle */
+    border-radius: 50%; /* Makes the indicators circular */
+    background-color: rgba(0, 0, 0, 0.7); /* Slightly darker black */
+    border: none; /* Removes border */
+    transition: background-color 0.3s ease; /* Adds a smooth transition effect */
+}
+
+.carousel-indicators .active {
+    background-color: rgba(0, 0, 0, 0.726) !important; /* Fully black for the active indicator */
+}
+
+.carousel-indicators {
+    bottom: 70px !important; /* Positioning of indicators */
+}
