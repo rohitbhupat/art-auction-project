@@ -6,13 +6,31 @@
     color: #000000;
     /* Default light mode text color */
 }
+.artwork-card_list{
+    flex: 0 0 auto !important;
+    width: 25% !important;
+}
+/* Light Mode Hover */
+body.light-mode .artwork-card_list:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.8s ease;
+}
 
-body.light-mode .artwork-card {
+/* Dark Mode Hover */
+body.dark-mode .artwork-card_list:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.15);
+    /* Lighter shadow for dark mode */
+    transition: all 0.3s ease;
+}
+
+body.light-mode .artwork-card_list {
     color: #000000;
     /* Light mode text color for artworks */
 }
 
-body.dark-mode .artwork-card {
+body.dark-mode .artwork-card_list {
     color: #ffffff;
     /* Dark mode text color for artworks */
 }
@@ -40,10 +58,13 @@ body.dark-mode .app-card-doc .app-doc-meta {
 .app-card-doc .app-doc-title {
     color: #000000 !important;
 }
+body.dark-mode .app-card-doc .app-doc-title{
+    color: #ffffff !important;
+}
 
 body.dark-mode h4 {
     color: #ffffff;
-    background-color: #212529;
+    /* background-color: #212529; */
 }
 
 /* Modal Styles */

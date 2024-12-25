@@ -23,11 +23,6 @@ from django.core.mail import send_mail
 from django.conf import settings
 # Set up logging
 logger = logging.getLogger(__name__)
-
-class Index(View):
-    def get(self, request):
-        return render(request, 'dashboard/dashboard.html')
-
 class ArtworkCreateView(LoginRequiredMixin, CreateView):
     model = Artwork
     fields = [
@@ -334,19 +329,19 @@ class OrderListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = OrderModel.objects.all()
-        
+
         # Filter orders based on user group
         if self.request.user.groups.filter(name='SellerGroup').exists():
             queryset = queryset.filter(product__user=self.request.user)
         else:
             queryset = queryset.filter(user=self.request.user)
-        
+
         # Handle filtering based on the 'filter' parameter
-        filter_param = self.request.GET.get('filter', 'all')
-        if filter_param == 'sale':
-            queryset = queryset.filter(product__sale_type='sale')
-        elif filter_param == 'bidding':
-            queryset = queryset.filter(product__sale_type='bidding')
+        filter_param = self.request.GET.get('filter', 'all').lower()
+        if filter_param == 'discount':
+            queryset = queryset.filter(product__sale_type='discount')
+        elif filter_param == 'auction':
+            queryset = queryset.filter(product__sale_type='auction')
 
         return queryset
 

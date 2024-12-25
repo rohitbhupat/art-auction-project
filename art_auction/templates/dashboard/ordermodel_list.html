@@ -54,18 +54,20 @@
         {% endif %} {% endcomment %}
 
         <div class="container-fluid"> <!-- Changed from container-xl to container-fluid -->
-            <h1 class="app-page-title">Order List</h1>
+            <h1 class="app-page-title" id="pageTitle">Order List</h1>
         
             <div class="filter-dropdown">
                 <div class="dropdown-toggle" style="cursor:pointer;" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa-solid fa-filter"></i> Filter
+                    <i class="fa-solid fa-filter"></i> <span id="selectedFilter">Filter</span>
                 </div>
                 <div class="dropdown-menu" aria-labelledby="filterDropdown">
-                    <a class="dropdown-item" href="?filter=all">All Artworks</a>
-                    <a class="dropdown-item" href="?filter=sale">Sale</a>
-                    <a class="dropdown-item" href="?filter=bidding">Bidding</a>
+                    <a class="dropdown-item filter-option" data-filter="All Artworks" href="?filter=all">All Artworks</a>
+                    <a class="dropdown-item filter-option" data-filter="Discount" href="?filter=discount">Discount</a>
+                    <a class="dropdown-item filter-option" data-filter="Auction" href="?filter=auction">Auction</a>
+
                 </div>
             </div>
+            
         
         <div class="row g-4 mb-4">
             <div class="table-container">
@@ -79,7 +81,15 @@
                             <th scope="col">Order By</th>
                             {% endif %}
                             <th scope="col">Delivery Address</th>
+                            {% if request.GET.filter == 'discount' %}
+                            <th scope="col">Actual Price</th>
+                            <th scope="col">Discounted Price</th>
+                            {% elif request.GET.filter == 'auction' %}
                             <th scope="col">Last Bid</th>
+                            {% endif %}
+                            {% if request.GET.filter == 'all' or not request.GET.filter %}
+                            <th scope="col">Type</th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -115,6 +125,16 @@
                                                             <th scope="row">Dimensions</th>
                                                             <td>{{ order.product.length_in_centimeters }} x {{ order.product.width_in_centimeters }} cm</td>
                                                         </tr>
+                                                        {% if order.product.sale_type == 'discount' %}
+                                                        <tr>
+                                                            <th>Actual Price</th>
+                                                            <td>₹ {{ order.product.product_price }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Discounted Price</th>
+                                                            <td>₹ {{ order.product.get_discounted_price|floatformat:0 }} </td>
+                                                        </tr>
+                                                        {% elif order.product.sale_type == 'auction' %}
                                                         <tr>
                                                             <th scope="row">Catalogue</th>
                                                             <td>{{ order.product.product_cat }}</td>
@@ -131,8 +151,9 @@
                                                         </tr>
                                                         <tr>
                                                             <th scope="row">Last Bid</th>
-                                                            <td>{{ order.order_price }}</td>
+                                                            <td>₹ {{ order.order_price|floatformat:0 }}</td>
                                                         </tr>
+                                                        {% endif %}
                                                         <tr>
                                                             <th scope="row">Date</th>
                                                             <td>{{ order.order_date }}</td>
@@ -156,7 +177,23 @@
                             <td>{{ order.user }}</td>
                             {% endif %}
                             <td>{{ order.delivery_at }}</td>
-                            <td>{{ order.order_price }}</td>
+                            {% if request.GET.filter == 'discount' %}
+                            <td>₹ {{ order.product.product_price }}</td>
+                            <td>₹ {{ order.product.get_discounted_price|floatformat:0 }}</td>
+                            {% elif request.GET.filter == 'auction' %}
+                            <td>₹ {{ order.order_price|floatformat:0  }}</td>
+                            {% endif %}
+                            {% if request.GET.filter == 'all' or not request.GET.filter %}
+                            <td>
+                            {% if order.product.sale_type == 'discount' %}
+                                Discount
+                            {% elif order.product.sale_type == 'auction' %}
+                                Auction
+                            {% else %}
+                                Unknown
+                            {% endif %}
+                            </td>
+                            {% endif %}
                         </tr>
                         {% empty %}
                         <tr>
@@ -178,4 +215,38 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const filterOptions = document.querySelectorAll(".filter-option");
+        const selectedFilterElement = document.getElementById("selectedFilter");
+        const pageTitle = document.getElementById("pageTitle");
+
+        // Map filters to their display names
+        const filterTextMap = {
+            all: "All Artworks Order List",
+            discount: "Discount Order List",
+            auction: "Auction Order List",
+        };
+
+        // Set default filter to "all" if no filter is present in the query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const filter = urlParams.get("filter") || "all";
+
+        // Set the initial selected filter and page title
+        const filterText = filterTextMap[filter] || "Order List";
+        selectedFilterElement.textContent = filterText.replace(" Order List", ""); // Remove "Order List" for dropdown
+        pageTitle.textContent = filterText;
+
+        // Update the filter name and heading when a dropdown item is clicked
+        filterOptions.forEach(option => {
+            option.addEventListener("click", function () {
+                const selectedFilter = this.getAttribute("data-filter").toLowerCase();
+                const filterText = filterTextMap[selectedFilter] || "Order List";
+                selectedFilterElement.textContent = filterText.replace(" Order List", "");
+                pageTitle.textContent = filterText;
+            });
+        });
+    });
+</script>
+
 {% endblock %}

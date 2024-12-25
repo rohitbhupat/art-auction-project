@@ -2,6 +2,7 @@
 {% block title %}Artworks List - ARTIV{% endblock %}
 {% load static %}
 {% block links %}
+<link rel="stylesheet" href="{% static 'dashboard/css/index.css' %}" type="text/css">
 <link rel="stylesheet" href="{% static 'dashboard/css/artwork_list.css' %}">
 <link rel="stylesheet" href="{% static 'dashboard/css/ordermodel_list.css' %}">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -19,67 +20,31 @@
         right: 0;
         left: auto;
     }
-    .button-container {
-        position: absolute;
-        top: 85px; /* Adjust the value to move vertically */
-        left: 17.5rem; /* Adjust the value to move horizontally */
-    }
-    .home-button-container {
-        position:relative;
-        top: 5px; /* Adjust the value to move vertically */
-        left: 4.5rem; /* Adjust the value to move horizontally */
-    }
-    .btn-home-order{
-        top: -2px; /* Adjust the value to move vertically */
-        left: 9.5rem; /* Adjust the value to move horizontally */
-        color: #212529;
-    }
-    .btn-home-order:hover{
-        color: black;
-        text-decoration:none;
-
-    }
-    body.dark-mode .btn-home-order{
-        top: -2px; /* Adjust the value to move vertically */
-        left: -9.5rem; /* Adjust the value to move horizontally */
-        color: #fff;
-    }
-    .artwork-card {
-        width: 24.66666667%;
-        transition: background-color 0.3s, color 0.3s;
-    }
 </style>
 {% endblock %}
 {% block content %}
 {% include './includes/header.html' %}
 {% include "art/arrow_button.html" %}
-<div class="app-wrapper">
     <div class="app-content pt-3 p-md-3 p-lg-4">
         <div class="button-container">
             <i class="fa-solid fa-arrow-left" style="cursor:pointer; font-size:1.4rem; margin-right:10px" onclick="goBack()"></i>
             <i class="fa-solid fa-arrow-right" style="cursor:pointer; font-size:1.4rem; margin-right:15px" onclick="goForward()"></i>
         </div>
-        {% if user.is_authenticated %}
-        <div class="home-button-container">
-            <a href="{% url 'art:index' %}" class="btn-home-order"><i class="fa-solid fa-house"></i> Home</a>
-        </div>
-        {% endif %}
-        <div class="container-xl">
-            <h1 class="app-page-title">Artwork List</h1>
+        <div class="container-fluid_list poppins-regular-products">
+            <h1 class="app-page-title" id="page-title">View All Artworks</h1>
             <div class="filter-dropdown">
                 <div class="dropdown-toggle" style="cursor:pointer;" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa-solid fa-filter"></i> Filter
+                    <i class="fa-solid fa-filter"></i> <span id="selectedFilter">Filter</span>
                 </div>
                 <div class="dropdown-menu" aria-labelledby="filterDropdown">
-                    <a class="dropdown-item {% if active_filter == 'all' %}active{% endif %}" href="?filter=all">All Artworks</a>
-                    <a class="dropdown-item {% if active_filter == 'new' %}active{% endif %}" href="?filter=new">New Artworks</a>
-                    <a class="dropdown-item {% if active_filter == 'old' %}active{% endif %}" href="?filter=old">Old Artworks</a>
-                    <a class="dropdown-item {% if active_filter == 'sold' %}active{% endif %}" href="?filter=sold">Sold Artworks</a>
+                    <a class="dropdown-item filter-option" data-filter="All Artworks" href="?filter=all">All Artworks</a>
+                    <a class="dropdown-item filter-option" data-filter="Discount" href="?filter=discount">Discount</a>
+                    <a class="dropdown-item filter-option" data-filter="Auction" href="?filter=auction">Auction</a>
                 </div>
             </div>
-            <div class="row g-4 mb-4">
+            <div class="row poppins-regular-products">
                 {% for product in object_list %}
-                <div class="artwork-card col-6 col-md-4 col-xxl-2">
+                <div class="artwork-card_list col-6 col-md-4 col-xxl-2">
                     <div class="app-card app-card-doc shadow-sm h-100">
                         <div class="app-card-thumb-holder p-3">
                             <div class="app-card-thumb">
@@ -87,43 +52,13 @@
                             </div>
                         </div>
                         <div class="app-card-body p-3 has-card-actions">
-                            <h4 class="app-doc-title truncate mb-0">
-                                <a href="#" data-toggle="modal" data-target="#productModal{{ product.id }}">{{ product.product_name }}</a>
-                            </h4><br>
+                            <h4 class="app-doc-title truncate mb-0">{{ product.product_name }}</h4>
                             <div class="app-doc-meta">
-                                <ul class="list-unstyled mb-0">
-                                    <li><span class="text-muted">Catalogue:</span> {{ product.product_cat }}</li>
-                                    <li><span class="text-muted">ID:</span> {{ product.product_id }}</li>
-                                    <li><span class="text-muted">End on:</span> {{ product.end_date }}</li>
-                                </ul>
-                            </div>
-                            <div class="app-card-actions">
-                                <div class="dropdown">
-                                    <div class="dropdown-toggle no-toggle-arrow" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-three-dots-vertical" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                                        </svg>
-                                    </div>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" href="{% url 'dashboard:product_update' pk=product.pk %}">
-                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil me-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                                                </svg>Edit
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="{% url 'dashboard:product_delete' pk=product.pk %}">
-                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash me-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                                </svg>Delete
-                                            </a>
-                                        </li>
-                                    </ul>
+                                <div class="btn-group d-flex mx-auto mb-2 mt-2" role="group" aria-label="Basic outlined example">
+                                    <a href="{% url 'dashboard:product_update' pk=product.pk %}" type="button" class="btn btn-success btn-sm">Update</a>
+                                </div>
+                                <div class="btn-group d-flex mx-auto mb-2 mt-2" role="group" aria-label="Basic outlined example">
+                                <a href="{% url 'dashboard:product_delete' pk=product.pk %}" type="button" class="btn btn-danger btn-sm">Delete</a>
                                 </div>
                             </div>
                         </div>
@@ -210,14 +145,14 @@
                         </div>
                     </div>
                 </div>
+
                 {% empty %}
-                <h3> No artwork to show, please add artwork </h3>
+                <h3 class="open-sans-empty dark-mode-heading">No artworks to show</h3>
                 {% endfor %}
             </div>
-        </div>
+    </div>
     </div>
     {% include './includes/footer.html' %}
-</div>
 <button onclick="topFunction()" id="back-to-top-btn" title="Go to top"><i class="fa-solid fa-angles-up"></i></button>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -233,6 +168,31 @@
         document.getElementById('bid-button').addEventListener('click', () => {
             const bid = document.getElementById('bid-input').value;
             socket.send(JSON.stringify({'bid': bid}));
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const filter = urlParams.get('filter') || 'all'; // Default to 'all'
+        const selectedFilter = document.getElementById('selectedFilter');
+        const pageTitle = document.getElementById('page-title');
+
+        // Update the heading and selected filter based on the URL parameter
+        if (filter === 'discount') {
+            selectedFilter.textContent = 'Discount';
+            pageTitle.textContent = 'View Discount Artworks';
+        } else if (filter === 'auction') {
+            selectedFilter.textContent = 'Auction';
+            pageTitle.textContent = 'View Auction Artworks';
+        } else {
+            selectedFilter.textContent = 'All Artworks';
+            pageTitle.textContent = 'View All Artworks';
+        }
+    });
+
+    // Ensure the modal works properly
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('shown.bs.modal', () => {
+            // Trigger modal-related actions here if needed
         });
     });
 </script>

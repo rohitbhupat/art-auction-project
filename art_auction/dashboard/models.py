@@ -21,49 +21,34 @@ class Artwork(models.Model):
 
     SALE_TYPE_CHOICES = [
         ("discount", "Discount"),
-        ("bidding", "Bidding"),
+        ("auction", "Auction"),
     ]
-    sale_type = models.CharField(max_length=10, choices=SALE_TYPE_CHOICES, default='bidding')  # New field
+    sale_type = models.CharField(max_length=10, choices=SALE_TYPE_CHOICES)  # sale_type only
     product_id = models.CharField(max_length=255, default="")
-    product_name = models.CharField(max_length=255, default="", blank=False, null=False)
-    product_price = models.IntegerField(default=0, null=False)
+    product_name = models.CharField(max_length=255, blank=False)
+    product_price = models.IntegerField(default=0)
     opening_bid = models.IntegerField(default=0, null=True, blank=True)
     product_cat = models.ForeignKey("Catalogue", on_delete=models.CASCADE, null=True, blank=True)
     product_qty = models.IntegerField(default=0)
     product_image = models.ImageField(upload_to="arts/")
-    dimension_unit = models.CharField(
-        max_length=2, choices=[("cm", "Centimeters"), ("ft", "Feet")]
-    )
+    dimension_unit = models.CharField(max_length=2, choices=[("cm", "Centimeters"), ("ft", "Feet")])
     length_in_centimeters = models.FloatField(default=0.0, blank=True, null=True)
     width_in_centimeters = models.FloatField(default=0.0, blank=True, null=True)
     foot = models.FloatField(default=0, blank=True, null=True)
     inches = models.FloatField(default=0, blank=True, null=True)
-    created_at = models.DateField(
-        default=timezone.now
-    )  # Default to current time zone's now
+    created_at = models.DateField(default=timezone.now)
     end_date = models.DateField(null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     is_sold = models.BooleanField(default=False)
     is_purchased = models.BooleanField(default=False)
     status = models.CharField(
         max_length=50,
-        choices=[
-            ("active", "Active"),
-            ("closed", "Closed"),
-            ("waiting_for_response", "Waiting for Response"),
-            ("unsold", "Unsold"),
-        ],
+        choices=[("active", "Active"), ("closed", "Closed"), ("waiting_for_response", "Waiting for Response"), ("unsold", "Unsold")],
         default="active",
     )
-    response_deadline = models.DateTimeField(
-        blank=True, null=True
-    )  # To store the deadline for buyer response
-    buyer_response = models.CharField(
-        max_length=11,
-        choices=[("yes", "Yes"), ("no", "No"), ("no_response", "No Response")],
-        default="no_response",
-    )
-    discounted_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # For discount
+    response_deadline = models.DateTimeField(blank=True, null=True)
+    buyer_response = models.CharField(max_length=11, choices=[("yes", "Yes"), ("no", "No"), ("no_response", "No Response")], default="no_response")
+    discounted_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     
     def get_discounted_price(self):
         """Calculate 30% discounted price."""
@@ -85,7 +70,6 @@ class Artwork(models.Model):
                     raise ValidationError(
                         "Duplicate image detected. This artwork is already an NFT and cannot be uploaded again."
                     )
-
         # Fix for 'created_at' - Ensure it's a datetime object
         if not self.id:  # Only set `created_at` when it's a new object
             self.created_at = timezone.now()
@@ -100,7 +84,7 @@ class Artwork(models.Model):
                 self.opening_bid = None  # Ignore opening_bid for discount type
             if self.end_date:
                 self.end_date = None  # Ignore end_date for discount type
-        elif self.sale_type == 'bidding':
+        elif self.sale_type == 'auction':
             if not self.product_cat:
                 raise ValidationError({"product_cat": "Product category is required for bidding."})
             if not self.opening_bid:

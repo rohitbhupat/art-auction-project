@@ -51,7 +51,7 @@ class index(View):
                 end_date__gte=current_date,
                 product_qty__gt=0,
                 is_sold=False,  # Ensure only unsold artworks are considered
-                sale_type="bidding"  # Ensure only bidding artworks are fetched
+                sale_type="auction"  # Ensure only bidding artworks are fetched
             )
         elif filter_param == "new":
             # Define the threshold for new artworks (e.g., created in the last 1 day)
@@ -61,7 +61,7 @@ class index(View):
                 end_date__gte=current_date,
                 product_qty__gt=0,
                 is_sold=False,  # Ensure only unsold artworks are considered
-                sale_type="bidding"  # Ensure only bidding artworks are fetched
+                sale_type="auction"  # Ensure only bidding artworks are fetched
             )
         else:
             # Default view shows artworks ending today or later
@@ -69,7 +69,7 @@ class index(View):
                 end_date__gte=current_date,
                 product_qty__gt=0,
                 is_sold=False,  # Ensure only unsold artworks are considered
-                sale_type="bidding"  # Ensure only bidding artworks are fetched
+                sale_type="auction"  # Ensure only bidding artworks are fetched
             )
 
         # Debugging: Print out the filtered products to verify the logic
@@ -614,7 +614,7 @@ class ArtworkSaleListView(LoginRequiredMixin, ListView):
         queryset = Artwork.objects.filter(
             product_qty__gt=0,
             is_sold=False,
-            sale_type="discount",  # Ensure only artworks with sale_type "sale" are displayed
+            sale_type="discount",  # Ensure only artworks with sale_type "discount" are displayed
         )
 
         if self.request.user.is_authenticated:

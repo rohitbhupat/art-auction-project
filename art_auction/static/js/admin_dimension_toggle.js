@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedType = saleTypeField?.value;
 
     // Toggle fields based on the sale type
-    const isDiscount = selectedType === "discount";
-    const isBidding = selectedType === "bidding";
+    const isDiscount = selectedType === "sale";
+    const isBidding = selectedType === "auction";
 
     // Toggle fields for discount and bidding
     discountFields.forEach((fieldId) => toggleField(fieldId, isDiscount));

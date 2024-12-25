@@ -3,32 +3,21 @@
 {% load static %}
 {% block links %}
 <link rel="stylesheet" href="{% static 'dashboard/css/artwork_form.css' %}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
     body {
         font-family: 'Poppins', sans-serif;
     }
-    .button-container {
+    .filter-dropdown {
         position: absolute;
         top: 85px;
-        left: 17.5rem;
+        right: 2rem;
     }
-    .home-button-container {
-        position: relative;
-        top: 5px;
-        left: 70.5rem;
-    }
-    .btn-home-order {
-        top: -2px;
-        right: -9.5rem;
-        color: #212529;
-    }
-    .btn-home-order:hover {
-        color: black;
-        text-decoration: none;
-    }
-    body.dark-mode .btn-home-order {
-        color: #fff;
+
+    .filter-dropdown .dropdown-menu {
+        right: 0;
+        left: auto;
     }
     .error-message {
         color: red;
@@ -39,37 +28,31 @@
 {% block content %}
 {% include './includes/header.html' %}
 {% include "art/arrow_button.html" %}
-<div class="app-wrapper">
     <div class="app-content pt-3 p-md-3 p-lg-4">
         <div class="button-container">
             <i class="fa-solid fa-arrow-left" style="cursor:pointer; font-size:1.4rem; margin-right:10px" onclick="goBack()"></i>
             <i class="fa-solid fa-arrow-right" style="cursor:pointer; font-size:1.4rem; margin-right:15px" onclick="goForward()"></i>
         </div>
-        {% if user.is_authenticated %}
-        <div class="home-button-container">
-            <a href="{% url 'art:index' %}" class="btn-home-order"><i class="fa-solid fa-house"></i> Home</a>
-        </div>
-        {% endif %}
-        <div class="container-xl">
+        <div class="container-fluid">
             <h1 class="app-page-title">Add Artwork</h1>
+            <div class="filter-dropdown">
+                    <div class="dropdown-toggle" style="cursor:pointer;" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-solid fa-filter"></i> <span id="selectedFilter">Filter</span>
+                    </div>
+                    <div class="dropdown-menu" aria-labelledby="filterDropdown">
+                        <li><a class="dropdown-item filter-option" href="?filter=discount">Discount</a></li>
+                        <li><a class="dropdown-item filter-option" href="?filter=auction">Auction</a></li>
+                    </div>
+            </div>
             {% if form.non_field_errors %}
             <div class="alert alert-danger">{{ form.non_field_errors }}</div>
             {% endif %}
             <div class="row g-4 mb-4">
                 <div class="col-12">
-                    <div class="app-card shadow-sm h-100">
+                    <div class="app-card artwork-card shadow-sm h-100">
                         <div class="app-card-body p-2">
                             <form method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
-                                <!-- Sale Type Selector -->
-                                <div class="fieldWrapper">
-                                    <label for="sale_type">Sale Type:</label>
-                                    <select id="sale_type" name="sale_type" onchange="toggleSaleTypeFields()">
-                                        <option value="discount">Discount</option>
-                                        <option value="bidding">Bidding</option>
-                                    </select>
-                                </div>
-
                                 <!-- Shared Fields -->
                                 <div class="fieldWrapper">
                                     <label for="{{ form.product_name.id_for_label }}">{{ form.product_name.label }}:</label>
@@ -79,8 +62,8 @@
                                     {% endif %}
                                 </div>
 
-                                <!-- Discount Fields -->
-                                <div id="discount_fields" style="display: none;">
+                                <!-- Fields for Discount -->
+                                <div id="discount_fields" class="sale-type-fields" style="display: none;">
                                     <div class="fieldWrapper">
                                         <label for="{{ form.product_price.id_for_label }}">Price:</label>
                                         {{ form.product_price }}
@@ -91,8 +74,8 @@
                                     </div>
                                 </div>
 
-                                <!-- Bidding Fields -->
-                                <div id="bidding_fields" style="display: none;">
+                                <!-- Fields for Auction -->
+                                <div id="auction_fields" class="sale-type-fields" style="display: none;">
                                     <div class="fieldWrapper">
                                         <label for="{{ form.opening_bid.id_for_label }}">Opening Bid:</label>
                                         {{ form.opening_bid }}
@@ -110,6 +93,8 @@
                                         {{ form.end_date }}
                                     </div>
                                 </div>
+
+                                <!-- Dimension Fields -->
                                 <div class="fieldWrapper">
                                     <label for="dimension_unit">Dimensions:</label>
                                     <select id="dimension_unit" name="dimension_unit" onchange="toggleDimensionFields()">
@@ -137,10 +122,13 @@
                                         {{ form.inches }}
                                     </div>
                                 </div>
+
+                                <!-- Image Field -->
                                 <div class="fieldWrapper">
                                     <label for="{{ form.product_image.id_for_label }}">{{ form.product_image.label }}:</label>
                                     {{ form.product_image }}
                                 </div>
+
                                 <!-- Submit Button -->
                                 <div class="d-grid mx-auto">
                                     <input class="btn btn-success" type="submit" value="Upload" />
@@ -153,27 +141,38 @@
         </div>
     </div>
     {% include './includes/footer.html' %}
-</div>
 {% endblock %}
 {% block js %}
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script>
+    // Function to toggle Sale Type Fields based on Filter
     function toggleSaleTypeFields() {
-        const saleType = document.getElementById('sale_type').value;
+        const urlParams = new URLSearchParams(window.location.search);
+        const filter = urlParams.get('filter') || 'discount'; // Default to 'discount'
         const discountFields = document.getElementById('discount_fields');
-        const biddingFields = document.getElementById('bidding_fields');
-        const productCatField = document.querySelector('[name="product_cat"]');
-    
-        if (saleType === 'discount') {
+        const auctionFields = document.getElementById('auction_fields');
+        const selectedFilter = document.getElementById('selectedFilter');
+        const pageTitle = document.querySelector('.app-page-title');
+
+        if (filter === 'discount') {
             discountFields.style.display = 'block';
-            biddingFields.style.display = 'none';
-            if (productCatField) productCatField.setAttribute('disabled', 'disabled');
-        } else if (saleType === 'bidding') {
+            auctionFields.style.display = 'none';
+            if (selectedFilter) selectedFilter.textContent = 'Discount';
+            if (pageTitle) pageTitle.textContent = 'Add Artwork for Discount';
+        } else if (filter === 'auction') {
             discountFields.style.display = 'none';
-            biddingFields.style.display = 'block';
-            if (productCatField) productCatField.removeAttribute('disabled');
+            auctionFields.style.display = 'block';
+            if (selectedFilter) selectedFilter.textContent = 'Auction';
+            if (pageTitle) pageTitle.textContent = 'Add Artwork for Auction';
+        } else {
+            discountFields.style.display = 'none';
+            auctionFields.style.display = 'none';
+            if (selectedFilter) selectedFilter.textContent = 'Filter';
+            if (pageTitle) pageTitle.textContent = 'Add Artwork';
         }
     }
 
+    // Function to toggle Dimension Fields
     function toggleDimensionFields() {
         const dimensionUnit = document.getElementById('dimension_unit')?.value;
         const cmFields = document.getElementById('dimension_cm_fields');
@@ -185,9 +184,9 @@
         }
     }
 
-document.addEventListener('DOMContentLoaded', function() {
-    toggleSaleTypeFields();
-    toggleDimensionFields();
-});
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleSaleTypeFields();
+        toggleDimensionFields();
+    });
 </script>
 {% endblock %}

@@ -96,7 +96,7 @@ class CustomPasswordChangeForm(PasswordChangeForm):
 class ArtworkForm(forms.ModelForm):
     SALE_TYPE_CHOICES = [
         ('discount', 'Discount'),
-        ('bidding', 'Bidding'),
+        ('auction', 'Auction'),
     ]
 
     sale_type = forms.ChoiceField(
@@ -122,7 +122,7 @@ def __init__(self, *args, **kwargs):
         self.fields['product_cat'].required = False
         self.fields['opening_bid'].required = False
         self.fields['end_date'].required = False
-    elif sale_type == 'bidding':
+    elif sale_type == 'auction':
         self.fields['product_cat'].required = True
         self.fields['opening_bid'].required = True
         self.fields['end_date'].required = True
@@ -142,7 +142,7 @@ def __init__(self, *args, **kwargs):
             cleaned_data['opening_bid'] = None
             cleaned_data['end_date'] = None
 
-        elif sale_type == 'bidding':
+        elif sale_type == 'auction':
             # Validate that these fields are filled for 'bidding' type
             if not cleaned_data.get('product_cat'):
                 self.add_error('product_cat', "Product category is required for bidding.")

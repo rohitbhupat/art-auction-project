@@ -26,7 +26,7 @@ class ArtworkAdmin(admin.ModelAdmin):
         if obj:  # When editing an existing object
             form.base_fields['sale_type'].initial = obj.sale_type
         else:  # When adding a new object
-            form.base_fields['sale_type'].initial = 'bidding'  # Default value
+            form.base_fields['sale_type'].initial = 'auction'  # Default value
         return form
 
     def get_fieldsets(self, request, obj=None):
@@ -43,7 +43,7 @@ class ArtworkAdmin(admin.ModelAdmin):
                     )
                 }),
             )
-        elif obj and obj.sale_type == 'bidding':
+        elif obj and obj.sale_type == 'auction':
             return (
                 (None, {
                     'fields': (

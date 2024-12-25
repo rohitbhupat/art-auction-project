@@ -9,6 +9,20 @@ form {
 .app-card{
     border-radius: 8px;
 }
+body.dark-mode .dropdown-menu {
+    background-color: #333;
+    color: white;
+}
+.artwork-card {
+    background: rgba(255, 255, 255, 0.85); /* Add transparency */
+    backdrop-filter: blur(1px); /* Add subtle blur effect */
+    /* padding: 30px; */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 45rem;
+    width: 100%;
+    margin: auto;
+}
 body.dark-mode .app-card{
     background: #2c2c2c;
     border-radius: 8px;

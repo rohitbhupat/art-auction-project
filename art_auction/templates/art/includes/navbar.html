@@ -126,7 +126,7 @@
             {% if user.is_authenticated %}
             <li class="nav-item">
               {% if user|has_group:"SellerGroup" %}
-              <a class="nav-link" href="{% url 'dashboard:dashboard' %}"
+              <a class="nav-link" href="{% url 'dashboard:product_list' %}"
                 >Dashboard</a
               >
               {% else %}

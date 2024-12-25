@@ -33,28 +33,37 @@
 
 <!-- Bootstrap Carousel -->
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active rounded-circle" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" class="rounded-circle" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" class="rounded-circle" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" class="rounded-circle" aria-label="Slide 4"></button>
+    </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="{% static 'images/Banners/Christmas-Slider1.png' %}" class="d-block w-100 cropped-image" alt="First slide">
+            <img src="{% static 'images/Banners/Sale(4).png' %}" class="d-block w-100 cropped-image" alt="First slide">
         </div>
         <div class="carousel-item">
-            <img src="{% static 'images/Banners/Christmas-Slider2.jpg' %}" class="d-block w-100 cropped-image" alt="Second slide">
+            <img src="{% static 'images/Banners/Christmas Sale Banner(5).gif' %}" class="d-block w-100 cropped-image" alt="Second slide">
         </div>
         <div class="carousel-item">
-            <img src="{% static 'images/Banners/Sale-Slider1.png' %}" class="d-block w-100 cropped-image" alt="Third slide">
+            <img src="{% static 'images/Banners/New Year Sale Promotion Banner.gif' %}" class="d-block w-100 cropped-image" alt="Third slide">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'images/Banners/Sale website(6).gif' %}" class="d-block w-100 cropped-image" alt="Four slide">
         </div>
     </div>
     <!-- Controls for carousel -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    {% comment %} <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
     </button>
     <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
-    </button>
+    </button> {% endcomment %}
 </div>
-
+<br>
 <div class="container">
     <div class="row poppins-regular-products">
         {% for product in object_list %}
