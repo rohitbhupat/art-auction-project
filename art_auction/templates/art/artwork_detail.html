@@ -38,7 +38,7 @@
         <div class="card-body poppins-regular-pro_details">
             <div class="row">
                 <div class="col-8">
-                    <img src="{{ object.product_image.url }}" alt="img" width="100%" />
+                    <img src="{{ object.product_image.url }}" alt="img" width="100%" class="magnify"/>
                 </div>
                 <div class="col-4">
                     <h5>{{ object.product_name }}</h5>
@@ -120,7 +120,7 @@
     <h4>Recommended Artworks</h4>
     <div class="row poppins-regular-products">
         {% if recommended_artworks %}
-        {% for product in Artwork.objects.all|slice:":4" %}
+        {% for product in recommended_artworks %}
                 <div class="product-card col-6 col-md-4 col-xxl-3">
                     <div class="app-card app-card-doc shadow-sm h-100">
                         <div class="app-card-thumb-holder p-3">
@@ -152,7 +152,6 @@
         {% endif %}
     </div>
 </div>
-
 <script src="{% static 'js/theme.js' %}"></script>
 <script>
     function fetchLatestBid() {
@@ -167,7 +166,7 @@
         };
         xhr.send();
     }
-
+    
     function sendBid(event) {
         event.preventDefault();
         var bidAmount = parseFloat(document.getElementById('bid-amount').value);

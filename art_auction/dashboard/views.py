@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from dashboard.models import Artwork, OrderModel, Catalogue, Bid, Notification, Query, Feedback
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, FormView
 from django.urls import reverse_lazy
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 import logging
 from asgiref.sync import async_to_sync
@@ -28,50 +28,58 @@ class ArtworkCreateView(LoginRequiredMixin, CreateView):
     fields = [
         "product_name", "product_price", "opening_bid", "product_cat",
         "product_qty", "dimension_unit", "length_in_centimeters", "width_in_centimeters",
-        "foot", "inches", "product_image", "end_date", "sale_type"  # Include sale_type in fields
+        "foot", "inches", "product_image", "end_date"
     ]
     success_url = '/dashboard/product/'
 
     def get_form(self):
         form = super().get_form()
-        # Add a date input widget for 'end_date'
+        sale_type = self.request.POST.get('sale_type', 'auction')  # Default to 'auction'
+
+        # Set the initial value for sale_type to be passed to the form
+        form.initial['sale_type'] = sale_type
+
+        # Modify the widget for the end_date field
         form.fields['end_date'].widget = forms.DateInput(attrs={'type': 'date'})
+
         return form
 
     def form_valid(self, form):
-        last_id = 1
-        last_product = Artwork.objects.all().values('pk').last()
-        if last_product:
-            last_id = last_product['pk'] + 1
+        sale_type = form.cleaned_data.get('sale_type', 'auction')  # Default to 'auction'
 
-        # Handle the sale_type logic
-        sale_type = form.cleaned_data.get('sale_type')
+        # Set sale_type dynamically on the model instance
+        form.instance.sale_type = sale_type
+
         if sale_type == 'discount':
-            # For discount, clear unnecessary fields
+            # For discount type, we don't need 'opening_bid' and 'end_date' fields
+            form.instance.discounted_price = form.instance.get_discounted_price()
             form.instance.product_cat = None
-            form.instance.opening_bid = None
-            form.instance.end_date = None
-        else:  # Sale type is 'bidding'
-            # Get the category ID from the form
-            product_cat_id = self.request.POST.get('product_cat')
-            if not product_cat_id:
-                form.add_error('product_cat', 'Product category is required.')
+            form.instance.opening_bid = None  # Don't set opening_bid for discounts
+            form.instance.end_date = None  # Don't set end_date for discounts
+
+        elif sale_type == 'auction':
+            # Validate required fields for auctions
+            if not form.cleaned_data.get('opening_bid'):
+                form.add_error('opening_bid', 'Opening bid is required for auctions.')
+                return self.form_invalid(form)
+            if not form.cleaned_data.get('end_date'):
+                form.add_error('end_date', 'End date is required for auctions.')
                 return self.form_invalid(form)
 
+            # Validate and generate product_id based on category
+            product_cat_id = form.cleaned_data.get('product_cat')
             try:
                 cat = Catalogue.objects.get(pk=product_cat_id)
+                cat_name_prefix = cat.cat_name[:3].upper()  # Get the first three characters of category name
+                form.instance.product_id = f'{cat_name_prefix}{form.instance.pk}'
             except Catalogue.DoesNotExist:
                 form.add_error('product_cat', 'Invalid category.')
                 return self.form_invalid(form)
 
-            # Set the category name prefix (first three characters)
-            cat_name_prefix = cat.cat_name[:3]
-            form.instance.product_id = f'{cat_name_prefix}{last_id}'
-
-        # Set the user
+        # Set the user who is adding the artwork
         form.instance.user = self.request.user
 
-        # Perform duplicate image detection
+        # Image duplicate detection logic
         if self.request.FILES.get('product_image'):
             uploaded_image = self.request.FILES['product_image']
             uploaded_image_hash = imagehash.phash(Image.open(uploaded_image))
@@ -81,14 +89,15 @@ class ArtworkCreateView(LoginRequiredMixin, CreateView):
                     form.add_error('product_image', 'Duplicate image detected.')
                     return self.form_invalid(form)
 
-        # Save the object
+        # Return the form if everything is valid
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        # Debugging: Log the POST data and form errors
+        # Print errors to the console for debugging
         print("Form data:", self.request.POST)
         print("Form errors:", form.errors)
         return super().form_invalid(form)
+
 
 class ArtworkUpdateView(LoginRequiredMixin, UpdateView):
     model = Artwork
@@ -164,32 +173,48 @@ class BidCreateView(LoginRequiredMixin, View):
             messages.error(request, "An error occurred while placing your bid. Please try again later.")
             return redirect(request.META.get('HTTP_REFERER', 'art:artwork_detail'))
         
-from django.utils.timezone import now
 # Check auction status and notify the highest bidder
-def check_auction_status():
+from django.utils.timezone import now
+def send_purchase_email():
     products = Artwork.objects.filter(end_date__lte=now(), status='active')
     for product in products:
         highest_bid = product.bids.order_by('-bid_amt').first()
         if highest_bid:
-            # Notify the highest bidder via email
-            send_mail(
-                subject=f"You've won the auction for '{product.product_name}'!",
-                message=(
-                    f"Congratulations! You've won the auction for '{product.product_name}' at ₹{highest_bid.bid_amt}.\n\n"
-                    f"Click here to confirm your purchase within 12 hours:\n"
-                    f"http://127.0.0.1:8000/confirm_purchase/{product.id}/?response=yes\n\n"
-                    f"Click here if you do not want to purchase:\n"
-                    f"http://127.0.0.1:8000/confirm_purchase/{product.id}/?response=no\n\n"
-                    f"You have 12 hours to respond."
-                ),
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[highest_bid.user.email],
-            )
-            product.status = 'waiting_for_response'
-            product.response_deadline = now() + datetime.timedelta(hours=12)
+            try:
+                send_mail(
+                    subject=f"You've won the auction for '{product.product_name}'!",
+                    message=(
+                        f"Congratulations! You've won the auction for '{product.product_name}'.\n\n"
+                        f"Click here to confirm your purchase within 12 hours:\n"
+                        f"http://127.0.0.1:8000/confirm_purchase/{product.product_id}/?response=yes\n\n"
+                        f"Click here if you do not want to purchase:\n"
+                        f"http://127.0.0.1:8000/confirm_purchase/{product.product_id}/?response=no\n\n"
+                        f"You have 12 hours to respond."
+                    ),
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[highest_bid.user.email],
+                )
+                logger.info(f"Email sent to {highest_bid.user.email} for artwork {product.product_name}.")
+                
+                # Update product status and response deadline
+                product.status = 'waiting_for_response'
+                product.response_deadline = now() + datetime.timedelta(hours=12)
+            except Exception as e:
+                logger.error(f"Failed to send email for artwork {product.product_name}: {e}")
         else:
             product.status = 'unsold'
+        
         product.save()
+
+def handle_unsold_artworks():
+    expired_artworks = Artwork.objects.filter(
+        status='waiting_for_response',
+        response_deadline__lte=now()
+    )
+    for artwork in expired_artworks:
+        artwork.status = 'unsold'
+        artwork.save()
+        logger.info(f"Artwork {artwork.product_name} marked as unsold.")
 
 # Handle buyer's response
 def confirm_purchase(request, artwork_id):
@@ -253,31 +278,21 @@ class ArtworkListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         filter_type = self.request.GET.get('filter', 'all')
-        sale_type = self.request.GET.get('sale_type', 'all')  # Added sale_type filter
-
-        # Initialize the base queryset filtered by the user
-        queryset = Artwork.objects.filter(user=self.request.user)
-
-        # Filter by date range
-        if filter_type == 'new':
-            cutoff_date = timezone.now() - timezone.timedelta(days=3)
-            queryset = queryset.filter(created_at__gte=cutoff_date)
-        elif filter_type == 'old':
-            cutoff_date = timezone.now() - timezone.timedelta(days=3)
-            queryset = queryset.filter(created_at__lt=cutoff_date)
+        print(f"Filter type: {filter_type}")  # Debugging
+    
+        queryset = Artwork.objects.filter(status='active', is_sold=False, is_purchased=False).order_by('-created_at')
+    
+        if filter_type == 'discount':
+            queryset = queryset.filter(sale_type='discount')
+        elif filter_type == 'auction':
+            queryset = queryset.filter(sale_type='auction')
         elif filter_type == 'sold':
             queryset = queryset.filter(is_sold=True)
-
-        # Filter by sale_type (if any)
-        if sale_type != 'all':
-            queryset = queryset.filter(sale_type=sale_type)
-
-        print("Filter Type:", filter_type)
-        print("Sale Type:", sale_type)  # Debug: Check sale type filter
-        print("Queryset Count:", queryset.count())  # Debug: Check queryset count
-
-        return queryset
     
+        print(f"Queryset count: {queryset.count()}")  # Debugging
+        return queryset
+
+
     # def sold_artworks(request):
     #     sold_artworks = Artwork.objects.filter(is_sold=True)
     #     context = {
@@ -350,52 +365,52 @@ from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
 from dashboard.models import UserActivity, Artwork, Bid
 
-class ArtworkDetailView(LoginRequiredMixin, DetailView):
-    model = Artwork
-    template_name = 'art/artwork_detail.html'
-    context_object_name = 'object'
+# class ArtworkDetailView(LoginRequiredMixin, DetailView):
+#     model = Artwork
+#     template_name = 'art/artwork_detail.html'
+#     context_object_name = 'object'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        artwork = self.get_object()
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         artwork = self.get_object()
 
-        # Last bid and total bids logic
-        last_bid = Bid.objects.filter(product=artwork).order_by('-bid_amt').first()
-        total_bids = Bid.objects.filter(product=artwork).count()
-        context['last_bid'] = last_bid.bid_amt if last_bid else artwork.opening_bid
-        context['total_bids'] = total_bids
-        context['foot'] = artwork.foot
-        context['inches'] = artwork.inches
+#         # Last bid and total bids logic
+#         last_bid = Bid.objects.filter(product=artwork).order_by('-bid_amt').first()
+#         total_bids = Bid.objects.filter(product=artwork).count()
+#         context['last_bid'] = last_bid.bid_amt if last_bid else artwork.opening_bid
+#         context['total_bids'] = total_bids
+#         context['foot'] = artwork.foot
+#         context['inches'] = artwork.inches
 
-        # Recommendations logic
-        context['recommended_artworks'] = self.get_recommendations(artwork.id)
+#         # Recommended auction artworks logic
+#         context['recommended_artworks'] = self.get_auction_recommendations(artwork.id)
 
-        return context
+#         return context
 
-def get_recommendations(self, artwork_id):
-    try:
-        # Fetch the current artwork
-        current_artwork = Artwork.objects.get(id=artwork_id)
-        # Get artworks from the same category and exclude the current artwork
-        recommended_artworks = Artwork.objects.filter(
-            product_cat=current_artwork.product_cat, 
-            is_sold=False, 
-            is_purchased=False
-        ).exclude(id=artwork_id)[:4]  # Limit recommendations to 4
+#     def get_auction_recommendations(self, artwork_id):
+#         try:
+#             # Fetch the current artwork
+#             current_artwork = Artwork.objects.get(id=artwork_id)
 
-        # If no recommendations found, try by similar price range
-        if not recommended_artworks:
-            price_range = 0.2 * current_artwork.product_price  # Adjust range as needed
-            recommended_artworks = Artwork.objects.filter(
-                product_price__gte=current_artwork.product_price - price_range,
-                product_price__lte=current_artwork.product_price + price_range,
-                is_sold=False,
-                is_purchased=False
-            ).exclude(id=artwork_id)[:4]
+#             # Filter artworks in the same category and of auction type
+#             recommended_artworks = Artwork.objects.filter(
+#                 product_cat=current_artwork.product_cat,
+#                 sale_type="auction",  # Only auction artworks
+#                 is_sold=False  # Not sold
+#             ).exclude(id=artwork_id)
 
-        return recommended_artworks
-    except Artwork.DoesNotExist:
-        return Artwork.objects.none()  # Return empty if the artwork is not found
+#             # Further filter artworks with total bids <= 3
+#             filtered_recommended_artworks = []
+#             for artwork in recommended_artworks:
+#                 total_bids = Bid.objects.filter(product=artwork).count()
+#                 if total_bids <= 3:
+#                     filtered_recommended_artworks.append(artwork)
+
+#             # Return the final queryset
+#             return filtered_recommended_artworks[:4]  # Limit to 4 artworks
+#         except Artwork.DoesNotExist:
+#             # Handle cases where the current artwork does not exist
+#             return Artwork.objects.none()
 
 
 def get(self, request, *args, **kwargs):
@@ -535,3 +550,14 @@ def submit_feedback(request):
     # For GET requests, display the feedback form
     form = FeedbackForm()
     return render(request, 'art/index.html', {'form': form})
+
+
+# def testmail(request):
+#     send_mail(
+#         'Test Mail',
+#         'This is a test email',
+#         'your_email@example.com',
+#         ['rohit09.model@gmail.com'],
+#         fail_silently=False,
+#     )
+#     return HttpResponse('Email sent successfully')

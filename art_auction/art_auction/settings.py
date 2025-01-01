@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'registration',
     'channels',
+    'django_crontab',
 ]
 
 ASGI_APPLICATION = 'art_auction.asgi.application'
@@ -207,5 +208,6 @@ LOGGING = {
 }
 
 CRONJOBS = [
-    ('*/5 * * * *', 'dashboard.cron.AuctionCronJob')
+    ('0 * * * *', 'art_auction.dashboard.views.send_purchase_email'),
+    ('0 * * * *', 'art_auction.dashboard.views.handle_unsold_artworks'),
 ]

@@ -14,7 +14,7 @@
 body.light-mode .artwork-card_list:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    transition: all 0.8s ease;
+    transition: all 0.3s ease;
 }
 
 /* Dark Mode Hover */

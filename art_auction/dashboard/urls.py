@@ -12,14 +12,13 @@ urlpatterns = [
     path('product/<int:pk>/delete/', views.ArtworkDeleteView.as_view(), name="product_delete"),
     path('order/', views.OrderListView.as_view(), name="order_list"),
     path('placebid/', views.BidCreateView.as_view(), name="place_bid"),
-    path('artwork/<int:pk>/', views.ArtworkDetailView.as_view(), name='artwork_list'),
     path('latest_bid/<int:pk>/', views.latest_bid, name='latest_bid'),
     path('fetch_notifications/', views.fetch_notifications, name='fetch_notifications'),
     path('notifications/mark_as_read/<int:notification_id>/', views.mark_notification_as_read, name='mark_notification_as_read'),
     path('submit_query/', views.SubmitQueryView.as_view(), name='submit_query'),
     path('submit-feedback/', views.submit_feedback, name='submit_feedback'),
     path('contact/', views.SubmitQueryView.as_view(), name='contact'),
-    path('check_auction_status/', views.check_auction_status, name='check_auction_status'),
+    # path('check_auction_status/', views.check_auction_status, name='check_auction_status'),
     path('confirm_purchase/<int:artwork_id>/', views.confirm_purchase, name='confirm_purchase'),
 ]
 

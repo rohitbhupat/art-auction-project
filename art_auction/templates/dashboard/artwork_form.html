@@ -28,127 +28,126 @@
 {% block content %}
 {% include './includes/header.html' %}
 {% include "art/arrow_button.html" %}
-    <div class="app-content pt-3 p-md-3 p-lg-4">
-        <div class="button-container">
-            <i class="fa-solid fa-arrow-left" style="cursor:pointer; font-size:1.4rem; margin-right:10px" onclick="goBack()"></i>
-            <i class="fa-solid fa-arrow-right" style="cursor:pointer; font-size:1.4rem; margin-right:15px" onclick="goForward()"></i>
-        </div>
-        <div class="container-fluid">
-            <h1 class="app-page-title">Add Artwork</h1>
-            <div class="filter-dropdown">
-                    <div class="dropdown-toggle" style="cursor:pointer;" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa-solid fa-filter"></i> <span id="selectedFilter">Filter</span>
-                    </div>
-                    <div class="dropdown-menu" aria-labelledby="filterDropdown">
-                        <li><a class="dropdown-item filter-option" href="?filter=discount">Discount</a></li>
-                        <li><a class="dropdown-item filter-option" href="?filter=auction">Auction</a></li>
-                    </div>
+<div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="button-container">
+        <i class="fa-solid fa-arrow-left" style="cursor:pointer; font-size:1.4rem; margin-right:10px" onclick="goBack()"></i>
+        <i class="fa-solid fa-arrow-right" style="cursor:pointer; font-size:1.4rem; margin-right:15px" onclick="goForward()"></i>
+    </div>
+    <div class="container-fluid">
+        <h1 class="app-page-title">Add Artwork</h1>
+        <div class="filter-dropdown">
+            <div class="dropdown-toggle" style="cursor:pointer;" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa-solid fa-filter"></i> <span id="selectedFilter">Filter</span>
             </div>
-            {% if form.non_field_errors %}
-            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
-            {% endif %}
-            <div class="row g-4 mb-4">
-                <div class="col-12">
-                    <div class="app-card artwork-card shadow-sm h-100">
-                        <div class="app-card-body p-2">
-                            <form method="POST" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <!-- Shared Fields -->
+            <div class="dropdown-menu" aria-labelledby="filterDropdown">
+                <li><a class="dropdown-item filter-option" href="?filter=discount">Discount</a></li>
+                <li><a class="dropdown-item filter-option" href="?filter=auction">Auction</a></li>
+            </div>
+        </div>
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+        {% endif %}
+        <div class="row g-4 mb-4">
+            <div class="col-12">
+                <div class="app-card artwork-card shadow-sm h-100">
+                    <div class="app-card-body p-2">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <!-- Shared Fields -->
+                            <div class="fieldWrapper">
+                                <label for="{{ form.product_name.id_for_label }}">{{ form.product_name.label }}:</label>
+                                {{ form.product_name }}
+                                {% if form.product_name.errors %}
+                                <div class="error-message">{{ form.product_name.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Fields for Discount -->
+                            <div id="discount_fields" class="sale-type-fields" style="display: none;">
                                 <div class="fieldWrapper">
-                                    <label for="{{ form.product_name.id_for_label }}">{{ form.product_name.label }}:</label>
-                                    {{ form.product_name }}
-                                    {% if form.product_name.errors %}
-                                    <div class="error-message">{{ form.product_name.errors }}</div>
-                                    {% endif %}
+                                    <label for="{{ form.product_price.id_for_label }}">Price:</label>
+                                    {{ form.product_price }}
                                 </div>
-
-                                <!-- Fields for Discount -->
-                                <div id="discount_fields" class="sale-type-fields" style="display: none;">
-                                    <div class="fieldWrapper">
-                                        <label for="{{ form.product_price.id_for_label }}">Price:</label>
-                                        {{ form.product_price }}
-                                    </div>
-                                    <div class="fieldWrapper">
-                                        <label for="id_product_qty">Quantity:</label>
-                                        <input type="number" name="product_qty" value="1" readonly id="id_product_qty">
-                                    </div>
-                                </div>
-
-                                <!-- Fields for Auction -->
-                                <div id="auction_fields" class="sale-type-fields" style="display: none;">
-                                    <div class="fieldWrapper">
-                                        <label for="{{ form.opening_bid.id_for_label }}">Opening Bid:</label>
-                                        {{ form.opening_bid }}
-                                    </div>
-                                    <div class="fieldWrapper">
-                                        <label for="{{ form.product_cat.id_for_label }}">Catalogue:</label>
-                                        {{ form.product_cat }}
-                                    </div>
-                                    <div class="fieldWrapper">
-                                        <label for="id_product_qty">Quantity:</label>
-                                        <input type="number" name="product_qty" value="1" readonly id="id_product_qty">
-                                    </div>
-                                    <div class="fieldWrapper">
-                                        <label for="{{ form.end_date.id_for_label }}">End Date:</label>
-                                        {{ form.end_date }}
-                                    </div>
-                                </div>
-
-                                <!-- Dimension Fields -->
                                 <div class="fieldWrapper">
-                                    <label for="dimension_unit">Dimensions:</label>
-                                    <select id="dimension_unit" name="dimension_unit" onchange="toggleDimensionFields()">
-                                        <option value="cm">Centimeters</option>
-                                        <option value="ft">Feet</option>
-                                    </select>
+                                    <label for="id_product_qty">Quantity:</label>
+                                    <input type="number" name="product_qty" value="1" readonly id="id_product_qty">
                                 </div>
-                                <div id="dimension_cm_fields">
-                                    <div class="fieldWrapper">
-                                        <label for="{{ form.length_in_centimeters.id_for_label }}">{{ form.length_in_centimeters.label }} (cm):</label>
-                                        {{ form.length_in_centimeters }}
-                                    </div>
-                                    <div class="fieldWrapper">
-                                        <label for="{{ form.width_in_centimeters.id_for_label }}">{{ form.width_in_centimeters.label }} (cm):</label>
-                                        {{ form.width_in_centimeters }}
-                                    </div>
-                                </div>
-                                <div id="dimension_ft_fields" style="display: none;">
-                                    <div class="fieldWrapper">
-                                        <label for="{{ form.foot.id_for_label }}">{{ form.foot.label }} (ft):</label>
-                                        {{ form.foot }}
-                                    </div>
-                                    <div class="fieldWrapper">
-                                        <label for="{{ form.inches.id_for_label }}">{{ form.inches.label }} (inch):</label>
-                                        {{ form.inches }}
-                                    </div>
-                                </div>
+                            </div>
 
-                                <!-- Image Field -->
+                            <!-- Fields for Auction -->
+                            <div id="auction_fields" class="sale-type-fields" style="display: none;">
                                 <div class="fieldWrapper">
-                                    <label for="{{ form.product_image.id_for_label }}">{{ form.product_image.label }}:</label>
-                                    {{ form.product_image }}
+                                    <label for="{{ form.opening_bid.id_for_label }}">Opening Bid:</label>
+                                    {{ form.opening_bid }}
                                 </div>
+                                <div class="fieldWrapper">
+                                    <label for="{{ form.product_cat.id_for_label }}">Catalogue:</label>
+                                    {{ form.product_cat }}
+                                </div>
+                                <div class="fieldWrapper">
+                                    <label for="id_product_qty">Quantity:</label>
+                                    <input type="number" name="product_qty" value="1" readonly id="id_product_qty">
+                                </div>
+                                <div class="fieldWrapper">
+                                    <label for="{{ form.end_date.id_for_label }}">End Date:</label>
+                                    {{ form.end_date }}
+                                </div>
+                            </div>
 
-                                <!-- Submit Button -->
-                                <div class="d-grid mx-auto">
-                                    <input class="btn btn-success" type="submit" value="Upload" />
+                            <!-- Dimension Fields -->
+                            <div class="fieldWrapper">
+                                <label for="dimension_unit">Dimensions:</label>
+                                <select id="dimension_unit" name="dimension_unit" onchange="toggleDimensionFields()">
+                                    <option value="cm">Centimeters</option>
+                                    <option value="ft">Feet</option>
+                                </select>
+                            </div>
+                            <div id="dimension_cm_fields">
+                                <div class="fieldWrapper">
+                                    <label for="{{ form.length_in_centimeters.id_for_label }}">{{ form.length_in_centimeters.label }} (cm):</label>
+                                    {{ form.length_in_centimeters }}
                                 </div>
-                            </form>
-                        </div>
+                                <div class="fieldWrapper">
+                                    <label for="{{ form.width_in_centimeters.id_for_label }}">{{ form.width_in_centimeters.label }} (cm):</label>
+                                    {{ form.width_in_centimeters }}
+                                </div>
+                            </div>
+                            <div id="dimension_ft_fields" style="display: none;">
+                                <div class="fieldWrapper">
+                                    <label for="{{ form.foot.id_for_label }}">{{ form.foot.label }} (ft):</label>
+                                    {{ form.foot }}
+                                </div>
+                                <div class="fieldWrapper">
+                                    <label for="{{ form.inches.id_for_label }}">{{ form.inches.label }} (inch):</label>
+                                    {{ form.inches }}
+                                </div>
+                            </div>
+
+                            <!-- Image Field -->
+                            <div class="fieldWrapper">
+                                <label for="{{ form.product_image.id_for_label }}">{{ form.product_image.label }}:</label>
+                                {{ form.product_image }}
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="d-grid mx-auto">
+                                <input class="btn btn-success" type="submit" value="Upload" />
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {% include './includes/footer.html' %}
+</div>
+{% include './includes/footer.html' %}
 {% endblock %}
 {% block js %}
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Function to toggle Sale Type Fields based on Filter
     function toggleSaleTypeFields() {
         const urlParams = new URLSearchParams(window.location.search);
-        const filter = urlParams.get('filter') || 'discount'; // Default to 'discount'
+        const filter = urlParams.get('filter') || 'discount';
         const discountFields = document.getElementById('discount_fields');
         const auctionFields = document.getElementById('auction_fields');
         const selectedFilter = document.getElementById('selectedFilter');
@@ -172,12 +171,11 @@
         }
     }
 
-    // Function to toggle Dimension Fields
     function toggleDimensionFields() {
         const dimensionUnit = document.getElementById('dimension_unit')?.value;
         const cmFields = document.getElementById('dimension_cm_fields');
         const ftFields = document.getElementById('dimension_ft_fields');
-    
+
         if (dimensionUnit && cmFields && ftFields) {
             cmFields.style.display = dimensionUnit === 'cm' ? 'block' : 'none';
             ftFields.style.display = dimensionUnit === 'ft' ? 'block' : 'none';

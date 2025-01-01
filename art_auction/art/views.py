@@ -342,15 +342,45 @@ def logout_view(request):
     return redirect("art:index")
 
 
-class ArtworkDetailView(DetailView):
+class ArtworkDetailView(LoginRequiredMixin, DetailView):
     model = Artwork
-    template_name = "art/artwork_detail.html"
+    template_name = 'art/artwork_detail.html'
+    context_object_name = 'object'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["last_bid"] = Bid.objects.filter(product=self.kwargs.get("pk")).last()
-        context["total_bid"] = Bid.objects.filter(product=self.kwargs.get("pk")).count()
+        artwork = self.get_object()
+
+        # Last bid and total bids logic
+        last_bid = Bid.objects.filter(product=artwork).order_by('-bid_amt').first()
+        total_bids = Bid.objects.filter(product=artwork).count()
+        context['last_bid'] = last_bid.bid_amt if last_bid else artwork.opening_bid
+        context['total_bids'] = total_bids
+        context['foot'] = artwork.foot
+        context['inches'] = artwork.inches
+
+        # Recommended auction artworks logic
+        context['recommended_artworks'] = self.get_auction_recommendations(artwork.id)
+
         return context
+
+    def get_auction_recommendations(self, artwork_id):
+        try:
+            # Fetch the current artwork
+            current_artwork = Artwork.objects.get(id=artwork_id)
+
+            # Filter artworks in the same category and of auction type
+            recommended_artworks = Artwork.objects.filter(
+                product_cat=current_artwork.product_cat,
+                sale_type="auction",  # Only auction artworks
+                is_sold=False  # Not sold
+            ).exclude(id=artwork_id)
+
+            # Return the final queryset (limit to 4 artworks)
+            return recommended_artworks[:4]
+        except Artwork.DoesNotExist:
+            # Handle cases where the current artwork does not exist
+            return Artwork.objects.none()
 
 
 class OrderCreateView(LoginRequiredMixin, View):
@@ -600,8 +630,16 @@ class ArtworkSaleDetailView(DetailView):
             context["price"] = product.product_price * 0.7
             context["is_first_purchase"] = True
 
-        # Pass recommended artworks
-        context["recommended_artworks"] = Artwork.objects.exclude(pk=product.pk)[:4]
+        # Filter recommended artworks: Only discounted artworks that are not sold or purchased
+        context["recommended_artworks"] = Artwork.objects.filter(
+            is_sold=False,  # Not sold
+            sale_type="discount",  # Only discount artworks
+        ).exclude(
+            id__in=OrderModel.objects.values_list("product__id", flat=True)  # Exclude purchased artworks
+        ).exclude(
+            pk=product.pk  # Exclude the current artwork
+        )[:4]
+
         return context
 
 class ArtworkSaleListView(LoginRequiredMixin, ListView):

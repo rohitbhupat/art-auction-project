@@ -1,3 +1,4 @@
+from datetime import datetime, time
 from time import localtime
 from django.db import models
 from django.utils import timezone
@@ -8,7 +9,8 @@ from PIL import Image
 import imagehash
 from django.core.exceptions import ValidationError
 from django.utils.timezone import now
-
+from django.utils.timezone import make_aware
+import pytz
 
 class Catalogue(models.Model):
     cat_name = models.CharField(max_length=255)
@@ -36,8 +38,8 @@ class Artwork(models.Model):
     width_in_centimeters = models.FloatField(default=0.0, blank=True, null=True)
     foot = models.FloatField(default=0, blank=True, null=True)
     inches = models.FloatField(default=0, blank=True, null=True)
-    created_at = models.DateField(default=timezone.now)
-    end_date = models.DateField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    end_date = models.DateField(null=True, blank=True, db_index=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     is_sold = models.BooleanField(default=False)
     is_purchased = models.BooleanField(default=False)
@@ -46,7 +48,7 @@ class Artwork(models.Model):
         choices=[("active", "Active"), ("closed", "Closed"), ("waiting_for_response", "Waiting for Response"), ("unsold", "Unsold")],
         default="active",
     )
-    response_deadline = models.DateTimeField(blank=True, null=True)
+    response_deadline = models.DateTimeField(blank=True, null=True, db_index=True)
     buyer_response = models.CharField(max_length=11, choices=[("yes", "Yes"), ("no", "No"), ("no_response", "No Response")], default="no_response")
     discounted_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     
@@ -61,7 +63,10 @@ class Artwork(models.Model):
                 id=self.id
             )  # Exclude self during update
             uploaded_image_hash = imagehash.phash(Image.open(self.product_image))
-
+        
+        if self.end_date:
+            # Ensure end_date is always set to 12:00 a.m.
+            self.end_date = make_aware(datetime.combine(self.end_date, time.min))
             for artwork in existing_images:
                 stored_image_hash = imagehash.phash(
                     Image.open(artwork.product_image.path)
@@ -76,14 +81,22 @@ class Artwork(models.Model):
         super().save(*args, **kwargs)
 
     def clean(self):
-        super().clean()
+        super(Artwork, self).clean()
+        
         if self.sale_type == 'discount':
-            if self.product_cat:
-                self.product_cat = None  # Ignore product_cat for discount type
-            if self.opening_bid:
-                self.opening_bid = None  # Ignore opening_bid for discount type
-            if self.end_date:
-                self.end_date = None  # Ignore end_date for discount type
+            # Ignore product_cat, opening_bid, and end_date for discount sale type
+            self.product_cat = None
+            self.opening_bid = None
+            self.end_date = None
+            
+        if self.discounted_price and self.discounted_price >= self.product_price:
+            raise ValidationError({"discounted_price": "Discounted price must be less than the product price."})
+        
+        if self.end_date:
+            # Normalize end_date to 12:00 a.m. IST
+            local_tz = pytz.timezone(settings.TIME_ZONE)  # Use pytz to get the timezone
+            self.end_date = make_aware(datetime.combine(self.end_date, time.min), local_tz)
+        
         elif self.sale_type == 'auction':
             if not self.product_cat:
                 raise ValidationError({"product_cat": "Product category is required for bidding."})
@@ -91,8 +104,6 @@ class Artwork(models.Model):
                 raise ValidationError({"opening_bid": "Opening bid is required for bidding."})
             if not self.end_date:
                 raise ValidationError({"end_date": "End date is required for bidding."})
-
-
     def __str__(self):
         return self.product_name
 
@@ -106,7 +117,6 @@ class Artwork(models.Model):
     def mark_as_sold(self):
         self.is_sold = True
         self.save()
-
 
 class OrderModel(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
