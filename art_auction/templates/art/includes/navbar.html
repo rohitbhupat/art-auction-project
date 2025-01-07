@@ -268,13 +268,15 @@
 
     <div id="notification-sidebar">
       <div class="header">
-        Notifications
-        <span class="close-btn" id="close-sidebar">&times;</span>
+          Notifications
+          <span class="close-btn" id="close-sidebar">&times;</span>
       </div>
       <div id="notification-container">
-        <!-- Notifications will be dynamically added here -->
+          <!-- Notifications will be dynamically added here -->
       </div>
+      <button id="clear-all-btn" style="display: none;">Clear All</button>
     </div>
+  
 
     <div
       class="modal fade"
@@ -316,33 +318,57 @@
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         function fetchNotifications() {
-          var xhr = new XMLHttpRequest();
-          xhr.open('GET', '{% url 'dashboard:fetch_notifications' %}', true);
-          xhr.onload = function () {
-            if (xhr.status === 200) {
-              var data = JSON.parse(xhr.responseText);
-              var notificationContainer = document.getElementById('notification-container');
-              var notificationCount = document.getElementById('notification-count');
-              if (notificationContainer && notificationCount) {
-                notificationContainer.innerHTML = ''; // Clear existing notifications
-                data.notifications.forEach(function (notification) {
-                  var notificationItem = document.createElement('div');
-                  notificationItem.className = 'notification-item';
-                  notificationItem.innerHTML = notification.message;
-                  notificationItem.onclick = function () {
-                    markNotificationAsRead(notification.id);
-                    window.location.href = '/viewdetails/' + notification.product_id; // Redirect user to relevant page
-                  };
-                  notificationContainer.appendChild(notificationItem);
-                });
-                notificationCount.textContent = data.notifications.length;
-                notificationCount.style.display = data.notifications.length > 0 ? 'inline-block' : 'none';
-              }
-            }
-          };
-          xhr.send();
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '{% url 'dashboard:fetch_notifications' %}', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    var notificationContainer = document.getElementById('notification-container');
+                    var notificationCount = document.getElementById('notification-count');
+                    if (notificationContainer && notificationCount) {
+                        notificationContainer.innerHTML = ''; // Clear existing notifications
+                        data.notifications.forEach(function (notification) {
+                            // Create notification item
+                            var notificationItem = document.createElement('div');
+                            notificationItem.className = 'notification-item';
+    
+                            // Notification message
+                            var notificationMessage = document.createElement('span');
+                            notificationMessage.innerHTML = notification.message;
+                            notificationMessage.onclick = function () {
+                                markNotificationAsRead(notification.id);
+                                window.location.href = '/viewdetails/' + notification.product_id; // Redirect user
+                            };
+    
+                            // Dismiss button (cross icon)
+                            var dismissBtn = document.createElement('span');
+                            dismissBtn.className = 'dismiss-btn';
+                            dismissBtn.innerHTML = '&times;';
+                            dismissBtn.onclick = function (event) {
+                                event.stopPropagation(); // Prevent triggering the notification click
+                                dismissNotification(notification.id);
+                            };
+    
+                            // Append message and dismiss button
+                            notificationItem.appendChild(notificationMessage);
+                            notificationItem.appendChild(dismissBtn);
+    
+                            // Append notification item to the container
+                            notificationContainer.appendChild(notificationItem);
+                        });
+    
+                        notificationCount.textContent = data.notifications.length;
+                        notificationCount.style.display = data.notifications.length > 0 ? 'inline-block' : 'none';
+    
+                        // Show or hide "Clear All" button
+                        var clearAllBtn = document.getElementById('clear-all-btn');
+                        clearAllBtn.style.display = data.notifications.length > 0 ? 'block' : 'none';
+                    }
+                }
+            };
+            xhr.send();
         }
-
+    
         function markNotificationAsRead(notificationId) {
           var xhr = new XMLHttpRequest();
           var markAsReadUrl = '{% url "dashboard:mark_notification_as_read" notification_id=0 %}'.replace('0', notificationId);
@@ -350,32 +376,63 @@
           xhr.setRequestHeader('Content-Type', 'application/json');
           xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
           xhr.onload = function () {
-            if (xhr.status === 200) {
-              fetchNotifications(); // Refresh notifications after marking as read
-            }
+              if (xhr.status === 200) {
+                  fetchNotifications(); // Refresh notifications after marking as read
+              }
           };
           xhr.send();
-        }
+      }      
 
+        function dismissNotification(notificationId) {
+            var xhr = new XMLHttpRequest();
+            var dismissUrl = '{% url "dashboard:dismiss_notification" notification_id=0 %}'.replace('0', notificationId);
+            xhr.open('POST', dismissUrl, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    fetchNotifications(); // Refresh notifications after dismissing
+                }
+            };
+            xhr.send();
+        }
+    
+        function clearAllNotifications() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '{% url "dashboard:clear_all_notifications" %}', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    fetchNotifications(); // Refresh notifications after clearing all
+                }
+            };
+            xhr.send();
+        }
+    
         // Sidebar toggle logic
         var notificationIcon = document.getElementById('notificationIcon');
         var sidebar = document.getElementById('notification-sidebar');
         var closeSidebar = document.getElementById('close-sidebar');
-
+    
         notificationIcon.addEventListener('click', function () {
-          sidebar.classList.toggle('open');
+            sidebar.classList.toggle('open');
         });
-
+    
         closeSidebar.addEventListener('click', function () {
-          sidebar.classList.remove('open');
+            sidebar.classList.remove('open');
         });
-
+    
+        // Clear All button logic
+        var clearAllBtn = document.getElementById('clear-all-btn');
+        clearAllBtn.addEventListener('click', clearAllNotifications);
+    
         // Poll notifications every 20 seconds
         setInterval(fetchNotifications, 20000);
-
+    
         // Fetch notifications on page load
         fetchNotifications();
-      });
+    });    
     </script>
   </body>
 </html>

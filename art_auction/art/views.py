@@ -447,6 +447,8 @@ def callback(request):
         )
         return client.utility.verify_payment_signature(response_data)
 
+    show_feedback_modal = False  # Flag to control the display of the feedback modal
+
     if "razorpay_signature" in request.POST:
         logger.debug(f"Received POST data: {request.POST}")  # Log the POST data
 
@@ -466,12 +468,13 @@ def callback(request):
 
             if verify_signature(request.POST):
                 order.status = PaymentStatus.SUCCESS
+                show_feedback_modal = True  # Set flag to show feedback modal after success
             else:
                 order.status = PaymentStatus.FAILURE
             order.save()
 
             return render(
-                request, "art/callback.html", context={"status": "Payment done"}
+                request, "art/callback.html", context={"status": "Payment done", "show_feedback_modal": show_feedback_modal}
             )
         except Payment.DoesNotExist:
             logger.error(
@@ -480,21 +483,19 @@ def callback(request):
             return render(
                 request,
                 "art/callback.html",
-                context={"status": "Payment failed", "error": "Invalid order ID"},
+                context={"status": "Payment failed", "error": "Invalid order ID", "show_feedback_modal": show_feedback_modal},
             )
         except Exception as e:
             logger.error(f"An error occurred: {str(e)}")
             return render(
                 request,
                 "art/callback.html",
-                context={"status": "Payment failed", "error": str(e)},
+                context={"status": "Payment failed", "error": str(e), "show_feedback_modal": show_feedback_modal},
             )
     else:
         return render(
-            request, "art/callback.html", context={"status": "Payment failed"}
+            request, "art/callback.html", context={"status": "Payment failed", "show_feedback_modal": show_feedback_modal}
         )
-
-
 class SaleOrderCreateView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         product_object = Artwork.objects.get(pk=self.kwargs.get("pk"))

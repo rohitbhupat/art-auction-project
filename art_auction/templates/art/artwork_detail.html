@@ -38,8 +38,18 @@
         <div class="card-body poppins-regular-pro_details">
             <div class="row">
                 <div class="col-8">
-                    <img src="{{ object.product_image.url }}" alt="img" width="100%" class="magnify"/>
-                </div>
+                    <div class="image-container">
+                        <div class="zoom">
+                            <div class="original">
+                                <img src="{{ object.product_image.url }}" alt="img" id="target" class="magnify"/>
+                            </div>
+                            <div class="viewer">
+                                <img src="{{ object.product_image.url }}" alt="Zoomed Image">
+                            </div>
+                            <div class="magnifier"></div>
+                        </div>
+                    </div>                    
+                </div>                
                 <div class="col-4">
                     <h5>{{ object.product_name }}</h5>
                     <table class="table table-bordered">
@@ -66,7 +76,7 @@
                             </tr>
                             <tr>
                                 <th>Last Bid</th>
-                                <td id="last-bid">₹ {{ last_bid.bid_amt }}</td>
+                                <td id="last-bid">₹ {{ last_bid|default:object.opening_bid }}</td>
                             </tr>
                             <tr>
                                 <th>Total Bids</th>
@@ -103,7 +113,10 @@
                         <form id="bid-form" action="{% url 'dashboard:place_bid' %}" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="product" value="{{ object.pk }}">
-                            <input type="number" id="bid-amount" name="bid_amt" value="{{ last_bid.bid_amt }}" min="{{ last_bid.bid_amt }}" class="form-control" inputmode="decimal" step="any">
+                            <input type="number" id="bid-amount" name="bid_amt" 
+                            value="{{ last_bid|default:object.opening_bid }}" 
+                            min="{{ last_bid|default:object.opening_bid }}" 
+                            class="form-control" inputmode="decimal" step="any">                        
                             <button onclick="sendBid(event)" class="btn btn-success bid_now mt-2">Bid Now</button>
                             <a href="{% url 'art:place_order' pk=object.id %}" type="button" class="btn btn-warning buy_now mt-2">Buy Now</a>
                         </form>
@@ -152,8 +165,13 @@
         {% endif %}
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
 <script src="{% static 'js/theme.js' %}"></script>
-<script>
+<script src="{% static 'js/zoom.js' %}"></script>
+<script type="text/javascript">
+
+    
+
     function fetchLatestBid() {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', '{% url 'dashboard:latest_bid' pk=object.pk %}', true);

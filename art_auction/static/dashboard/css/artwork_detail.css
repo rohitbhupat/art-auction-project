@@ -104,3 +104,46 @@ body.light-mode .alert-warning {
   background-color: #fff3cd;
   color: #856404;
 }
+.image-container {
+  position: relative;
+  cursor: crosshair; /* Update cursor to indicate zoomable area */
+}
+
+.image-container img.magnify {
+  width: auto;
+  max-height: 400px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.viewer {
+  position: absolute;
+  top: 0;
+  left: 50%; /* Ensure it appears to the right of the main image */
+  width: 400px;
+  height: 400px;
+  overflow: hidden;
+  border: 2px solid #ddd;
+  display: none;
+  background: #fff;
+}
+
+.viewer img {
+  width: 600%;
+  height: auto;
+  object-fit: cover;
+  transform: translate(0, 0);
+  transition: transform 0.1s ease-out; /* Smooth movement */
+}
+
+.magnifier {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border: 2px solid #00b050;
+  background: rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  display: none;
+  transform: translate(-50%, -50%);
+}

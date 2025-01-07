@@ -63,11 +63,13 @@
 
 
 <script>
-    // Show modal after 3 seconds
-    setTimeout(function() {
-        var modal = document.getElementById("feedbackModal");
-        modal.style.display = "block";
-    }, 3000);
+    // Only show modal if 'show_feedback_modal' is True
+    {% if show_feedback_modal %}
+        setTimeout(function() {
+            var modal = document.getElementById("feedbackModal");
+            modal.style.display = "block";
+        }, 3000);
+    {% endif %}
 
     // Close modal functionality
     var closeModal = document.getElementsByClassName("close")[0];

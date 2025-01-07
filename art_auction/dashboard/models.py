@@ -196,7 +196,7 @@ class Feedback(models.Model):
         ("Excellent", "Excellent"),
     ]
 
-    rating = models.CharField(max_length=10, choices=RATING_CHOICES)
+    rating = models.CharField(max_length=10, choices=RATING_CHOICES, null=True, blank=True)
     feedback_text = models.TextField(blank=True, null=True)
     sentiment = models.CharField(
         max_length=10,
@@ -207,11 +207,23 @@ class Feedback(models.Model):
         ],
         blank=True,
         null=True,
-    )  # Added sentiment field
+    )
     submitted_at = models.DateTimeField(auto_now_add=True)
+    source = models.CharField(
+        max_length=10,
+        choices=[("frontend", "Frontend"), ("backend", "Backend")],
+        default="frontend",
+    )
 
     def __str__(self):
-        return f"{self.rating} - {self.feedback_text[:50]}..."
+        if self.feedback_text and self.rating:
+            return f"{self.rating} - {self.feedback_text[:50]}..."
+        elif self.feedback_text:
+            return f"{self.feedback_text[:50]}..."
+        elif self.rating:
+            return f"{self.rating}"
+        else:
+            return "No Feedback"
 
 
 class UserActivity(models.Model):

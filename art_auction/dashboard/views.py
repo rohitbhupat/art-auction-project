@@ -435,14 +435,11 @@ def fetch_notifications(request):
             'product_id': n.product.id if n.product else None  # Include product ID
         } for n in notifications]
 
-        # Mark notifications as read
-        notifications.update(read=True, read_at=timezone.now())
-
         return JsonResponse({'notifications': notifications_data})
     except Exception as e:
         logger.error(f"Error fetching notifications: {e}")
         return JsonResponse({'error': str(e)}, status=500)
-    
+
 @csrf_exempt
 def mark_notification_as_read(request, notification_id):
     if request.method == 'POST':
@@ -456,6 +453,27 @@ def mark_notification_as_read(request, notification_id):
             return JsonResponse({'success': False, 'error': str(e)}, status=500)
     return JsonResponse({'success': False, 'error': 'Invalid request method'}, status=400)
 
+@csrf_exempt
+def dismiss_notification(request, notification_id):
+    if request.method == 'POST':
+        try:
+            notification = get_object_or_404(Notification, id=notification_id, user=request.user)
+            notification.delete()  # Remove the notification
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    return JsonResponse({'success': False, 'error': 'Invalid request method'}, status=400)
+
+@csrf_exempt
+def clear_all_notifications(request):
+    if request.method == 'POST':
+        try:
+            notifications = Notification.objects.filter(user=request.user, read=False)
+            notifications.delete()  # Remove all unread notifications
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    return JsonResponse({'success': False, 'error': 'Invalid request method'}, status=400)
 
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
@@ -466,18 +484,16 @@ nlp = spacy.load("en_core_web_sm")
 # Function to categorize the query
 def categorize_query(query):
     categories = {
-        "billing": ["invoice", "payment", "charge", "transaction", "receipt"],
         "artwork quality": ["quality", "damaged", "broken", "condition", "flaw", "issue"],
         "bidding issues": ["bid", "auction", "price", "update", "bidding error", "reserve", "winning"],
-        "account management": ["account", "profile", "password", "reset", "login", "sign-up", "username"],
         "technical support": ["website", "technical", "error", "issue", "bug", "notifications", "slow", "not working"],
         "shipping and delivery": ["shipping", "delivery", "tracking", "timelines", "costs", "logistics", "package"],
         "refund and returns": ["refund", "return", "canceled", "policy", "replacement", "compensation"],
         "seller queries": ["seller", "dashboard", "upload", "artwork", "sales", "listings", "profit", "manage"],
-        "general information": ["guidelines", "platform", "how it works", "help", "support", "FAQ"],
         "legal or policy concerns": ["copyright", "policy", "terms", "duplicate", "violation", "dispute", "legal"],
-        "AR and visualization help": ["AR", "visualization", "troubleshooting", "feature", "augmented reality", "3D", "view"],
-        "feedback and suggestions": ["feedback", "suggestion", "improvement", "ideas", "recommendation", "experience"]
+        "AR and visualization": ["AR", "visualization", "troubleshooting", "feature", "augmented reality", "3D", "view"],
+        "feedback": ["feedback", "improvement", "ideas", "recommendation", "experience"],
+        "suggestions":["suggestion"]
 }
 
     doc = nlp(query.lower())
@@ -489,7 +505,6 @@ def categorize_query(query):
 # SubmitQueryView class
 class SubmitQueryView(FormView):
     template_name = 'art/contact.html'
-    success_url = reverse_lazy('art:contact')
 
     def post(self, request, *args, **kwargs):
         full_name = request.POST.get('full_name')
@@ -497,7 +512,7 @@ class SubmitQueryView(FormView):
         query_text = request.POST.get('query')
 
         if full_name and email and query_text:
-        # Categorize the query
+            # Categorize the query
             category = categorize_query(query_text)
 
             # Save the query with the category
@@ -513,8 +528,6 @@ class SubmitQueryView(FormView):
         else:
             return JsonResponse({'status': 'error', 'message': 'Invalid data submitted.'}, status=400)
 
-        
-
 # Analyze sentiment using TextBlob
 from textblob import TextBlob
 def analyze_sentiment(feedback):
@@ -523,33 +536,23 @@ def analyze_sentiment(feedback):
         return "positive" if analysis.sentiment.polarity > 0 else "negative" if analysis.sentiment.polarity < 0 else "neutral"
     return "neutral"  # Return neutral if feedback is empty or None
 
-# Handle feedback submission
 def submit_feedback(request):
     if request.method == 'POST':
-        # Get feedback text from the form
-        feedback_text = request.POST.get('feedback_text')  # Ensure the field name matches
+        rating = request.POST.get('rating')  # Get rating (can be empty)
+        feedback_text = request.POST.get('feedback_text', '').strip()  # Get feedback text (can be empty)
 
-        if not feedback_text:  # Check if feedback is empty
-            # Return an error message if feedback is missing
-            return JsonResponse({"status": "error", "message": "Feedback cannot be empty."})
+        # Analyze sentiment if feedback text is provided
+        sentiment = None
+        if feedback_text:
+            sentiment = analyze_sentiment(feedback_text)
 
-        # Perform sentiment analysis
-        sentiment = analyze_sentiment(feedback_text)
+        # Save the feedback
+        Feedback.objects.create(rating=rating, feedback_text=feedback_text, sentiment=sentiment, source="frontend")
 
-        # Save the feedback and sentiment to the database
-        Feedback.objects.create(rating=request.POST.get('rating'), feedback_text=feedback_text, sentiment=sentiment)
+        # After submission, ensure feedback modal does not show again
+        return redirect('art:callback')  # Redirect to callback without showing the modal again
 
-        # Return JSON response for AJAX requests
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({"status": "success", "sentiment": sentiment})
-
-        # If not AJAX, redirect to a thank-you page or display a message
-        messages.success(request, f'Thank you for your feedback! Sentiment: {sentiment}')
-        return redirect('art:callback')  # Replace 'art:callback' with the appropriate URL name
-
-    # For GET requests, display the feedback form
-    form = FeedbackForm()
-    return render(request, 'art/index.html', {'form': form})
+    return JsonResponse({"status": "error", "message": "Invalid request."})
 
 
 # def testmail(request):
