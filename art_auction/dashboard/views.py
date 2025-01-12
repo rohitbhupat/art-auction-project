@@ -1,10 +1,11 @@
 import datetime
+import json
 from django import forms
 from art.forms import ArtworkForm, FeedbackForm
 from django.views import View
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from dashboard.models import Artwork, OrderModel, Catalogue, Bid, Notification, Query, Feedback
+from dashboard.models import Artwork, OrderModel, Catalogue, Bid, Notification, Query, Feedback, Shipping
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, FormView
 from django.urls import reverse_lazy
 from django.http import HttpResponse, JsonResponse
@@ -360,6 +361,40 @@ class OrderListView(LoginRequiredMixin, ListView):
 
         return queryset
 
+# View for fetching real-time shipping status
+def get_shipping_status(request, order_id):
+    """
+    Fetch the shipping status of a specific order.
+    """
+    try:
+        shipping = Shipping.objects.get(order__id=order_id)
+        return JsonResponse({"status": shipping.status, "tracking_number": shipping.tracking_number})
+    except Shipping.DoesNotExist:
+        return JsonResponse({"error": "Shipping details not found for this order."}, status=404)
+
+# View for updating shipping status (for sellers/admins)
+@csrf_exempt
+def update_shipping_status(request):
+    """
+    Update the shipping status for a specific order.
+    Only accessible to authorized users (e.g., sellers/admins).
+    """
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            order_id = data.get("order_id")
+            new_status = data.get("status")
+
+            shipping = get_object_or_404(Shipping, order__id=order_id)
+            shipping.status = new_status
+            shipping.save()
+
+            return JsonResponse({"success": "Shipping status updated successfully!"})
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    return JsonResponse({"error": "Invalid request method."}, status=405)
+
+
 from django.views.generic import DetailView
 from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
@@ -541,10 +576,17 @@ def submit_feedback(request):
         rating = request.POST.get('rating')  # Get rating (can be empty)
         feedback_text = request.POST.get('feedback_text', '').strip()  # Get feedback text (can be empty)
 
+        # Log the received data for debugging
+        print("Rating:", rating)
+        print("Feedback Text:", feedback_text)
+
         # Analyze sentiment if feedback text is provided
         sentiment = None
         if feedback_text:
             sentiment = analyze_sentiment(feedback_text)
+
+        if not rating and not feedback_text:
+            return JsonResponse({"status": "error", "message": "Both rating and feedback text are empty."})
 
         # Save the feedback
         Feedback.objects.create(rating=rating, feedback_text=feedback_text, sentiment=sentiment, source="frontend")

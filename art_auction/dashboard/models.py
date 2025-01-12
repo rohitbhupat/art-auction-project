@@ -18,9 +18,7 @@ class Catalogue(models.Model):
     def __str__(self):
         return self.cat_name
 
-
 class Artwork(models.Model):
-
     SALE_TYPE_CHOICES = [
         ("discount", "Discount"),
         ("auction", "Auction"),
@@ -129,7 +127,6 @@ class OrderModel(models.Model):
     def __str__(self):
         return f"order of {self.product} by {self.user}"
 
-
 class Bid(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name="bids")
@@ -138,7 +135,6 @@ class Bid(models.Model):
 
     def __str__(self):
         return f"bid of {self.product} on {self.bid_date}"
-
 
 class Payment(models.Model):
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE)
@@ -160,8 +156,7 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Payment {self.provider_order_id}"
-
-
+    
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(
@@ -171,8 +166,7 @@ class Notification(models.Model):
     read = models.BooleanField(default=False)
     read_at = models.DateTimeField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-
-
+    
 class Query(models.Model):
     full_name = models.CharField(max_length=100)
     email = models.EmailField()
@@ -183,10 +177,7 @@ class Query(models.Model):
     def __str__(self):
         return f"{self.full_name} - {self.category}"
 
-
 from django.db import models
-
-
 class Feedback(models.Model):
     RATING_CHOICES = [
         ("Poor", "Poor"),
@@ -225,9 +216,25 @@ class Feedback(models.Model):
         else:
             return "No Feedback"
 
-
 class UserActivity(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)
     interaction_type = models.CharField(max_length=50)  # e.g., 'view', 'like', 'bid'
     timestamp = models.DateTimeField(auto_now_add=True)
+
+class Shipping(models.Model):
+    STATUS_CHOICES = [
+        ("processing", "Processing"),
+        ("shipped", "Shipped"),
+        ("out_for_delivery", "Out for Delivery"),
+        ("delivered", "Delivered"),
+        ("cancelled", "Cancelled"),
+    ]
+
+    order = models.OneToOneField(OrderModel, on_delete=models.CASCADE, related_name="shipping")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="processing")
+    tracking_number = models.CharField(max_length=100, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Shipping for Order {self.order.id}: {self.status}"

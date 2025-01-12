@@ -147,3 +147,56 @@ body.dark-mode .app-card {
     display: block; /* Ensure the image is visible */
     margin: 0 auto; /* Center the image horizontally */
 }
+/* Adjust navigation arrows */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 25% !important; /* Restrict width to the button size */
+    height: 50px !important; /* Set height for better control */
+    position: absolute !important; /* Ensure correct positioning */
+    top: 50% !important; /* Center vertically */
+    transform: translateY(-50%) !important;
+    z-index: 5 !important; /* Higher z-index but not too large to overlap navbar */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important; /* Remove additional padding */
+}
+
+/* Specific size for arrow icons */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 55px !important;
+    height: 55px !important;
+    background-color: rgb(0, 0, 0) !important; /* Semi-transparent background */
+    border-radius: 50% !important; /* Circular buttons */
+    background-size: 50% !important; /* Shrink the arrow icon for visibility */
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+
+/* Hover effect for arrows */
+.carousel-control-prev:hover .carousel-control-prev-icon,
+.carousel-control-next:hover .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.8) !important; /* Darker background on hover */
+}
+.carousel-indicators{
+    bottom: 10% !important; /* Position indicators closer to the bottom */
+}
+/* Indicators styling */
+.carousel-indicators button {
+    background-color: #000 !important; /* Black color for indicators */
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important; /* Circular indicators */
+    opacity: 0.9 !important;
+}
+
+.carousel-indicators button.active {
+    background-color: #fff !important; /* White color for active indicator */
+    opacity: 1 !important;
+}
+
+.carousel-indicators button:hover {
+    opacity: 1 !important; /* Full opacity on hover */
+}
+

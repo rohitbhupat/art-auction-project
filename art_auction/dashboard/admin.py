@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Catalogue, OrderModel, Payment, Bid, Query, Notification, Feedback
+from .models import Catalogue, OrderModel, Payment, Shipping, Bid, Query, Notification, Feedback
 from django.db.models import Count, Q
 from django.utils.safestring import mark_safe
 
@@ -8,6 +8,7 @@ from django.utils.safestring import mark_safe
 admin.site.register(Catalogue)
 admin.site.register(OrderModel)
 admin.site.register(Payment)
+admin.site.register(Shipping)
 admin.site.register(Bid)
 admin.site.register(Notification)
 
@@ -83,7 +84,7 @@ class FeedbackAdmin(admin.ModelAdmin):
 
     def changelist_view(self, request, extra_context=None):
         # Filter only frontend-submitted feedback
-        frontend_feedback = Feedback.objects.all()
+        frontend_feedback = Feedback.objects.filter(source="frontend")
         
         # Aggregate sentiment data for frontend feedback
         sentiment_data = (
@@ -94,12 +95,16 @@ class FeedbackAdmin(admin.ModelAdmin):
 
         # Count "Only Feedback" and "Only Star Rating" for frontend data
         only_feedback_count = frontend_feedback.filter(
-            Q(rating__isnull=True) & Q(feedback_text__isnull=False)
-        ).count()
-        only_rating_count = frontend_feedback.filter(
-            Q(rating__isnull=False) & Q(feedback_text__isnull=True)
+        Q(rating="") & ~Q(feedback_text="")
         ).count()
 
+        only_rating_count = frontend_feedback.filter(
+        ~Q(rating="") & Q(feedback_text="")
+        ).count()
+        
+        # print("Only Feedback Count:", only_feedback_count)
+        # print("Only Rating Count:", only_rating_count)
+        
         # Sentiment chart data
         sentiment_labels = ["Positive", "Negative", "Neutral"]
         sentiment_data_values = [
@@ -126,6 +131,7 @@ class FeedbackAdmin(admin.ModelAdmin):
             "data": feedback_data_values,
             "background_colors": feedback_colors,
         }
+        print(extra_context["feedback_chart_data"])
 
         return super().changelist_view(request, extra_context=extra_context)
 
