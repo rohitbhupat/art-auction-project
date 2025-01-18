@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from art.models import SellerInfo, UserInfo
-from dashboard.models import Artwork, Feedback
+from dashboard.models import Artwork, Feedback, Catalogue
 from django.core.exceptions import ValidationError
 
 class UserRegistrationForm(UserCreationForm):
@@ -94,21 +94,35 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
 class ArtworkForm(forms.ModelForm):
+    discounted_price = forms.DecimalField(required=False, widget=forms.HiddenInput())
+
     class Meta:
         model = Artwork
         fields = [
             'sale_type', 'product_name', 'product_price', 'product_qty', 'product_image',
             'product_cat', 'product_id', 'end_date', 'opening_bid',
             'dimension_unit', 'length_in_centimeters', 'width_in_centimeters', 'foot', 'inches'
-        ]  # Removed 'discounted_price'
+        ]
         widgets = {
             'end_date': forms.DateInput(attrs={'type': 'date'}),
         }
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         sale_type = kwargs.get('data', {}).get('sale_type') or self.initial.get('sale_type')
     
+        # Ensure product_cat, opening_bid, and end_date fields are always present
+        if 'product_cat' not in self.fields:
+            self.fields['product_cat'] = forms.ModelChoiceField(queryset=Catalogue.objects.all())
+    
+        if 'opening_bid' not in self.fields:
+            self.fields['opening_bid'] = forms.DecimalField(required=False)
+    
+        if 'end_date' not in self.fields:
+            self.fields['end_date'] = forms.DateField(required=False)
+    
         if sale_type == 'discount':
+            # Make fields optional and hide them
             self.fields['product_cat'].required = False
             self.fields['opening_bid'].required = False
             self.fields['end_date'].required = False
@@ -116,7 +130,12 @@ class ArtworkForm(forms.ModelForm):
             self.fields['opening_bid'].widget = forms.HiddenInput()
             self.fields['end_date'].widget = forms.HiddenInput()
     
+            # Set discounted_price value
+            if self.instance and self.instance.product_price:
+                self.initial['discounted_price'] = self.instance.product_price * 0.7
+    
         elif sale_type == 'auction':
+            # Ensure auction-specific fields are visible and required
             self.fields['discounted_price'].widget = forms.HiddenInput()
             self.fields['product_cat'].required = True
             self.fields['opening_bid'].required = True
@@ -125,7 +144,8 @@ class ArtworkForm(forms.ModelForm):
         # Apply consistent form-control styling
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
-    
+
+
     def clean(self):
         cleaned_data = super().clean()
         sale_type = cleaned_data.get('sale_type')
@@ -146,6 +166,7 @@ class ArtworkForm(forms.ModelForm):
                 self.add_error('end_date', "End date is required for bidding.")
 
         return cleaned_data
+
 
 class FeedbackForm(forms.ModelForm):
     class Meta:

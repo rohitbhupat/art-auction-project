@@ -23,7 +23,13 @@ class Artwork(models.Model):
         ("discount", "Discount"),
         ("auction", "Auction"),
     ]
-    sale_type = models.CharField(max_length=10, choices=SALE_TYPE_CHOICES)  # sale_type only
+    sale_type = models.CharField(
+        max_length=50, 
+        choices=SALE_TYPE_CHOICES,
+        default='auction',  # default to auction if nothing is selected
+        blank=False,  # prevent blank entries
+        null=False,  # prevent null entries
+        )  # sale_type only
     product_id = models.CharField(max_length=255, default="")
     product_name = models.CharField(max_length=255, blank=False)
     product_price = models.IntegerField(default=0)

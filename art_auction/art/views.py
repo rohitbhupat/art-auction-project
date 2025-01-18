@@ -1,3 +1,4 @@
+import os
 from django.conf import settings
 from django.http.response import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
@@ -345,7 +346,6 @@ def logout_view(request):
 class ArtworkDetailView(LoginRequiredMixin, DetailView):
     model = Artwork
     template_name = 'art/artwork_detail.html'
-    context_object_name = 'object'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -359,25 +359,43 @@ class ArtworkDetailView(LoginRequiredMixin, DetailView):
         context['foot'] = artwork.foot
         context['inches'] = artwork.inches
 
+        # Check if the user has purchased this product before
+        if self.request.user.is_authenticated:
+            previous_order = OrderModel.objects.filter(user=self.request.user, product=artwork).exists()
+        else:
+            previous_order = False
+
         # Recommended auction artworks logic
-        context['recommended_artworks'] = self.get_auction_recommendations(artwork.id)
+        context['recommended_artworks'] = self.get_auction_recommendations(artwork.id, previous_order)
 
         return context
 
-    def get_auction_recommendations(self, artwork_id):
+    def get_auction_recommendations(self, artwork_id, previous_order):
         try:
-            # Fetch the current artwork
             current_artwork = Artwork.objects.get(id=artwork_id)
-
-            # Filter artworks in the same category and of auction type
+    
+            # Filter artworks in the same category and of auction type, excluding sold or purchased ones
             recommended_artworks = Artwork.objects.filter(
                 product_cat=current_artwork.product_cat,
                 sale_type="auction",  # Only auction artworks
-                is_sold=False  # Not sold
-            ).exclude(id=artwork_id)
-
+                is_sold=False  # Not sold artworks
+            ).exclude(id=artwork_id)  # Exclude the current artwork
+    
+            # If the user has purchased any artworks, exclude those purchased artworks
+            if previous_order:
+                purchased_artworks_ids = OrderModel.objects.filter(
+                    user=self.request.user
+                ).values_list('product__id', flat=True)
+                
+                # Debugging: Check if the exclusion is happening correctly
+                print("Purchased Artworks IDs:", purchased_artworks_ids)
+    
+                # Exclude any purchased artworks
+                recommended_artworks = recommended_artworks.exclude(id__in=purchased_artworks_ids)
+    
             # Return the final queryset (limit to 4 artworks)
             return recommended_artworks[:4]
+    
         except Artwork.DoesNotExist:
             # Handle cases where the current artwork does not exist
             return Artwork.objects.none()
@@ -569,13 +587,32 @@ class SaleOrderCreateView(LoginRequiredMixin, View):
             },
         )
 
+from django.shortcuts import get_object_or_404
+
 class ArView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        product_object = Artwork.objects.get(pk=self.kwargs.get("id"))
-        return render(
-            request, "art/ArView.html", context={"image": product_object.product_image}
-        )
-
+        # Fetch the product object or return 404 if not found
+        product_object = get_object_or_404(Artwork, pk=self.kwargs.get("id"))
+        
+        # Assuming GLTF models are stored in the 'gltf_models' folder
+        gltf_model_path = f"gltf_models/{product_object.id}.gltf"
+        
+        # Check if the GLTF file exists
+        if not os.path.exists(os.path.join(settings.MEDIA_ROOT, gltf_model_path)):
+            gltf_model_path = None  # Fallback if the GLTF file is missing
+        
+        # Calculate dimensions
+        half_width = product_object.width_in_centimeters / 2 if product_object.width_in_centimeters else 0
+        
+        context = {
+            "image": product_object.product_image,
+            "length_in_centimeters": product_object.length_in_centimeters,
+            "width_in_centimeters": product_object.width_in_centimeters,
+            "dimension_unit": product_object.dimension_unit,
+            "gltf_model_path": gltf_model_path,  # Dynamically computed
+            "half_width": half_width,  # Calculated value
+        }
+        return render(request, "art/ArView.html", context)
 
 class About(TemplateView):
     template_name = "art/about.html"

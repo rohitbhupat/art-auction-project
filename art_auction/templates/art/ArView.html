@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,79 +8,105 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="{% static 'icon/favicon.ico' %}" type="image/x-icon">
     <link rel="icon" href="{% static 'icon/favicon.ico' %}" type="image/x-icon">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'icon/apple-touch-icon.png' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <title>{% block title %}AR View - ARTIV{% endblock %}</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" referrerpolicy="no-referrer"
-    />
-        <!-- Import A-Frame and AR.js libraries -->
-<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
-<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <!-- Import A-Frame and AR.js libraries -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 
- 
     <style>
         .arjs-loader {
-          height: 100%;
-          width: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-          z-index: 9999;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-       
-        .arjs-loader div {
-          text-align: center;
-          font-size: 1.25em;
-          color: white;
-        }
-      </style>
 
+        .arjs-loader div {
+            text-align: center;
+            font-size: 1.25em;
+            color: white;
+        }
+
+        .info-overlay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+    </style>
 </head>
 
 <body>
     {% if user.is_authenticated %}
-  
-   
-    <!-- Minimal Loader Description until the assets are loaded -->
-    <div class="arjs-loader">
-        <div style="border:5px solid white;"><img src="{{ MEDIA_URL }}{{ image }}" alt="img" width="100%" height="350px"/>
+        <!-- Loader -->
+        <div class="arjs-loader">
+            <div>
+                <img src="{{ MEDIA_URL }}{{ image }}" alt="Artwork Image" style="max-width: 100%; border-radius: 5px;" />
+                <p>Loading AR experience...</p>
+            </div>
         </div>
-      </div>
-     
-      <!-- A-Frame Scene -->
-      <a-scene
-        vr-mode-ui="enabled: false;"
-        renderer="logarithmicDepthBuffer: true;"
-        embedded
-        arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
-      >
-        <!-- The NFT image used for Tracking -->
-        <a-nft
-          type="nft"
-          url="{{MEDIA_URL}}/nft"
-          smooth="true"
-          smoothCount="10"
-          smoothTolerance=".01"
-          smoothThreshold="5"
-        >
-          <!-- Define the GLTF model -->
-          <a-entity
-            gltf-model="<Path to Model>"
-            scale="5 5 5"
-            position="50 150 0"
-          >
-          </a-entity>
-        </a-nft>
-        <!-- Create the Static Camera -->
-        <a-entity camera></a-entity>
-      </a-scene>
-  
 
-    {% else %} {% include '404.html' %} {% endif %}
+        <!-- Info Overlay -->
+        <div class="info-overlay">
+            <p><strong>Artwork Details:</strong></p>
+            <p>Length: {{ length_in_centimeters }} cm</p>
+            <p>Width: {{ width_in_centimeters }} cm</p>
+            <p>Unit: {{ dimension_unit }}</p>
+        </div>
+
+        <!-- A-Frame Scene -->
+        <a-scene
+            vr-mode-ui="enabled: false;"
+            renderer="logarithmicDepthBuffer: true;"
+            embedded
+            arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+        >
+            <!-- NFT Tracking Image -->
+            <a-nft
+                type="nft"
+                url="{{ MEDIA_URL }}/nft"
+                smooth="true"
+                smoothCount="10"
+                smoothTolerance=".01"
+                smoothThreshold="5"
+            >
+                {% if gltf_model_path %}
+                <!-- GLTF Model -->
+                <a-entity
+                    gltf-model="{{ MEDIA_URL }}{{ gltf_model_path }}"
+                    scale="{{ length_in_centimeters|floatformat:2 }} {{ width_in_centimeters|floatformat:2 }} 0.1"
+                    position="0 {{ half_width }} 0"
+                  >
+                </a-entity>
+                {% else %}
+                <!-- Fallback if GLTF is missing -->
+                <a-text
+                    value="3D model unavailable for this artwork"
+                    color="red"
+                    position="0 1.5 -2"
+                    align="center"
+                ></a-text>
+                {% endif %}
+            </a-nft>
+
+            <!-- Static Camera -->
+            <a-entity camera></a-entity>
+        </a-scene>
+    {% else %}
+        {% include '404.html' %}
+    {% endif %}
 </body>
 
 </html>

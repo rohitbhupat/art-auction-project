@@ -2,6 +2,7 @@ import datetime
 import json
 from django import forms
 from art.forms import ArtworkForm, FeedbackForm
+from dashboard.forms import ArtworkCreateForm, ArtworkUpdateForm
 from django.views import View
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -26,55 +27,39 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 class ArtworkCreateView(LoginRequiredMixin, CreateView):
     model = Artwork
-    fields = [
-        "product_name", "product_price", "opening_bid", "product_cat",
-        "product_qty", "dimension_unit", "length_in_centimeters", "width_in_centimeters",
-        "foot", "inches", "product_image", "end_date"
-    ]
+    form_class = ArtworkCreateForm
     success_url = '/dashboard/product/'
 
     def get_form(self):
         form = super().get_form()
         sale_type = self.request.POST.get('sale_type', 'auction')  # Default to 'auction'
-
-        # Set the initial value for sale_type to be passed to the form
+        
+        # Set the initial value for sale_type in the form
         form.initial['sale_type'] = sale_type
 
-        # Modify the widget for the end_date field
-        form.fields['end_date'].widget = forms.DateInput(attrs={'type': 'date'})
+        # Modify the widget for the end_date field dynamically
+        if sale_type == 'auction':
+            form.fields['end_date'].required = True
+        else:
+            form.fields['end_date'].required = False
 
         return form
 
     def form_valid(self, form):
         sale_type = form.cleaned_data.get('sale_type', 'auction')  # Default to 'auction'
 
-        # Set sale_type dynamically on the model instance
-        form.instance.sale_type = sale_type
-
+        # Handle different sale types
         if sale_type == 'discount':
-            # For discount type, we don't need 'opening_bid' and 'end_date' fields
-            form.instance.discounted_price = form.instance.get_discounted_price()
-            form.instance.product_cat = None
-            form.instance.opening_bid = None  # Don't set opening_bid for discounts
-            form.instance.end_date = None  # Don't set end_date for discounts
+            form.instance.opening_bid = None
+            form.instance.end_date = None
+            form.instance.discounted_price = form.cleaned_data['product_price'] * 0.7  # Discounted price
 
         elif sale_type == 'auction':
-            # Validate required fields for auctions
             if not form.cleaned_data.get('opening_bid'):
                 form.add_error('opening_bid', 'Opening bid is required for auctions.')
                 return self.form_invalid(form)
             if not form.cleaned_data.get('end_date'):
                 form.add_error('end_date', 'End date is required for auctions.')
-                return self.form_invalid(form)
-
-            # Validate and generate product_id based on category
-            product_cat_id = form.cleaned_data.get('product_cat')
-            try:
-                cat = Catalogue.objects.get(pk=product_cat_id)
-                cat_name_prefix = cat.cat_name[:3].upper()  # Get the first three characters of category name
-                form.instance.product_id = f'{cat_name_prefix}{form.instance.pk}'
-            except Catalogue.DoesNotExist:
-                form.add_error('product_cat', 'Invalid category.')
                 return self.form_invalid(form)
 
         # Set the user who is adding the artwork
@@ -93,20 +78,10 @@ class ArtworkCreateView(LoginRequiredMixin, CreateView):
         # Return the form if everything is valid
         return super().form_valid(form)
 
-    def form_invalid(self, form):
-        # Print errors to the console for debugging
-        print("Form data:", self.request.POST)
-        print("Form errors:", form.errors)
-        return super().form_invalid(form)
-
 
 class ArtworkUpdateView(LoginRequiredMixin, UpdateView):
     model = Artwork
-    fields = [
-        "product_name", "product_price", "product_image", 
-        "product_cat", "end_date", "length_in_centimeters", 
-        "width_in_centimeters", "foot", "inches"
-    ]
+    form_class = ArtworkUpdateForm  # Use form_class instead of fields
     template_name_suffix = '_update_form'
     success_url = '/dashboard/product/'
 
@@ -130,6 +105,34 @@ class ArtworkUpdateView(LoginRequiredMixin, UpdateView):
 
         return super().form_valid(form)
 
+class ArtworkListView(LoginRequiredMixin, ListView):
+    model = Artwork
+    template_name = 'dashboard/artwork_list.html'
+    context_object_name = 'object_list'
+
+    def get_queryset(self):
+        filter_type = self.request.GET.get('filter', 'all')
+        print(f"Filter type: {filter_type}")  # Debugging
+    
+        queryset = Artwork.objects.filter(status='active', is_sold=False, is_purchased=False).order_by('-created_at')
+    
+        if filter_type == 'discount':
+            queryset = queryset.filter(sale_type='discount')
+        elif filter_type == 'auction':
+            queryset = queryset.filter(sale_type='auction')
+        elif filter_type == 'sold':
+            queryset = queryset.filter(is_sold=True)
+    
+        print(f"Queryset count: {queryset.count()}")  # Debugging
+        return queryset
+
+    # def sold_artworks(request):
+    #     sold_artworks = Artwork.objects.filter(is_sold=True)
+    #     context = {
+    #         'sold_artworks': sold_artworks
+    #     }
+    #     return render(request, 'artwork_list.html', context)
+    
 class BidCreateView(LoginRequiredMixin, View):
     @method_decorator(csrf_exempt)
     def post(self, request):
@@ -272,34 +275,6 @@ def latest_bid(request, pk):
         logger.error(f"Error fetching latest bid for artwork {pk}: {e}")
         return JsonResponse({"success": False, "message": "An unexpected error occurred. Please try again later."}, status=500)
 
-class ArtworkListView(LoginRequiredMixin, ListView):
-    model = Artwork
-    template_name = 'dashboard/artwork_list.html'
-    context_object_name = 'object_list'
-
-    def get_queryset(self):
-        filter_type = self.request.GET.get('filter', 'all')
-        print(f"Filter type: {filter_type}")  # Debugging
-    
-        queryset = Artwork.objects.filter(status='active', is_sold=False, is_purchased=False).order_by('-created_at')
-    
-        if filter_type == 'discount':
-            queryset = queryset.filter(sale_type='discount')
-        elif filter_type == 'auction':
-            queryset = queryset.filter(sale_type='auction')
-        elif filter_type == 'sold':
-            queryset = queryset.filter(is_sold=True)
-    
-        print(f"Queryset count: {queryset.count()}")  # Debugging
-        return queryset
-
-
-    # def sold_artworks(request):
-    #     sold_artworks = Artwork.objects.filter(is_sold=True)
-    #     context = {
-    #         'sold_artworks': sold_artworks
-    #     }
-    #     return render(request, 'artwork_list.html', context)
 class BidListView(LoginRequiredMixin, ListView):
     model = Bid
     template_name = 'dashboard/bids_list.html'

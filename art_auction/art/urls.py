@@ -19,6 +19,7 @@ urlpatterns = [
    path('orderconfirm/',views.OrderCreateView.as_view(),name="confirm_order"),
    path("callback/", views.callback, name="callback"),
    path("arview/<int:id>", views.ArView.as_view(), name="view_3d"),
+   # path('360view/<int:id>/', views.View360.as_view(), name='view360'),
    path("about/", views.About.as_view(), name="about"),
    path("contact/", views.Contact.as_view(), name="contact"),
    path("faq/", views.FAQs.as_view(), name="faq"),
