@@ -189,7 +189,7 @@
                 Welcome, {{ user.username }}
               </a>
               <ul
-                class="dropdown-menu dropdown-menu-end"
+                class="dropdown-menu"
                 aria-labelledby="userDropdown"
               >
                 {% if not user.is_seller %}
@@ -219,7 +219,7 @@
             <a
               href="{% url 'art:register_user' %}"
               type="button"
-              class="btn btn-primary"
+              class="btn btn-primary btn-primary_register"
               >Register</a
             >
             {% endif %}

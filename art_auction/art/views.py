@@ -587,33 +587,41 @@ class SaleOrderCreateView(LoginRequiredMixin, View):
             },
         )
 
-from django.shortcuts import get_object_or_404
-
+from django.utils.decorators import method_decorator
 class ArView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        # Fetch the product object or return 404 if not found
         product_object = get_object_or_404(Artwork, pk=self.kwargs.get("id"))
-        
-        # Assuming GLTF models are stored in the 'gltf_models' folder
-        gltf_model_path = f"gltf_models/{product_object.id}.gltf"
-        
-        # Check if the GLTF file exists
-        if not os.path.exists(os.path.join(settings.MEDIA_ROOT, gltf_model_path)):
-            gltf_model_path = None  # Fallback if the GLTF file is missing
-        
-        # Calculate dimensions
-        half_width = product_object.width_in_centimeters / 2 if product_object.width_in_centimeters else 0
-        
+        length = product_object.length_in_centimeters or 10
+        width = product_object.width_in_centimeters or 10
+        half_width = width / 2
+
         context = {
             "image": product_object.product_image,
-            "length_in_centimeters": product_object.length_in_centimeters,
-            "width_in_centimeters": product_object.width_in_centimeters,
-            "dimension_unit": product_object.dimension_unit,
-            "gltf_model_path": gltf_model_path,  # Dynamically computed
-            "half_width": half_width,  # Calculated value
+            "length_in_centimeters": length,
+            "width_in_centimeters": width,
+            "dimension_unit": product_object.dimension_unit or "cm",
+            "half_width": half_width,
+            "object": product_object,
         }
         return render(request, "art/ArView.html", context)
 
+@method_decorator(csrf_exempt)
+def post(self, request, *args, **kwargs):
+    try:
+        data = json.loads(request.body)
+        product_id = data.get("product_id")
+        product_object = get_object_or_404(Artwork, pk=product_id)
+        width = product_object.width_in_centimeters or 10
+        half_width = width / 2
+        response_data = {
+            "image_url": product_object.product_image.url,
+            "length": product_object.length_in_centimeters or 10,
+            "width": width,
+            "position": f"0 {half_width} 0",
+        }
+        return JsonResponse(response_data, status=200)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=400)
 class About(TemplateView):
     template_name = "art/about.html"
 

@@ -17,20 +17,33 @@
 
 /* Navbar */
 .navbar {
-  background-color: #161617;
+  background-color: #202124;
   padding-top: 1rem !important;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.1); /* Subtle border for separation */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); /* Adds a subtle shadow for depth */
 }
 
 .navbar .navbar-brand {
-  color: #ffffff; /* Navbar brand color */
+  color: #f8f9fa; /* Navbar brand color */
+  font-size: 1.15rem; /* Larger brand font for prominence */
+  font-weight: bold;
+  letter-spacing: 1px; /* Slight spacing for elegance */
+}
+
+.navbar .navbar-brand img {
+  border-radius: 4px; /* Rounded corners for the logo */
 }
 
 .navbar .nav-link {
-  color: #898383; /* Navbar link color */
+  color: #a1a1a1; /* Navbar link color */
+  margin-right: 2.5px; /* Consistent spacing between links */
+  transition: color 0.5s ease transform 0.5s ease;;
 }
 
 .navbar .nav-link:hover {
-  color: #ffffff; /* Navbar link color on hover */
+  color: #f8f9fa; /* Navbar link color on hover */
+  text-decoration: none; /* Remove underline */
+  transform: scale(1.05); /* Slight scale-up effect */
 }
 
 /* Show dropdown menu on hover */
@@ -38,28 +51,39 @@
   display: block;
   visibility: visible; /* Ensure the menu is visible */
   opacity: 1; /* Ensure the menu is fully opaque */
+  transform: translateY(0); /* Bring dropdown into place smoothly */
 }
 
 .dropdown-menu {
   display: none; /* Hide the dropdown menu by default */
   position: absolute;
-  background-color: var(--dropdown-bg);
+  /* background-color: var(--dropdown-bg); */
   min-width: 160px;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); */
   z-index: 1;
   border-color: none !important;
+  background-color: #2d2f36; /* Darker background for dropdown */
+  border: none; /* Remove default border */
+  border-radius: 6px; /* Rounded corners for a modern look */
+  padding: 0.5rem 0; /* Spacing around the dropdown */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* Elegant shadow */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(10px); /* Subtle slide-down effect */
 }
 
 .dropdown-menu a {
-  color: black;
+  color: #d1d1d1;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  font-size: 0.95rem; /* Slightly smaller font */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dropdown-menu a:hover {
   color: white !important;
-  background-color: #212529 !important;
+  background-color: #464a53 !important;
+  border-radius: 4px; /* Subtle rounding for hover effect */
   transition: background-color 0.1s, color 0.1s;
 }
 
@@ -67,11 +91,26 @@
 body.light-mode .navbar {
   background-color: #e7e7e7;
   color: #000;
+  padding-top: 1rem !important;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.603); /* Subtle border for separation */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); /* Adds a subtle shadow for depth */
+
 }
 
 body.light-mode .dropdown-menu {
-  --dropdown-bg: #f9f9f9;
+  background-color: #f9f9f9;
 }
+
+body.light-mode .dropdown-menu a {
+  background-color: #f9f9f9;
+  color: #515151;
+}
+
+body.light-mode .dropdown-menu a:hover {
+  background-color: #c2c2c2 !important;
+  color: #323232 !important;
+}
+
 
 body.light-mode .navbar .navbar-brand {
   color: #000; /* Navbar brand color in light mode */
@@ -91,9 +130,9 @@ body.dark-mode {
   color: #fff;
 }
 
-body.dark-mode .dropdown-menu {
+/* body.dark-mode .dropdown-menu {
   --dropdown-bg: #343a40;
-}
+} */
 
 body.dark-mode .navbar .navbar-brand {
   color: #fff; /* Navbar brand color in dark mode */
@@ -133,19 +172,59 @@ body.dark-mode .dropdown-item {
   display: inline-block;
 }
 
-.dropdown-toggle-mode {
-  cursor: pointer;
+/* Buttons Styling */
+.btn-success {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 20px; /* Rounded corners */
+  padding: 8px 20px;
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+}
+
+.btn-success:hover {
+  background-color: #218838; /* Darker green on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  transform: scale(1.05); /* Slight scale-up effect */
+}
+
+.btn-primary_register {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 20px; /* Rounded corners */
+  padding: 8px 20px;
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+}
+
+.btn-primary_register:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  transform: scale(1.05); /* Slight scale-up effect */
 }
 
 .dropdown-menu-mode {
   display: none;
   position: absolute;
-  background-color: var(--dropdown-bg);
+  /* padding: 0.4rem 0; */
+  /* background-color: var(--dropdown-bg); */
+  background-color: #2d2f36; /* Darker background for dropdown */
+  border-radius: 6px;
   min-width: 120px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   z-index: 1;
-  top: 30px;
+  top: 50px !important;
   right: 0;
+  border: none; /* Remove default border */
+  border-radius: 6px; /* Rounded corners for a modern look */
+  padding: 0.5rem 0; /* Spacing around the dropdown */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* Elegant shadow */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(10px); /* Subtle slide-down effect */
 }
 
 .dropdown-menu-mode.show {
@@ -174,12 +253,12 @@ body.dark-mode .dropdown-item {
 }
 
 body.light-mode .dropdown-menu-mode {
-  --dropdown-bg: #f9f9f9;
+  background-color: #f9f9f9;
 }
 
-body.dark-mode .dropdown-menu-mode {
+/* body.dark-mode .dropdown-menu-mode {
   --dropdown-bg: #343a40;
-}
+} */
 .dropdown:hover .dropdown-menu {
   display: block;
   margin-top: 0; /* Optional: Adjust for styling */
@@ -222,7 +301,7 @@ body.dark-mode .notification-item:hover {
   right: 0px;
   padding: 3px 6px;
   border-radius: 50%;
-  background-color: red;
+  background-color: #ff5e5e;
   color: white;
   font-size: 12px;
   display: none;
