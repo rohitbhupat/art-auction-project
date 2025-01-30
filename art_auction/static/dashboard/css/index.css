@@ -84,13 +84,13 @@
 
 /* Back to Top Button */
 body.dark-mode #back-to-top-btn {
-    background-color: #333;
+    background-color: #414043;
     color: #fff;
     border: none;
 }
 
 body.light-mode #back-to-top-btn {
-    background-color: #f8f9fa;
+    background-color: #f7eeee;
     color: #333;
     border: none;
 }

@@ -19,21 +19,22 @@
     <script>
       (function () {
         const theme = localStorage.getItem("theme") || "auto";
-        const prefersDarkScheme = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches;
-        const isDarkMode =
-          theme === "dark" || (theme === "auto" && prefersDarkScheme);
-
+        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const isDarkMode = theme === "dark" || (theme === "auto" && prefersDarkScheme);
+      
         if (isDarkMode) {
-          document.body.classList.add("dark-mode");
+          document.documentElement.classList.add("dark-mode");
         } else {
-          document.body.classList.add("light-mode");
+          document.documentElement.classList.add("light-mode");
         }
-      })();
-    </script>
+      })();      
+      document.addEventListener("DOMContentLoaded", function() {
+        document.documentElement.classList.add("loaded");
+      });
+      
+    </script>    
     <style>
-      body {
+      {% comment %} body {
         background-image: url("{% static "images/background/white.jpeg" %}");
         background-size: cover;
         background-repeat: no-repeat;
@@ -42,7 +43,7 @@
       body.dark-mode {
         background-image: url("{% static "images/background/dark.jpeg" %}");
         /* Additional styles for dark mode */
-      }
+      } {% endcomment %}
     </style>
   </head>
   <body>

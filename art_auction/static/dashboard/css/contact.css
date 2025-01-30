@@ -18,7 +18,7 @@
 }
 
 :root {
-    --background-color: #e7e7e7;
+    --background-color: #eaddcc;
     --text-color: #000;
     --link-color: #343434;
     --link-hover-color: #000000;
@@ -28,7 +28,7 @@
 }
 
 .dark-mode {
-    --background-color: #161617;
+    --background-color: #2D2A32;
     --text-color: #fff;
     --link-color: #d8d8d8;
     --link-hover-color: #ffffff;

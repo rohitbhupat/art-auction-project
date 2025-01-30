@@ -10,7 +10,9 @@
     flex: 0 0 auto !important;
     width: 24.66666667% !important;
 }
-
+.app-card-body{
+    background-color: #e8dccd;
+}
 .row {
     justify-content: start;
     --bs-gutter-y: 1.5rem !important;
@@ -47,13 +49,13 @@
 
 :root {
     --card-bg-light: #ffffff;
-    --card-bg-dark: #2c2c2c;
+    --card-bg-dark: #2D2A32;
     --text-light: #000000;
     --text-dark: #ffffff;
 }
 /* Dark Mode Styles */
 body.dark-mode .poppins-regular-products {
-    color: var(--text-dark);
+    color: var(--text-dark) !important;
 }
 
 body.dark-mode .app-card {
@@ -62,6 +64,7 @@ body.dark-mode .app-card {
 
 body.dark-mode .app-card-body {
     background-color: var(--card-bg-dark) !important; /* Ensure card body background changes */
+    color: var(--text-light) !important; /* Text inside card should be dark in dark mode */
 }
 
 body.dark-mode .text-details {

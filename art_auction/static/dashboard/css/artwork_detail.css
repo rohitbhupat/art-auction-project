@@ -1,7 +1,7 @@
 /* Root variables for themes */
 :root {
-  --card-bg-light: #ffffff;
-  --card-bg-dark: #2c2c2c;
+  --card-bg-light: #eaddcc;
+  --card-bg-dark: #2D2A32;
   --text-light: #000000;
   --text-dark: #ffffff;
 }
@@ -106,17 +106,28 @@ body.light-mode .alert-warning {
 }
 .image-container {
   position: relative;
-  cursor: crosshair; /* Update cursor to indicate zoomable area */
+  width: 100%;
+  overflow: hidden; /* Prevent overflow during zoom */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto; /* Center the container */
+  background-color: var(--card-bg); /* Optional: Matches card background */
+  border-radius: 10px; /* Optional: Rounds the container edges */
 }
 
 .image-container img.magnify {
-  width: auto;
-  max-height: 400px;
+  max-width: 100%;
+  max-height: 100%;
   height: auto;
   display: block;
   object-fit: contain;
+  transition: transform 0.3s ease-in-out; /* Smooth zoom effect */
 }
-
+/* Enhanced zoom effect on hover */
+.image-container img.magnify:hover {
+  cursor: zoom-in;
+}
 .viewer {
   position: absolute;
   top: 0;
@@ -127,6 +138,8 @@ body.light-mode .alert-warning {
   border: 2px solid #ddd;
   display: none;
   background: #fff;
+  /* display: block !important; Ensure the zoomed image is visible on hover */
+  /* transition: opacity 0.3s ease-in-out; Smooth fade-in for zoomed image */
 }
 
 .viewer img {
@@ -142,8 +155,111 @@ body.light-mode .alert-warning {
   width: 150px;
   height: 150px;
   border: 2px solid #00b050;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.3); /* Darker overlay for better focus */
   pointer-events: none;
   display: none;
   transform: translate(-50%, -50%);
+}
+
+.d-flex {
+  display: flex;
+  align-items: center; /* Vertically center input and button */
+  gap: 10px; /* Space between the input and button */
+}
+
+#bid-amount {
+  flex: 1; /* Makes the input box responsive */
+}
+/* Primary Button (Inspired by Button 82) */
+.btn-primary_details {
+  background: linear-gradient(90deg, #4834d4, #5a4bc2); /* Gradient Purple */
+  color: #ffffff !important; /* White Text */
+  border: none !important;
+  border-radius: 12px; /* Medium Rounded */
+  padding: 12px 28px; /* Balanced Size */
+  font-size: 1rem;
+  font-weight: 600; /* Bolder Text */
+  text-transform: uppercase; /* Capitalized Text */
+  letter-spacing: 1.2px; /* Slightly Larger Spacing */
+  transition: all 0.4s ease !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft Shadow */
+}
+.btn-primary_details:hover {
+  background: linear-gradient(90deg, #352b94, #4834d4); /* Darker Purple Gradient on Hover */
+  transform: translateY(-3px); /* Lift Effect */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Enhanced Shadow */
+}
+
+/* Success Button (Inspired by Button 74) */
+.btn-success_bid {
+  background: linear-gradient(90deg, #00cec9, #009e96); /* Gradient Teal */
+  color: #ffffff !important; /* White Text */
+  border: none !important;
+  border-radius: 12px; /* Medium Rounded */
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  transition: all 0.4s ease !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft Shadow */
+}
+.btn-success_bid:hover {
+  background: linear-gradient(90deg, #009e96, #007d77); /* Darker Gradient on Hover */
+  transform: translateY(-3px); /* Lift Effect */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Enhanced Shadow */
+}
+
+/* Warning Button (Inspired by Button 74) */
+.btn-warning_buy {
+  background: linear-gradient(90deg, #fdcb6e, #e5b25e); /* Gradient Yellow */
+  color: #ffffff !important; /* White Text */
+  border: none !important;
+  border-radius: 12px; /* Medium Rounded */
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  transition: all 0.4s ease !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft Shadow */
+}
+.btn-warning_buy:hover {
+  background: linear-gradient(90deg, #e5b25e, #d6a205); /* Darker Gradient on Hover */
+  transform: translateY(-3px); /* Lift Effect */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Enhanced Shadow */
+}
+
+/* Dark Mode Adjustments */
+body.dark-mode .btn-primary_details {
+  background: linear-gradient(90deg, #4834d4, #352b94); /* Deeper Gradient */
+}
+body.dark-mode .btn-success_bid {
+  background: linear-gradient(90deg, #098b89, #077370); /* Muted Teal Gradient */
+}
+body.dark-mode .btn-warning_buy {
+  background: linear-gradient(90deg, #cfa441, #b38730); /* Muted Golden Gradient */
+}
+
+/* Dark Mode Hover States */
+body.dark-mode .btn-primary_details:hover {
+  background: linear-gradient(90deg, #2a1c70, #352b94); /* Muted Darker Gradient */
+}
+body.dark-mode .btn-success_bid:hover {
+  background: linear-gradient(90deg, #076563, #077370); /* Muted Darker Teal */
+}
+body.dark-mode .btn-warning_buy:hover {
+  background: linear-gradient(90deg, #b38730, #a57520); /* Muted Golden Gradient */
+}
+
+/* General Button Consistency */
+.btn-primary_details,
+.btn-success_bid,
+.btn-warning_buy {
+  font-size: 1rem; /* Unified Text Size */
+  font-weight: 600; /* Consistent Boldness */
+  letter-spacing: 1.2px; /* Uniform Letter Spacing */
+  padding: 12px 28px; /* Unified Padding */
+  border-radius: 12px; /* Rounded Edges */
+  transition: all 0.4s ease-in-out; /* Smooth Animation */
 }

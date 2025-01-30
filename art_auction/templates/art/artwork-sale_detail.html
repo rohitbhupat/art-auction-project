@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}{{ object.product_name }} Sale Details - ARTIV{% endblock %}
 {% block css_file %}
-<link rel="stylesheet" href="{% static 'home/css/artwork-sale_detail.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'home/css/artwork-detail.css' %}" type="text/css">
 <script>
     (function() {
         const theme = localStorage.getItem('theme') || 'auto';
@@ -38,7 +38,17 @@
         <div class="card-body poppins-regular-pro_details">
             <div class="row">
                 <div class="col-8">
-                    <img src="{{ object.product_image.url }}" alt="img" width="100%" />
+                    <div class="image-container">
+                        <div class="zoom">
+                            <div class="original">
+                                <img src="{{ object.product_image.url }}" alt="img" id="target" class="magnify"/>
+                            </div>
+                            <div class="viewer">
+                                <img src="{{ object.product_image.url }}" alt="Zoomed Image">
+                            </div>
+                            <div class="magnifier"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-4">
                     <h5>{{ object.product_name }}</h5>
@@ -87,8 +97,8 @@
                         {% endif %}
                     </div>                    
                     <div class="d-grid gap-2">
-                        <a class="btn btn-warning" href="{% url 'art:sale_order' pk=object.pk %}">Buy Now</a>
-                        <a class="btn btn-primary" href="{% url 'art:view_3d' id=object.id %}">View in AR</a>
+                        <a href="{% url 'art:place_order' pk=object.id %}" type="button" class="btn btn-warning_buy buy_now mt-2">Buy Now</a>
+                        <a class="btn btn-primary_details" type="button" href="{% url 'art:view_3d' id=object.id %}">View in AR</a>
                     </div>
                 </div>
             </div>
@@ -127,4 +137,37 @@
     </div>
 </div>
 <script src="{% static 'js/theme.js' %}"></script>
+<script src="{% static 'js/zoom.js' %}"></script>
+<script>
+    document.querySelector('.image-container').addEventListener('mousemove', function (e) {
+        const container = this;
+        const viewer = container.querySelector('.viewer');
+        const magnifier = container.querySelector('.magnifier');
+        const img = viewer.querySelector('img');
+        const bounds = container.getBoundingClientRect();
+    
+        const x = e.clientX - bounds.left;
+        const y = e.clientY - bounds.top;
+    
+        const zoomWidth = bounds.width;
+        const zoomHeight = bounds.height;
+    
+        magnifier.style.left = `${x}px`;
+        magnifier.style.top = `${y}px`;
+    
+      const offsetX = (x / zoomWidth) * 100;
+      const offsetY = (y / zoomHeight) * 100;
+    
+        img.style.transform = `translate(-${offsetX}%, -${offsetY}%) scale(2)`;
+    });
+    
+    document.querySelector('.image-container').addEventListener('mouseleave', function () {
+        const viewer = this.querySelector('.viewer');
+        const magnifier = this.querySelector('.magnifier');
+        const img = viewer.querySelector('img');
+    
+        magnifier.style.display = 'none';
+        img.style.transform = 'scale(1)';
+    });
+</script>
 {% endblock %}
