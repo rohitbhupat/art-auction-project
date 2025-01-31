@@ -33,8 +33,8 @@
       });
       
     </script>    
-    <style>
-      {% comment %} body {
+  {% comment %} <style>
+      body {
         background-image: url("{% static "images/background/white.jpeg" %}");
         background-size: cover;
         background-repeat: no-repeat;
@@ -43,8 +43,8 @@
       body.dark-mode {
         background-image: url("{% static "images/background/dark.jpeg" %}");
         /* Additional styles for dark mode */
-      } {% endcomment %}
-    </style>
+      }
+    </style> {% endcomment %}
   </head>
   <body>
     <!-- Assuming this is the product page and it contains the product ID -->
@@ -62,7 +62,7 @@
           data-target="#logoModal"
         >
           <img
-            src="{% static 'images/assets/ARTIV_LOGO.jpg' %}"
+            src="{% static 'images/assets/ARTIV LOGO.png' %}"
             alt=""
             width="30"
             height="24"
@@ -211,18 +211,14 @@
             </div>
 
             {% else %}
-            <a
-              href="{% url 'art:login' %}"
-              type="button"
-              class="btn btn-success me-2"
-              >Login</a
-            >
-            <a
-              href="{% url 'art:register_user' %}"
-              type="button"
-              class="btn btn-primary btn-primary_register"
-              >Register</a
-            >
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a href="{% url 'art:login' %}" class="nav-link btn-success_login">Login</a>
+            </li>
+              <li class="nav-item">
+              <a href="{% url 'art:register_user' %}" class="nav-link btn-primary_register">Register</a>
+            </li>
+          </ul>
             {% endif %}
             <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
               <li class="nav-item-mode dropdown-mode">
@@ -275,7 +271,7 @@
       <div id="notification-container">
           <!-- Notifications will be dynamically added here -->
       </div>
-      <button id="clear-all-btn" style="display: none;">Clear All</button>
+      <button id="clear-all-btn" class="btn-warning_buy" style="display: none;">Clear All</button>
     </div>
   
 
@@ -298,7 +294,7 @@
           </div>
           <div class="modal-body">
             <img
-              src="{% static 'images/assets/ARTIV_LOGO.jpg' %}"
+              src="{% static 'images/assets/ARTIV LOGO.png' %}"
               class="img-fluid"
               alt="logo"
             />

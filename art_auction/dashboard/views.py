@@ -32,40 +32,32 @@ class ArtworkCreateView(LoginRequiredMixin, CreateView):
 
     def get_form(self):
         form = super().get_form()
-        sale_type = self.request.POST.get('sale_type', 'auction')  # Default to 'auction'
+        sale_type = self.request.GET.get('filter', 'discount')  # Default to 'discount'
         
-        # Set the initial value for sale_type in the form
-        form.initial['sale_type'] = sale_type
+        form.initial['sale_type'] = sale_type  # Ensure the form initializes correctly
 
-        # Modify the widget for the end_date field dynamically
         if sale_type == 'auction':
             form.fields['end_date'].required = True
+            form.fields['opening_bid'].required = True
         else:
             form.fields['end_date'].required = False
+            form.fields['opening_bid'].required = False
 
         return form
 
     def form_valid(self, form):
-        sale_type = form.cleaned_data.get('sale_type', 'auction')  # Default to 'auction'
-
-        # Handle different sale types
+        sale_type = self.request.GET.get('filter', 'discount')
+        form.instance.sale_type = sale_type  # Assign correct sale type
+    
         if sale_type == 'discount':
             form.instance.opening_bid = None
             form.instance.end_date = None
-            form.instance.discounted_price = form.cleaned_data['product_price'] * 0.7  # Discounted price
+            if not form.instance.discounted_price:
+                form.instance.discounted_price = form.cleaned_data.get('product_price', 0) * 0.7  # Apply 30% discount
+    
+        form.instance.user = self.request.user  # Assign seller
 
-        elif sale_type == 'auction':
-            if not form.cleaned_data.get('opening_bid'):
-                form.add_error('opening_bid', 'Opening bid is required for auctions.')
-                return self.form_invalid(form)
-            if not form.cleaned_data.get('end_date'):
-                form.add_error('end_date', 'End date is required for auctions.')
-                return self.form_invalid(form)
-
-        # Set the user who is adding the artwork
-        form.instance.user = self.request.user
-
-        # Image duplicate detection logic
+        # Image duplicate check
         if self.request.FILES.get('product_image'):
             uploaded_image = self.request.FILES['product_image']
             uploaded_image_hash = imagehash.phash(Image.open(uploaded_image))
@@ -75,7 +67,6 @@ class ArtworkCreateView(LoginRequiredMixin, CreateView):
                     form.add_error('product_image', 'Duplicate image detected.')
                     return self.form_invalid(form)
 
-        # Return the form if everything is valid
         return super().form_valid(form)
 
 

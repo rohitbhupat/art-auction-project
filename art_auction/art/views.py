@@ -404,8 +404,7 @@ class ArtworkDetailView(LoginRequiredMixin, DetailView):
 class OrderCreateView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         product_object = Artwork.objects.get(pk=self.kwargs.get("pk"))
-        product_object.product_qty = 0
-        product_object.save()
+        # Remove product_qty = 0 line here
         last_bid = Bid.objects.filter(product=self.kwargs.get("pk")).last()
         return render(
             request=request,
@@ -426,6 +425,7 @@ class OrderCreateView(LoginRequiredMixin, View):
             user=self.request.user,
         )
 
+        # Process payment
         client = razorpay.Client(
             auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
         )
@@ -436,13 +436,13 @@ class OrderCreateView(LoginRequiredMixin, View):
                 "payment_capture": "1",
             }
         )
-        order = Payment.objects.create(
+        Payment.objects.create(
             order=order,
             status=PaymentStatus.SUCCESS,
             provider_order_id=razorpay_order["id"],
         )
 
-        # Ensure product quantity is set to zero to mark as sold
+        # After payment is successful, mark product as sold
         product.product_qty = 0
         product.save()
 

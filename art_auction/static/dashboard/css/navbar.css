@@ -1,11 +1,43 @@
+/* Light Mode Scrollbar */
 body {
   background-color: #f4ede4; /* Soft white gray */
   color: #2B2D42; /* Deep charcoal gray */
 }
+
+body::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: #f4ede4; /* Light background for the track */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #f4ede4; /* Deep charcoal gray for the thumb */
+  border-radius: 10px; /* Rounded edges */
+  border: 3px solid #b1a3a3; /* Border around the thumb */
+}
+
+/* Dark Mode Scrollbar */
 body.dark-mode {
   background-color: #161A1D; /* Deep charcoal black */
   color: #E8E8E8; /* Soft white */
 }
+
+body.dark-mode::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+body.dark-mode::-webkit-scrollbar-track {
+  background: #161A1D; /* Dark background for the track */
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+  background-color: #161A1D; /* Soft white for the thumb */
+  border-radius: 10px; /* Rounded edges */
+  border: 3px solid #2B2D42 ; /* Border around the thumb */
+}
+
 html:not(.loaded) {
   visibility: hidden;
   opacity: 0;
@@ -197,37 +229,43 @@ body.dark-mode .dropdown-item {
 }
 
 /* Buttons Styling */
-.btn-success {
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  border-radius: 20px; /* Rounded corners */
-  padding: 8px 20px;
+.btn-success_login {
+  background-color: none !important ;
+  color: #6a6a6a;
+  /* border: none; */
+  /* border-radius: 20px; Rounded corners */
+  /* padding: 8px 20px; */
+  text-decoration: none;
   font-size: 1rem;
   transition: all 0.3s ease-in-out;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); Subtle shadow */
 }
 
-.btn-success:hover {
-  background-color: #218838; /* Darker green on hover */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+.btn-success_login:hover {
+  /* background-color: #218838; Darker green on hover */
+  text-decoration: underline !important;
+  color: #fff;
+  /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); Enhanced shadow on hover */
   transform: scale(1.05); /* Slight scale-up effect */
 }
 
 .btn-primary_register {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 20px; /* Rounded corners */
-  padding: 8px 20px;
+  background-color: none !important;
+  color: #cecece;
+  /* border: none;
+  border-radius: 20px; Rounded corners
+  padding: 8px 20px; */
+  text-decoration: none;
   font-size: 1rem;
   transition: all 0.3s ease-in-out;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); Subtle shadow */
 }
 
 .btn-primary_register:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  /* background-color: #0056b3; Darker blue on hover */
+  text-decoration: underline !important;
+  color: #fff;
+  /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); Enhanced shadow on hover */
   transform: scale(1.05); /* Slight scale-up effect */
 }
 
@@ -289,16 +327,17 @@ body.dark-mode .dropdown-item {
 /* notification sidebar */
 
 .notification-item {
+  background-color: #f5ebdd !important;
   padding: 10px;
   border-bottom: 1px solid #ddd;
   cursor: pointer;
 }
 
 .notification-item:hover {
-  background-color: #f1f1f1;
+  background-color: #f4debf !important;
 }
 body.light-mode .notification-item {
-  border-bottom-color: #ddd;
+  border-bottom-color: #9a9a9a;
 }
 
 body.light-mode .notification-item:hover {
@@ -306,11 +345,12 @@ body.light-mode .notification-item:hover {
 }
 
 body.dark-mode .notification-item {
-  border-bottom-color: #444;
+  background-color: #383944 !important;
+  border-bottom-color: #555555 !important;
 }
 
 body.dark-mode .notification-item:hover {
-  background-color: #3e3e3e;
+  background-color: #555555 !important;
 }
 
 .notification-icon {
@@ -369,13 +409,13 @@ body.dark-mode .notification-item:hover {
 
 /* Light Mode Styles */
 body.light-mode #notification-sidebar {
-  background-color: #eaddcc;
+  background-color: #f5ebdd;
   color: #000;
 }
 
 body.light-mode #notification-sidebar .header {
   background-color: #eaddcc;
-  border-bottom-color: #ddd;
+  border-bottom-color: #000000;
 }
 
 /* Dark Mode Styles */

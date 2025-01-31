@@ -5,33 +5,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />
     <script>
-        (function () {
-            const theme = localStorage.getItem("theme") || "auto";
-            const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
-            const isDarkMode = theme === "dark" || (theme === "auto" && prefersDarkScheme);
-
-            if (isDarkMode) {
-                document.body.classList.add("dark-mode");
-            } else {
-                document.body.classList.add("light-mode");
-            }
-        })();
+      (function () {
+        const theme = localStorage.getItem("theme") || "auto";
+        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const isDarkMode = theme === "dark" || (theme === "auto" && prefersDarkScheme);
+      
+        if (isDarkMode) {
+          document.documentElement.classList.add("dark-mode");
+        } else {
+          document.documentElement.classList.add("light-mode");
+        }
+      })();      
+      document.addEventListener("DOMContentLoaded", function() {
+        document.documentElement.classList.add("loaded");
+      });
+      
     </script>
     <style>
-        body.light-mode {
-            background-image: url('{% static 'images/background/white.jpeg' %}');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            color: #000;
-        }
-        body.dark-mode {
-            background-image: url('{% static 'images/background/dark.jpeg' %}');
-            background-attachment: fixed;
-            background-size: cover;
-            background-repeat: no-repeat;
-            color: #fff;
-        }
+
     </style>
 {% endblock %}
 {% load auth_extras %}
@@ -40,7 +31,7 @@
         <div class="container-fluid">
             <!-- Logo -->
             <a class="navbar-brand" href="#" data-bs-toggle="modal" data-bs-target="#logoModal">
-                <img src="{% static 'images/assets/ARTIV_LOGO.jpg' %}" width="30" height="24" alt="ARTIV">
+                <img src="{% static 'images/assets/ARTIV LOGO.png' %}" width="30" height="24" alt="ARTIV">
                 ARTIV
             </a>
             
@@ -115,13 +106,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="logoModalLabel">ARTIV</h5>
-                    <button type="button" class="btn-close btn-outline-success" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <img src="{% static 'images/assets/ARTIV_LOGO.jpg' %}" class="img-fluid" alt="logo">
+                    <img src="{% static 'images/assets/ARTIV LOGO.png' %}" class="img-fluid" alt="logo">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary_details" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

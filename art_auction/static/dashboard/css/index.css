@@ -143,7 +143,7 @@ body.dark-mode .app-card {
     color: var(--text-dark) !important;
 }
 .carousel-inner {
-    height: 55rem; /* Set the height of the carousel container */
+    height: 47.5rem; /* Set the height of the carousel container */
     background-repeat: no-repeat; /* Prevent repeating the image */
     background-size: cover; /* Ensures the image covers the entire container */
     background-position: center; /* Centers the image */

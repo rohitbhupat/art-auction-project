@@ -9,6 +9,7 @@
 body {
   color: var(--text-color);
 }
+
 /* Light mode styles */
 body.light-mode {
   --card-bg: var(--card-bg-light);
@@ -20,6 +21,7 @@ body.dark-mode {
   --card-bg: var(--card-bg-dark);
   --text-color: var(--text-dark);
 }
+
 .card {
   position: relative;
   display: flex;
@@ -32,18 +34,25 @@ body.dark-mode {
   border-radius: .25rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .card * {
-  color: inherit !important; /* Ensures all child elements inherit the text color */
+  color: inherit !important;
+  /* Ensures all child elements inherit the text color */
 }
+
 .form-control {
-  border: 1px solid var(--text-color) !important; /* Adjust border color dynamically */
-  background-color: var(--card-bg) !important; /* Matches the card background */
-  color: var(--text-color) !important; /* Matches the text color */
+  border: 1px solid var(--text-color) !important;
+  /* Adjust border color dynamically */
+  background-color: var(--card-bg) !important;
+  /* Matches the card background */
+  color: var(--text-color) !important;
+  /* Matches the text color */
 }
 
 .form-control::placeholder {
   color: var(--text-color);
-  opacity: 0.7; /* Placeholder slightly dimmer */
+  opacity: 0.7;
+  /* Placeholder slightly dimmer */
 }
 
 .button-container {
@@ -53,10 +62,12 @@ body.dark-mode {
   left: 2rem;
   /* Adjust the value to move horizontally */
 }
+
 #bid-message {
   display: block;
   margin-top: 10px;
 }
+
 /* Hide number input arrows in most browsers */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
@@ -68,25 +79,33 @@ input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
+
 .alert-danger {
   background-color: #f8d7da;
   border-color: #f5c6cb;
   color: #721c24;
 }
+
 /* Dark mode alert styles */
 body.dark-mode .alert-success {
-  background-color: #48bb78 !important; /* Use a darker green for success messages */
-  color: black !important; /* Override the text color to black */
+  background-color: #48bb78 !important;
+  /* Use a darker green for success messages */
+  color: black !important;
+  /* Override the text color to black */
 }
 
 body.dark-mode .alert-danger {
-  background-color: #ff9090 !important; /* Darker red for error messages */
-  color: black !important; /* Override the text color to black */
+  background-color: #ff9090 !important;
+  /* Darker red for error messages */
+  color: black !important;
+  /* Override the text color to black */
 }
 
 body.dark-mode .alert-warning {
-  background-color: #fbbf24 !important; /* Darker yellow for warnings */
-  color: black !important; /* Override the text color to black */
+  background-color: #fbbf24 !important;
+  /* Darker yellow for warnings */
+  color: black !important;
+  /* Override the text color to black */
 }
 
 /* Ensure the default alert color for light mode is not changed */
@@ -104,16 +123,21 @@ body.light-mode .alert-warning {
   background-color: #fff3cd;
   color: #856404;
 }
+
 .image-container {
   position: relative;
   width: 100%;
-  overflow: hidden; /* Prevent overflow during zoom */
+  overflow: hidden;
+  /* Prevent overflow during zoom */
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: auto; /* Center the container */
-  background-color: var(--card-bg); /* Optional: Matches card background */
-  border-radius: 10px; /* Optional: Rounds the container edges */
+  margin: auto;
+  /* Center the container */
+  background-color: var(--card-bg);
+  /* Optional: Matches card background */
+  border-radius: 10px;
+  /* Optional: Rounds the container edges */
 }
 
 .image-container img.magnify {
@@ -122,16 +146,20 @@ body.light-mode .alert-warning {
   height: auto;
   display: block;
   object-fit: contain;
-  transition: transform 0.3s ease-in-out; /* Smooth zoom effect */
+  transition: transform 0.3s ease-in-out;
+  /* Smooth zoom effect */
 }
+
 /* Enhanced zoom effect on hover */
 .image-container img.magnify:hover {
   cursor: zoom-in;
 }
+
 .viewer {
   position: absolute;
   top: 0;
-  left: 50%; /* Ensure it appears to the right of the main image */
+  left: 50%;
+  /* Ensure it appears to the right of the main image */
   width: 400px;
   height: 400px;
   overflow: hidden;
@@ -147,7 +175,8 @@ body.light-mode .alert-warning {
   height: auto;
   object-fit: cover;
   transform: translate(0, 0);
-  transition: transform 0.1s ease-out; /* Smooth movement */
+  transition: transform 0.1s ease-out;
+  /* Smooth movement */
 }
 
 .magnifier {
@@ -155,7 +184,8 @@ body.light-mode .alert-warning {
   width: 150px;
   height: 150px;
   border: 2px solid #00b050;
-  background: rgba(0, 0, 0, 0.3); /* Darker overlay for better focus */
+  background: rgba(0, 0, 0, 0.3);
+  /* Darker overlay for better focus */
   pointer-events: none;
   display: none;
   transform: translate(-50%, -50%);
@@ -163,103 +193,108 @@ body.light-mode .alert-warning {
 
 .d-flex {
   display: flex;
-  align-items: center; /* Vertically center input and button */
-  gap: 10px; /* Space between the input and button */
+  align-items: center;
+  /* Vertically center input and button */
+  gap: 10px;
+  /* Space between the input and button */
 }
 
 #bid-amount {
-  flex: 1; /* Makes the input box responsive */
+  flex: 1;
+  /* Makes the input box responsive */
 }
-/* Primary Button (Inspired by Button 82) */
+
+/* Flat Minimal Button Styles (Palette 2 Aesthetic) */
 .btn-primary_details {
-  background: linear-gradient(90deg, #4834d4, #5a4bc2); /* Gradient Purple */
-  color: #ffffff !important; /* White Text */
+  background: #d5bdaf !important;
+  /* Soft Muted Beige */
+  color: #5a4b42 !important;
+  /* Dark Text for Readability */
   border: none !important;
-  border-radius: 12px; /* Medium Rounded */
-  padding: 12px 28px; /* Balanced Size */
+  border-radius: 8px;
+  /* Slightly Rounded */
+  padding: 12px 28px;
   font-size: 1rem;
-  font-weight: 600; /* Bolder Text */
-  text-transform: uppercase; /* Capitalized Text */
-  letter-spacing: 1.2px; /* Slightly Larger Spacing */
-  transition: all 0.4s ease !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft Shadow */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  /* Soft Shadow */
 }
+
 .btn-primary_details:hover {
-  background: linear-gradient(90deg, #352b94, #4834d4); /* Darker Purple Gradient on Hover */
-  transform: translateY(-3px); /* Lift Effect */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Enhanced Shadow */
+  background: #e0b899 !important;
+  /* Slightly Darker Shade */
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.15);
+  /* Enhanced Shadow */
 }
 
-/* Success Button (Inspired by Button 74) */
 .btn-success_bid {
-  background: linear-gradient(90deg, #00cec9, #009e96); /* Gradient Teal */
-  color: #ffffff !important; /* White Text */
+  background: #fcddc8 !important;
+  /* Soft Warm Beige */
+  color: #5a4b42 !important;
   border: none !important;
-  border-radius: 12px; /* Medium Rounded */
+  border-radius: 8px;
   padding: 12px 28px;
   font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  transition: all 0.4s ease !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft Shadow */
-}
-.btn-success_bid:hover {
-  background: linear-gradient(90deg, #009e96, #007d77); /* Darker Gradient on Hover */
-  transform: translateY(-3px); /* Lift Effect */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Enhanced Shadow */
+  letter-spacing: 1px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Warning Button (Inspired by Button 74) */
+.btn-success_bid:hover {
+  background: #f2e9e4 !important;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.15);
+}
+
 .btn-warning_buy {
-  background: linear-gradient(90deg, #fdcb6e, #e5b25e); /* Gradient Yellow */
-  color: #ffffff !important; /* White Text */
+  background: #ffdfc6!important;
+  /* Light Cream */
+  color: #5a4b42 !important;
   border: none !important;
-  border-radius: 12px; /* Medium Rounded */
+  border-radius: 8px;
   padding: 12px 28px;
   font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  transition: all 0.4s ease !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft Shadow */
+  letter-spacing: 1px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
 }
+
 .btn-warning_buy:hover {
-  background: linear-gradient(90deg, #e5b25e, #d6a205); /* Darker Gradient on Hover */
-  transform: translateY(-3px); /* Lift Effect */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Enhanced Shadow */
+  background: #f2e9e4 !important;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Dark Mode Adjustments */
 body.dark-mode .btn-primary_details {
-  background: linear-gradient(90deg, #4834d4, #352b94); /* Deeper Gradient */
+  background: #423f45 !important;
+  color: #ffffff !important;
 }
+
 body.dark-mode .btn-success_bid {
-  background: linear-gradient(90deg, #098b89, #077370); /* Muted Teal Gradient */
+  background: #484d52 !important;
+  color: #ffffff !important;
 }
+
 body.dark-mode .btn-warning_buy {
-  background: linear-gradient(90deg, #cfa441, #b38730); /* Muted Golden Gradient */
+  background: #484d52 !important;
+  color: #ffffff !important;
 }
 
-/* Dark Mode Hover States */
+/* Dark Mode Hover Effects */
 body.dark-mode .btn-primary_details:hover {
-  background: linear-gradient(90deg, #2a1c70, #352b94); /* Muted Darker Gradient */
-}
-body.dark-mode .btn-success_bid:hover {
-  background: linear-gradient(90deg, #076563, #077370); /* Muted Darker Teal */
-}
-body.dark-mode .btn-warning_buy:hover {
-  background: linear-gradient(90deg, #b38730, #a57520); /* Muted Golden Gradient */
+  background: #343236 !important;
 }
 
-/* General Button Consistency */
-.btn-primary_details,
-.btn-success_bid,
-.btn-warning_buy {
-  font-size: 1rem; /* Unified Text Size */
-  font-weight: 600; /* Consistent Boldness */
-  letter-spacing: 1.2px; /* Uniform Letter Spacing */
-  padding: 12px 28px; /* Unified Padding */
-  border-radius: 12px; /* Rounded Edges */
-  transition: all 0.4s ease-in-out; /* Smooth Animation */
+body.dark-mode .btn-success_bid:hover {
+  background: #3c3e41 !important;
+}
+
+body.dark-mode .btn-warning_buy:hover {
+  background: #3c3e41 !important;
 }

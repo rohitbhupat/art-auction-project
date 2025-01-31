@@ -12,102 +12,132 @@ from django.utils.timezone import now
 from django.utils.timezone import make_aware
 import pytz
 
+
 class Catalogue(models.Model):
     cat_name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.cat_name
 
+
 class Artwork(models.Model):
     SALE_TYPE_CHOICES = [
         ("discount", "Discount"),
         ("auction", "Auction"),
     ]
+
     sale_type = models.CharField(
-        max_length=50, 
-        choices=SALE_TYPE_CHOICES,
-        default='auction',  # default to auction if nothing is selected
-        blank=False,  # prevent blank entries
-        null=False,  # prevent null entries
-        )  # sale_type only
+        max_length=50, choices=SALE_TYPE_CHOICES, default="auction"
+    )
     product_id = models.CharField(max_length=255, default="")
-    product_name = models.CharField(max_length=255, blank=False)
+    product_name = models.CharField(max_length=255)
     product_price = models.IntegerField(default=0)
     opening_bid = models.IntegerField(default=0, null=True, blank=True)
-    product_cat = models.ForeignKey("Catalogue", on_delete=models.CASCADE, null=True, blank=True)
+    product_cat = models.ForeignKey(
+        "Catalogue", on_delete=models.CASCADE, null=True, blank=True
+    )
     product_qty = models.IntegerField(default=0)
     product_image = models.ImageField(upload_to="arts/")
-    dimension_unit = models.CharField(max_length=2, choices=[("cm", "Centimeters"), ("ft", "Feet")])
-    length_in_centimeters = models.FloatField(default=0.0, blank=True, null=True)
-    width_in_centimeters = models.FloatField(default=0.0, blank=True, null=True)
+    dimension_unit = models.CharField(
+        max_length=2, choices=[("cm", "Centimeters"), ("ft", "Feet")]
+    )
+    length_in_centimeters = models.FloatField(default=0, blank=True, null=True)
+    width_in_centimeters = models.FloatField(default=0, blank=True, null=True)
     foot = models.FloatField(default=0, blank=True, null=True)
     inches = models.FloatField(default=0, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     end_date = models.DateField(null=True, blank=True, db_index=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True
+    )
     is_sold = models.BooleanField(default=False)
     is_purchased = models.BooleanField(default=False)
     status = models.CharField(
         max_length=50,
-        choices=[("active", "Active"), ("closed", "Closed"), ("waiting_for_response", "Waiting for Response"), ("unsold", "Unsold")],
+        choices=[
+            ("active", "Active"),
+            ("closed", "Closed"),
+            ("waiting_for_response", "Waiting for Response"),
+            ("unsold", "Unsold"),
+        ],
         default="active",
     )
     response_deadline = models.DateTimeField(blank=True, null=True, db_index=True)
-    buyer_response = models.CharField(max_length=11, choices=[("yes", "Yes"), ("no", "No"), ("no_response", "No Response")], default="no_response")
-    discounted_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    
+    buyer_response = models.CharField(
+        max_length=11,
+        choices=[("yes", "Yes"), ("no", "No"), ("no_response", "No Response")],
+        default="no_response",
+    )
+    discounted_price = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True
+    )
+
     def get_discounted_price(self):
         """Calculate 30% discounted price."""
         return self.product_price * 0.7
 
+    def clean(self):
+        """Validation for discount and auction artworks."""
+        super().clean()
+
+        if self.sale_type == "discount":
+            self.opening_bid = None
+            self.end_date = None
+            if self.discounted_price is None:
+                self.discounted_price = self.get_discounted_price()
+            elif self.discounted_price >= self.product_price:
+                raise ValidationError(
+                    {
+                        "discounted_price": "Discounted price must be less than the product price."
+                    }
+                )
+
+        elif self.sale_type == "auction":
+            if not self.product_cat:
+                raise ValidationError(
+                    {"product_cat": "Product category is required for bidding."}
+                )
+            if not self.opening_bid:
+                raise ValidationError(
+                    {"opening_bid": "Opening bid is required for bidding."}
+                )
+            if not self.end_date:
+                raise ValidationError({"end_date": "End date is required for bidding."})
+
     def save(self, *args, **kwargs):
-        # Duplicate image detection logic
+        """Ensure correct fields are set before saving, and check for duplicate images."""
+        if self.sale_type == "discount":
+            self.opening_bid = None
+            self.end_date = None
+            if self.discounted_price is None:
+                self.discounted_price = self.get_discounted_price()
+
+        elif self.sale_type == "auction":
+            if not self.opening_bid or not self.end_date:
+                raise ValidationError(
+                    "Opening bid and End date are required for auction."
+                )
+
         if self.product_image:
-            existing_images = Artwork.objects.exclude(
-                id=self.id
-            )  # Exclude self during update
             uploaded_image_hash = imagehash.phash(Image.open(self.product_image))
-        
-        if self.end_date:
-            # Ensure end_date is always set to 12:00 a.m.
-            self.end_date = make_aware(datetime.combine(self.end_date, time.min))
+            existing_images = Artwork.objects.exclude(id=self.id)
+
             for artwork in existing_images:
                 stored_image_hash = imagehash.phash(
                     Image.open(artwork.product_image.path)
                 )
                 if uploaded_image_hash == stored_image_hash:
                     raise ValidationError(
-                        "Duplicate image detected. This artwork is already an NFT and cannot be uploaded again."
+                        "Duplicate image detected. This artwork is already uploaded."
                     )
-        # Fix for 'created_at' - Ensure it's a datetime object
-        if not self.id:  # Only set `created_at` when it's a new object
-            self.created_at = timezone.now()
+
+        if self.end_date:
+            self.end_date = timezone.make_aware(
+                datetime.combine(self.end_date, time.min)
+            )
+
         super().save(*args, **kwargs)
 
-    def clean(self):
-        super(Artwork, self).clean()
-        
-        if self.sale_type == 'discount':
-            # Ignore product_cat, opening_bid, and end_date for discount sale type
-            self.product_cat = None
-            self.opening_bid = None
-            self.end_date = None
-            
-        if self.discounted_price and self.discounted_price >= self.product_price:
-            raise ValidationError({"discounted_price": "Discounted price must be less than the product price."})
-        
-        if self.end_date:
-            # Normalize end_date to 12:00 a.m. IST
-            local_tz = pytz.timezone(settings.TIME_ZONE)  # Use pytz to get the timezone
-            self.end_date = make_aware(datetime.combine(self.end_date, time.min), local_tz)
-        
-        elif self.sale_type == 'auction':
-            if not self.product_cat:
-                raise ValidationError({"product_cat": "Product category is required for bidding."})
-            if not self.opening_bid:
-                raise ValidationError({"opening_bid": "Opening bid is required for bidding."})
-            if not self.end_date:
-                raise ValidationError({"end_date": "End date is required for bidding."})
     def __str__(self):
         return self.product_name
 
@@ -122,6 +152,7 @@ class Artwork(models.Model):
         self.is_sold = True
         self.save()
 
+
 class OrderModel(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey(Artwork, on_delete=models.CASCADE)
@@ -133,6 +164,7 @@ class OrderModel(models.Model):
     def __str__(self):
         return f"order of {self.product} by {self.user}"
 
+
 class Bid(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name="bids")
@@ -141,6 +173,7 @@ class Bid(models.Model):
 
     def __str__(self):
         return f"bid of {self.product} on {self.bid_date}"
+
 
 class Payment(models.Model):
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE)
@@ -162,7 +195,8 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Payment {self.provider_order_id}"
-    
+
+
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(
@@ -172,7 +206,8 @@ class Notification(models.Model):
     read = models.BooleanField(default=False)
     read_at = models.DateTimeField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    
+
+
 class Query(models.Model):
     full_name = models.CharField(max_length=100)
     email = models.EmailField()
@@ -183,7 +218,10 @@ class Query(models.Model):
     def __str__(self):
         return f"{self.full_name} - {self.category}"
 
+
 from django.db import models
+
+
 class Feedback(models.Model):
     RATING_CHOICES = [
         ("Poor", "Poor"),
@@ -193,7 +231,9 @@ class Feedback(models.Model):
         ("Excellent", "Excellent"),
     ]
 
-    rating = models.CharField(max_length=10, choices=RATING_CHOICES, null=True, blank=True)
+    rating = models.CharField(
+        max_length=10, choices=RATING_CHOICES, null=True, blank=True
+    )
     feedback_text = models.TextField(blank=True, null=True)
     sentiment = models.CharField(
         max_length=10,
@@ -222,11 +262,13 @@ class Feedback(models.Model):
         else:
             return "No Feedback"
 
+
 class UserActivity(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)
     interaction_type = models.CharField(max_length=50)  # e.g., 'view', 'like', 'bid'
     timestamp = models.DateTimeField(auto_now_add=True)
+
 
 class Shipping(models.Model):
     STATUS_CHOICES = [
@@ -237,8 +279,12 @@ class Shipping(models.Model):
         ("cancelled", "Cancelled"),
     ]
 
-    order = models.OneToOneField(OrderModel, on_delete=models.CASCADE, related_name="shipping")
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="processing")
+    order = models.OneToOneField(
+        OrderModel, on_delete=models.CASCADE, related_name="shipping"
+    )
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default="processing"
+    )
     tracking_number = models.CharField(max_length=100, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -84,10 +84,10 @@
                     <p class="text-primary">Price: ₹{{ product.product_price }}</p>
                     {% endif %}
                     <div class="btn-group d-flex mx-auto mb-2 mt-2" role="group" aria-label="Basic outlined example">
-                        <a href="{% url 'art:artwork_sale_detail' pk=product.pk %}" type="button" class="btn btn-warning btn-sm">Details</a>
+                        <a href="{% url 'art:artwork_sale_detail' pk=product.pk %}" type="button" class="btn btn-warning_buy btn-sm">Details</a>
                     </div>
                     <div class="d-grid gap-2">
-                        <a class="btn btn-primary btn-sm" type="button" href="{% url 'art:view_3d' id=product.id %}">View in AR</a>
+                        <a class="btn btn-primary_details btn-sm" type="button" href="{% url 'art:view_3d' id=product.id %}">View in AR</a>
                     </div>
                 </div>
             </div>

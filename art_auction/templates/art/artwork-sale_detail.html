@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}{{ object.product_name }} Sale Details - ARTIV{% endblock %}
 {% block css_file %}
-<link rel="stylesheet" href="{% static 'home/css/artwork-detail.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'home/css/artwork-sale_detail.css' %}" type="text/css">
 <script>
     (function() {
         const theme = localStorage.getItem('theme') || 'auto';
@@ -99,6 +99,7 @@
                     <div class="d-grid gap-2">
                         <a href="{% url 'art:place_order' pk=object.id %}" type="button" class="btn btn-warning_buy buy_now mt-2">Buy Now</a>
                         <a class="btn btn-primary_details" type="button" href="{% url 'art:view_3d' id=object.id %}">View in AR</a>
+                        {% comment %} <a class="btn btn-success_bid" type="button" href="{% url 'art:view_3d' id=object.id %}">Bid Now</a> {% endcomment %}
                     </div>
                 </div>
             </div>
@@ -121,10 +122,10 @@
                             <h4 class="app-doc-title truncate mb-0">{{ product.product_name }}</h4>
                             <div class="app-doc-meta">
                                 <div class="btn-group d-flex mx-auto mb-2 mt-2" role="group">
-                                    <a href="{% url 'art:artwork_sale_detail' pk=product.pk %}" class="btn btn-warning btn-sm">Details</a>
+                                    <a href="{% url 'art:artwork_sale_detail' pk=product.pk %}" class="btn btn-warning_buy btn-sm">Details</a>
                                 </div>
                                 <div class="d-grid gap-2">
-                                    <a class="btn btn-primary btn-sm" href="{% url 'art:view_3d' id=product.id %}">View in AR</a>
+                                    <a class="btn btn-primary_details btn-sm" href="{% url 'art:view_3d' id=product.id %}">View in AR</a>
                                 </div>
                             </div>
                         </div>

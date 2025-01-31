@@ -3,6 +3,7 @@
 {% block title %}Contact Us - ARTIV{% endblock %}
 {% block css_file %}
 <link rel="stylesheet" href="{% static 'home/css/contact.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'home/css/artwork_detail.css' %}" type="text/css">
 <script>
     (function() {
     const theme = localStorage.getItem('theme') || 'auto';
@@ -101,7 +102,7 @@
                         <label for="query" class="form-label">Query</label>
                         <textarea class="form-control" autocomplete="off" placeholder="Enter your query" id="query" name="query" rows="3" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary_details">Submit</button>
                 </form>
             </div>
         </div>

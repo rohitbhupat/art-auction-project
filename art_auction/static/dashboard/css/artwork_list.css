@@ -1,3 +1,28 @@
+body {
+    background-color: #f4ede4;
+    /* Soft white gray */
+    color: #2B2D42;
+    /* Deep charcoal gray */
+}
+
+body.dark-mode {
+    background-color: #161A1D;
+    /* Deep charcoal black */
+    color: #E8E8E8;
+    /* Soft white */
+}
+
+html:not(.loaded) {
+    visibility: hidden;
+    opacity: 0;
+}
+
+html.loaded {
+    visibility: visible;
+    opacity: 1;
+    transition: none;
+}
+
 .app-card {
     transition: background-color 0.3s, color 0.3s;
     /* Smooth transition for theme change */
@@ -6,10 +31,12 @@
     color: #000000;
     /* Default light mode text color */
 }
-.artwork-card_list{
+
+.artwork-card_list {
     flex: 0 0 auto !important;
     width: 25% !important;
 }
+
 /* Light Mode Hover */
 body.light-mode .artwork-card_list:hover {
     transform: scale(1.05);
@@ -58,7 +85,8 @@ body.dark-mode .app-card-doc .app-doc-meta {
 .app-card-doc .app-doc-title {
     color: #000000 !important;
 }
-body.dark-mode .app-card-doc .app-doc-title{
+
+body.dark-mode .app-card-doc .app-doc-title {
     color: #ffffff !important;
 }
 

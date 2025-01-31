@@ -6,6 +6,22 @@
 <link rel="stylesheet" href="{% static 'dashboard/css/ordermodel_list.css' %}">
 <link rel="stylesheet" href="{% static 'dashboard/css/index.css' %}">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script>
+    (function () {
+        const theme = localStorage.getItem("theme") || "auto";
+        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const isDarkMode = theme === "dark" || (theme === "auto" && prefersDarkScheme);
+    
+    if (isDarkMode) {
+        document.documentElement.classList.add("dark-mode");
+    } else {
+        document.documentElement.classList.add("light-mode");
+    }
+    })();      
+    document.addEventListener("DOMContentLoaded", function() {
+        document.documentElement.classList.add("loaded");
+    });
+</script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
     body {
@@ -70,10 +86,10 @@
                             </h4>                            
                             <div class="app-doc-meta">
                                 <div class="btn-group d-flex mx-auto mb-2 mt-2" role="group" aria-label="Basic outlined example">
-                                    <a href="{% url 'dashboard:product_update' pk=product.pk %}" type="button" class="btn btn-success btn-sm">Update</a>
+                                    <a href="{% url 'dashboard:product_update' pk=product.pk %}" type="button" class="btn btn-success_bid btn-sm">Update</a>
                                 </div>
                                 <div class="btn-group d-flex mx-auto mb-2 mt-2" role="group" aria-label="Basic outlined example">
-                                <a href="{% url 'dashboard:product_delete' pk=product.pk %}" type="button" class="btn btn-danger btn-sm">Delete</a>
+                                <a href="{% url 'dashboard:product_delete' pk=product.pk %}" type="button" class="btn btn-primary_details btn-sm">Delete</a>
                                 </div>
                             </div>
                         </div>
@@ -154,7 +170,7 @@
                                 </table>
                             </div>                            
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary_details" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>

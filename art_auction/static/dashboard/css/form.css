@@ -23,7 +23,7 @@
 body.dark-mode .fieldWrapper input,
 body.dark-mode .fieldWrapper select,
 body.dark-mode .fieldWrapper textarea {
-    background-color: #343a40; /* Dark background */
+    background-color: #2c2c2c !important; /* Dark background */
     color: white;               /* Light text */
     border: 1px solid #555;     /* Darker border */
 }
@@ -36,7 +36,7 @@ body.dark-mode .fieldWrapper label {
 body.light-mode .fieldWrapper input,
 body.light-mode .fieldWrapper select,
 body.light-mode .fieldWrapper textarea {
-    background-color: #f8f9fa; /* Light background */
+    background-color: #f5ebdd !important; /* Light background */
     color: black;               /* Dark text */
     border: 1px solid #ccc;     /* Light border */
 }
