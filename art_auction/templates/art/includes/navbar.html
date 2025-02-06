@@ -91,7 +91,7 @@
                 >Home</a
               >
             </li>
-            <li class="nav-item dropdown">
+            {% comment %} <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
@@ -100,7 +100,7 @@
                 data-toggle="dropdown"
                 aria-expanded="false"
               >
-                Catalogues (cat)
+                Categories
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 {% for cat in catalogue_list %}
@@ -113,7 +113,7 @@
                 </li>
                 {% endfor %}
               </ul>
-            </li>
+            </li> {% endcomment %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'art:unsold_items' %}"
                 >Unsold items</a
@@ -121,7 +121,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'art:artwork_sale' %}"
-                >Artworks for sale</a
+                >Artworks for Purchase</a
               >
             </li>
             {% if user.is_authenticated %}

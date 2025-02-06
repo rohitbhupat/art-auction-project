@@ -203,36 +203,32 @@ body.light-mode .alert-warning {
     flex: 1;
     /* Makes the input box responsive */
 }
-
-/* Primary Button (Inspired by Button 82) */
+.button-container-details{
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    align-items: center;
+}
+/* Flat Minimal Button Styles (Palette 2 Aesthetic) */
 .btn-primary_details {
-    background: linear-gradient(90deg, #4834d4, #5a4bc2);
-    /* Gradient Purple */
-    color: #ffffff !important;
-    /* White Text */
+    /* background: #d5bdaf !important; */
+    /* Soft Muted Beige */
+    /* color: #5a4b42 !important; */
+    /* Dark Text for Readability */
     border: none !important;
-    border-radius: 12px;
-    /* Medium Rounded */
+    border-radius: 8px;
+    /* Slightly Rounded */
     padding: 12px 28px;
-    /* Balanced Size */
     font-size: 1rem;
     font-weight: 600;
-    /* Bolder Text */
     text-transform: uppercase;
-    /* Capitalized Text */
-    letter-spacing: 1.2px;
-    /* Slightly Larger Spacing */
-    transition: all 0.4s ease !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    letter-spacing: 1px;
+    transition: all 0.3s ease-in-out;
     /* Soft Shadow */
 }
 
 .btn-primary_details:hover {
-    background: linear-gradient(90deg, #352b94, #4834d4);
-    /* Darker Purple Gradient on Hover */
-    transform: translateY(-3px);
-    /* Lift Effect */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    text-decoration: underline !important;
+    /* Slightly Darker Shade */
     /* Enhanced Shadow */
 }
 
@@ -266,9 +262,9 @@ body.light-mode .alert-warning {
 
 /* Warning Button (Inspired by Button 74) */
 .btn-warning_buy {
-    background: linear-gradient(90deg, #fdcb6e, #e5b25e);
+    /* background: linear-gradient(90deg, #fdcb6e, #e5b25e); */
     /* Gradient Yellow */
-    color: #ffffff !important;
+    /* color: #ffffff !important; */
     /* White Text */
     border: none !important;
     border-radius: 12px;

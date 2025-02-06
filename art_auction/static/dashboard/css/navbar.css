@@ -1,6 +1,6 @@
 /* Light Mode Scrollbar */
 body {
-  background-color: #f4ede4; /* Soft white gray */
+  background-color: #ffffff !important; /* Soft white gray */
   color: #2B2D42; /* Deep charcoal gray */
 }
 
@@ -9,11 +9,11 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-track {
-  background: #f4ede4; /* Light background for the track */
+  background: #e4e4e4; /* Light background for the track */
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: #f4ede4; /* Deep charcoal gray for the thumb */
+  background-color: #e4e4e4; /* Deep charcoal gray for the thumb */
   border-radius: 10px; /* Rounded edges */
   border: 3px solid #b1a3a3; /* Border around the thumb */
 }
@@ -95,7 +95,7 @@ html.loaded {
 }
 
 .navbar .nav-link:hover {
-  color: #F5DEB3; /* Soft hover color */
+  color: #ffffff; /* Soft hover color */
   text-decoration: none;
   transform: scale(1.05);
 }
@@ -126,7 +126,7 @@ html.loaded {
 }
 
 .dropdown-menu a {
-  color: #E4E4E4;
+  color: #ffffff;
   padding: 10px 20px;
   text-decoration: none;
   display: block;
@@ -143,7 +143,7 @@ body.dark-mode .navbar .dropdown-menu a:hover {
 
 /* Light Mode */
 body.light-mode .navbar {
-  background-color: #eaddcc;
+  background-color: #ffffff;
   color: #000;
   padding-top: 1rem !important;
   border-bottom: 1.5px solid rgba(255, 255, 255, 0.603); /* Subtle border for separation */
@@ -151,17 +151,17 @@ body.light-mode .navbar {
 }
 
 body.light-mode .dropdown-menu {
-  background-color: #e8d5c4;
+  background-color: #ffffff;
 }
 
 body.light-mode .dropdown-menu a {
-  background-color: #e8d5c4;
+  background-color: #ffffff;
   color: #495057;
 }
 
 body.light-mode .dropdown-menu a:hover {
-  background-color: #7f5539  !important;
-  color: #ffffff  !important;
+  background-color: #cccccc  !important;
+  color: #000000  !important;
 }
 
 
@@ -179,7 +179,7 @@ body.light-mode .navbar .nav-link:hover {
 
 /* Dark Mode */
 body.dark-mode {
-  background-color: #1e1e1e;
+  background-color: #1e1e1e !important;
   color: #fff;
 }
 

@@ -7,9 +7,29 @@
 
 {% block css_file %}
 <link rel="stylesheet" href="{% static 'dashboard/css/index.css' %}" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="{% static 'dashboard/css/contact.css' %}" type="text/css">
 {% comment %} <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> {% endcomment %}
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-oFTSz9PifpC+I4viE/rGMifTHgt2+2UeFwUDBZ+GV9GpEaqGfIR52ggKDibjU6t4" crossorigin="anonymous">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Calistoga&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    @font-face {
+        font-family: 'Masthan';
+        src: url("{% static 'images/fonts/Masthan.ttf' %}") format('truetype');
+        font-weight: 600;
+    }
+    .our-categories-title {
+        font-family: 'Masthan', sans-serif;
+        font-size: 10rem;
+        color: #691f00;
+    }
+    .name-calistoga-regular {
+        font-family: "Calistoga", serif;
+        font-weight: 400;
+        font-size: 1.2rem;
+        font-style: normal;
+    }
+</style>
 <script>
     (function() {
     const theme = localStorage.getItem('theme') || 'auto';
@@ -39,23 +59,16 @@
 <br>
 <!-- Bootstrap Carousel -->
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-    <!-- Indicators -->
-    <div class="carousel-indicators_home">
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active rounded-circle" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" class="rounded-circle" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" class="rounded-circle" aria-label="Slide 3"></button>
-    </div>
-
     <!-- Carousel Items -->
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="{% static 'images/Banners/tech(2) (4).gif' %}" class="d-block w-100 cropped-image" alt="First slide">
+            <img src="{% static 'images/Banners/small_banner1.gif' %}" class="d-block w-100 cropped-image" alt="First slide">
         </div>
         <div class="carousel-item">
-            <img src="{% static 'images/Banners/Our Collection Banner (3).gif' %}" class="d-block w-100 cropped-image" alt="Second slide">
+            <img src="{% static 'images/Banners/small_banner.gif' %}" class="d-block w-100 cropped-image" alt="Second slide">
         </div>
         <div class="carousel-item">
-            <img src="{% static 'images/Banners/COMING SOON(3) (1).gif' %}" class="d-block w-100 cropped-image" alt="Third slide">
+            <img src="{% static 'images/Banners/tech_banner.gif' %}" class="d-block w-100 cropped-image" alt="Third slide">
         </div>
     </div>
 
@@ -69,6 +82,55 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
+
+<!-- Our Categories Section -->
+<div class="container text-center heading">
+    <h2 class="fw-bold our-categories-title">Our Categories</h2>
+    <div class="row mt-4">
+        <div class="col-lg-4">
+            <a href="/cat/17/"><img src="{% static 'images/NATURE/with signs/A_Cottage.png' %}" class="rounded-circle" width="175" height="175" alt="Category 1">
+                <a href="/cat/17/" style="cursor:pointer;" class="fw-normal mt-3 d-block category-link name-calistoga-regular">NATURE's Palette <i class="fas fa-arrow-right"></i></a>
+            </a>
+        </div><!-- /.col-lg-4 -->
+
+        
+        <div class="col-lg-4">
+            <a href="cat/22/">
+            <img src="{% static 'images/FLORAL/Stockphoto.jpg' %}" class="rounded-circle" width="175" height="175" alt="Category 2">
+            <a href="cat/22/" style="cursor:pointer;" class="fw-normal mt-3 d-block category-link name-calistoga-regular">Canvas of Blooms (FLORAL) <i class="fas fa-arrow-right"></i></a>
+            </a>
+        </div><!-- /.col-lg-4 -->
+        
+        <div class="col-lg-4">
+            <a href="cat/21/">
+                <img src="{% static 'images/FANTASY/with signs/Crown of Clouds.png' %}" class="rounded-circle" width="175" height="175" alt="Category 3">
+            </a>
+            <a href="cat/21/" style="cursor:pointer;" class="fw-normal mt-3 d-block category-link name-calistoga-regular">Mystic Horizons (FANTASY) <i class="fas fa-arrow-right"></i></a>
+        </div><!-- /.col-lg-4 -->
+        
+        <div class="col-lg-4">
+            <a href="cat/23/">
+                <img src="{% static 'images/ABSTRACT ARTS/Flower.png' %}" class="rounded-circle" width="175" height="175" alt="Category 4">
+                <a href="cat/23/" style="cursor:pointer;" class="fw-normal mt-3 d-block category-link name-calistoga-regular">Echoes of ABSTRACT <i class="fas fa-arrow-right"></i></a>
+            </a>
+        </div><!-- /.col-lg-4 -->
+        
+        <div class="col-lg-4">
+            <a href="cat/24/">
+                <img src="{% static 'images/PORTRAIT/with signs/Echoes of Color.png' %}" class="rounded-circle" width="175" height="175" alt="Category 5">
+                <a href="cat/24/" style="cursor:pointer;" class="fw-normal mt-3 d-block category-link name-calistoga-regular">Colorful Portraits (PORTRAIT) <i class="fas fa-arrow-right"></i></a>
+            </a>
+        </div><!-- /.col-lg-4 -->
+        
+        <div class="col-lg-4">
+            <a href="cat/25/">
+                <img src="{% static 'images/SCULPTURES/U_N_i.png' %}" class="rounded-circle" width="175" height="175" alt="Category 6">
+                <a href="cat/25/" style="cursor:pointer;" class="fw-normal mt-3 d-block category-link name-calistoga-regular">SCULPTERRA <i class="fas fa-arrow-right"></i>
+            </a>
+        </div><!-- /.col-lg-4 -->
+    </div><!-- /.row -->
+</div>
+
 
 <div class="container poppins-regular-products">
     {% comment %} <h1></h1> {% endcomment %}
@@ -92,17 +154,15 @@
                             <li><span class="text-muted">End on:</span> <span class="text-details">{{ product.end_date }}</span></li>
                         </ul>
                         <div class="btn-group d-flex mx-auto mb-2 mt-2" role="group" aria-label="Basic outlined example">
-                            <a href="{% url 'art:product_details' pk=product.pk %}" type="button" class="btn btn-warning_buy btn-sm">Details</a>
+                            <a href="{% url 'art:product_details' pk=product.pk %}" type="button" class="btn btn-home_details btn-sm">Details</a>
                         </div>
                         <div class="d-grid gap-2">
-                            <a class="btn btn-primary_details btn-sm" type="button" href="{% url 'art:view_3d' id=product.id %}">View in AR</a>
+                            <a class="btn btn-home_ar btn-sm" type="button" href="{% url 'art:view_3d' id=product.id %}">View in AR</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        {% empty %}
-        <h3 class="open-sans-empty dark-mode-heading">No artworks to show</h3>
         {% endfor %}
     </div>
 

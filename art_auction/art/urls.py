@@ -27,6 +27,7 @@ urlpatterns = [
    path('unsold/',views.UnsoldListView.as_view(),name="unsold_items"),
    path('artwork-sale/',views.ArtworkSaleListView.as_view(),name="artwork_sale"),
    path('cat/<int:id>/',views.CatListView.catalog_products,name="catalog_products"),
+   path('purchase-cat/<int:id>/', views.PurchaseCategoryView.as_view(), name="purchase_category_products"),
    path('profile-settings/', views.profile_settings, name='profile_settings'),
 ]
 if settings.DEBUG:

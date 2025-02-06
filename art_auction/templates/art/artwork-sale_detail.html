@@ -96,8 +96,8 @@
                             {% endfor %}
                         {% endif %}
                     </div>                    
-                    <div class="d-grid gap-2">
-                        <a href="{% url 'art:place_order' pk=object.id %}" type="button" class="btn btn-warning_buy buy_now mt-2">Buy Now</a>
+                    <div class="button-container-details">
+                        <a href="{% url 'art:place_order' pk=object.id %}" type="button" class="btn btn-warning_buy buy_now">Buy Now</a>
                         <a class="btn btn-primary_details" type="button" href="{% url 'art:view_3d' id=object.id %}">View in AR</a>
                         {% comment %} <a class="btn btn-success_bid" type="button" href="{% url 'art:view_3d' id=object.id %}">Bid Now</a> {% endcomment %}
                     </div>

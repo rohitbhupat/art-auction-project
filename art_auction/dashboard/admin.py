@@ -1,10 +1,11 @@
 from django.contrib import admin
-from .models import Catalogue, OrderModel, Payment, Shipping, Bid, Query, Notification, Feedback
+from .models import Catalogue, OrderModel, Payment, Shipping, Bid, Query, Notification, Feedback, PurchaseCategory
 from django.db.models import Count, Q
 from django.utils.safestring import mark_safe
 
 
 # Register your models here.
+admin.site.register(PurchaseCategory)
 admin.site.register(Catalogue)
 admin.site.register(OrderModel)
 admin.site.register(Payment)

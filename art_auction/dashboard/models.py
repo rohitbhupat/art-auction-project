@@ -19,6 +19,11 @@ class Catalogue(models.Model):
     def __str__(self):
         return self.cat_name
 
+class PurchaseCategory(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 class Artwork(models.Model):
     SALE_TYPE_CHOICES = [
@@ -35,6 +40,9 @@ class Artwork(models.Model):
     opening_bid = models.IntegerField(default=0, null=True, blank=True)
     product_cat = models.ForeignKey(
         "Catalogue", on_delete=models.CASCADE, null=True, blank=True
+    )
+    purchase_category = models.ForeignKey(  # 🔹 Add this field
+        "PurchaseCategory", on_delete=models.CASCADE, null=True, blank=True
     )
     product_qty = models.IntegerField(default=0)
     product_image = models.ImageField(upload_to="arts/")

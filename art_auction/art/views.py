@@ -21,7 +21,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 import razorpay
 from django.http import JsonResponse
 import re
-from dashboard.models import Payment, Artwork, OrderModel, Bid, Catalogue
+from dashboard.models import Payment, Artwork, OrderModel, Bid, Catalogue, PurchaseCategory
 from django.views.decorators.csrf import csrf_exempt
 import json
 from dashboard.constants import PaymentStatus
@@ -84,7 +84,8 @@ class index(View):
             "art/index.html",
             {
                 "product_object_list": product_object_list,
-                "catalogue_list": Catalogue.objects.all(),  # Adjust as per your context
+                "catalogue_list": Catalogue.objects.all(),  # Adjust as per your context\
+                "purchase_categories": PurchaseCategory.objects.all(),
                 "current_date": current_date,
             },
         )
@@ -170,6 +171,28 @@ class CatListView(View):
                 "catalog": catalog,
                 "product_object_list": products,
                 "catalogue_list": Catalogue.objects.all(),
+            },
+        )
+
+class PurchaseCategoryView(View):
+    def get(self, request, id):
+        purchase_category = get_object_or_404(PurchaseCategory, id=id)
+        filter_option = request.GET.get("filter")
+
+        # Now use `purchase_category` correctly
+        if filter_option == "asc":
+            products = Artwork.objects.filter(purchase_category=purchase_category, product_qty__gt=0).order_by("end_date")
+        elif filter_option == "desc":
+            products = Artwork.objects.filter(purchase_category=purchase_category, product_qty__gt=0).order_by("-end_date")
+        else:
+            products = Artwork.objects.filter(purchase_category=purchase_category, product_qty__gt=0)
+
+        return render(
+            request,
+            "art/purchase_category.html",
+            {
+                "purchase_category": purchase_category,
+                "product_object_list": products,
             },
         )
 

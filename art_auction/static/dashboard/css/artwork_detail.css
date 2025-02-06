@@ -12,7 +12,7 @@ body {
 
 /* Light mode styles */
 body.light-mode {
-  --card-bg: var(--card-bg-light);
+  /* --card-bg: var(--card-bg-light); */
   --text-color: var(--text-light);
 }
 
@@ -206,9 +206,9 @@ body.light-mode .alert-warning {
 
 /* Flat Minimal Button Styles (Palette 2 Aesthetic) */
 .btn-primary_details {
-  background: #d5bdaf !important;
+  /* background: #d5bdaf !important; */
   /* Soft Muted Beige */
-  color: #5a4b42 !important;
+  /* color: #5a4b42 !important; */
   /* Dark Text for Readability */
   border: none !important;
   border-radius: 8px;
@@ -219,22 +219,38 @@ body.light-mode .alert-warning {
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: all 0.3s ease-in-out;
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
   /* Soft Shadow */
 }
 
 .btn-primary_details:hover {
-  background: #e0b899 !important;
+  overflow: hidden;
   /* Slightly Darker Shade */
-  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.15);
   /* Enhanced Shadow */
 }
 
+/* Underline Effect */
+.btn-primary_details::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 10%;
+  width: 0;
+  height: 2px;
+  background-color: #474747;
+  transition: all 0.4s ease-in-out;
+  transform: translateX(-50%);
+}
+
+/* Hover Effect */
+.btn-primary_details:hover::after {
+  width: 30%;
+}
+
 .btn-success_bid {
-  background: #fcddc8 !important;
+  background: #f2e9e4 !important;
   /* Soft Warm Beige */
   color: #5a4b42 !important;
-  border: none !important;
+  border: 0.5px solid black !important;
   border-radius: 8px;
   padding: 12px 28px;
   font-size: 1rem;
@@ -251,12 +267,12 @@ body.light-mode .alert-warning {
 }
 
 .btn-warning_buy {
-  background: #ffdfc6!important;
+  background: #ffffff !important;
   /* Light Cream */
-  color: #5a4b42 !important;
-  border: none !important;
+  /* color: #5a4b42 !important; */
+  border: 0.5px solid #696969 !important;
   border-radius: 8px;
-  padding: 12px 28px;
+  padding: 12px 28px 10px 5px;
   font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -266,13 +282,14 @@ body.light-mode .alert-warning {
 }
 
 .btn-warning_buy:hover {
-  background: #f2e9e4 !important;
-  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.15);
+  background: #faf7f7 !important;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.251);
+  border: 1px solid black !important;
 }
 
 /* Dark Mode Adjustments */
 body.dark-mode .btn-primary_details {
-  background: #423f45 !important;
+  /* background: #423f45 !important; */
   color: #ffffff !important;
 }
 
@@ -282,13 +299,9 @@ body.dark-mode .btn-success_bid {
 }
 
 body.dark-mode .btn-warning_buy {
-  background: #484d52 !important;
+  background: none !important;
+  border: 0.2px solid #696969 !important;
   color: #ffffff !important;
-}
-
-/* Dark Mode Hover Effects */
-body.dark-mode .btn-primary_details:hover {
-  background: #343236 !important;
 }
 
 body.dark-mode .btn-success_bid:hover {
@@ -296,5 +309,6 @@ body.dark-mode .btn-success_bid:hover {
 }
 
 body.dark-mode .btn-warning_buy:hover {
-  background: #3c3e41 !important;
+  border: 1px solid #eee !important;
+  background: none !important;
 }

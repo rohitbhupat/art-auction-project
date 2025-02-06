@@ -15,9 +15,11 @@
     justify-content: start;
     --bs-gutter-y: 1.5rem !important;
 }
-.text-details{
+
+.text-details {
     color: black;
 }
+
 /* Back to Top Button */
 #back-to-top-btn {
     display: none;
@@ -51,29 +53,35 @@
     --text-light: #000000;
     --text-dark: #ffffff;
 }
+
 /* Dark Mode Styles */
 body.dark-mode .poppins-regular-products {
     color: var(--text-dark);
 }
 
 body.dark-mode .app-card {
-    background-color: var(--card-bg-dark) !important; /* Ensure the app-card background changes */
+    background-color: var(--card-bg-dark) !important;
+    /* Ensure the app-card background changes */
 }
 
 body.dark-mode .app-card-body {
-    background-color: var(--card-bg-dark) !important; /* Ensure card body background changes */
+    background-color: var(--card-bg-dark) !important;
+    /* Ensure card body background changes */
 }
 
 body.dark-mode .text-details {
-    color: var(--text-dark) !important; /* Text inside card should be light in dark mode */
+    color: var(--text-dark) !important;
+    /* Text inside card should be light in dark mode */
 }
 
 body.dark-mode .btn-primary {
     border: none;
 }
+
 body.dark-mode .btn-warning {
     border: none;
 }
+
 /* Back to Top Button */
 body.dark-mode #back-to-top-btn {
     background-color: #333;
@@ -91,6 +99,7 @@ body.light-mode #back-to-top-btn {
 body.dark-mode h3.open-sans-empty.dark-mode-heading {
     color: var(--text-light) !important;
 }
+
 .filter-dropdown {
     position: absolute;
     top: 70px;
@@ -101,11 +110,15 @@ body.dark-mode h3.open-sans-empty.dark-mode-heading {
     right: 0;
     left: auto;
 }
+
 .button-container {
     position: absolute;
-    top: 85px; /* Adjust the value to move vertically */
-    right: 10px; /* Adjust the value to move horizontally */
+    top: 85px;
+    /* Adjust the value to move vertically */
+    right: 10px;
+    /* Adjust the value to move horizontally */
 }
+
 /* Light Mode Hover */
 body.light-mode .product-card:hover {
     transform: scale(1.05);
@@ -116,7 +129,8 @@ body.light-mode .product-card:hover {
 /* Dark Mode Hover */
 body.dark-mode .product-card:hover {
     transform: scale(1.05);
-    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.15); /* Lighter shadow for dark mode */
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.15);
+    /* Lighter shadow for dark mode */
     transition: all 0.3s ease;
 }
 
@@ -130,4 +144,84 @@ body.light-mode .app-card {
 body.dark-mode .app-card {
     background-color: var(--card-bg-dark) !important;
     color: var(--text-dark) !important;
+}
+
+/* Buttons */
+.btn-unsold_details {
+    /* background: #d5bdaf !important; */
+    /* Soft Muted Beige */
+    /* color: #5a4b42 !important; */
+    /* Dark Text for Readability */
+    border: none !important;
+    border-radius: 8px;
+    /* Slightly Rounded */
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease-in-out;
+    /* Soft Shadow */
+}
+
+.btn-unsold_details:hover {
+    overflow: hidden;
+    /* Slightly Darker Shade */
+    /* Enhanced Shadow */
+}
+
+/* Underline Effect */
+.btn-unsold_details::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 10%;
+    width: 0;
+    height: 2px;
+    background-color: #474747;
+    transition: all 0.4s ease-in-out;
+    transform: translateX(-50%);
+}
+
+/* Hover Effect */
+.btn-unsold_details:hover::after {
+    width: 30%;
+}
+
+.btn-unsold_ar {
+    background: #ffffff !important;
+    /* Light Cream */
+    /* color: #5a4b42 !important; */
+    border: 0.5px solid #696969 !important;
+    border-radius: 8px;
+    padding: 12px 28px 10px 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-unsold_ar:hover {
+    background: #faf7f7 !important;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.251);
+    border: 1px solid black !important;
+}
+
+/* Dark Mode Adjustments */
+body.dark-mode .btn-unsold_details {
+    /* background: #423f45 !important; */
+    color: #ffffff !important;
+}
+
+body.dark-mode .btn-unsold_ar {
+    background: none !important;
+    border: 0.2px solid #696969 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .btn-unsold_ar:hover {
+    border: 1px solid #eee !important;
+    background: none !important;
 }

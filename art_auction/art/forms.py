@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from art.models import SellerInfo, UserInfo
-from dashboard.models import Artwork, Feedback, Catalogue
+from dashboard.models import Artwork, Feedback, Catalogue, PurchaseCategory
 from django.core.exceptions import ValidationError
 
 class UserRegistrationForm(UserCreationForm):
@@ -114,6 +114,9 @@ class ArtworkForm(forms.ModelForm):
         # Ensure product_cat, opening_bid, and end_date fields are always present
         if 'product_cat' not in self.fields:
             self.fields['product_cat'] = forms.ModelChoiceField(queryset=Catalogue.objects.all())
+            
+        if 'purchase_cat' not in self.fields:
+            self.fields['purchase_cat'] = forms.ModelChoiceField(queryset=PurchaseCategory.objects.all(), required=False)
     
         if 'opening_bid' not in self.fields:
             self.fields['opening_bid'] = forms.DecimalField(required=False)
@@ -130,6 +133,7 @@ class ArtworkForm(forms.ModelForm):
             self.fields['opening_bid'].widget = forms.HiddenInput()
             self.fields['end_date'].widget = forms.HiddenInput()
     
+            self.fields['purchase_cat'].required = True  # Require purchase category for discount type
             # Set discounted_price value
             if self.instance and self.instance.product_price:
                 self.initial['discounted_price'] = self.instance.product_price * 0.7
@@ -140,6 +144,9 @@ class ArtworkForm(forms.ModelForm):
             self.fields['product_cat'].required = True
             self.fields['opening_bid'].required = True
             self.fields['end_date'].required = True
+            
+            self.fields['purchase_cat'].required = False  # Purchase category not required for auctions
+            self.fields['purchase_cat'].widget = forms.HiddenInput()
     
         # Apply consistent form-control styling
         for field_name in self.fields:
@@ -155,6 +162,9 @@ class ArtworkForm(forms.ModelForm):
             cleaned_data['product_cat'] = None
             cleaned_data['opening_bid'] = None
             cleaned_data['end_date'] = None
+            
+        if not cleaned_data.get('purchase_cat'):
+            self.add_error('purchase_cat', "Purchase category is required for discounts.")
 
         elif sale_type == 'auction':
             # Validate auction-specific fields
