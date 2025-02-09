@@ -41,8 +41,8 @@ class Artwork(models.Model):
     product_cat = models.ForeignKey(
         "Catalogue", on_delete=models.CASCADE, null=True, blank=True
     )
-    purchase_category = models.ForeignKey(  # 🔹 Add this field
-        "PurchaseCategory", on_delete=models.CASCADE, null=True, blank=True
+    purchase_category = models.ForeignKey(  # Add this field
+        PurchaseCategory, on_delete=models.CASCADE, null=True, blank=True
     )
     product_qty = models.IntegerField(default=0)
     product_image = models.ImageField(upload_to="arts/")
@@ -55,6 +55,7 @@ class Artwork(models.Model):
     inches = models.FloatField(default=0, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     end_date = models.DateField(null=True, blank=True, db_index=True)
+    favorited_by = models.ManyToManyField(User, related_name="favorite_artworks", blank=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True
     )
@@ -298,3 +299,14 @@ class Shipping(models.Model):
 
     def __str__(self):
         return f"Shipping for Order {self.order.id}: {self.status}"
+
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)
+    added_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'artwork')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.artwork.product_name}"

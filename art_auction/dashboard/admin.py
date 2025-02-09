@@ -1,11 +1,12 @@
 from django.contrib import admin
-from .models import Catalogue, OrderModel, Payment, Shipping, Bid, Query, Notification, Feedback, PurchaseCategory
+from .models import Catalogue, OrderModel, Payment, Shipping, Bid, Query, Notification, Feedback, PurchaseCategory, Favorite
 from django.db.models import Count, Q
 from django.utils.safestring import mark_safe
 
 
 # Register your models here.
 admin.site.register(PurchaseCategory)
+admin.site.register(Favorite)
 admin.site.register(Catalogue)
 admin.site.register(OrderModel)
 admin.site.register(Payment)
@@ -13,6 +14,11 @@ admin.site.register(Shipping)
 admin.site.register(Bid)
 admin.site.register(Notification)
 
+class FavoriteAdmin(admin.ModelAdmin):
+    list_display = ('user', 'artwork', 'added_on')
+    search_fields = ('user__username', 'artwork__product_name')
+    list_filter = ('added_on',)
+    
 class NotificationAdmin(admin.ModelAdmin):
     list_display = ('user', 'message', 'created_at')
     search_fields = ('user__username', 'message')

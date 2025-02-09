@@ -225,3 +225,63 @@ body.dark-mode .btn-unsold_ar:hover {
     border: 1px solid #eee !important;
     background: none !important;
 }
+
+.heart-icon {
+    font-size: 1.25rem;
+    cursor: pointer;
+    margin-right: -25px;
+    color: gray;
+    /* Default gray outline */
+    transition: color 0.3s ease-in-out;
+}
+
+.heart-icon.active {
+    color: red;
+    /* Solid red when clicked */
+}
+
+.app-card-doc .app-doc-title.truncate {
+    overflow: visible !important;
+}
+
+.alert-box {
+    position: fixed;
+    top: 50px !important;
+    left: 20% !important;
+    transform: translateX(-50%) !important;
+    background-color: #4CAF50;
+    /* Default Green for success */
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center !important;
+    display: none;
+    /* Hidden by default */
+    transition: opacity 0.5s ease-in-out, transform 0.3s ease-in-out;
+    z-index: 1000;
+    min-width: 250px !important;
+    max-width: 400px !important;
+}
+
+.alert-box.show {
+    display: block;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.alert-box.hide {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+}
+
+.alert-box.error {
+    background-color: #FF4C4C;
+    /* Red for error */
+}
+
+#alert-message {
+    margin-bottom: 0px !important;
+}

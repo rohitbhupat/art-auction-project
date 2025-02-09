@@ -24,6 +24,7 @@ urlpatterns = [
     path('confirm_purchase/<int:artwork_id>/', views.confirm_purchase, name='confirm_purchase'),
     path('get_shipping_status/<int:order_id>/', views.get_shipping_status, name='get_shipping_status'),
     path('update_shipping_status/', views.update_shipping_status, name='update_shipping_status'),
+    path('autocomplete/', views.autocomplete_artworks, name='autocomplete'),
 ]
 
 if settings.DEBUG:

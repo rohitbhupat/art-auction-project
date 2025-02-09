@@ -1,47 +1,62 @@
 /* Light Mode Scrollbar */
 body {
-  background-color: #ffffff !important; /* Soft white gray */
-  color: #2B2D42; /* Deep charcoal gray */
+  background-color: #ffffff !important;
+  /* Soft white gray */
+  color: #2B2D42;
+  /* Deep charcoal gray */
 }
 
 body::-webkit-scrollbar {
-  width: 10px; /* Width of the scrollbar */
+  width: 10px;
+  /* Width of the scrollbar */
 }
 
 body::-webkit-scrollbar-track {
-  background: #e4e4e4; /* Light background for the track */
+  background: #e4e4e4;
+  /* Light background for the track */
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: #e4e4e4; /* Deep charcoal gray for the thumb */
-  border-radius: 10px; /* Rounded edges */
-  border: 3px solid #b1a3a3; /* Border around the thumb */
+  background-color: #e4e4e4;
+  /* Deep charcoal gray for the thumb */
+  border-radius: 10px;
+  /* Rounded edges */
+  border: 3px solid #b1a3a3;
+  /* Border around the thumb */
 }
 
 /* Dark Mode Scrollbar */
 body.dark-mode {
-  background-color: #161A1D; /* Deep charcoal black */
-  color: #E8E8E8; /* Soft white */
+  background-color: #161A1D;
+  /* Deep charcoal black */
+  color: #E8E8E8;
+  /* Soft white */
 }
 
 body.dark-mode::-webkit-scrollbar {
-  width: 10px; /* Width of the scrollbar */
+  width: 10px;
+  /* Width of the scrollbar */
 }
 
 body.dark-mode::-webkit-scrollbar-track {
-  background: #161A1D; /* Dark background for the track */
+  background: #161A1D;
+  /* Dark background for the track */
 }
 
 body.dark-mode::-webkit-scrollbar-thumb {
-  background-color: #161A1D; /* Soft white for the thumb */
-  border-radius: 10px; /* Rounded edges */
-  border: 3px solid #2B2D42 ; /* Border around the thumb */
+  background-color: #161A1D;
+  /* Soft white for the thumb */
+  border-radius: 10px;
+  /* Rounded edges */
+  border: 3px solid #2B2D42;
+  /* Border around the thumb */
 }
 
 html:not(.loaded) {
   visibility: hidden;
   opacity: 0;
 }
+
 html.loaded {
   visibility: visible;
   opacity: 1;
@@ -67,35 +82,48 @@ html.loaded {
 
 /* Navbar */
 .dark-mode .navbar {
-  background-color: #2D2A32; /* Elegant dark gray */
+  background-color: #2D2A32;
+  /* Elegant dark gray */
   padding-top: 1rem !important;
-  border-bottom: 1.5px solid rgba(255, 255, 255, 0.1); /* Subtle border for separation */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Slightly stronger shadow for depth */
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.1);
+  /* Subtle border for separation */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  /* Slightly stronger shadow for depth */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .navbar .navbar-brand {
-  color: #E4E4E4; /* Navbar brand color */
-  font-size: 1.15rem; /* Larger brand font for prominence */
+  color: #E4E4E4;
+  /* Navbar brand color */
+  font-size: 1.15rem;
+  /* Larger brand font for prominence */
   font-weight: bold;
-  letter-spacing: 1px; /* Slight spacing for elegance */
+  letter-spacing: 1px;
+  /* Slight spacing for elegance */
   transition: color 0.3s ease;
 }
+
 .navbar .navbar-brand:hover {
-  color: #F5DEB3; /* Soft warm color on hover (Wheat) */
+  color: #F5DEB3;
+  /* Soft warm color on hover (Wheat) */
 }
+
 .navbar .navbar-brand img {
-  border-radius: 6px; /* Rounded corners for the logo */
+  border-radius: 6px;
+  /* Rounded corners for the logo */
+  border: 1px solid black;
 }
 
 .navbar .nav-link {
-  color: #B0B0B0; /* Light gray for links */
+  color: #B0B0B0;
+  /* Light gray for links */
   margin-right: 5px;
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .navbar .nav-link:hover {
-  color: #ffffff; /* Soft hover color */
+  color: #ffffff;
+  /* Soft hover color */
   text-decoration: none;
   transform: scale(1.05);
 }
@@ -103,26 +131,35 @@ html.loaded {
 /* Show dropdown menu on hover */
 .navbar-nav .nav-item.dropdown:hover .dropdown-menu {
   display: block;
-  visibility: visible; /* Ensure the menu is visible */
-  opacity: 1; /* Ensure the menu is fully opaque */
-  transform: translateY(0); /* Bring dropdown into place smoothly */
+  visibility: visible;
+  /* Ensure the menu is visible */
+  opacity: 1;
+  /* Ensure the menu is fully opaque */
+  transform: translateY(0);
+  /* Bring dropdown into place smoothly */
 }
 
 .dropdown-menu {
-  display: none; /* Hide the dropdown menu by default */
+  display: none;
+  /* Hide the dropdown menu by default */
   position: absolute;
   /* background-color: var(--dropdown-bg); */
   min-width: 160px;
   /* box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); */
   z-index: 1;
   border-color: none !important;
-  background-color: #38343A; /* Darker background for dropdown */
-  border: none; /* Remove default border */
-  border-radius: 8px; /* Rounded corners for a modern look */
-  padding: 0.5rem 0; /* Spacing around the dropdown */
+  background-color: #38343A;
+  /* Darker background for dropdown */
+  border: none;
+  /* Remove default border */
+  border-radius: 8px;
+  /* Rounded corners for a modern look */
+  padding: 0.5rem 0;
+  /* Spacing around the dropdown */
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
   transition: opacity 0.3s ease, transform 0.3s ease;
-  transform: translateY(10px); /* Subtle slide-down effect */
+  transform: translateY(10px);
+  /* Subtle slide-down effect */
 }
 
 .dropdown-menu a {
@@ -130,14 +167,16 @@ html.loaded {
   padding: 10px 20px;
   text-decoration: none;
   display: block;
-  font-size: 0.95rem; /* Slightly smaller font */
+  font-size: 0.95rem;
+  /* Slightly smaller font */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body.dark-mode .navbar .dropdown-menu a:hover {
   color: white !important;
   background-color: #444 !important;
-  border-radius: 4px; /* Subtle rounding for hover effect */
+  border-radius: 4px;
+  /* Subtle rounding for hover effect */
   transition: background-color 0.1s, color 0.1s;
 }
 
@@ -146,8 +185,10 @@ body.light-mode .navbar {
   background-color: #ffffff;
   color: #000;
   padding-top: 1rem !important;
-  border-bottom: 1.5px solid rgba(255, 255, 255, 0.603); /* Subtle border for separation */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); /* Adds a subtle shadow for depth */
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.603);
+  /* Subtle border for separation */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  /* Adds a subtle shadow for depth */
 }
 
 body.light-mode .dropdown-menu {
@@ -160,21 +201,24 @@ body.light-mode .dropdown-menu a {
 }
 
 body.light-mode .dropdown-menu a:hover {
-  background-color: #cccccc  !important;
-  color: #000000  !important;
+  background-color: #cccccc !important;
+  color: #000000 !important;
 }
 
 
 body.light-mode .navbar .navbar-brand {
-  color: #222831; /* Navbar brand color in light mode */
+  color: #222831;
+  /* Navbar brand color in light mode */
 }
 
 body.light-mode .navbar .nav-link {
-  color: #6a6a6a; /* Navbar link color in light mode */
+  color: #6a6a6a;
+  /* Navbar link color in light mode */
 }
 
 body.light-mode .navbar .nav-link:hover {
-  color: #222831; /* Navbar link color on hover in light mode */
+  color: #222831;
+  /* Navbar link color on hover in light mode */
 }
 
 /* Dark Mode */
@@ -188,26 +232,34 @@ body.dark-mode .dropdown-menu {
 }
 
 body.dark-mode .navbar .navbar-brand {
-  color: #eeeeee; /* Navbar brand color in dark mode */
+  color: #eeeeee;
+  /* Navbar brand color in dark mode */
 }
 
 body.dark-mode .navbar .nav-link {
-  color: #bcbcbc; /* Navbar link color in dark mode */
+  color: #bcbcbc;
+  /* Navbar link color in dark mode */
 }
 
 body.dark-mode .navbar .nav-link:hover {
-  color: #ffffff; /* Navbar link color on hover in dark mode */
+  color: #ffffff;
+  /* Navbar link color on hover in dark mode */
 }
 
 body.dark-mode .dropdown-menu a {
-  color: #eeeeee; /* Dropdown link color in dark mode */
+  color: #eeeeee;
+  /* Dropdown link color in dark mode */
 }
-body.dark-mode .dropdown-menu a:hover{
-  background-color: #7f5539 !important; /* Warm brown */
+
+body.dark-mode .dropdown-menu a:hover {
+  background-color: #7f5539 !important;
+  /* Warm brown */
   color: #ffffff;
 }
+
 body.dark-mode .dropdown-item {
-  color: white; /* Dropdown item color in dark mode */
+  color: white;
+  /* Dropdown item color in dark mode */
 }
 
 :root {
@@ -230,7 +282,7 @@ body.dark-mode .dropdown-item {
 
 /* Buttons Styling */
 .btn-success_login {
-  background-color: none !important ;
+  background-color: none !important;
   color: #6a6a6a;
   /* border: none; */
   /* border-radius: 20px; Rounded corners */
@@ -246,7 +298,8 @@ body.dark-mode .dropdown-item {
   text-decoration: underline !important;
   color: #fff;
   /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); Enhanced shadow on hover */
-  transform: scale(1.05); /* Slight scale-up effect */
+  transform: scale(1.05);
+  /* Slight scale-up effect */
 }
 
 .btn-primary_register {
@@ -266,7 +319,8 @@ body.dark-mode .dropdown-item {
   text-decoration: underline !important;
   color: #fff;
   /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); Enhanced shadow on hover */
-  transform: scale(1.05); /* Slight scale-up effect */
+  transform: scale(1.05);
+  /* Slight scale-up effect */
 }
 
 .dropdown-menu-mode {
@@ -274,31 +328,41 @@ body.dark-mode .dropdown-item {
   position: absolute;
   /* padding: 0.4rem 0; */
   /* background-color: var(--dropdown-bg); */
-  background-color: #2d2f36; /* Darker background for dropdown */
+  background-color: #2d2f36;
+  /* Darker background for dropdown */
   border-radius: 6px;
   min-width: 120px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   z-index: 1;
   top: 50px !important;
   right: 0;
-  border: none; /* Remove default border */
-  border-radius: 6px; /* Rounded corners for a modern look */
-  padding: 0.5rem 0; /* Spacing around the dropdown */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* Elegant shadow */
+  border: none;
+  /* Remove default border */
+  border-radius: 6px;
+  /* Rounded corners for a modern look */
+  padding: 0.5rem 0;
+  /* Spacing around the dropdown */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  /* Elegant shadow */
   transition: opacity 0.3s ease, transform 0.3s ease;
-  transform: translateY(10px); /* Subtle slide-down effect */
-  pointer-events: none; /* Prevent interaction until visible */
+  transform: translateY(10px);
+  /* Subtle slide-down effect */
+  pointer-events: none;
+  /* Prevent interaction until visible */
 }
 
 .dropdown-menu-mode.show {
   display: block;
 }
+
 .nav-item-mode:hover .dropdown-menu-mode {
-  pointer-events: auto; /* Enable interaction on hover */
+  pointer-events: auto;
+  /* Enable interaction on hover */
   display: block;
   opacity: 1;
   transform: translateY(0);
 }
+
 .dropdown-item {
   color: black;
   padding: 12px 16px;
@@ -308,7 +372,8 @@ body.dark-mode .dropdown-item {
 }
 
 body.dark-mode .dropdown-item {
-  color: white; /* Dropdown item color in dark mode */
+  color: white;
+  /* Dropdown item color in dark mode */
 }
 
 .dropdown-item:hover {
@@ -319,9 +384,11 @@ body.dark-mode .dropdown-item {
 .dropdown-item:active {
   background: #212529 !important;
 }
+
 .dropdown:hover .dropdown-menu {
   display: block;
-  margin-top: 0; /* Optional: Adjust for styling */
+  margin-top: 0;
+  /* Optional: Adjust for styling */
 }
 
 /* notification sidebar */
@@ -336,6 +403,7 @@ body.dark-mode .dropdown-item {
 .notification-item:hover {
   background-color: #f4debf !important;
 }
+
 body.light-mode .notification-item {
   border-bottom-color: #9a9a9a;
 }
@@ -378,13 +446,15 @@ body.dark-mode .notification-item:hover {
   height: 100%;
   background-color: #fff;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-  transition: right 0.3s ease-in-out; /* Smooth slide-in effect */
+  transition: right 0.3s ease-in-out;
+  /* Smooth slide-in effect */
   z-index: 1050;
   overflow-y: auto;
 }
 
 #notification-sidebar.open {
-  right: 0; /* Slide the sidebar into view */
+  right: 0;
+  /* Slide the sidebar into view */
 }
 
 #notification-sidebar .header {
@@ -428,6 +498,7 @@ body.dark-mode #notification-sidebar .header {
   background-color: #2D2A32;
   border-bottom-color: #586a7b;
 }
+
 .dismiss-btn {
   float: right;
   cursor: pointer;
@@ -442,18 +513,171 @@ body.dark-mode #notification-sidebar .header {
 #clear-all-btn {
   position: relative;
   float: right;
-  top: 0px; /* Adjusts distance from the top */
-  right: 10px; /* Positions it to the right */
-  padding: 5px 10px; /* Smaller padding for a compact button */
+  top: 0px;
+  /* Adjusts distance from the top */
+  right: 10px;
+  /* Positions it to the right */
+  padding: 5px 10px;
+  /* Smaller padding for a compact button */
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px; /* Smaller font size for the button */
+  font-size: 14px;
+  /* Smaller font size for the button */
 }
 
 
 #clear-all-btn:hover {
   background-color: #0056b3;
+}
+
+/* Search Bar Styling */
+.form-control-search {
+  border-radius: 20px;
+  width: 20%;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100%;
+  padding: 10px 40px 10px 15px;
+  /* Adjust padding for icon space */
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 15px;
+  outline: none;
+}
+
+.btn-search {
+  border-radius: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+/* Profile Icon Dropdown */
+.navbar .fa-user-circle {
+  color: #B0B0B0;
+  font-size: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+.navbar .fa-user-circle:hover {
+  color: white;
+}
+
+/* Search Bar Styling */
+.search-container {
+  display: flex;
+  justify-content: center;
+  width: 29% !important;
+  margin-top: -4px !important;
+  margin-left: 5rem !important;
+}
+
+.input-group {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  width: 180px;
+  /* Small size */
+}
+
+.input-group-text {
+  background: #f8f9fa;
+  border: none;
+  padding: 5px 10px;
+  color: #6c757d;
+}
+
+.search-input {
+  border: none;
+  padding: 5px 10px;
+  width: 100%;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-input:focus {
+  box-shadow: none;
+}
+
+.suggestions-list {
+  position: absolute;
+  background: white;
+  width: 180px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 10;
+  border-radius: 5px;
+}
+
+.suggestion-item {
+  padding: 5px 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.suggestion-item a {
+  text-decoration: none;
+  color: black;
+  display: block;
+}
+
+.suggestion-item:hover {
+  background: #f8f9fa;
+}
+
+/* Ensure the search bar is centered */
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* Center the search bar properly */
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  /* Adjust as needed */
+  position: relative;
+}
+
+/* Search input field */
+.search-input {
+  width: 100%;
+  padding: 10px 40px 10px 15px;
+  /* Space for icon */
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 16px;
+  outline: none;
+}
+
+/* Position the search icon */
+.search-icon {
+  position: absolute;
+  right: 15px;
+  color: #6c757d;
+  font-size: 16px;
+  pointer-events: none;
+}
+.favorites-icon {
+  margin-right: 15px;
+  font-size: 20px;
+}
+
+.favorites-icon .heart-icon {
+  color: gray; /* Adjust based on theme */
+  transition: color 0.3s ease;
+}
+
+.favorites-icon .heart-icon:hover {
+  color: red;
 }

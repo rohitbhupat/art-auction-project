@@ -88,6 +88,11 @@
                                     <label for="id_product_qty">Quantity:</label>
                                     <input type="number" name="product_qty" value="1" readonly id="id_product_qty">
                                 </div>
+                                <div class="fieldWrapper">
+                                    <label for="{{ form.purchase_category.id_for_label }}">Purchase Category:</label>
+
+                                    {{ form.purchase_category }}
+                                </div>
                             </div>
 
                             <!-- Fields for Auction -->
@@ -168,7 +173,7 @@
         const auctionFields = document.getElementById('auction_fields');
         const selectedFilter = document.getElementById('selectedFilter');
         const pageTitle = document.querySelector('.app-page-title');
-
+    
         if (filter === 'discount') {
             discountFields.style.display = 'block';
             auctionFields.style.display = 'none';
@@ -185,7 +190,7 @@
             if (selectedFilter) selectedFilter.textContent = 'Filter';
             if (pageTitle) pageTitle.textContent = 'Add Artwork';
         }
-    }
+    }    
 
     function toggleDimensionFields() {
         const dimensionUnit = document.getElementById('dimension_unit')?.value;

@@ -195,7 +195,7 @@ body.light-mode .alert-warning {
   display: flex;
   align-items: center;
   /* Vertically center input and button */
-  gap: 10px;
+  gap: 0px;
   /* Space between the input and button */
 }
 

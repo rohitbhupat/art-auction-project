@@ -21,7 +21,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 import razorpay
 from django.http import JsonResponse
 import re
-from dashboard.models import Payment, Artwork, OrderModel, Bid, Catalogue, PurchaseCategory
+from dashboard.models import Favorite, Payment, Artwork, OrderModel, Bid, Catalogue, PurchaseCategory
 from django.views.decorators.csrf import csrf_exempt
 import json
 from dashboard.constants import PaymentStatus
@@ -734,3 +734,49 @@ class ArtworkSaleListView(LoginRequiredMixin, ListView):
                     artwork.discounted_price = artwork.product_price
 
         return queryset
+
+@csrf_exempt
+@login_required
+def toggle_favorite(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            artwork_id = data.get("product_id")
+            print("Received product ID:", artwork_id)  # Debugging line
+            artwork = get_object_or_404(Artwork, id=artwork_id)
+            favorite, created = Favorite.objects.get_or_create(user=request.user, artwork=artwork)
+
+            if not created:
+                favorite.delete()
+                print("Removed from favorites")  # Debugging line
+                return JsonResponse({"status": "removed"})
+            print("Added to favorites")  # Debugging line
+            return JsonResponse({"status": "added"})
+        except Exception as e:
+            print("Error:", str(e))  # Debugging line
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)
+
+
+@login_required
+def get_favorites(request):
+    favorites = Favorite.objects.filter(user=request.user).values_list('artwork__id', flat=True)
+    return JsonResponse({"favorites": list(favorites)})
+
+@login_required
+def favorites_page(request):
+    favorites = Favorite.objects.filter(user=request.user).select_related('artwork')
+    return render(request, 'art/favorites.html', {'favorites': favorites})
+
+@login_required
+def remove_favorite(request, artwork_id):
+    artwork = get_object_or_404(Artwork, id=artwork_id)
+    favorite = Favorite.objects.filter(user=request.user, artwork=artwork).first()
+
+    if favorite:
+        favorite.delete()
+        messages.success(request, "Artwork removed from favorites!")
+    else:
+        messages.warning(request, "This artwork is not in your favorites.")
+
+    return redirect('art:favorites_page')

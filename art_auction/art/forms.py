@@ -100,7 +100,7 @@ class ArtworkForm(forms.ModelForm):
         model = Artwork
         fields = [
             'sale_type', 'product_name', 'product_price', 'product_qty', 'product_image',
-            'product_cat', 'product_id', 'end_date', 'opening_bid',
+            'product_cat', 'purchase_category', 'product_id', 'end_date', 'opening_bid',
             'dimension_unit', 'length_in_centimeters', 'width_in_centimeters', 'foot', 'inches'
         ]
         widgets = {
@@ -111,12 +111,22 @@ class ArtworkForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         sale_type = kwargs.get('data', {}).get('sale_type') or self.initial.get('sale_type')
     
+        # Remove Purchase Category field for auctions
+        if sale_type == 'auction':
+            self.fields.pop('purchase_category', None)  # Remove field for auction type
+        else:
+            self.fields['purchase_category'].required = True
+
+        # Apply consistent form-control styling
+        for field_name in self.fields:
+            self.fields[field_name].widget.attrs['class'] = 'form-control'
+            
         # Ensure product_cat, opening_bid, and end_date fields are always present
         if 'product_cat' not in self.fields:
             self.fields['product_cat'] = forms.ModelChoiceField(queryset=Catalogue.objects.all())
             
-        if 'purchase_cat' not in self.fields:
-            self.fields['purchase_cat'] = forms.ModelChoiceField(queryset=PurchaseCategory.objects.all(), required=False)
+        if 'purchase_category' not in self.fields:
+            self.fields['purchase_category'] = forms.ModelChoiceField(queryset=PurchaseCategory.objects.all(), required=False)
     
         if 'opening_bid' not in self.fields:
             self.fields['opening_bid'] = forms.DecimalField(required=False)
@@ -133,7 +143,7 @@ class ArtworkForm(forms.ModelForm):
             self.fields['opening_bid'].widget = forms.HiddenInput()
             self.fields['end_date'].widget = forms.HiddenInput()
     
-            self.fields['purchase_cat'].required = True  # Require purchase category for discount type
+            self.fields['purchase_category'].required = True  # Require purchase category for discount type
             # Set discounted_price value
             if self.instance and self.instance.product_price:
                 self.initial['discounted_price'] = self.instance.product_price * 0.7
@@ -145,8 +155,8 @@ class ArtworkForm(forms.ModelForm):
             self.fields['opening_bid'].required = True
             self.fields['end_date'].required = True
             
-            self.fields['purchase_cat'].required = False  # Purchase category not required for auctions
-            self.fields['purchase_cat'].widget = forms.HiddenInput()
+            self.fields['purchase_category'].required = False  # Purchase category not required for auctions
+            self.fields['purchase_category'].widget = forms.HiddenInput()
     
         # Apply consistent form-control styling
         for field_name in self.fields:
@@ -157,14 +167,17 @@ class ArtworkForm(forms.ModelForm):
         cleaned_data = super().clean()
         sale_type = cleaned_data.get('sale_type')
 
+        if sale_type == 'auction':
+            cleaned_data.pop('purchase_category', None)  # Ensure it’s removed
+        
         if sale_type == 'discount':
             # Ensure these fields are ignored for discount type
             cleaned_data['product_cat'] = None
             cleaned_data['opening_bid'] = None
             cleaned_data['end_date'] = None
             
-        if not cleaned_data.get('purchase_cat'):
-            self.add_error('purchase_cat', "Purchase category is required for discounts.")
+        if not cleaned_data.get('purchase_category'):
+            self.add_error('purchase_category', "Purchase category is required for discounts.")
 
         elif sale_type == 'auction':
             # Validate auction-specific fields

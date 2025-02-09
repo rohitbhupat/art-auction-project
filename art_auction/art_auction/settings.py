@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'registration',
     'channels',
     'django_crontab',
+    'corsheaders'
 ]
 
 ASGI_APPLICATION = 'art_auction.asgi.application'
@@ -66,8 +67,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
-
+CORS_ALLOW_ALL_ORIGINS = True  # Allow all for debugging (set to False in production)
 ROOT_URLCONF = 'art_auction.urls'
 
 TEMPLATES = [
@@ -193,19 +195,20 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'file': {
-            'level': 'ERROR',
+            'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': 'email_errors.log',
+            'filename': 'debug.log',
         },
     },
     'loggers': {
         'django': {
             'handlers': ['file'],
-            'level': 'ERROR',
+            'level': 'DEBUG',
             'propagate': True,
         },
     },
 }
+
 
 CRONJOBS = [
     ('0 * * * *', 'art_auction.dashboard.views.send_purchase_email'),

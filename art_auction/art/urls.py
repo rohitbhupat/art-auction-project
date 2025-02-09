@@ -29,6 +29,10 @@ urlpatterns = [
    path('cat/<int:id>/',views.CatListView.catalog_products,name="catalog_products"),
    path('purchase-cat/<int:id>/', views.PurchaseCategoryView.as_view(), name="purchase_category_products"),
    path('profile-settings/', views.profile_settings, name='profile_settings'),
+   path('toggle_favorite/', views.toggle_favorite, name='toggle_favorite'),   
+   path('favorites/', views.favorites_page, name='favorites_page'),
+   path('get_favorites/', views.get_favorites, name='get_favorites'),
+   path('remove-favorite/<int:artwork_id>/', views.remove_favorite, name='remove_favorite'),
 ]
 if settings.DEBUG:
    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

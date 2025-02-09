@@ -572,3 +572,10 @@ def submit_feedback(request):
 #         fail_silently=False,
 #     )
 #     return HttpResponse('Email sent successfully')
+
+def autocomplete_artworks(request):
+    query = request.GET.get('q', '')
+    if query:
+        artworks = Artwork.objects.filter(title__icontains=query).values("id", "title")[:5]
+        return JsonResponse(list(artworks), safe=False)
+    return JsonResponse([], safe=False)
