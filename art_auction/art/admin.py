@@ -5,6 +5,10 @@ from .forms import ArtworkForm  # Import the ArtworkForm
 
 class ArtworkAdmin(admin.ModelAdmin):
     form = ArtworkForm
+    
+    list_display = ("product_name", "sale_type", "product_price", "purchase_category", "is_sold")
+    list_filter = ("sale_type", "purchase_category", "is_sold")
+    search_fields = ("product_name", "purchase_category__name") 
 
     class Media:
         js = ('js/admin_dimension_toggle.js',)  # Ensure the path is correct
@@ -24,7 +28,6 @@ class ArtworkAdmin(admin.ModelAdmin):
         return {'sale_type': 'auction'}
 
     def get_fieldsets(self, request, obj=None):
-        """Customize fieldsets based on the sale type."""
         if obj and obj.sale_type == 'discount':
             return (
                 (None, {
@@ -40,7 +43,7 @@ class ArtworkAdmin(admin.ModelAdmin):
             return (
                 (None, {
                     'fields': (
-                        'sale_type', 'product_name', 'opening_bid', 'product_cat',
+                        'sale_type', 'product_name', 'opening_bid', 'product_cat', 'purchase_category', # <-- Add this
                         'product_qty', 'product_image', 'end_date', 
                         'dimension_unit', 'length_in_centimeters', 'width_in_centimeters', 
                         'foot', 'inches',
@@ -49,7 +52,6 @@ class ArtworkAdmin(admin.ModelAdmin):
             )
     
         return super().get_fieldsets(request, obj)
-
 
 admin.site.register(Artwork, ArtworkAdmin)
 admin.site.register(SellerInfo)

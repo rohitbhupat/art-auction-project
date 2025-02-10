@@ -50,13 +50,28 @@
                     <li><a href="{% url 'art:about' %}">About Us</a></li>
                     <li><a href="{% url 'art:contact' %}">Contact Us</a></li>
                     <li><a href="{% url 'art:faq' %}">FAQs</a></li>
+                    <li><a href="{% url 'art:terms' %}">Terms of Use</a></li>
+                    <li><a href="{% url 'art:privacy' %}">Privacy Policy</a></li>
+    
+                    {% if request.resolver_match.url_name in "purchase_category_products,artwork_sale" %}
+                        <!-- Show only Purchase Cancellation Policy -->
+                        <li><a href="{% url 'art:purchase_cancel' %}">Purchase Cancellation Policy</a></li>
+    
+                    {% elif request.resolver_match.url_name in "index,product_details,place_order,confirm_order,callback,unsold_items,catalog_products" %}
+                        <!-- Show only Auction Cancellation Policy -->
+                        <li><a href="{% url 'art:auction_cancel' %}">Auction Cancellation Policy</a></li>
+    
+                    {% else %}
+                        <!-- Show both policies -->
+                        <li><a href="{% url 'art:purchase_cancel' %}">Purchase Cancellation Policy</a></li>
+                        <li><a href="{% url 'art:auction_cancel' %}">Auction Cancellation Policy</a></li>
+                    {% endif %}
                 </ul>
                 <p>&copy; 2025 ARTIV. All rights reserved.</p>
             </div>
         </div>
         {% endblock %}
-    </footer>
-    
+    </footer>    
     {% block js %}{% endblock %}
 
     <script>

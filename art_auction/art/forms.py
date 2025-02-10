@@ -110,14 +110,19 @@ class ArtworkForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         sale_type = kwargs.get('data', {}).get('sale_type') or self.initial.get('sale_type')
-    
-        # Remove Purchase Category field for auctions
-        if sale_type == 'auction':
-            self.fields.pop('purchase_category', None)  # Remove field for auction type
-        else:
-            self.fields['purchase_category'].required = True
 
-        # Apply consistent form-control styling
+        if sale_type == 'discount':
+            self.fields['purchase_category'].required = True
+            self.fields['purchase_category'].widget = forms.Select(choices=[(cat.id, cat.name) for cat in PurchaseCategory.objects.all()])
+            self.fields['product_cat'].widget = forms.HiddenInput()
+            self.fields['opening_bid'].widget = forms.HiddenInput()
+            self.fields['end_date'].widget = forms.HiddenInput()
+        elif sale_type == 'auction':
+            self.fields['purchase_category'].required = True  # <-- Ensure it's included for auctions as well
+            self.fields['product_cat'].required = True
+            self.fields['opening_bid'].required = True
+            self.fields['end_date'].required = True
+
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['class'] = 'form-control'
             

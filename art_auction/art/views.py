@@ -147,22 +147,23 @@ def profile_settings(request):
         },
     )
 
-
+from django.utils.timezone import now
 class CatListView(View):
     def catalog_products(request, id):
         catalog = get_object_or_404(Catalogue, id=id)
-        filter_option = request.GET.get("filter")
+        filter_option = request.GET.get("filter", "all")
 
-        if filter_option == "asc":
-            products = Artwork.objects.filter(
-                product_cat=catalog, product_qty__gt=0
-            ).order_by("end_date")
-        elif filter_option == "desc":
-            products = Artwork.objects.filter(
-                product_cat=catalog, product_qty__gt=0
-            ).order_by("-end_date")
-        else:
-            products = Artwork.objects.filter(product_cat=catalog, product_qty__gt=0)
+        # Base queryset
+        products = Artwork.objects.filter(product_cat=catalog, product_qty__gt=0)
+
+        # Apply filters
+        if filter_option == "new":
+            last_7_days = now() - timedelta(days=7)  # Adjust this as needed
+            products = products.filter(created_at__gte=last_7_days).order_by("-created_at")
+        elif filter_option == "old":
+            products = products.order_by("created_at")  # Oldest first
+        elif filter_option == "bidded":
+            products = products.filter(id__in=Bid.objects.values_list("product_id", flat=True))
 
         return render(
             request,
@@ -173,7 +174,6 @@ class CatListView(View):
                 "catalogue_list": Catalogue.objects.all(),
             },
         )
-
 class PurchaseCategoryView(View):
     def get(self, request, id):
         purchase_category = get_object_or_404(PurchaseCategory, id=id)
@@ -652,7 +652,16 @@ class About(TemplateView):
 class Contact(TemplateView):
     template_name = "art/contact.html"
 
-
+class Terms(TemplateView):
+    template_name = "art/terms.html"
+    
+class Privacy(TemplateView):
+    template_name = "art/privacy.html"
+    
+class Purchase_Cancel(TemplateView):
+    template_name = "art/purchase_cancel.html"
+class Auction_Cancel(TemplateView):
+    template_name = "art/auction_cancel.html"
 class FAQs(TemplateView):
     template_name = "art/faq.html"
 

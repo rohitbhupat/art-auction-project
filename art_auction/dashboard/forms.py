@@ -8,42 +8,37 @@ class ArtworkCreateForm(forms.ModelForm):
     sale_type = forms.ChoiceField(
         choices=[("discount", "Discount"), ("auction", "Auction")],
         widget=forms.RadioSelect,
-        required=False,
+        required=True,
     )
     end_date = forms.DateField(
         widget=forms.DateInput(attrs={"type": "date"}),
         required=False,
         label="Auction End Date",
     )
+    purchase_category = forms.ModelChoiceField(
+        queryset=PurchaseCategory.objects.all(),
+        required=False,
+        label="Purchase Category",
+    )
 
     class Meta:
         model = Artwork
         exclude = ["user", "is_sold", "is_purchased", "status", "response_deadline", "buyer_response"]
         fields = [
-            "product_name",
-            "product_price",
-            "opening_bid",
-            "product_cat",
-            "product_qty",
-            "dimension_unit",
-            "length_in_centimeters",
-            "purchase_category",
-            "width_in_centimeters",
-            "foot",
-            "inches",
-            "product_image",
-            "end_date",
-            "discounted_price",
+            "sale_type", "product_name", "product_price", "opening_bid",
+            "product_cat", "product_qty", "dimension_unit", "length_in_centimeters",
+            "width_in_centimeters", "foot", "inches", "product_image",
+            "end_date", "discounted_price", "purchase_category"
         ]
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        sale_type = kwargs.get('data', {}).get('sale_type') or self.initial.get('sale_type')
-
-        # Ensure dropdown appears for discount artworks
+        sale_type = kwargs.get("data", {}).get("sale_type") or self.initial.get("sale_type")
+        
+        # If sale_type is "discount", make purchase_category required and visible
         if sale_type == "discount":
             self.fields["purchase_category"].widget = forms.Select(
-                choices=[(cat.id, cat.name) for cat in PurchaseCategory.objects.all()]
+                choices=[("", "Select a category")] + [(cat.id, cat.name) for cat in PurchaseCategory.objects.all()]
             )
             self.fields["purchase_category"].required = True
         else:
@@ -52,7 +47,7 @@ class ArtworkCreateForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        sale_type = cleaned_data.get("sale_type", "discount")
+        sale_type = cleaned_data.get("sale_type")
 
         if sale_type == "auction":
             cleaned_data["purchase_category"] = None  # Ensure it's removed

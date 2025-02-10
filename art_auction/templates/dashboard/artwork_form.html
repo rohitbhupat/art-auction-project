@@ -88,11 +88,13 @@
                                     <label for="id_product_qty">Quantity:</label>
                                     <input type="number" name="product_qty" value="1" readonly id="id_product_qty">
                                 </div>
-                                <div class="fieldWrapper">
-                                    <label for="{{ form.purchase_category.id_for_label }}">Purchase Category:</label>
-
-                                    {{ form.purchase_category }}
-                                </div>
+                                <!-- Purchase Category Field (Only Visible for Discount) -->
+                                <label for="purchase_category">Purchase Category:</label>
+                                <select name="purchase_category" id="purchase_category">
+                                    {% for category in purchase_categories %}
+                                        <option value="{{ category.id }}">{{ category.name }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
 
                             <!-- Fields for Auction -->
@@ -207,5 +209,29 @@
         toggleSaleTypeFields();
         toggleDimensionFields();
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const saleTypeField = document.querySelector("#id_sale_type");
+      
+        function toggleSaleTypeFields() {
+          const selectedType = saleTypeField?.value;
+          const discountFields = document.getElementById('discount_fields');
+          const auctionFields = document.getElementById('auction_fields');
+      
+          if (selectedType === 'discount') {
+            discountFields.style.display = 'block';
+            auctionFields.style.display = 'none';
+          } else if (selectedType === 'auction') {
+            discountFields.style.display = 'none';
+            auctionFields.style.display = 'block';
+          }
+        }
+      
+        if (saleTypeField) {
+          saleTypeField.addEventListener("change", toggleSaleTypeFields);
+          toggleSaleTypeFields(); // Initialize on page load
+        }
+      });    
+    
 </script>
 {% endblock %}
