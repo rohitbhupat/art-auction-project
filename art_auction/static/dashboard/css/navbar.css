@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Calistoga&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 /* Light Mode Scrollbar */
 body {
   background-color: #ffffff !important;
@@ -64,12 +67,19 @@ html.loaded {
 }
 
 /* Open Sans Font Settings */
-.open-sans-navbar {
+/* .open-sans-navbar {
   font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
   font-variation-settings: 100;
+} */
+
+.inter-navbar {
+  font-family: "Inter", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .open-sans-catalog {
@@ -144,9 +154,11 @@ html.loaded {
   /* Hide the dropdown menu by default */
   position: absolute;
   /* background-color: var(--dropdown-bg); */
-  min-width: 160px;
+  min-width: 140px;
   /* box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); */
   z-index: 1;
+  top: 75% !important;
+  right: 10%;
   border-color: none !important;
   background-color: #38343A;
   /* Darker background for dropdown */
@@ -331,11 +343,11 @@ body.dark-mode .dropdown-item {
   background-color: #2d2f36;
   /* Darker background for dropdown */
   border-radius: 6px;
-  min-width: 120px;
+  min-width: 68px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   z-index: 1;
   top: 50px !important;
-  right: 0;
+  right: 1%;
   border: none;
   /* Remove default border */
   border-radius: 6px;
@@ -479,12 +491,12 @@ body.dark-mode .notification-item:hover {
 
 /* Light Mode Styles */
 body.light-mode #notification-sidebar {
-  background-color: #f5ebdd;
+  background-color: #ffffff;
   color: #000;
 }
 
 body.light-mode #notification-sidebar .header {
-  background-color: #eaddcc;
+  background-color: #ffffff;
   border-bottom-color: #000000;
 }
 
@@ -572,9 +584,9 @@ body.dark-mode #notification-sidebar .header {
 .search-container {
   display: flex;
   justify-content: center;
-  width: 29% !important;
+  width: 26% !important;
   margin-top: -4px !important;
-  margin-left: 5rem !important;
+  margin-left: 6rem !important;
 }
 
 .input-group {

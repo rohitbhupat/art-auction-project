@@ -142,3 +142,63 @@ body.dark-mode .modal-footer .btn-danger {
 body.dark-mode .app-card-doc .app-doc-title a {
     color: #ffffff !important;
 }
+
+.btn-update {
+    background: #ffffff !important;
+    /* Soft Warm Beige */
+    border: 0.5px solid black !important;
+    border-radius: 8px;
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-update:hover {
+    background: #ffffff !important;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-delete {
+    /* background: #d5bdaf !important; */
+    /* Soft Muted Beige */
+    /* color: #5a4b42 !important; */
+    /* Dark Text for Readability */
+    border: none !important;
+    border-radius: 8px;
+    /* Slightly Rounded */
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease-in-out;
+    /* Soft Shadow */
+}
+
+.btn-delete:hover {
+    overflow: hidden;
+    /* Slightly Darker Shade */
+    /* Enhanced Shadow */
+}
+
+/* Underline Effect */
+.btn-delete::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 10%;
+    width: 0;
+    height: 2px;
+    background-color: #474747;
+    transition: all 0.4s ease-in-out;
+    transform: translateX(-50%);
+}
+
+/* Hover Effect */
+.btn-delete:hover::after {
+    width: 20%;
+}

@@ -131,3 +131,10 @@ body.dark-mode h3.open-sans-empty.dark-mode-heading {
 #alert-message {
   margin-bottom: 0px !important;
 }
+.button-group{
+  margin-top: 1.25rem !important;
+}
+.cat-name{
+  margin-bottom: 0.2rem !important;
+  margin-top: 0.3rem !important;
+}

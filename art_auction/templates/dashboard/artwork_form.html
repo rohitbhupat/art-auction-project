@@ -85,16 +85,18 @@
                                     {{ form.product_price }}
                                 </div>
                                 <div class="fieldWrapper">
-                                    <label for="id_product_qty">Quantity:</label>
-                                    <input type="number" name="product_qty" value="1" readonly id="id_product_qty">
+                                    <label for="id_product_qty_discount">Quantity:</label>
+                                    <input type="number" name="product_qty" value="1" readonly id="id_product_qty_discount">
                                 </div>
                                 <!-- Purchase Category Field (Only Visible for Discount) -->
-                                <label for="purchase_category">Purchase Category:</label>
-                                <select name="purchase_category" id="purchase_category">
-                                    {% for category in purchase_categories %}
-                                        <option value="{{ category.id }}">{{ category.name }}</option>
-                                    {% endfor %}
-                                </select>
+                                <div class="fieldWrapper">
+                                    <label for="id_purchase_category">Purchase Category:</label>
+                                    <select name="purchase_category" id="id_purchase_category">
+                                        {% for category in purchase_categories %}
+                                            <option value="{{ category.id }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>                                
                             </div>
 
                             <!-- Fields for Auction -->
@@ -107,9 +109,10 @@
                                     <label for="{{ form.product_cat.id_for_label }}">Catalogue:</label>
                                     {{ form.product_cat }}
                                 </div>
+                                <!-- Auction Section -->
                                 <div class="fieldWrapper">
-                                    <label for="id_product_qty">Quantity:</label>
-                                    <input type="number" name="product_qty" value="1" readonly id="id_product_qty">
+                                    <label for="id_product_qty_auction">Quantity:</label>
+                                    <input type="number" name="product_qty" value="1" readonly id="id_product_qty_auction">
                                 </div>
                                 <div class="fieldWrapper">
                                     <label for="{{ form.end_date.id_for_label }}">End Date:</label>
@@ -154,7 +157,7 @@
 
                             <!-- Submit Button -->
                             <div class="d-grid mx-auto">
-                                <input class="btn btn-success_bid" type="submit" value="Upload" />
+                                <input class="btn btn-upload" type="submit" value="Upload" />
                             </div>
                         </form>
                     </div>
@@ -168,31 +171,30 @@
 {% block js %}
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script>
-    function toggleSaleTypeFields() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const filter = urlParams.get('filter') || 'discount';
-        const discountFields = document.getElementById('discount_fields');
-        const auctionFields = document.getElementById('auction_fields');
-        const selectedFilter = document.getElementById('selectedFilter');
-        const pageTitle = document.querySelector('.app-page-title');
+    document.addEventListener("DOMContentLoaded", function () {
+        function toggleSaleTypeFields() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const filter = urlParams.get('filter') || 'discount';
+            const discountFields = document.getElementById('discount_fields');
+            const auctionFields = document.getElementById('auction_fields');
+            const selectedFilter = document.getElementById('selectedFilter');
+            const pageTitle = document.querySelector('.app-page-title');
     
-        if (filter === 'discount') {
-            discountFields.style.display = 'block';
-            auctionFields.style.display = 'none';
-            if (selectedFilter) selectedFilter.textContent = 'Discount';
-            if (pageTitle) pageTitle.textContent = 'Add Artwork for Discount';
-        } else if (filter === 'auction') {
-            discountFields.style.display = 'none';
-            auctionFields.style.display = 'block';
-            if (selectedFilter) selectedFilter.textContent = 'Auction';
-            if (pageTitle) pageTitle.textContent = 'Add Artwork for Auction';
-        } else {
-            discountFields.style.display = 'none';
-            auctionFields.style.display = 'none';
-            if (selectedFilter) selectedFilter.textContent = 'Filter';
-            if (pageTitle) pageTitle.textContent = 'Add Artwork';
+            if (filter === 'discount') {
+                discountFields.style.display = 'block';
+                auctionFields.style.display = 'none';
+                if (selectedFilter) selectedFilter.textContent = 'Discount';
+                if (pageTitle) pageTitle.textContent = 'Add Artwork for Discount';
+            } else if (filter === 'auction') {
+                discountFields.style.display = 'none';
+                auctionFields.style.display = 'block';
+                if (selectedFilter) selectedFilter.textContent = 'Auction';
+                if (pageTitle) pageTitle.textContent = 'Add Artwork for Auction';
+            }
         }
-    }    
+    
+        toggleSaleTypeFields();
+    });    
 
     function toggleDimensionFields() {
         const dimensionUnit = document.getElementById('dimension_unit')?.value;
@@ -206,7 +208,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        toggleSaleTypeFields();
         toggleDimensionFields();
     });
 
@@ -232,6 +233,6 @@
           toggleSaleTypeFields(); // Initialize on page load
         }
       });    
-    
+      document.getElementById("purchase_category").setAttribute("name", "purchase_category");
 </script>
 {% endblock %}

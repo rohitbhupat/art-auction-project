@@ -32,18 +32,18 @@ class ArtworkCreateForm(forms.ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
+        sale_type = kwargs.pop('sale_type', None) or 'discount'  # Default to discount
         super().__init__(*args, **kwargs)
-        sale_type = kwargs.get("data", {}).get("sale_type") or self.initial.get("sale_type")
-        
-        # If sale_type is "discount", make purchase_category required and visible
+    
         if sale_type == "discount":
-            self.fields["purchase_category"].widget = forms.Select(
-                choices=[("", "Select a category")] + [(cat.id, cat.name) for cat in PurchaseCategory.objects.all()]
-            )
             self.fields["purchase_category"].required = True
-        else:
+            self.fields["opening_bid"].widget = forms.HiddenInput()
+            self.fields["end_date"].widget = forms.HiddenInput()
+        elif sale_type == "auction":
             self.fields["purchase_category"].widget = forms.HiddenInput()
-            self.fields["purchase_category"].required = False
+            self.fields["opening_bid"].required = True
+            self.fields["end_date"].required = True
+
 
     def clean(self):
         cleaned_data = super().clean()
@@ -61,6 +61,8 @@ class ArtworkCreateForm(forms.ModelForm):
             cleaned_data["end_date"] = None
             if not cleaned_data.get("discounted_price"):
                 cleaned_data["discounted_price"] = cleaned_data.get("product_price", 0) * 0.7
+            print("Cleaning Data - Discounted Price:", cleaned_data["discounted_price"])
+
 
             if not cleaned_data.get("purchase_category"):
                 self.add_error("purchase_category", "Purchase category is required for discounts.")

@@ -24,7 +24,7 @@ class PurchaseCategory(models.Model):
 
     def __str__(self):
         return self.name
-
+from django.urls import reverse
 class Artwork(models.Model):
     SALE_TYPE_CHOICES = [
         ("discount", "Discount"),
@@ -37,9 +37,10 @@ class Artwork(models.Model):
     product_id = models.CharField(max_length=255, default="")
     product_name = models.CharField(max_length=255)
     product_price = models.IntegerField(default=0)
+    model_360 = models.FileField(upload_to="3d_models/", null=True, blank=True)  # 360 View Field
     opening_bid = models.IntegerField(default=0, null=True, blank=True)
     product_cat = models.ForeignKey(
-        "Catalogue", on_delete=models.CASCADE, null=True, blank=True
+        Catalogue, on_delete=models.CASCADE, null=True, blank=True
     )
     purchase_category = models.ForeignKey(  # Add this field
         PurchaseCategory, on_delete=models.CASCADE, null=True, blank=True
@@ -47,7 +48,7 @@ class Artwork(models.Model):
     product_qty = models.IntegerField(default=0)
     product_image = models.ImageField(upload_to="arts/")
     dimension_unit = models.CharField(
-        max_length=2, choices=[("cm", "Centimeters"), ("ft", "Feet")]
+        max_length=10, choices=[("cm", "Centimeters"), ("ft", "Feet")]
     )
     length_in_centimeters = models.FloatField(default=0, blank=True, null=True)
     width_in_centimeters = models.FloatField(default=0, blank=True, null=True)
@@ -80,7 +81,18 @@ class Artwork(models.Model):
     discounted_price = models.DecimalField(
         max_digits=10, decimal_places=2, null=True, blank=True
     )
+    def save(self, *args, **kwargs):
+        """ Automatically assign categories based on sale_type """
+        if self.sale_type == 'discount':
+            self.product_cat = None  # Ensure product_cat is empty
+        elif self.sale_type == 'auction':
+            self.purchase_category = None  # Ensure purchase_category is empty
+        
+        super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('art:catalog_products', kwargs={'pk': self.product_cat.id})
+    
     def get_discounted_price(self):
         """Calculate 30% discounted price."""
         return self.product_price * 0.7
@@ -299,6 +311,37 @@ class Shipping(models.Model):
 
     def __str__(self):
         return f"Shipping for Order {self.order.id}: {self.status}"
+
+class Refund(models.Model):
+    REFUND_PERCENTAGE = {
+        "processing": 1.0,  # 100% refund if processing
+        "shipped": 0.6,  # 60% refund if shipped
+    }
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    order = models.ForeignKey(OrderModel, on_delete=models.CASCADE)
+    refunded_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    status = models.CharField(max_length=20, choices=[
+        ("pending", "Pending"),
+        ("processed", "Processed"),
+    ])
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        """Automatically calculate refunded amount based on order status."""
+        if not self.refunded_amount:  # Calculate only if not manually set
+            order_status = self.order.shipping.status  # Get order shipping status
+            refund_percentage = self.REFUND_PERCENTAGE.get(order_status, 0.0)
+            self.refunded_amount = self.order.total_amount * refund_percentage  # Apply percentage refund
+        super().save(*args, **kwargs)
+
+    def refund_message(self):
+        """Return a message for the admin text box."""
+        order_status = self.order.shipping.status
+        return f"Your refund amount is ₹{self.refunded_amount} for order {self.order.id}, and it's being processed."
+
+    def __str__(self):
+        return f"Refund for {self.order} - ₹{self.refunded_amount}"
 
 class Favorite(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

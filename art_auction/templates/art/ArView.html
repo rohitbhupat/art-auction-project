@@ -4,11 +4,18 @@
     {% load static %}
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="{% static 'icon/favicon.ico' %}" type="image/x-icon">
     <link rel="icon" href="{% static 'icon/favicon.ico' %}" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" crossorigin="anonymous">
-    <title>{% block title %}AR View - ARTIV{% endblock %}</title>
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <!-- Import A-Frame and AR.js libraries -->
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+
     <style>
         .arjs-loader {
             height: 100%;
@@ -16,107 +23,90 @@
             position: absolute;
             top: 0;
             left: 0;
+            z-index: 9999;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
         }
+
         .arjs-loader div {
-            color: white;
             text-align: center;
-        }
-        .info-overlay {
-            position: absolute;
-            top: 10px;
-            left: 10px;
+            font-size: 1.25em;
             color: white;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 1000;
+        }
+
+        /* Info Overlay Style */
+        .ar-info-overlay {
+            position: absolute;
+            top: 15px;
+            left: 6.5%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            z-index: 999;
+            font-weight: bold;
+        }
+        .ar-image {
+          width: 100%; /* Makes it responsive */
+          max-height: 350px; /* Controls the max height */
+          object-fit: contain; /* Ensures the image fits within the container without distortion */
         }
     </style>
+
 </head>
+
 <body>
     {% if user.is_authenticated %}
-    <div class="arjs-loader">
-        <div>
-            <img src="{{ MEDIA_URL }}{{ image }}" alt="Artwork Image" />
-            <p>Loading AR experience...</p>
+        <!-- Artwork Image Display -->
+        <div class="arjs-loader">
+            <div style="border:2.5px solid white;">
+                <img class="ar-image" src="{{ MEDIA_URL }}{{ image }}" alt="img"/>
+            </div>
         </div>
-    </div>
-    <div class="info-overlay">
-        <p><strong>Artwork Details:</strong></p>
-        <p>Length: <span id="length">{{ length_in_centimeters }}</span> cm</p>
-        <p>Width: <span id="width">{{ width_in_centimeters }}</span> cm</p>
-        <p>Unit: {{ dimension_unit }}</p>
-    </div>
-    <a-scene
-        vr-mode-ui="enabled: false;"
-        renderer="logarithmicDepthBuffer: true;"
-        embedded
-        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
-    >
-        <a-nft type="nft" url="{{ MEDIA_URL }}nft" smooth="true">
-            <a-plane
-                id="artwork-plane"
-                src="{{ MEDIA_URL }}{{ image }}"
-                height="{{ length_in_centimeters }}"
-                width="{{ width_in_centimeters }}"
-                position="0 {{ half_width }} 0"
-            >
-            </a-plane>
-        </a-nft>
-        <a-entity camera></a-entity>
-    </a-scene>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const artworkPlane = document.getElementById("artwork-plane");
-            const lengthElement = document.getElementById("length");
-            const widthElement = document.getElementById("width");
-            const loader = document.querySelector(".arjs-loader");
-            let lastData = {};
-        
-            function updateArtwork(imageUrl, length, width, position) {
-                artworkPlane.setAttribute("src", imageUrl);
-                artworkPlane.setAttribute("height", length);
-                artworkPlane.setAttribute("width", width);
-                artworkPlane.setAttribute("position", position);
-        
-                lengthElement.textContent = length.toFixed(1);
-                widthElement.textContent = width.toFixed(1);
-            }
-        
-            function fetchArtworkDetails(productId) {
-                fetch("{% url 'art:arview-update' %}", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRFToken": "{{ csrf_token }}",
-                    },
-                    body: JSON.stringify({ product_id: productId }),
-                })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        if (JSON.stringify(data) !== JSON.stringify(lastData)) {
-                            lastData = data; // Update last data
-                            updateArtwork(data.image_url, data.length, data.width, data.position);
-                        }
-                    })
-                    .catch((error) => console.error("Error fetching artwork details:", error));
-            }
-        
-            document.querySelector("a-scene").addEventListener("loaded", function () {
-                loader.style.display = "none";
-            });
-        
-            const productId = "{{ object.id }}";
-            setInterval(() => fetchArtworkDetails(productId), 5000);
-        });        
-    </script>    
+        <!-- Info Overlay for Dimensions -->
+        <div class="ar-info-overlay">
+            <h5>Dimensions:</h5>
+            {% if foot and inches %}
+                <p>{{ foot }} ft {{ inches }} in</p>
+            {% else %}
+                <p>{{ length_in_centimeters }} x {{ width_in_centimeters }} {{ dimension_unit }}</p>
+            {% endif %}
+        </div>
+
+        <!-- A-Frame Scene for AR -->
+        <a-scene
+            vr-mode-ui="enabled: false;"
+            renderer="logarithmicDepthBuffer: true;"
+            embedded
+            arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;">
+            
+            <!-- The NFT image used for Tracking -->
+            <a-nft
+                type="nft"
+                url="{{ MEDIA_URL }}{{ image }}" 
+                smooth="true"
+                smoothCount="10"
+                smoothTolerance=".01"
+                smoothThreshold="5">
+                
+                <!-- Define the GLTF model -->
+                <a-entity
+                    gltf-model="<Path to Model>"
+                    scale="5 5 5"
+                    position="50 150 0">
+                </a-entity>
+            </a-nft>
+            
+            <!-- Create the Static Camera -->
+            <a-entity camera></a-entity>
+        </a-scene>
+
     {% else %}
-    {% include '404.html' %}
+        {% include '404.html' %}
     {% endif %}
 </body>
 </html>

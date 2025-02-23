@@ -36,7 +36,7 @@ body.dark-mode .fieldWrapper label {
 body.light-mode .fieldWrapper input,
 body.light-mode .fieldWrapper select,
 body.light-mode .fieldWrapper textarea {
-    background-color: #f5ebdd !important; /* Light background */
+    background-color: #ffffff !important; /* Light background */
     color: black;               /* Dark text */
     border: 1px solid #ccc;     /* Light border */
 }

@@ -613,38 +613,18 @@ class SaleOrderCreateView(LoginRequiredMixin, View):
 from django.utils.decorators import method_decorator
 class ArView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        product_object = get_object_or_404(Artwork, pk=self.kwargs.get("id"))
-        length = product_object.length_in_centimeters or 10
-        width = product_object.width_in_centimeters or 10
-        half_width = width / 2
-
+        product_object = Artwork.objects.get(pk=self.kwargs.get('id'))
         context = {
             "image": product_object.product_image,
-            "length_in_centimeters": length,
-            "width_in_centimeters": width,
-            "dimension_unit": product_object.dimension_unit or "cm",
-            "half_width": half_width,
-            "object": product_object,
+            "length_in_centimeters": product_object.length_in_centimeters,
+            "width_in_centimeters": product_object.width_in_centimeters,
+            "foot": product_object.foot,
+            "inches": product_object.inches,
+            "dimension_unit": product_object.dimension_unit
         }
         return render(request, "art/ArView.html", context)
 
-@method_decorator(csrf_exempt)
-def post(self, request, *args, **kwargs):
-    try:
-        data = json.loads(request.body)
-        product_id = data.get("product_id")
-        product_object = get_object_or_404(Artwork, pk=product_id)
-        width = product_object.width_in_centimeters or 10
-        half_width = width / 2
-        response_data = {
-            "image_url": product_object.product_image.url,
-            "length": product_object.length_in_centimeters or 10,
-            "width": width,
-            "position": f"0 {half_width} 0",
-        }
-        return JsonResponse(response_data, status=200)
-    except Exception as e:
-        return JsonResponse({"error": str(e)}, status=400)
+
 class About(TemplateView):
     template_name = "art/about.html"
 
@@ -666,25 +646,28 @@ class FAQs(TemplateView):
     template_name = "art/faq.html"
 
 
+# Unsold artworks view (for sellers)
 class UnsoldListView(LoginRequiredMixin, ListView):
     model = Artwork
     template_name = "art/unsold.html"
     context_object_name = "object_list"
 
     def get_queryset(self):
-        queryset = Artwork.objects.filter(
-            end_date__lt=timezone.now(), product_qty__gt=0
-        )
+        queryset = Artwork.objects.filter(end_date__lt=now(), product_qty__gt=0)
 
-        # Handle sorting based on URL parameter 'filter'
-        filter_param = self.request.GET.get("filter", None)
-        if filter_param == "asc":
-            queryset = queryset.order_by("end_date")
-        elif filter_param == "desc":
-            queryset = queryset.order_by("-end_date")
+        # Get filter parameter from the request
+        filter_param = self.request.GET.get("filter", "all")
+
+        # Apply filters similar to CatListView
+        if filter_param == "new":
+            last_7_days = now() - timedelta(days=7)  # Adjust days as needed
+            queryset = queryset.filter(created_at__gte=last_7_days).order_by("-created_at")
+        elif filter_param == "old":
+            queryset = queryset.order_by("created_at")  # Oldest first
+        elif filter_param == "bidded":
+            queryset = queryset.filter(id__in=Bid.objects.values_list("product_id", flat=True))
 
         return queryset
-
 class ArtworkSaleDetailView(DetailView):
     model = Artwork
     template_name = "art/artwork-sale_detail.html"

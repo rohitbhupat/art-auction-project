@@ -369,6 +369,7 @@ body.dark-mode .btn-home_ar:hover {
     border: 1px solid #eee !important;
     background: none !important;
 }
+
 .category-link {
     font-size: 1.2rem;
     font-weight: 500;
@@ -386,13 +387,27 @@ body.dark-mode .btn-home_ar:hover {
 }
 
 .category-link:hover {
-    color: #ff6f61; /* Etsy-like orange */
+    color: #ff6f61;
+    /* Etsy-like orange */
 }
 
 .category-link:hover .arrow {
     transform: translateX(5px);
 }
-.heading{
+
+.heading {
     margin-top: -1rem !important;
     margin-bottom: 3rem !important;
+}
+.our-categories-title {
+    font-family: 'Masthan', sans-serif;
+    font-size: 8rem;
+    color: #c9ada7;
+    -webkit-text-stroke: 0.22px black !important;
+}
+/* fonts */
+.name-calistoga-regular {
+    /* font-family: "Calistoga", serif; */
+    font-size: 1.2rem;
+    font-style: light;
 }

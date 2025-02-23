@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from art.models import SellerInfo, UserInfo
-from dashboard.models import Artwork, Feedback, Catalogue, PurchaseCategory
+from dashboard.models import Artwork, Feedback, Catalogue, PurchaseCategory, Refund
 from django.core.exceptions import ValidationError
 
 class UserRegistrationForm(UserCreationForm):
@@ -101,7 +101,8 @@ class ArtworkForm(forms.ModelForm):
         fields = [
             'sale_type', 'product_name', 'product_price', 'product_qty', 'product_image',
             'product_cat', 'purchase_category', 'product_id', 'end_date', 'opening_bid',
-            'dimension_unit', 'length_in_centimeters', 'width_in_centimeters', 'foot', 'inches'
+            'dimension_unit', 'length_in_centimeters', 'width_in_centimeters', 'foot', 'inches',
+            'model_360'
         ]
         widgets = {
             'end_date': forms.DateInput(attrs={'type': 'date'}),
@@ -109,16 +110,18 @@ class ArtworkForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        sale_type = kwargs.get('data', {}).get('sale_type') or self.initial.get('sale_type')
+        sale_type = kwargs.get('data', {}).get('sale_type') or self.initial.get('sale_type') or 'auction'  # Default to auction
+
+        self.fields['purchase_category'].queryset = PurchaseCategory.objects.all()
 
         if sale_type == 'discount':
+            self.fields['purchase_category'].widget = forms.Select()
             self.fields['purchase_category'].required = True
-            self.fields['purchase_category'].widget = forms.Select(choices=[(cat.id, cat.name) for cat in PurchaseCategory.objects.all()])
             self.fields['product_cat'].widget = forms.HiddenInput()
             self.fields['opening_bid'].widget = forms.HiddenInput()
             self.fields['end_date'].widget = forms.HiddenInput()
         elif sale_type == 'auction':
-            self.fields['purchase_category'].required = True  # <-- Ensure it's included for auctions as well
+            self.fields['purchase_category'].widget = forms.HiddenInput()
             self.fields['product_cat'].required = True
             self.fields['opening_bid'].required = True
             self.fields['end_date'].required = True
@@ -172,20 +175,10 @@ class ArtworkForm(forms.ModelForm):
         cleaned_data = super().clean()
         sale_type = cleaned_data.get('sale_type')
 
-        if sale_type == 'auction':
-            cleaned_data.pop('purchase_category', None)  # Ensure it’s removed
-        
         if sale_type == 'discount':
-            # Ensure these fields are ignored for discount type
-            cleaned_data['product_cat'] = None
-            cleaned_data['opening_bid'] = None
-            cleaned_data['end_date'] = None
-            
-        if not cleaned_data.get('purchase_category'):
-            self.add_error('purchase_category', "Purchase category is required for discounts.")
-
+            if not cleaned_data.get('purchase_category'):
+                self.add_error('purchase_category', "Purchase category is required for discounts.")
         elif sale_type == 'auction':
-            # Validate auction-specific fields
             if not cleaned_data.get('product_cat'):
                 self.add_error('product_cat', "Product category is required for bidding.")
             if not cleaned_data.get('opening_bid'):
@@ -200,3 +193,20 @@ class FeedbackForm(forms.ModelForm):
     class Meta:
         model = Feedback
         fields = ['rating', 'feedback_text']
+        
+class RefundAdminForm(forms.ModelForm):
+    class Meta:
+        model = Refund
+        fields = "__all__"
+    
+    # Dynamically calculate refunded amount
+    refunded_amount = forms.DecimalField(disabled=True, required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.order:
+            # Calculate refunded amount based on order status
+            order_status = self.instance.order.shipping.status if self.instance.order.shipping else None
+            refund_percentage = Refund.REFUND_PERCENTAGE.get(order_status, 0)
+            self.instance.refunded_amount = self.instance.order.total_amount * refund_percentage
+            self.fields['refunded_amount'].initial = self.instance.refunded_amount

@@ -312,3 +312,17 @@ body.dark-mode .btn-warning_buy:hover {
   border: 1px solid #eee !important;
   background: none !important;
 }
+/* Flat Minimal Button Styles (Palette 2 Aesthetic) */
+.button-ar {
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease-in-out;
+}
+
+.button-ar:hover {
+  overflow: hidden;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.251);
+}

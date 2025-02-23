@@ -45,14 +45,14 @@
                         </h4>                      
                         <div class="app-doc-meta">
                             <ul class="list-unstyled mb-0">
-                                <li><span class="text-muted">Catalogue:</span> <span class="text-details">{{ product.product_cat }}</span></li>
-                                <li><span class="text-muted">End on:</span> <span class="text-details">{{ product.end_date }}</span></li>
+                                <li class="cat-name"><span class="text-muted">Catalogue:</span> <span class="text-details">{{ product.product_cat }}</span></li>
+                                <li class="last-date"><span class="text-muted">End on:</span> <span class="text-details">{{ product.end_date }}</span></li>
                             </ul>
-                            <div class="btn-group d-flex mx-auto mb-2 mt-2" role="group">
+                            <div class="btn-group d-flex mx-auto mb-2 button-group" role="group">
                                 <a href="{% url 'art:product_details' pk=product.pk %}" class="btn btn-warning_buy btn-sm">Details</a>
                             </div>
                             <div class="d-grid gap-2">
-                                <a class="btn btn-primary_details btn-sm" href="{% url 'art:view_3d' id=product.id %}">View in 3D</a>
+                                <a class="btn btn-primary_details btn-sm" href="{% url 'art:view_3d' id=product.id %}">View in AR</a>
                             </div>
                         </div>
                     </div>

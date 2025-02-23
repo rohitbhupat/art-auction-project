@@ -4,9 +4,10 @@ from django import forms
 from art.forms import ArtworkForm, FeedbackForm
 from dashboard.forms import ArtworkCreateForm, ArtworkUpdateForm
 from django.views import View
+from django.db import transaction
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from dashboard.models import Artwork, OrderModel, Bid, Notification, Query, Feedback, Shipping
+from dashboard.models import Artwork, OrderModel, Bid, Notification, PurchaseCategory, Query, Feedback, Refund, Shipping
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, FormView
 from django.urls import reverse_lazy
 from django.http import HttpResponse, JsonResponse
@@ -21,7 +22,7 @@ from django.utils import timezone
 from PIL import Image
 import imagehash
 from django.core.exceptions import ValidationError
-from django.core.mail import send_mail
+from django.core.mail import send_mail, BadHeaderError
 from django.conf import settings
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -30,6 +31,12 @@ class ArtworkCreateView(LoginRequiredMixin, CreateView):
     form_class = ArtworkCreateForm
     success_url = '/dashboard/product/'
 
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['sale_type'] = self.request.GET.get('filter', 'discount')  # Pass sale_type to form
+        return kwargs
+    
     def get_form(self):
         form = super().get_form()
         sale_type = self.request.GET.get('filter', 'discount')  # Default to 'discount'
@@ -42,32 +49,47 @@ class ArtworkCreateView(LoginRequiredMixin, CreateView):
         else:
             form.fields['end_date'].required = False
             form.fields['opening_bid'].required = False
+            form.fields['purchase_category'].required = True  # Ensure this is required for discount artworks
 
         return form
 
     def form_valid(self, form):
         sale_type = self.request.GET.get('filter', 'discount')
         form.instance.sale_type = sale_type  # Assign correct sale type
-    
+
+
         if sale_type == 'discount':
             form.instance.opening_bid = None
             form.instance.end_date = None
+            form.instance.purchase_category_id = self.request.POST.get('purchase_category')
+            print("Selected Purchase Category:", self.request.POST.get('purchase_category'))
+
             if not form.instance.discounted_price:
-                form.instance.discounted_price = form.cleaned_data.get('product_price', 0) * 0.7  # Apply 30% discount
-    
+                form.instance.discounted_price = form.cleaned_data.get('product_price', 0) * 0.7
+                print("Product Price:", form.cleaned_data.get('product_price'))
+                print("Discounted Price:", form.instance.discounted_price)
+
+
+
         form.instance.user = self.request.user  # Assign seller
 
         # Image duplicate check
         if self.request.FILES.get('product_image'):
             uploaded_image = self.request.FILES['product_image']
-            uploaded_image_hash = imagehash.phash(Image.open(uploaded_image))
+            uploaded_image_hash = str(imagehash.phash(Image.open(uploaded_image)))  # Convert hash to string
             for artwork in Artwork.objects.all():
-                stored_image_hash = imagehash.phash(Image.open(artwork.product_image.path))
+                stored_image_hash = str(imagehash.phash(Image.open(artwork.product_image.path)))
                 if uploaded_image_hash == stored_image_hash:
                     form.add_error('product_image', 'Duplicate image detected.')
                     return self.form_invalid(form)
 
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['purchase_categories'] = PurchaseCategory.objects.all()
+        return context
+
 
 
 class ArtworkUpdateView(LoginRequiredMixin, UpdateView):
@@ -329,9 +351,6 @@ class OrderListView(LoginRequiredMixin, ListView):
 
 # View for fetching real-time shipping status
 def get_shipping_status(request, order_id):
-    """
-    Fetch the shipping status of a specific order.
-    """
     try:
         shipping = Shipping.objects.get(order__id=order_id)
         return JsonResponse({"status": shipping.status, "tracking_number": shipping.tracking_number})
@@ -341,10 +360,6 @@ def get_shipping_status(request, order_id):
 # View for updating shipping status (for sellers/admins)
 @csrf_exempt
 def update_shipping_status(request):
-    """
-    Update the shipping status for a specific order.
-    Only accessible to authorized users (e.g., sellers/admins).
-    """
     if request.method == "POST":
         try:
             data = json.loads(request.body)
@@ -355,10 +370,67 @@ def update_shipping_status(request):
             shipping.status = new_status
             shipping.save()
 
-            return JsonResponse({"success": "Shipping status updated successfully!"})
+            return JsonResponse({"success": "Shipping status updated successfully!", "new_status": new_status})
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
     return JsonResponse({"error": "Invalid request method."}, status=405)
+
+@csrf_exempt
+@login_required
+def cancel_order(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)  # Get the JSON payload
+            order_id = data.get("order_id")
+
+            if not order_id:
+                return JsonResponse({"error": "Order ID is required"}, status=400)
+
+            with transaction.atomic():
+                # Fetch the order
+                order = get_object_or_404(OrderModel, id=order_id)
+
+                # Fetch shipping details
+                shipping = Shipping.objects.filter(order=order).first()
+                if not shipping:
+                    return JsonResponse({"error": "Shipping details not found"}, status=400)
+
+                status = shipping.status.lower()
+
+                # Restrict cancellation for "Out for Delivery" and "Delivered"
+                if status in ["out_for_delivery", "delivered"]:
+                    return JsonResponse({"error": "Order cannot be cancelled at this stage"}, status=400)
+
+                # Determine refund amount
+                if status == "processing":
+                    refund_amount = order.total_price  # 100% refund
+                elif status == "shipped":
+                    refund_amount = order.total_price * 0.6  # 60% refund
+                else:
+                    refund_amount = 0
+
+                # Create refund record
+                Refund.objects.create(order=order, amount=refund_amount, status="processed")
+
+                # Update order status to "Cancelled"
+                shipping.status = "cancelled"
+                shipping.save()
+
+                # Mark artwork as unsold
+                if hasattr(order, "artwork"):
+                    order.artwork.status = "unsold"
+                    order.artwork.save()
+
+                # Return success response
+                return JsonResponse({
+                    "success": True,
+                    "message": f"Order #{order.id} has been cancelled successfully. Refund Amount: {refund_amount}",
+                })
+
+        except Exception as e:
+            return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+    return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
 from django.views.generic import DetailView
@@ -573,9 +645,15 @@ def submit_feedback(request):
 #     )
 #     return HttpResponse('Email sent successfully')
 
+from django.db.models import Q
 def autocomplete_artworks(request):
-    query = request.GET.get('q', '')
+    query = request.GET.get("q", "").strip()
     if query:
-        artworks = Artwork.objects.filter(title__icontains=query).values("id", "title")[:5]
+        artworks = Artwork.objects.filter(
+            Q(title__icontains=query) | 
+            Q(category__name__icontains=query) | 
+            Q(catalogue__name__icontains=query)
+        ).values("id", "title")[:5]
         return JsonResponse(list(artworks), safe=False)
+
     return JsonResponse([], safe=False)

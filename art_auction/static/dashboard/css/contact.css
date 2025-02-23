@@ -83,7 +83,7 @@ body {
 }
 
 .footer-content {
-    max-width: 800px;
+    max-width: 70%;
     margin: 0 auto;
 }
 
@@ -127,7 +127,7 @@ body {
     font-style: normal;
 }
 .modal-content{
-    background-color: #f5ebdd !important;
+    background-color: #ffffff !important;
 }
 /* Dark mode styling for modal */
 .dark-mode .modal-content {

@@ -1,44 +1,46 @@
 document.addEventListener("DOMContentLoaded", () => {
   const themeText = document.getElementById("bd-theme-text");
-  const themeItems = document.querySelectorAll(".dropdown-item");
+  const themeItems = document.querySelectorAll(".dropdown-item[data-theme]");
   const navbar = document.getElementById("navbar");
 
+  // Function to apply theme
   const setTheme = (theme) => {
-    document.body.classList.remove("light-mode", "dark-mode");
-    navbar.classList.remove("light-mode", "dark-mode");
+      if (!theme) return; // Prevent applying an empty theme
 
-    if (theme === "light") {
-      document.body.classList.add("light-mode");
-      navbar.classList.add("light-mode");
-      themeText.innerText = "Light Mode";
-    } else if (theme === "dark") {
-      document.body.classList.add("dark-mode");
-      navbar.classList.add("dark-mode");
-      themeText.innerText = "Dark Mode";
-    } else {
-      const prefersDarkScheme = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      if (prefersDarkScheme) {
-        document.body.classList.add("dark-mode");
-        navbar.classList.add("dark-mode");
-      } else {
-        document.body.classList.add("light-mode");
-        navbar.classList.add("light-mode");
-      }
-      themeText.innerText = "Auto Mode";
-    }
+      // Remove previous theme classes
+      document.body.classList.remove("light-mode", "dark-mode");
+      document.documentElement.classList.remove("light-mode", "dark-mode");
+      navbar.classList.remove("light-mode", "dark-mode");
 
-    localStorage.setItem("theme", theme);
+      // Add the new theme
+      document.body.classList.add(`${theme}-mode`);
+      document.documentElement.classList.add(`${theme}-mode`);
+      navbar.classList.add(`${theme}-mode`);
+
+      // Update dropdown text
+      themeText.innerText = theme === "light" ? "Light Mode" : "Dark Mode";
+
+      // Save theme selection in localStorage
+      localStorage.setItem("theme", theme);
   };
 
-  themeItems.forEach((item) => {
-    item.addEventListener("click", (e) => {
-      const theme = e.target.getAttribute("data-theme");
-      setTheme(theme);
-    });
-  });
+  // Retrieve theme from localStorage
+  let storedTheme = localStorage.getItem("theme");
+  
+  // If theme is missing or invalid, default to "light"
+  if (!storedTheme || (storedTheme !== "light" && storedTheme !== "dark")) {
+      storedTheme = "light";
+      localStorage.setItem("theme", "light");
+  }
 
-  const storedTheme = localStorage.getItem("theme") || "auto";
+  // Apply the stored theme
   setTheme(storedTheme);
+
+  // Event listener for theme selection from dropdown
+  themeItems.forEach((item) => {
+      item.addEventListener("click", (e) => {
+          const selectedTheme = e.target.getAttribute("data-theme");
+          setTheme(selectedTheme);
+      });
+  });
 });

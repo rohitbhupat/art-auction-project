@@ -5,6 +5,9 @@
 
 <link rel="stylesheet" href="{% static 'dashboard/css/ordermodel_list.css' %}">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!-- Tailwind CSS from CDN -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
 <script>
     (function () {
       const theme = localStorage.getItem("theme") || "auto";
@@ -107,6 +110,8 @@
                             {% if request.GET.filter == 'all' or not request.GET.filter %}
                             <th scope="col">Type</th>
                             {% endif %}
+                            <th scope="col">Shipping Status</th>
+                            <th scope="col">Order Cancellation</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -185,6 +190,18 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-primary_details" data-dismiss="modal">Close</button>
                                             </div>
+                                            <!-- Modal for Confirmation -->
+                                            <div class="order">
+                                                <p>Order #{{ order.id }} - Status: {{ order.shipping.status }}</p>
+                                                <div id="cancel-modal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
+                                                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                                                        <p>Are you sure you want to cancel this order?</p>
+                                                        <button id="confirm-cancel" class="bg-red-500 text-white py-2 px-4 rounded mt-4">Confirm Cancel</button>
+                                                        <button id="cancel-cancel" class="bg-gray-500 text-white py-2 px-4 rounded mt-4">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -211,6 +228,30 @@
                             {% endif %}
                             </td>
                             {% endif %}
+                            <td>
+                                {% if order.shipping %}
+                                    <span class="badge 
+                                        {% if order.shipping.status == 'processing' %}badge-warning
+                                        {% elif order.shipping.status == 'shipped' %}badge-info
+                                        {% elif order.shipping.status == 'out_for_delivery' %}badge-primary
+                                        {% elif order.shipping.status == 'delivered' %}badge-success
+                                        {% elif order.shipping.status == 'cancelled' %}badge-danger
+                                        {% endif %}">
+                                        {{ order.shipping.get_status_display }}
+                                    </span>
+                                {% else %}
+                                    <span class="badge badge-secondary">No Shipping Info</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if order.shipping and order.shipping.status in "processing,shipped" %}
+                                    <button class="btn btn-danger badge badge-danger btn-sm cancel-order-btn" data-order-id="{{ order.id }}">
+                                        Cancel Order
+                                    </button>
+                                {% else %}
+                                    <span class="badge badge-secondary">Cannot Cancel</span>
+                                {% endif %}
+                            </td>                            
                         </tr>
                         {% empty %}
                         <tr>
@@ -226,10 +267,13 @@
         </div>        
     </div>
 {% comment %} </div> {% endcomment %}
+<form method="post">
+    {% csrf_token %}
+</form>
 
 {% endblock %}
 {% block js %}
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -264,6 +308,78 @@
             });
         });
     });
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".cancel-order").forEach(button => {
+            button.addEventListener("click", function () {
+                let orderId = this.getAttribute("data-order-id");
+    
+                // Show the modal
+                let modal = document.getElementById("cancel-modal");
+                modal.classList.remove("hidden");
+    
+                // Cancel button logic (close the modal without canceling)
+                document.getElementById("cancel-cancel").addEventListener("click", function () {
+                    modal.classList.add("hidden");
+                });
+    
+                // Confirm cancel button logic (trigger cancellation)
+                document.getElementById("confirm-cancel").addEventListener("click", function () {
+                    let csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value; // Fetch CSRF token
+                    
+                    fetch("{% url 'dashboard:cancel_order' %}", {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": csrfToken,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ "order_id": orderId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Order cancelled and refund processed.");
+                            location.reload(); // Refresh page to update status
+                        } else {
+                            alert("Failed to cancel order.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("An error occurred while canceling the order.");
+                    });                    
+                });
+            });
+        });
+    });
+    // jQuery AJAX method
+    $(document).ready(function () {
+        $(".cancel-order-btn").click(function () {
+            var orderId = $(this).data("order-id");
+            var csrfToken = "{{ csrf_token }}";
+    
+            if (confirm("Are you sure you want to cancel this order?")) {
+                $.ajax({
+                    url: "{% url 'dashboard:cancel_order' %}",
+                    type: "POST",
+                    headers: {
+                        "X-CSRFToken": csrfToken
+                    },
+                    contentType: "application/json",
+                    data: JSON.stringify({ "order_id": orderId }),
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload(); // Refresh page to update status
+                        } else {
+                            alert(response.error);
+                        }
+                    },
+                    error: function () {
+                        alert("An error occurred while processing your request.");
+                    }
+                });
+            }
+        });
+    });
 </script>
-
 {% endblock %}
