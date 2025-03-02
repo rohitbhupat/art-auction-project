@@ -11,15 +11,13 @@ class ArtworkCreateForm(forms.ModelForm):
         required=True,
     )
     end_date = forms.DateField(
-        widget=forms.DateInput(attrs={"type": "date"}),
-        required=False,
-        label="Auction End Date",
+        widget=forms.DateInput(attrs={"type": "date"}), required=False, label="Auction End Date"
     )
     purchase_category = forms.ModelChoiceField(
-        queryset=PurchaseCategory.objects.all(),
-        required=False,
-        label="Purchase Category",
+        queryset=PurchaseCategory.objects.all(), required=False, label="Purchase Category"
     )
+    opening_bid = forms.DecimalField(required=False, label="Opening Bid")
+    discounted_price = forms.DecimalField(required=False, label="Discounted Price")
 
     class Meta:
         model = Artwork
@@ -32,15 +30,15 @@ class ArtworkCreateForm(forms.ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        sale_type = kwargs.pop('sale_type', None) or 'discount'  # Default to discount
-        super().__init__(*args, **kwargs)
-    
+        super().__init__(*args, **kwargs)  # Ensure base form initializes correctly
+
+        # Get sale_type from form data (if POST) or initial data (if GET)
+        sale_type = self.data.get("sale_type") or self.initial.get("sale_type") or "discount"
+
         if sale_type == "discount":
             self.fields["purchase_category"].required = True
-            self.fields["opening_bid"].widget = forms.HiddenInput()
-            self.fields["end_date"].widget = forms.HiddenInput()
+            self.fields["discounted_price"].required = False
         elif sale_type == "auction":
-            self.fields["purchase_category"].widget = forms.HiddenInput()
             self.fields["opening_bid"].required = True
             self.fields["end_date"].required = True
 
@@ -50,24 +48,19 @@ class ArtworkCreateForm(forms.ModelForm):
         sale_type = cleaned_data.get("sale_type")
 
         if sale_type == "auction":
-            cleaned_data["purchase_category"] = None  # Ensure it's removed
             if not cleaned_data.get("opening_bid"):
                 self.add_error("opening_bid", "Opening bid is required for auctions.")
             if not cleaned_data.get("end_date"):
                 self.add_error("end_date", "End date is required for auctions.")
 
         elif sale_type == "discount":
-            cleaned_data["opening_bid"] = None  # Ensure it's cleared
-            cleaned_data["end_date"] = None
             if not cleaned_data.get("discounted_price"):
                 cleaned_data["discounted_price"] = cleaned_data.get("product_price", 0) * 0.7
-            print("Cleaning Data - Discounted Price:", cleaned_data["discounted_price"])
-
-
             if not cleaned_data.get("purchase_category"):
                 self.add_error("purchase_category", "Purchase category is required for discounts.")
 
         return cleaned_data
+
 
 class ArtworkUpdateForm(forms.ModelForm):
     end_date = forms.DateField(

@@ -233,6 +233,12 @@
           toggleSaleTypeFields(); // Initialize on page load
         }
       });    
-      document.getElementById("purchase_category").setAttribute("name", "purchase_category");
+      document.getElementById("id_purchase_category")?.setAttribute("name", "purchase_category");
+      document.addEventListener("DOMContentLoaded", function () {
+        const purchaseCategory = document.getElementById("id_purchase_category");
+        if (purchaseCategory) {
+            purchaseCategory.setAttribute("name", "purchase_category");
+        }
+    });    
 </script>
 {% endblock %}

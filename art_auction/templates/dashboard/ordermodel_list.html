@@ -111,7 +111,7 @@
                             <th scope="col">Type</th>
                             {% endif %}
                             <th scope="col">Shipping Status</th>
-                            <th scope="col">Order Cancellation</th>
+                            {% comment %} <th scope="col">Order Cancellation</th> {% endcomment %}
                         </tr>
                     </thead>
                     <tbody>
@@ -190,7 +190,7 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-primary_details" data-dismiss="modal">Close</button>
                                             </div>
-                                            <!-- Modal for Confirmation -->
+                                            {% comment %} <!-- Modal for Confirmation -->
                                             <div class="order">
                                                 <p>Order #{{ order.id }} - Status: {{ order.shipping.status }}</p>
                                                 <div id="cancel-modal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center z-50">
@@ -200,7 +200,7 @@
                                                         <button id="cancel-cancel" class="bg-gray-500 text-white py-2 px-4 rounded mt-4">Close</button>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> {% endcomment %}
 
                                         </div>
                                     </div>
@@ -243,7 +243,7 @@
                                     <span class="badge badge-secondary">No Shipping Info</span>
                                 {% endif %}
                             </td>
-                            <td>
+                            {% comment %} <td>
                                 {% if order.shipping and order.shipping.status in "processing,shipped" %}
                                     <button class="btn btn-danger badge badge-danger btn-sm cancel-order-btn" data-order-id="{{ order.id }}">
                                         Cancel Order
@@ -251,7 +251,7 @@
                                 {% else %}
                                     <span class="badge badge-secondary">Cannot Cancel</span>
                                 {% endif %}
-                            </td>                            
+                            </td>                             {% endcomment %}
                         </tr>
                         {% empty %}
                         <tr>

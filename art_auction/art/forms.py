@@ -94,7 +94,7 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
 class ArtworkForm(forms.ModelForm):
-    discounted_price = forms.DecimalField(required=False, widget=forms.HiddenInput())
+    discounted_price = forms.DecimalField(required=False)
 
     class Meta:
         model = Artwork
@@ -102,7 +102,7 @@ class ArtworkForm(forms.ModelForm):
             'sale_type', 'product_name', 'product_price', 'product_qty', 'product_image',
             'product_cat', 'purchase_category', 'product_id', 'end_date', 'opening_bid',
             'dimension_unit', 'length_in_centimeters', 'width_in_centimeters', 'foot', 'inches',
-            'model_360'
+            'model_360', 'discounted_price'
         ]
         widgets = {
             'end_date': forms.DateInput(attrs={'type': 'date'}),
@@ -110,66 +110,12 @@ class ArtworkForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        sale_type = kwargs.get('data', {}).get('sale_type') or self.initial.get('sale_type') or 'auction'  # Default to auction
+        sale_type = kwargs.get('data', {}).get('sale_type') or self.initial.get('sale_type') or 'auction'
 
         self.fields['purchase_category'].queryset = PurchaseCategory.objects.all()
 
-        if sale_type == 'discount':
-            self.fields['purchase_category'].widget = forms.Select()
-            self.fields['purchase_category'].required = True
-            self.fields['product_cat'].widget = forms.HiddenInput()
-            self.fields['opening_bid'].widget = forms.HiddenInput()
-            self.fields['end_date'].widget = forms.HiddenInput()
-        elif sale_type == 'auction':
-            self.fields['purchase_category'].widget = forms.HiddenInput()
-            self.fields['product_cat'].required = True
-            self.fields['opening_bid'].required = True
-            self.fields['end_date'].required = True
-
-        for field_name in self.fields:
-            self.fields[field_name].widget.attrs['class'] = 'form-control'
-            
-        # Ensure product_cat, opening_bid, and end_date fields are always present
-        if 'product_cat' not in self.fields:
-            self.fields['product_cat'] = forms.ModelChoiceField(queryset=Catalogue.objects.all())
-            
-        if 'purchase_category' not in self.fields:
-            self.fields['purchase_category'] = forms.ModelChoiceField(queryset=PurchaseCategory.objects.all(), required=False)
-    
-        if 'opening_bid' not in self.fields:
-            self.fields['opening_bid'] = forms.DecimalField(required=False)
-    
-        if 'end_date' not in self.fields:
-            self.fields['end_date'] = forms.DateField(required=False)
-    
-        if sale_type == 'discount':
-            # Make fields optional and hide them
-            self.fields['product_cat'].required = False
-            self.fields['opening_bid'].required = False
-            self.fields['end_date'].required = False
-            self.fields['product_cat'].widget = forms.HiddenInput()
-            self.fields['opening_bid'].widget = forms.HiddenInput()
-            self.fields['end_date'].widget = forms.HiddenInput()
-    
-            self.fields['purchase_category'].required = True  # Require purchase category for discount type
-            # Set discounted_price value
-            if self.instance and self.instance.product_price:
-                self.initial['discounted_price'] = self.instance.product_price * 0.7
-    
-        elif sale_type == 'auction':
-            # Ensure auction-specific fields are visible and required
-            self.fields['discounted_price'].widget = forms.HiddenInput()
-            self.fields['product_cat'].required = True
-            self.fields['opening_bid'].required = True
-            self.fields['end_date'].required = True
-            
-            self.fields['purchase_category'].required = False  # Purchase category not required for auctions
-            self.fields['purchase_category'].widget = forms.HiddenInput()
-    
-        # Apply consistent form-control styling
-        for field_name in self.fields:
-            self.fields[field_name].widget.attrs['class'] = 'form-control'
-
+        if self.instance and self.instance.product_price:
+            self.initial['discounted_price'] = self.instance.product_price * 0.7
 
     def clean(self):
         cleaned_data = super().clean()
@@ -187,7 +133,6 @@ class ArtworkForm(forms.ModelForm):
                 self.add_error('end_date', "End date is required for bidding.")
 
         return cleaned_data
-
 
 class FeedbackForm(forms.ModelForm):
     class Meta:

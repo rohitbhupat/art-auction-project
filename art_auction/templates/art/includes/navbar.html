@@ -112,23 +112,22 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'art:register_seller' %}">Become a seller</a></li>
             {% endif %}
     
-          <div class="search-container">
-            {% comment %} <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'art:search' %}"> {% endcomment %}
+            <div class="search-container" data-fetch-url="{% url 'dashboard:get_artworks_json' %}">
+              {% comment %} <p>Fetch URL: {% url 'dashboard:get_artworks_json' %}</p> <!-- Debugging --> {% endcomment %}
               <div class="search-wrapper">
-                <input 
-                  class="form-control-search" 
-                  type="search" 
-                  placeholder="Search artworks..." 
-                  aria-label="Search"
-                  name="q"
-                  id="searchBox"
-                  onkeyup="fetchSuggestions()"
-                />
-                <i class="fas fa-search search-icon"></i>
+                  <input 
+                      class="form-control-search" 
+                      type="search" 
+                      placeholder="Search artworks..." 
+                      aria-label="Search"
+                      name="q"
+                      id="searchBox"
+                      autocomplete="off"
+                  />
+                  <i class="fas fa-search search-icon"></i>
               </div>
               <div id="suggestions-list" class="suggestions-list"></div>
-            </form>
-          </div>
+          </div>          
         </ul>
           
           <div class="d-flex align-items-center">
@@ -277,6 +276,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/search.js' %}"></script>
     <script src="{% static 'js/theme.js' %}"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
@@ -395,7 +395,7 @@
     
         // Fetch notifications on page load
         fetchNotifications();
-    });    
+    });
     </script>
   </body>
 </html>

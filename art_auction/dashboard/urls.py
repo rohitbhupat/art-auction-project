@@ -26,6 +26,7 @@ urlpatterns = [
     path('update_shipping_status/', views.update_shipping_status, name='update_shipping_status'),
     path('cancel_order/', views.cancel_order, name='cancel_order'),
     path('autocomplete/', views.autocomplete_artworks, name='autocomplete_artworks'),
+    path('get_artworks_json/', views.get_artworks_json, name='get_artworks_json'),
 ]
 
 if settings.DEBUG:

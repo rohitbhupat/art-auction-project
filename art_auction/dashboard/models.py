@@ -34,9 +34,9 @@ class Artwork(models.Model):
     sale_type = models.CharField(
         max_length=50, choices=SALE_TYPE_CHOICES, default="auction"
     )
-    product_id = models.CharField(max_length=255, default="")
-    product_name = models.CharField(max_length=255)
-    product_price = models.IntegerField(default=0)
+    product_id = models.CharField(max_length=255, default="", null=True)
+    product_name = models.CharField(max_length=255, null=True)
+    product_price = models.IntegerField(default=0, null=True)
     model_360 = models.FileField(upload_to="3d_models/", null=True, blank=True)  # 360 View Field
     opening_bid = models.IntegerField(default=0, null=True, blank=True)
     product_cat = models.ForeignKey(
@@ -45,7 +45,7 @@ class Artwork(models.Model):
     purchase_category = models.ForeignKey(  # Add this field
         PurchaseCategory, on_delete=models.CASCADE, null=True, blank=True
     )
-    product_qty = models.IntegerField(default=0)
+    product_qty = models.IntegerField(default=0, null=True)
     product_image = models.ImageField(upload_to="arts/")
     dimension_unit = models.CharField(
         max_length=10, choices=[("cm", "Centimeters"), ("ft", "Feet")]

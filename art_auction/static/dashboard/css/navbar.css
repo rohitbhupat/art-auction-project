@@ -618,28 +618,59 @@ body.dark-mode #notification-sidebar .header {
 
 .suggestions-list {
   position: absolute;
-  background: white;
-  width: 180px;
-  max-height: 150px;
+  background: #ffffff;
+  width: 17%;
+  max-height: 200px; /* Increased height for better scrolling */
   overflow-y: auto;
-  z-index: 10;
-  border-radius: 5px;
+  z-index: 1000; /* Higher z-index to stay on top */
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+  display: none; /* Initially hidden */
+  padding: 5px 0;
+  border: 1px solid #ddd; /* Light border for separation */
+
+  top: 78%; /* Ensures it appears BELOW the search box */
+  left: 41%;
+  right: 0;
+  margin-top: 5px; /* Small spacing below the input */
+}
+
+.search-wrapper {
+  position: relative; /* Ensures .suggestions-list is positioned relative to this */
 }
 
 .suggestion-item {
-  padding: 5px 10px;
+  padding: 10px 15px;
+  font-size: 14px;
   cursor: pointer;
   border-bottom: 1px solid #f1f1f1;
+  transition: background 0.2s ease-in-out;
 }
 
-.suggestion-item a {
-  text-decoration: none;
-  color: black;
-  display: block;
+.suggestion-item:last-child {
+  border-bottom: none; /* Removes border for the last item */
 }
 
 .suggestion-item:hover {
-  background: #f8f9fa;
+  background: #f0f0f0; /* Softer hover effect */
+}
+
+/* Hide scrollbar for a clean UI */
+.suggestions-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.suggestions-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.suggestions-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 5px;
+}
+
+.suggestions-list::-webkit-scrollbar-thumb:hover {
+  background: #999;
 }
 
 /* Ensure the search bar is centered */

@@ -41,7 +41,7 @@ class ArtworkAdmin(admin.ModelAdmin):
             return (
                 (None, {
                     'fields': (
-                        'sale_type', 'product_name', 'purchase_category', 'product_price', 'discounted_price',
+                        'sale_type', 'product_name', 'product_price', 'purchase_category', 'discounted_price',
                         'product_qty', 'product_image', 'model_360', 'dimension_unit', 
                         'length_in_centimeters', 'width_in_centimeters', 'foot', 'inches',
                     )
@@ -51,7 +51,7 @@ class ArtworkAdmin(admin.ModelAdmin):
             return (
                 (None, {
                     'fields': (
-                        'sale_type', 'product_name', 'opening_bid', 'product_cat', 
+                        'sale_type', 'product_name', 'opening_bid', 'product_cat',
                         'product_qty', 'product_image', 'model_360', 'end_date',
                         'dimension_unit', 'length_in_centimeters', 'width_in_centimeters', 'foot', 'inches',
                     )
