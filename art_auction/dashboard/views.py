@@ -50,75 +50,50 @@ logger = logging.getLogger(__name__)
 class ArtworkCreateView(LoginRequiredMixin, CreateView):
     model = Artwork
     form_class = ArtworkCreateForm
-    success_url = "/dashboard/product/"
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["sale_type"] = self.request.GET.get(
-            "filter", "discount"
-        )  # Default to 'discount'
-        return kwargs
+    success_url = reverse_lazy("dashboard:product")
 
     def get_form(self):
         form = super().get_form()
-        sale_type = self.request.GET.get("filter", "discount")  # Get sale type from URL
-        form.initial["sale_type"] = sale_type  # Set initial value in the form
+        sale_type = self.request.GET.get("filter", "discount")
+        form.initial["sale_type"] = sale_type
+
+        form.fields["purchase_category"].queryset = PurchaseCategory.objects.all()
+        form.fields["product_cat"].queryset = Catalogue.objects.all()
         return form
 
     def form_valid(self, form):
-        sale_type = form.cleaned_data.get("sale_type", "discount")  # Get from form data
-
-        # Assign logged-in user as the artwork seller
         form.instance.user = self.request.user
-
-        # Handle fields based on sale type
+        sale_type = form.cleaned_data.get("sale_type", "discount")
+        
         if sale_type == "discount":
             form.instance.opening_bid = None
             form.instance.end_date = None
-            purchase_category_id = self.request.POST.get("purchase_category")
-            if purchase_category_id:
-                try:
-                    form.instance.purchase_category = PurchaseCategory.objects.get(
-                        id=purchase_category_id
-                    )
-                except PurchaseCategory.DoesNotExist:
-                    form.add_error(
-                        "purchase_category", "Invalid purchase category selected."
-                    )
-                    return self.form_invalid(form)
+            purchase_category = form.cleaned_data.get("purchase_category")
+            if not purchase_category:
+                form.add_error("purchase_category", "Purchase category is required.")
+                return self.form_invalid(form)
+            form.instance.purchase_category = purchase_category
         elif sale_type == "auction":
-            form.instance.purchase_category = None  # No purchase category for auctions
-
-        # Handle duplicate image check
-        uploaded_image = self.request.FILES.get(
-            "artwork_image"
-        )  # Ensure the field name matches your model
+            form.instance.purchase_category = None
+            if not form.cleaned_data.get("opening_bid") or not form.cleaned_data.get("end_date"):
+                form.add_error(None, "Opening bid and end date are required for auctions.")
+                return self.form_invalid(form)
+        
+        uploaded_image = self.request.FILES.get("product_image")
         if uploaded_image:
             try:
-                uploaded_image_hash = str(
-                    imagehash.phash(Image.open(uploaded_image))
-                )  # Convert hash to string
-                for artwork in Artwork.objects.exclude(
-                    user=self.request.user
-                ):  # Exclude current user's artworks
-                    if artwork.artwork_image:  # Ensure artwork has an image
-                        stored_image_hash = str(
-                            imagehash.phash(Image.open(artwork.artwork_image.path))
-                        )
+                uploaded_image_hash = str(imagehash.phash(Image.open(uploaded_image)))
+                existing_images = Artwork.objects.exclude(user=self.request.user)
+                for artwork in existing_images:
+                    if artwork.product_image:
+                        stored_image_hash = str(imagehash.phash(Image.open(artwork.product_image.path)))
                         if uploaded_image_hash == stored_image_hash:
-                            form.add_error("artwork_image", "Duplicate image detected.")
+                            form.add_error("product_image", "Duplicate image detected.")
                             return self.form_invalid(form)
             except Exception as e:
                 print(f"Image hash error: {e}")
 
         return super().form_valid(form)
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        # Remove "sale_type" from kwargs to prevent TypeError
-        return kwargs
-
-
 
 class ArtworkUpdateView(LoginRequiredMixin, UpdateView):
     model = Artwork

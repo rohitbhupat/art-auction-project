@@ -110,8 +110,6 @@ class ArtworkForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        sale_type = kwargs.get('data', {}).get('sale_type') or self.initial.get('sale_type') or 'auction'
-
         self.fields['purchase_category'].queryset = PurchaseCategory.objects.all()
 
         if self.instance and self.instance.product_price:
@@ -124,6 +122,8 @@ class ArtworkForm(forms.ModelForm):
         if sale_type == 'discount':
             if not cleaned_data.get('purchase_category'):
                 self.add_error('purchase_category', "Purchase category is required for discounts.")
+            if not cleaned_data.get("discounted_price") and cleaned_data.get("product_price"):
+                cleaned_data["discounted_price"] = cleaned_data.get("product_price") * 0.7
         elif sale_type == 'auction':
             if not cleaned_data.get('product_cat'):
                 self.add_error('product_cat', "Product category is required for bidding.")

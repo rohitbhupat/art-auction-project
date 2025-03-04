@@ -43,7 +43,7 @@ class index(View):
     def get(self, request):
         filter_param = request.GET.get("filter", "")
         current_date = date.today()  # Use date.today() to get the current date without time
-
+        product_object_list = ''
         if filter_param == "old":
             # Define the threshold for old artworks (e.g., 1 day old)
             old_threshold_date = current_date - timedelta(days=1)

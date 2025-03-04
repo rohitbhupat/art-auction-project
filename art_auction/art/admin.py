@@ -23,14 +23,15 @@ class ArtworkAdmin(admin.ModelAdmin):
 
         if not obj.user:
             obj.user = request.user  # Assign current user if not set
+            
+        if obj.sale_type == "discount":
+            obj.opening_bid = None
+            obj.end_date = None
+        elif obj.sale_type == "auction":
+            obj.purchase_category = None
 
         super().save_model(request, obj, form, change)
 
-
-        if not obj.user:
-            obj.user = request.user
-
-        super().save_model(request, obj, form, change)
 
     def get_changeform_initial_data(self, request):
         """Set default values when adding a new artwork."""

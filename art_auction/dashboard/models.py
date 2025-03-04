@@ -11,7 +11,7 @@ from django.core.exceptions import ValidationError
 from django.utils.timezone import now
 from django.utils.timezone import make_aware
 import pytz
-
+from django.urls import reverse
 
 class Catalogue(models.Model):
     cat_name = models.CharField(max_length=255)
@@ -24,7 +24,6 @@ class PurchaseCategory(models.Model):
 
     def __str__(self):
         return self.name
-from django.urls import reverse
 class Artwork(models.Model):
     SALE_TYPE_CHOICES = [
         ("discount", "Discount"),
@@ -127,37 +126,35 @@ class Artwork(models.Model):
 
     def save(self, *args, **kwargs):
         """Ensure correct fields are set before saving, and check for duplicate images."""
+        self.full_clean()  # Explicitly validate before saving
+        
         if self.sale_type == "discount":
             self.opening_bid = None
             self.end_date = None
+            self.product_cat = None  # Ensure product_cat is empty
+    
             if self.discounted_price is None:
                 self.discounted_price = self.get_discounted_price()
-
+    
         elif self.sale_type == "auction":
+            self.purchase_category = None  # Ensure purchase_category is empty
             if not self.opening_bid or not self.end_date:
-                raise ValidationError(
-                    "Opening bid and End date are required for auction."
-                )
-
+                raise ValidationError("Opening bid and End date are required for auction.")
+    
         if self.product_image:
             uploaded_image_hash = imagehash.phash(Image.open(self.product_image))
             existing_images = Artwork.objects.exclude(id=self.id)
-
+    
             for artwork in existing_images:
-                stored_image_hash = imagehash.phash(
-                    Image.open(artwork.product_image.path)
-                )
+                stored_image_hash = imagehash.phash(Image.open(artwork.product_image.path))
                 if uploaded_image_hash == stored_image_hash:
-                    raise ValidationError(
-                        "Duplicate image detected. This artwork is already uploaded."
-                    )
-
+                    raise ValidationError("Duplicate image detected. This artwork is already uploaded.")
+    
         if self.end_date:
-            self.end_date = timezone.make_aware(
-                datetime.combine(self.end_date, time.min)
-            )
-
+            self.end_date = timezone.make_aware(datetime.combine(self.end_date, time.min))
+    
         super().save(*args, **kwargs)
+
 
     def __str__(self):
         return self.product_name

@@ -30,17 +30,16 @@ class ArtworkCreateForm(forms.ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)  # Ensure base form initializes correctly
+        super().__init__(*args, **kwargs)
 
-        # Get sale_type from form data (if POST) or initial data (if GET)
+        # Fetch sale type from initial data or form data
         sale_type = self.data.get("sale_type") or self.initial.get("sale_type") or "discount"
 
+        # Ensure correct fields are required
         if sale_type == "discount":
             self.fields["purchase_category"].required = True
-            self.fields["discounted_price"].required = False
         elif sale_type == "auction":
-            self.fields["opening_bid"].required = True
-            self.fields["end_date"].required = True
+            self.fields["purchase_category"].required = False
 
 
     def clean(self):
@@ -52,15 +51,22 @@ class ArtworkCreateForm(forms.ModelForm):
                 self.add_error("opening_bid", "Opening bid is required for auctions.")
             if not cleaned_data.get("end_date"):
                 self.add_error("end_date", "End date is required for auctions.")
-
         elif sale_type == "discount":
             if not cleaned_data.get("discounted_price"):
-                cleaned_data["discounted_price"] = cleaned_data.get("product_price", 0) * 0.7
+                product_price = cleaned_data.get("product_price", 0)
+                cleaned_data["discounted_price"] = product_price * 0.7 if product_price else 0
             if not cleaned_data.get("purchase_category"):
                 self.add_error("purchase_category", "Purchase category is required for discounts.")
-
         return cleaned_data
-
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["data"] = self.request.POST if self.request.method == "POST" else None
+        return kwargs
+    
+    def form_invalid(self, form):
+        print("Form Errors:", form.errors.as_json())
+        return super().form_invalid(form)
 
 class ArtworkUpdateForm(forms.ModelForm):
     end_date = forms.DateField(
